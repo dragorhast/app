@@ -1,4 +1,8 @@
-import { Firebase, FirebaseRef } from '../lib/firebase';
+/**
+ * This is to be removed but is kept as reference of how to create good actions
+ */
+
+import { Firebase, FirebaseRef } from '../../lib/firebase';
 
 /**
   * Get this User's Favourite Recipes

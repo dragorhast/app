@@ -1,6 +1,6 @@
-import ErrorMessages from '../constants/errors';
+import ErrorMessages from '../../constants/errors';
 import statusMessage from './status';
-import { Firebase, FirebaseRef } from '../lib/firebase';
+import { Firebase, FirebaseRef } from '../../lib/firebase';
 
 /**
   * Sign Up to Firebase

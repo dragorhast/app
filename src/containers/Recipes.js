@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getRecipes, getMeals, setError } from '../actions/recipes';
+import { getRecipes, getMeals, setError } from '../redux/actions/recipes';
 
 class RecipeListing extends Component {
   static propTypes = {

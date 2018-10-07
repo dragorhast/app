@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { updateProfile } from '../actions/member';
+import { updateProfile } from '../redux/actions/member';
 
 class UpdateProfile extends Component {
   static propTypes = {
