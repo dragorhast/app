@@ -12,30 +12,26 @@ class Login extends Component {
     onFormSubmit: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     successMessage: PropTypes.string.isRequired,
-  }
+  };
 
   static defaultProps = {
     locale: null,
-  }
+  };
 
   state = {
     errorMessage: null,
-  }
+  };
 
-  onFormSubmit = (data) => {
+  onFormSubmit = data => {
     const { onFormSubmit } = this.props;
-    return onFormSubmit(data)
-      .catch((err) => { this.setState({ errorMessage: err }); throw err; });
-  }
+    return onFormSubmit(data).catch(err => {
+      this.setState({ errorMessage: err });
+      throw err;
+    });
+  };
 
   render = () => {
-    const {
-      member,
-      locale,
-      Layout,
-      isLoading,
-      successMessage,
-    } = this.props;
+    const { member, locale, Layout, isLoading, successMessage } = this.props;
 
     const { errorMessage } = this.state;
 
@@ -49,7 +45,7 @@ class Login extends Component {
         onFormSubmit={this.onFormSubmit}
       />
     );
-  }
+  };
 }
 
 const mapStateToProps = state => ({
@@ -63,4 +59,7 @@ const mapDispatchToProps = {
   onFormSubmit: login,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
