@@ -27,6 +27,14 @@ import AboutComponent from '../components/About';
 
 const Index = (
   <Stack hideNavBar>
+    <Scene
+      hideNavBar
+      key="homeLogin"
+      title="LOGIN"
+      {...DefaultProps.navbarProps}
+      component={LoginContainer}
+      Layout={LoginComponent}
+    />
     <Scene hideNavBar>
       <Tabs key="tabbar" swipeEnabled type="replace" showLabel={false} {...DefaultProps.tabProps}>
         <Stack
@@ -57,14 +65,6 @@ const Index = (
           />
           <Scene
             back
-            key="login"
-            title="LOGIN"
-            {...DefaultProps.navbarProps}
-            component={LoginContainer}
-            Layout={LoginComponent}
-          />
-          <Scene
-            back
             key="forgotPassword"
             title="FORGOT PASSWORD"
             {...DefaultProps.navbarProps}
@@ -90,14 +90,6 @@ const Index = (
         </Stack>
       </Tabs>
     </Scene>
-    <Scene
-      hideNavBar
-      key="home-login"
-      title="LOGIN"
-      {...DefaultProps.navbarProps}
-      component={LoginContainer}
-      Layout={LoginComponent}
-    />
   </Stack>
 );
 

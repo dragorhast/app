@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Container, Content, Form, Item, Label, Input, Text, Button, View } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
-import DefaultProps from '../constants/navigation';
 import Loading from './Loading';
 import Messages from './Messages';
 import { translate } from '../../i18n';
@@ -49,7 +48,7 @@ class Login extends React.Component {
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
-      .then(() => Actions.profile)
+      .then(Actions.home())
       .catch(e => console.log(`Error: ${e}`));
   };
 
