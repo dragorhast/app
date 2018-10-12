@@ -1,24 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import {
-  Container, Content, List, ListItem, Body, Left, Text, Icon,
-} from 'native-base';
+import { Container, Content, List, ListItem, Body, Left, Text, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Header from './Header';
 
-const Profile = ({ member, logout }) => (
-  <Container>
-    <Content>
-      <List>
-        {(member && member.email)
-          ? (
+const Profile = ({ member, logout }) => {
+  // logs outs and moves to different page
+  const logOut = () => {
+    logout()
+      .then(Actions.homeLogin())
+      .catch(e => console.log(`Error: ${e}`));
+  };
+
+  return (
+    <Container>
+      <Content>
+        <List>
+          {member && member.email ? (
             <View>
               <Content padder>
-                <Header
-                  title={`Hi ${member.firstName},`}
-                  content={`You are currently logged in as ${member.email}`}
-                />
+                <Header title={`Hi ${member.firstName},`} content={`You are currently logged in as ${member.email}`} />
               </Content>
 
               <ListItem onPress={Actions.updateProfile} icon>
@@ -26,30 +28,22 @@ const Profile = ({ member, logout }) => (
                   <Icon name="person-add" />
                 </Left>
                 <Body>
-                  <Text>
-                    Update My Profile
-                  </Text>
+                  <Text>Update My Profile</Text>
                 </Body>
               </ListItem>
-              <ListItem onPress={logout} icon>
+              <ListItem onPress={() => logOut()} icon>
                 <Left>
                   <Icon name="power" />
                 </Left>
                 <Body>
-                  <Text>
-                    Logout
-                  </Text>
+                  <Text>Logout</Text>
                 </Body>
               </ListItem>
             </View>
-          )
-          : (
+          ) : (
             <View>
               <Content padder>
-                <Header
-                  title="Hi there,"
-                  content="Please login to gain extra access"
-                />
+                <Header title="Hi there," content="Please login to gain extra access" />
               </Content>
 
               <ListItem onPress={Actions.login} icon>
@@ -57,9 +51,7 @@ const Profile = ({ member, logout }) => (
                   <Icon name="power" />
                 </Left>
                 <Body>
-                  <Text>
-                    Login
-                  </Text>
+                  <Text>Login</Text>
                 </Body>
               </ListItem>
               <ListItem onPress={Actions.signUp} icon>
@@ -67,9 +59,7 @@ const Profile = ({ member, logout }) => (
                   <Icon name="add-circle" />
                 </Left>
                 <Body>
-                  <Text>
-                    Sign Up
-                  </Text>
+                  <Text>Sign Up</Text>
                 </Body>
               </ListItem>
               <ListItem onPress={Actions.forgotPassword} icon>
@@ -77,28 +67,24 @@ const Profile = ({ member, logout }) => (
                   <Icon name="help-buoy" />
                 </Left>
                 <Body>
-                  <Text>
-                    Forgot Password
-                  </Text>
+                  <Text>Forgot Password</Text>
                 </Body>
               </ListItem>
             </View>
-          )
-        }
-        <ListItem onPress={Actions.locale} icon>
-          <Left>
-            <Icon name="ios-flag" />
-          </Left>
-          <Body>
-            <Text>
-              Change Language
-            </Text>
-          </Body>
-        </ListItem>
-      </List>
-    </Content>
-  </Container>
-);
+          )}
+          <ListItem onPress={Actions.locale} icon>
+            <Left>
+              <Icon name="ios-flag" />
+            </Left>
+            <Body>
+              <Text>Change Language</Text>
+            </Body>
+          </ListItem>
+        </List>
+      </Content>
+    </Container>
+  );
+};
 
 Profile.propTypes = {
   member: PropTypes.shape({}),

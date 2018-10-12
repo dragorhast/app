@@ -13,18 +13,18 @@ class Member extends Component {
       loading: PropTypes.bool.isRequired,
       error: PropTypes.string,
     }).isRequired,
-  }
+  };
 
   componentDidMount = () => {
     const { fetchData } = this.props;
     fetchData();
-  }
+  };
 
   render = () => {
     const { Layout, member, memberLogout } = this.props;
 
     return <Layout member={member} logout={memberLogout} />;
-  }
+  };
 }
 
 const mapStateToProps = state => ({
@@ -36,4 +36,7 @@ const mapDispatchToProps = {
   fetchData: getMemberData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Member);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Member);
