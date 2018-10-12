@@ -3,19 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import changeLocale from '../redux/actions/locale';
 
-const Locale = ({
-  Layout,
-  locale,
-  isLoading,
-  errorMessage,
-  onChangeLocale,
-}) => (
-  <Layout
-    locale={locale}
-    loading={isLoading}
-    error={errorMessage}
-    onChangeLocale={onChangeLocale}
-  />
+const Locale = ({ Layout, locale, isLoading, errorMessage, onChangeLocale }) => (
+  <Layout locale={locale} loading={isLoading} error={errorMessage} onChangeLocale={onChangeLocale} />
 );
 
 Locale.propTypes = {
@@ -43,4 +32,7 @@ const mapDispatchToProps = {
   onChangeLocale: changeLocale,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Locale);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Locale);

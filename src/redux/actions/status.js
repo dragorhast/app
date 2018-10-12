@@ -1,7 +1,7 @@
 /**
-  * Show Error
-  */
-export default function (dispatch, type, val) {
+ * Show Error
+ */
+export default function(dispatch, type, val) {
   return new Promise((resolve, reject) => {
     // Validate types
     const allowed = ['error', 'success', 'info', 'loading'];
@@ -18,9 +18,11 @@ export default function (dispatch, type, val) {
       if (type === 'loading' && val !== false) message = true;
     }
 
-    return resolve(dispatch({
-      type: 'STATUS_REPLACE',
-      [type]: message,
-    }));
+    return resolve(
+      dispatch({
+        type: 'STATUS_REPLACE',
+        [type]: message,
+      })
+    );
   });
 }
