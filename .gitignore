@@ -17,3 +17,7 @@ build/
 .gradle
 local.properties
 *.iml
+.gitsecret/keys/random_seed
+
+src/constants/config.js
+src/constants/firebase.js
