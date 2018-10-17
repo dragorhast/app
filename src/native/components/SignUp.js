@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Container, Content, Text, Form, Item, Label, Input, Button,
-} from 'native-base';
+import { Container, Content, Text, Form, Item, Label, Input, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
@@ -14,11 +12,11 @@ class SignUp extends React.Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     onFormSubmit: PropTypes.func.isRequired,
-  }
+  };
 
   static defaultProps = {
     error: null,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -38,14 +36,14 @@ class SignUp extends React.Component {
     this.setState({
       [name]: val,
     });
-  }
+  };
 
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
       .then(() => Actions.login())
       .catch(e => console.log(`Error: ${e}`));
-  }
+  };
 
   render() {
     const { loading, error } = this.props;
@@ -64,23 +62,17 @@ class SignUp extends React.Component {
 
           <Form>
             <Item stackedLabel>
-              <Label>
-                First Name
-              </Label>
+              <Label>First Name</Label>
               <Input onChangeText={v => this.handleChange('firstName', v)} />
             </Item>
 
             <Item stackedLabel>
-              <Label>
-                Last Name
-              </Label>
+              <Label>Last Name</Label>
               <Input onChangeText={v => this.handleChange('lastName', v)} />
             </Item>
 
             <Item stackedLabel>
-              <Label>
-                Email
-              </Label>
+              <Label>Email</Label>
               <Input
                 autoCapitalize="none"
                 keyboardType="email-address"
@@ -89,25 +81,19 @@ class SignUp extends React.Component {
             </Item>
 
             <Item stackedLabel>
-              <Label>
-                Password
-              </Label>
+              <Label>Password</Label>
               <Input secureTextEntry onChangeText={v => this.handleChange('password', v)} />
             </Item>
 
             <Item stackedLabel>
-              <Label>
-                Confirm Password
-              </Label>
+              <Label>Confirm Password</Label>
               <Input secureTextEntry onChangeText={v => this.handleChange('password2', v)} />
             </Item>
 
             <Spacer size={20} />
 
             <Button block onPress={this.handleSubmit}>
-              <Text>
-                Sign Up
-              </Text>
+              <Text>Sign Up</Text>
             </Button>
           </Form>
         </Content>

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, Form, Item, Label, Input, Text, Button, View } from 'native-base';
+import styled from 'styled-components/native';
 import { Actions } from 'react-native-router-flux';
 
 import Loading from './Loading';
@@ -8,6 +9,12 @@ import Messages from './Messages';
 import { translate } from '../../i18n';
 import Header from './Header';
 import Spacer from './Spacer';
+
+// Styles
+
+const StyledView = styled.View`
+  background-color: papayawhip;
+`;
 
 class Login extends React.Component {
   static propTypes = {
@@ -62,7 +69,7 @@ class Login extends React.Component {
       <Container>
         <Content>
           <View padder>
-            <Header title="Welcome back" content="Please use your email and password to login." />
+            <Header title="Anythin I want" content="Please use your email and password to login." />
             {success ? <Messages type="success" message={success} /> : null}
             {error ? <Messages message={error} /> : null}
           </View>
