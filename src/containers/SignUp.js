@@ -10,45 +10,53 @@ class SignUp extends Component {
     member: PropTypes.shape({}).isRequired,
     onFormSubmit: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-  }
+    locale: PropTypes.string,
+  };
+
+  static defaultProps = {
+    locale: null,
+  };
 
   state = {
     errorMessage: null,
-  }
+  };
 
-  onFormSubmit = (data) => {
+  onFormSubmit = data => {
     const { onFormSubmit } = this.props;
-    return onFormSubmit(data)
-      .catch((err) => { this.setState({ errorMessage: err }); throw err; });
-  }
+    return onFormSubmit(data).catch(err => {
+      this.setState({ errorMessage: err });
+      throw err;
+    });
+  };
 
   render = () => {
-    const {
-      member,
-      Layout,
-      isLoading,
-    } = this.props;
+    const { member, Layout, isLoading, locale } = this.props;
 
     const { errorMessage } = this.state;
 
     return (
       <Layout
         member={member}
+        locale={locale}
         loading={isLoading}
         error={errorMessage}
         onFormSubmit={this.onFormSubmit}
       />
     );
-  }
+  };
 }
 
 const mapStateToProps = state => ({
   member: state.member || {},
   isLoading: state.status.loading || false,
+  locale: state.locale || null,
 });
 
 const mapDispatchToProps = {
   onFormSubmit: signUp,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUp);

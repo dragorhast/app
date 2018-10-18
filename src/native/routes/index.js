@@ -35,6 +35,14 @@ const Index = (
       component={LoginContainer}
       Layout={LoginComponent}
     />
+    <Scene
+      back
+      key="signUp"
+      title="SIGN UP"
+      {...DefaultProps.navbarProps}
+      component={SignUpContainer}
+      Layout={SignUpComponent}
+    />
     <Scene hideNavBar>
       <Tabs key="tabbar" swipeEnabled type="replace" showLabel={false} {...DefaultProps.tabProps}>
         <Stack
@@ -55,14 +63,6 @@ const Index = (
           <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} />
 
           {/* These are all pages that can clicked to from inside this stack */}
-          <Scene
-            back
-            key="signUp"
-            title="SIGN UP"
-            {...DefaultProps.navbarProps}
-            component={SignUpContainer}
-            Layout={SignUpComponent}
-          />
           <Scene
             back
             key="forgotPassword"

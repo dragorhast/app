@@ -16,10 +16,12 @@ export function translate(message, locale = DEFAULT_LOCALE) {
       return Translations[locale][message];
     }
 
-    // Otherwise try in the default translation
+    // Otherwise try in the default translation or the original message
     if (Translations[DEFAULT_LOCALE] && Translations[DEFAULT_LOCALE][message]) {
       return Translations[DEFAULT_LOCALE][message];
     }
+
+    return message;
   }
 
   return '???';
