@@ -1,4 +1,4 @@
-import variable from './../variables/platform';
+import variable from '../variables/platform';
 
 export default (variables = variable) => {
   const h1Theme = {
@@ -6,6 +6,7 @@ export default (variables = variable) => {
     fontSize: variables.fontSizeH1,
     lineHeight: variables.lineHeightH1,
     fontWeight: '900',
+    textAlign: 'center',
   };
 
   return h1Theme;

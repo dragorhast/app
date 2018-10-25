@@ -4,18 +4,16 @@ import { View } from 'react-native';
 import { Text, H1 } from 'native-base';
 import Spacer from './Spacer';
 
+// Styles
+// TODO add a <hr /> like line to bottom of header
 const Header = ({ title, content }) => (
   <View>
     <Spacer size={25} />
-    <H1>
-      {title}
-    </H1>
+    <H1>{title}</H1>
     {!!content && (
       <View>
         <Spacer size={10} />
-        <Text>
-          {content}
-        </Text>
+        <Text>{content}</Text>
       </View>
     )}
     <Spacer size={25} />

@@ -17,4 +17,4 @@ build/
 .gradle
 local.properties
 *.iml
-.gitsecret/keys/random_seed
+
