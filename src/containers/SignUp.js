@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { signUp } from '../redux/actions/member';
+import { signUp, login } from '../redux/actions/member';
 
 class SignUp extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     member: PropTypes.shape({}).isRequired,
-    onFormSubmit: PropTypes.func.isRequired,
+    signUpRedux: PropTypes.func.isRequired,
+    loginRedux: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     locale: PropTypes.string,
   };
@@ -21,12 +22,15 @@ class SignUp extends Component {
     errorMessage: null,
   };
 
-  onFormSubmit = data => {
-    const { onFormSubmit } = this.props;
-    return onFormSubmit(data).catch(err => {
+  // Signs up then logs in through redux
+  onFormSubmit = async data => {
+    const { signUpRedux, loginRedux } = this.props;
+    await signUpRedux(data).catch(err => {
       this.setState({ errorMessage: err });
       throw err;
     });
+
+    return loginRedux(data);
   };
 
   render = () => {
@@ -53,7 +57,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onFormSubmit: signUp,
+  signUpRedux: signUp,
+  loginRedux: login,
 };
 
 export default connect(

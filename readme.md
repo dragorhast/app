@@ -33,3 +33,39 @@ Testing is done with Jest
 ### Linting
 
 This project uses eslint and prettier to ensure that the code is consistent.
+
+## Redux
+
+All interaction with Redux is done through containers.
+
+Containers can be shared across app and web.
+
+This means that every route must have a container then the platform specific component
+
+The platform specific component is always the "Layout" which is passed as props to the container
+
+#### Native App
+``` javscript
+<Scene
+      hideNavBar
+      key="homeLogin"
+      title="LOGIN"
+      {...DefaultProps.navbarProps}
+      component={LoginContainer}
+      Layout={LoginComponent}
+    />
+```
+
+#### Web App
+``` javscript
+<Route
+      path="/update-profile"
+      render={props => (
+        <TemplateSidebar>
+          <UpdateProfileContainer {...props} Layout={UpdateProfileComponent} />
+        </TemplateSidebar>
+      )}
+    />
+```
+    
+
