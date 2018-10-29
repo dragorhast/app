@@ -28,7 +28,58 @@ To develop locally... todo
 
 Testing is done with Jest
 
-// todo
+To write a test create a folder names ```__tests__``` in the same folder as the component or function.
+
+Then to write function like example below
+
+``` javascript
+import { sum } from './sum;
+
+test('adds 1 + 2 to equal 3', () => {
+  expect(sum(1, 2)).toBe(3);
+});
+```
+
+#### BDD 
+
+Using jest-bdd we can right behavioural tests that all follow the format of:
+- GIVEN - certain imputs
+- WHEN - in a certain state
+- THEN - receieve such output
+
+There is also a concept of "rules" in jest-bdd but that can looked up at [https://github.com/konnorandrews/jest-bdd]
+
+Exmaple below:
+
+``` javascript
+const { unit, given, when, then } = require('jest-bdd')
+
+    unit(
+      given('two numbers', () => {
+        scope.num1 = 3
+        scope.num2 = 8
+      },
+        then('num1 is 3', () => { // check the setup
+          expect(num1).toBe(3)
+        }),
+        when('the numbers are added', () => { // perform the action to test
+          scope.sum = num1 + num2
+        },
+          then('the sum is 11', () => { // check the result of the action
+            expect(sum).toBe(11)
+          })
+        )
+      )
+    )
+
+    Output:
+      Given: two numbers
+        ✓ Then: num1 is 3
+        When: the numbers are added
+          ✓ Then: the sum is 11
+```
+
+---
 
 ### Linting
 

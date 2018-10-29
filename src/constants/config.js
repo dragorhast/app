@@ -9,4 +9,6 @@ export default {
 
   // Google Analytics - uses a 'dev' account while we're testing
   gaTrackingId: devMode ? 'UA-84284256-2' : 'UA-84284256-1',
+
+  firebaseAPIKey: 'AIzaSyB4teiiZNG0hujsd2rEe6lNorm0tFAi2aY',
 };
