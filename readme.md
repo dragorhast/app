@@ -120,3 +120,36 @@ The platform specific component is always the "Layout" which is passed as props 
 ```
     
 
+## Native App
+
+### Styling
+
+Native base framework is utilsied to make designing easier.
+
+Applies styling for iOS and Android for things like buttons
+
+Styles of components can be edited through the **native-base-theme** folder in the root of the project
+
+Some Notes on how to use it below
+
+#### Using components
+Just like any npm module.
+
+Find the component you want on the native base [site](http://docs.nativebase.io/Components.html)
+
+Then import like:
+``` javascript
+import { Container, Content, Button } from native-base
+```
+
+#### Container
+
+Every visual components must go inside a container.
+Only 1 container allowed
+
+#### Content
+Every component can only have 1 content
+It distinguishes the main body of the component from the header / footer
+
+Often pass in padder as props to provide all round spacing
+

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Container, Content, List, ListItem, Body, Left, Text, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import Header from './Header';
+import Header from './common/Header';
 
 const Profile = ({ member, logout }) => {
   // logs outs and moves to different page

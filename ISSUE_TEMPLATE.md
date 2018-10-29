@@ -1,4 +1,4 @@
-<!--- Provide a general summary of the issue in the Title above -->
+<!--- General summary of the issue in the Title above -->
 
 ### Help us reproduce - tell us about your environment
 <!--- Provide a more detailed information of environment you use -->

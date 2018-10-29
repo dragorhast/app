@@ -1,20 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, Form, Item, Label, Input, Text, Button, View } from 'native-base';
-import styled from 'styled-components/native';
 import { Actions } from 'react-native-router-flux';
 
 import Loading from './Loading';
 import Messages from './Messages';
 import { translate } from '../../i18n';
-import Header from './Header';
+import Header from './common/Header';
 import Spacer from './Spacer';
-
-// Styles
-
-const StyledView = styled.View`
-  background-color: papayawhip;
-`;
 
 class Login extends React.Component {
   static propTypes = {
@@ -45,6 +38,19 @@ class Login extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  /**
+   * Used to bypass login whilst developing
+   */
+  componentDidMount = () => {
+    const { onFormSubmit } = this.props;
+    onFormSubmit({
+      email: 'seanpaterson_25@msn.com',
+      password: 'Paterson25',
+    })
+      .then(Actions.home())
+      .catch(e => console.log(`Error: ${e}`));
+  };
 
   handleChange = (name, val) => {
     this.setState({

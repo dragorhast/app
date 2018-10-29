@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Container, Content, Text, Form, Item, Label, Input, Button,
-} from 'native-base';
+import { Container, Content, Text, Form, Item, Label, Input, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
-import Header from './Header';
+import Header from './common/Header';
 import Spacer from './Spacer';
 
 class ForgotPassword extends React.Component {
@@ -17,17 +15,17 @@ class ForgotPassword extends React.Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     onFormSubmit: PropTypes.func.isRequired,
-  }
+  };
 
   static defaultProps = {
     error: null,
     member: {},
-  }
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      email: (props.member && props.member.email) ? props.member.email : '',
+      email: props.member && props.member.email ? props.member.email : '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,14 +36,17 @@ class ForgotPassword extends React.Component {
     this.setState({
       [name]: val,
     });
-  }
+  };
 
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
-      .then(() => { Actions.pop(); Actions.login(); })
+      .then(() => {
+        Actions.pop();
+        Actions.login();
+      })
       .catch(e => console.log(`Error: ${e}`));
-  }
+  };
 
   render() {
     const { loading, error } = this.props;
@@ -57,18 +58,13 @@ class ForgotPassword extends React.Component {
     return (
       <Container>
         <Content padder>
-          <Header
-            title="Reset your Password"
-            content="No stress, no stress. We'll get you back into your account."
-          />
+          <Header title="Reset your Password" content="No stress, no stress. We'll get you back into your account." />
 
           {error && <Messages message={error} />}
 
           <Form>
             <Item stackedLabel>
-              <Label>
-                Email
-              </Label>
+              <Label>Email</Label>
               <Input
                 autoCapitalize="none"
                 value={email}
@@ -80,9 +76,7 @@ class ForgotPassword extends React.Component {
             <Spacer size={20} />
 
             <Button block onPress={this.handleSubmit}>
-              <Text>
-                Reset Password
-              </Text>
+              <Text>Reset Password</Text>
             </Button>
           </Form>
         </Content>

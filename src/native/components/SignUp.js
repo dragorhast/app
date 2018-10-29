@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import { translate } from '../../i18n';
 import Loading from './Loading';
 import Messages from './Messages';
-import Header from './Header';
+import Header from './common/Header';
 import Spacer from './Spacer';
 
 class SignUp extends React.Component {

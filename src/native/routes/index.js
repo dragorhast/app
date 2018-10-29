@@ -25,6 +25,9 @@ import ProfileComponent from '../components/Profile';
 
 import AboutComponent from '../components/About';
 
+import HomeContainer from '../native-containers/Home';
+import HomeComponent from '../components/Home';
+
 const Index = (
   <Stack hideNavBar>
     <Scene
@@ -51,7 +54,7 @@ const Index = (
           icon={() => <Icon name="planet" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="home" component={AboutComponent} />
+          <Scene key="home" component={HomeContainer} Layout={HomeComponent} />
         </Stack>
         <Stack
           key="profile"

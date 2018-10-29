@@ -1,11 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Container, Content, Text, Body, ListItem, Form, Item, Label, Input, CheckBox, Button, View,
+  Container,
+  Content,
+  Text,
+  Body,
+  ListItem,
+  Form,
+  Item,
+  Label,
+  Input,
+  CheckBox,
+  Button,
+  View,
 } from 'native-base';
 import Messages from './Messages';
 import Loading from './Loading';
-import Header from './Header';
+import Header from './common/Header';
 import Spacer from './Spacer';
 
 class UpdateProfile extends React.Component {
@@ -19,12 +30,12 @@ class UpdateProfile extends React.Component {
       lastName: PropTypes.string,
       email: PropTypes.string,
     }).isRequired,
-  }
+  };
 
   static defaultProps = {
     error: null,
     success: null,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -46,24 +57,18 @@ class UpdateProfile extends React.Component {
     this.setState({
       [name]: val,
     });
-  }
+  };
 
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
       .then(() => console.log('Profile Updated'))
       .catch(e => console.log(`Error: ${e}`));
-  }
+  };
 
   render() {
     const { loading, error, success } = this.props;
-    const {
-      firstName,
-      lastName,
-      email,
-      changeEmail,
-      changePassword,
-    } = this.state;
+    const { firstName, lastName, email, changeEmail, changePassword } = this.state;
 
     // Loading
     if (loading) return <Loading />;
@@ -71,53 +76,32 @@ class UpdateProfile extends React.Component {
     return (
       <Container>
         <Content padder>
-          <Header
-            title="Update my profile"
-            content="Thanks for keeping your account up to date!"
-          />
+          <Header title="Update my profile" content="Thanks for keeping your account up to date!" />
 
           {error && <Messages message={error} />}
           {success && <Messages message={success} type="success" />}
 
           <Form>
             <Item stackedLabel>
-              <Label>
-                First Name
-              </Label>
-              <Input
-                value={firstName}
-                onChangeText={v => this.handleChange('firstName', v)}
-              />
+              <Label>First Name</Label>
+              <Input value={firstName} onChangeText={v => this.handleChange('firstName', v)} />
             </Item>
 
             <Item stackedLabel>
-              <Label>
-                Last Name
-              </Label>
-              <Input
-                value={lastName}
-                onChangeText={v => this.handleChange('lastName', v)}
-              />
+              <Label>Last Name</Label>
+              <Input value={lastName} onChangeText={v => this.handleChange('lastName', v)} />
             </Item>
 
             <ListItem>
-              <CheckBox
-                checked={changeEmail}
-                onPress={() => this.handleChange('changeEmail', !changeEmail)}
-              />
+              <CheckBox checked={changeEmail} onPress={() => this.handleChange('changeEmail', !changeEmail)} />
               <Body>
-                <Text>
-                  Change Email
-                </Text>
+                <Text>Change Email</Text>
               </Body>
             </ListItem>
 
-            {changeEmail
-              && (
+            {changeEmail && (
               <Item stackedLabel>
-                <Label>
-                  Email
-                </Label>
+                <Label>Email</Label>
                 <Input
                   autoCapitalize="none"
                   value={email}
@@ -125,47 +109,33 @@ class UpdateProfile extends React.Component {
                   onChangeText={v => this.handleChange('email', v)}
                 />
               </Item>
-              )
-            }
+            )}
 
             <ListItem>
-              <CheckBox
-                checked={changePassword}
-                onPress={() => this.handleChange('changePassword', !changePassword)}
-              />
+              <CheckBox checked={changePassword} onPress={() => this.handleChange('changePassword', !changePassword)} />
               <Body>
-                <Text>
-                  Change Password
-                </Text>
+                <Text>Change Password</Text>
               </Body>
             </ListItem>
 
-            {changePassword
-              && (
+            {changePassword && (
               <View padder>
                 <Item stackedLabel>
-                  <Label>
-                    Password
-                  </Label>
+                  <Label>Password</Label>
                   <Input secureTextEntry onChangeText={v => this.handleChange('password', v)} />
                 </Item>
 
                 <Item stackedLabel last>
-                  <Label>
-                    Confirm Password
-                  </Label>
+                  <Label>Confirm Password</Label>
                   <Input secureTextEntry onChangeText={v => this.handleChange('password2', v)} />
                 </Item>
               </View>
-              )
-            }
+            )}
 
             <Spacer size={20} />
 
             <Button block onPress={this.handleSubmit}>
-              <Text>
-                Update Profile
-              </Text>
+              <Text>Update Profile</Text>
             </Button>
           </Form>
         </Content>

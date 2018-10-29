@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Container, Content, Text, Button, ActionSheet,
-} from 'native-base';
+import { Container, Content, Text, Button, ActionSheet } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
-import Header from './Header';
+import Header from './common/Header';
 
 import { Translations } from '../../i18n';
 
@@ -16,18 +14,18 @@ class Locale extends React.Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     onChangeLocale: PropTypes.func.isRequired,
-  }
+  };
 
   static defaultProps = {
     error: null,
-  }
+  };
 
-  handleChange = (locale) => {
+  handleChange = locale => {
     const { onChangeLocale } = this.props;
     onChangeLocale(locale)
       .then(() => Actions.pop)
       .catch(e => console.log(`Error: ${e}`));
-  }
+  };
 
   changeLocale = () => {
     // Form array of possible locales eg. ['en', 'it']
@@ -40,13 +38,13 @@ class Locale extends React.Component {
         cancelButtonIndex: options.length - 1,
         options,
       },
-      (idx) => {
+      idx => {
         if (idx !== options.length - 1) {
           this.handleChange(options[idx]);
         }
-      },
+      }
     );
-  }
+  };
 
   render() {
     const { loading, error, locale } = this.props;
@@ -56,19 +54,12 @@ class Locale extends React.Component {
     return (
       <Container>
         <Content padder>
-          <Header
-            title="Change language"
-            content=""
-          />
+          <Header title="Change language" content="" />
 
           {error && <Messages message={error} />}
 
           <Button block onPress={this.changeLocale}>
-            <Text>
-Change from
-              {' '}
-              {locale}
-            </Text>
+            <Text>Change from {locale}</Text>
           </Button>
         </Content>
       </Container>

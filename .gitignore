@@ -17,4 +17,4 @@ build/
 .gradle
 local.properties
 *.iml
-constants/config.js
+src/constants/config.js
