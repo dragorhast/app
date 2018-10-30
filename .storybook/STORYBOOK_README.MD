@@ -8,10 +8,10 @@ Storybook runs its own little server on your computer that allows you to create 
 
 ### How to start story book
 
-In the termal in folder dragorhast/react-client
+In the termal in folder app root folder
 
 ``` bash
-cd dragorhast/react-client && yarn run storybook
+npm run storybook
 ```
 
 Then open your browser and open page
@@ -23,7 +23,7 @@ Then open your browser and open page
 
 In file"
 ``` bash
-dragorhast/react-client/stories/index.stories.js
+/stories/index.stories.js
 ```
 
 You wan to add code like the below

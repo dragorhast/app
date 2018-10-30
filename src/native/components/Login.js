@@ -30,27 +30,19 @@ class Login extends React.Component {
 
   constructor(props) {
     super(props);
+    // this.state = {
+    //   email: props.member && props.member.email ? props.member.email : '',
+    //   password: '',
+    // };
+
     this.state = {
-      email: props.member && props.member.email ? props.member.email : '',
-      password: '',
+      email: 'seanpaterson_25@msn.com',
+      password: 'Paterson25',
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  /**
-   * Used to bypass login whilst developing
-   */
-  componentDidMount = () => {
-    const { onFormSubmit } = this.props;
-    onFormSubmit({
-      email: 'seanpaterson_25@msn.com',
-      password: 'Paterson25',
-    })
-      .then(Actions.home())
-      .catch(e => console.log(`Error: ${e}`));
-  };
 
   handleChange = (name, val) => {
     this.setState({
