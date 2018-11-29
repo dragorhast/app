@@ -1,6 +1,7 @@
-import Store from '../store/member';
-
-export const initialState = Store;
+export const initialState = {
+  loading: false,
+  error: null,
+};
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
