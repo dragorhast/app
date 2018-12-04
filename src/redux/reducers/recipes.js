@@ -42,10 +42,12 @@ export default function recipeReducer(state = initialState, action) {
       };
     }
     case 'RECIPES_REPLACE': {
+      const { data } = action;
       let recipes = [];
 
       // Pick out the props I need
-      if (action.data && typeof action.data === 'object') {
+      if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+        console.log(action.data);
         recipes = action.data.map(item => ({
           id: item.id,
           title: item.title,

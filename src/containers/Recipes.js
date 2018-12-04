@@ -18,30 +18,30 @@ class RecipeListing extends Component {
     fetchRecipes: PropTypes.func.isRequired,
     fetchMeals: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
-  }
+  };
 
   static defaultProps = {
     match: null,
-  }
+  };
 
   componentDidMount = () => this.fetchRecipes();
 
   /**
-    * Fetch Data from API, saving to Redux
-    */
+   * Fetch Data from API, saving to Redux
+   */
   fetchRecipes = () => {
     const { fetchRecipes, fetchMeals, showError } = this.props;
     return fetchRecipes()
       .then(() => fetchMeals())
-      .catch((err) => {
+      .catch(err => {
         console.log(`Error: ${err}`);
         return showError(err);
       });
-  }
+  };
 
   render = () => {
     const { Layout, recipes, match } = this.props;
-    const id = (match && match.params && match.params.id) ? match.params.id : null;
+    const id = match && match.params && match.params.id ? match.params.id : null;
 
     return (
       <Layout
@@ -52,7 +52,7 @@ class RecipeListing extends Component {
         reFetch={() => this.fetchRecipes()}
       />
     );
-  }
+  };
 }
 
 const mapStateToProps = state => ({
@@ -65,4 +65,7 @@ const mapDispatchToProps = {
   showError: setError,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeListing);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RecipeListing);

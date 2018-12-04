@@ -4,6 +4,18 @@
     "name": "React Native Starter Kit",
     "slug": "react-native-starter-kit",
     "icon": "src/images/app-icon.png",
-    "privacy": "public"
+    "privacy": "public",
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "dragorhast",
+            "project": "tap2go-app",
+            "authToken": "6b49b6a1a8d34e009063453fe15d1cefe0da9557c69b4a29b4524890b3ebf78b"
+          }
+        }
+      ]
+    }
   }
 }

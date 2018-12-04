@@ -3,10 +3,7 @@ const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  entry: [
-    'babel-polyfill',
-    path.join(__dirname, '../src/web/index'),
-  ],
+  entry: ['babel-polyfill', path.join(__dirname, '../src/web/index')],
   output: {
     path: path.join(__dirname, '../build/'),
     filename: 'bundle.js',
@@ -17,19 +14,11 @@ module.exports = {
       // Take all sass files, compile them, and bundle them in with our js bundle
       {
         test: /\.scss$/,
-        use: [
-          'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          'sass-loader',
-        ],
+        use: ['style-loader', { loader: 'css-loader', options: { importLoaders: 1 } }, 'sass-loader'],
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          'postcss-loader',
-        ],
+        use: ['style-loader', { loader: 'css-loader', options: { importLoaders: 1 } }, 'postcss-loader'],
       },
       {
         test: /\.json$/,
@@ -65,6 +54,7 @@ module.exports = {
           output: {
             comments: false,
           },
+          // eslint-disable-next-line no-dupe-keys
           compress: {
             warnings: false,
             dead_code: true,
