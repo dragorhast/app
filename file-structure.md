@@ -1,6 +1,6 @@
 # Understanding the File Structure
 
-- `/build` - Web server runs from here (we commit everything for Github Pages)
+- `/build` - Web server runs from here (we commit everything for Github pages)
 - `/docs` - Github Repo Documentation
 - `/firebase` - Firebase samples
 - `/native-base-theme` - React Native's theme (by NativeBase)

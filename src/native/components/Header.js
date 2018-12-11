@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Text, H1 } from 'native-base';
-import Spacer from '../Spacer';
+import Spacer from './Spacer';
 
 // Styles
 // TODO add a <hr /> like line to bottom of header

@@ -2,7 +2,7 @@ const devMode = process.env.NODE_ENV !== 'development';
 
 export default {
   // App Details
-  appName: 'Dragorhast Bike Sharing',
+  appName: 'TAP 2 GO',
 
   // Build Configuration - eg. Debug or Release?
   DEV: devMode,

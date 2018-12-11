@@ -1,18 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Label,
-  Alert,
-  Input,
-  Button,
-  CardBody,
-  FormGroup,
-  CardHeader,
-} from 'reactstrap';
+import { Row, Col, Card, Form, Label, Alert, Input, Button, CardBody, FormGroup, CardHeader } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import Loading from './Loading';
 
@@ -24,11 +12,11 @@ class SignUp extends React.Component {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
-  }
+  };
 
   static defaultProps = {
     error: null,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -44,29 +32,23 @@ class SignUp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
     const { onFormSubmit, history } = this.props;
     onFormSubmit(this.state)
       .then(() => history.push('/login'))
       .catch(e => console.log(`Error: ${e}`));
-  }
+  };
 
   render() {
     const { loading, error } = this.props;
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      password2,
-    } = this.state;
+    const { firstName, lastName, email, password, password2 } = this.state;
 
     // Loading
     if (loading) return <Loading />;
@@ -76,20 +58,12 @@ class SignUp extends React.Component {
         <Row>
           <Col lg={{ size: 6, offset: 3 }}>
             <Card>
-              <CardHeader>
-                Sign Up
-              </CardHeader>
+              <CardHeader>Sign Up</CardHeader>
               <CardBody>
-                {!!error && (
-                  <Alert color="danger">
-                    {error}
-                  </Alert>
-                )}
+                {!!error && <Alert color="danger">{error}</Alert>}
                 <Form onSubmit={this.handleSubmit}>
                   <FormGroup>
-                    <Label for="firstName">
-                      First Name
-                    </Label>
+                    <Label for="firstName">First Name</Label>
                     <Input
                       type="text"
                       name="firstName"
@@ -100,9 +74,7 @@ class SignUp extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label for="lastName">
-                      Last Name
-                    </Label>
+                    <Label for="lastName">Last Name</Label>
                     <Input
                       type="text"
                       name="lastName"
@@ -114,9 +86,7 @@ class SignUp extends React.Component {
                   </FormGroup>
 
                   <FormGroup style={{ marginTop: 40 }}>
-                    <Label for="email">
-                      Email
-                    </Label>
+                    <Label for="email">Email</Label>
                     <Input
                       type="email"
                       name="email"
@@ -127,9 +97,7 @@ class SignUp extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label for="password">
-                      Password
-                    </Label>
+                    <Label for="password">Password</Label>
                     <Input
                       type="password"
                       name="password"
@@ -140,9 +108,7 @@ class SignUp extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label for="password2">
-                      Confirm Password
-                    </Label>
+                    <Label for="password2">Confirm Password</Label>
                     <Input
                       type="password"
                       name="password2"
@@ -152,9 +118,7 @@ class SignUp extends React.Component {
                       onChange={this.handleChange}
                     />
                   </FormGroup>
-                  <Button color="primary">
-                    Sign Up!
-                  </Button>
+                  <Button color="primary">Sign Up!</Button>
                 </Form>
 
                 <hr />
@@ -162,9 +126,7 @@ class SignUp extends React.Component {
                 <Row>
                   <Col sm="12">
                     Already have an account?
-                    <Link to="/login">
-                      Login
-                    </Link>
+                    <Link to="/login">Login</Link>
                   </Col>
                 </Row>
               </CardBody>

@@ -6,12 +6,8 @@ import { Link } from 'react-router-dom';
 const Error = ({ title, content }) => (
   <Row>
     <Col lg="4">
-      <h2>
-        {title}
-      </h2>
-      <p>
-        {content}
-      </p>
+      <h2>{title}</h2>
+      <p>{content}</p>
       <p>
         <Link to="/" className="btn btn-primary">
           Go Home

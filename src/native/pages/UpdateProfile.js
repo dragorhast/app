@@ -14,10 +14,10 @@ import {
   Button,
   View,
 } from 'native-base';
-import Messages from './Messages';
+import Messages from '../components/Messages';
 import Loading from './Loading';
-import Header from './common/Header';
-import Spacer from './Spacer';
+import Header from '../components/Header';
+import Spacer from '../components/Spacer';
 
 class UpdateProfile extends React.Component {
   static propTypes = {

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import { Container, Content, Body, Button, Text } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 const Styles = StyleSheet.create({
   viewCenter: {
@@ -17,24 +18,20 @@ const Styles = StyleSheet.create({
 });
 
 // more props will be passed as functions later in development
-const Home = ({ logout }) => (
+const Home = () => (
   <Container>
     {/* Content is the entire screen if flex is one */}
     <Content contentContainerStyle={Styles.viewCenter}>
       <Body style={Styles.blackBody}>
-        <Button primary large style={Styles.buttonStyle}>
+        <Button primary large onPress={Actions.unlockBike}>
           <Text>RENT NOW</Text>
         </Button>
-        <Button bordered primary large>
-          <Text>VIEW LOCATIONS</Text>
+        <Button bordered primary large onPress={Actions.profileHome}>
+          <Text>TEMP PROFILE PAGE</Text>
         </Button>
       </Body>
     </Content>
   </Container>
 );
-
-Home.propTypes = {
-  logout: PropTypes.func.isRequired,
-};
 
 export default Home;

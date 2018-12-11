@@ -22,7 +22,6 @@ class SignUp extends Component {
     errorMessage: null,
   };
 
-
   // Signs up then logs in through redux
   onFormSubmit = async data => {
     const { signUpRedux, loginRedux } = this.props;

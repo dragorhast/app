@@ -1,18 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Label,
-  Alert,
-  Input,
-  Button,
-  CardBody,
-  FormGroup,
-  CardHeader,
-} from 'reactstrap';
+import { Row, Col, Card, Form, Label, Alert, Input, Button, CardBody, FormGroup, CardHeader } from 'reactstrap';
 import Loading from './Loading';
 
 class UpdateProfile extends React.Component {
@@ -26,12 +14,12 @@ class UpdateProfile extends React.Component {
       lastName: PropTypes.string,
       email: PropTypes.string,
     }).isRequired,
-  }
+  };
 
   static defaultProps = {
     error: null,
     success: null,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -49,33 +37,25 @@ class UpdateProfile extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
 
     this.setState({
       [event.target.name]: value,
     });
-  }
+  };
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
       .then(() => console.log('Profile updated'))
       .catch(e => console.log(`Error: ${e}`));
-  }
+  };
 
   render() {
     const { loading, success, error } = this.props;
-    const {
-      firstName,
-      lastName,
-      changeEmail,
-      email,
-      changePassword,
-      password,
-      password2,
-    } = this.state;
+    const { firstName, lastName, changeEmail, email, changePassword, password, password2 } = this.state;
 
     // Loading
     if (loading) return <Loading />;
@@ -85,26 +65,14 @@ class UpdateProfile extends React.Component {
         <Row>
           <Col lg={{ size: 6, offset: 3 }}>
             <Card>
-              <CardHeader>
-                Update Profile
-              </CardHeader>
+              <CardHeader>Update Profile</CardHeader>
               <CardBody>
-                {!!error && (
-                  <Alert color="danger">
-                    {error}
-                  </Alert>
-                )}
-                {!!success && (
-                  <Alert color="success">
-                    {success}
-                  </Alert>
-                )}
+                {!!error && <Alert color="danger">{error}</Alert>}
+                {!!success && <Alert color="success">{success}</Alert>}
 
                 <Form onSubmit={this.handleSubmit}>
                   <FormGroup>
-                    <Label for="firstName">
-                      First Name
-                    </Label>
+                    <Label for="firstName">First Name</Label>
                     <Input
                       type="text"
                       name="firstName"
@@ -115,9 +83,7 @@ class UpdateProfile extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label for="lastName">
-                      Last Name
-                    </Label>
+                    <Label for="lastName">Last Name</Label>
                     <Input
                       type="text"
                       name="lastName"
@@ -130,21 +96,13 @@ class UpdateProfile extends React.Component {
 
                   <FormGroup check style={{ marginTop: 20 }}>
                     <Label check>
-                      <Input
-                        type="checkbox"
-                        name="changeEmail"
-                        checked={changeEmail}
-                        onChange={this.handleChange}
-                      />
-                      {' '}
+                      <Input type="checkbox" name="changeEmail" checked={changeEmail} onChange={this.handleChange} />{' '}
                       Change my email
                     </Label>
                   </FormGroup>
                   {changeEmail && (
                     <FormGroup>
-                      <Label for="email">
-                        Email
-                      </Label>
+                      <Label for="email">Email</Label>
                       <Input
                         type="email"
                         name="email"
@@ -163,17 +121,14 @@ class UpdateProfile extends React.Component {
                         name="changePassword"
                         checked={changePassword}
                         onChange={this.handleChange}
-                      />
-                      {' '}
+                      />{' '}
                       Change my password
                     </Label>
                   </FormGroup>
                   {changePassword && (
                     <div>
                       <FormGroup>
-                        <Label for="password">
-                          Password
-                        </Label>
+                        <Label for="password">Password</Label>
                         <Input
                           type="password"
                           name="password"
@@ -184,9 +139,7 @@ class UpdateProfile extends React.Component {
                         />
                       </FormGroup>
                       <FormGroup>
-                        <Label for="password2">
-                          Confirm Password
-                        </Label>
+                        <Label for="password2">Confirm Password</Label>
                         <Input
                           type="password"
                           name="password2"

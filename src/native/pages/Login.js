@@ -4,10 +4,10 @@ import { Container, Content, Form, Item, Label, Input, Text, Button, View } from
 import { Actions } from 'react-native-router-flux';
 
 import Loading from './Loading';
-import Messages from './Messages';
-import { translate } from '../../i18n';
-import Header from './common/Header';
-import Spacer from './Spacer';
+import Messages from '../components/Messages';
+import { translate } from '../../i18n/index';
+import Header from '../components/Header';
+import Spacer from '../components/Spacer';
 
 class Login extends React.Component {
   static propTypes = {

@@ -15,21 +15,20 @@ class UpdateProfile extends Component {
   state = {
     errorMessage: null,
     successMessage: null,
-  }
+  };
 
-  onFormSubmit = (data) => {
+  onFormSubmit = data => {
     const { onFormSubmit } = this.props;
     return onFormSubmit(data)
       .then(mes => this.setState({ successMessage: mes, errorMessage: null }))
-      .catch((err) => { this.setState({ errorMessage: err, successMessage: null }); throw err; });
-  }
+      .catch(err => {
+        this.setState({ errorMessage: err, successMessage: null });
+        throw err;
+      });
+  };
 
   render = () => {
-    const {
-      member,
-      Layout,
-      isLoading,
-    } = this.props;
+    const { member, Layout, isLoading } = this.props;
 
     const { successMessage, errorMessage } = this.state;
 
@@ -42,7 +41,7 @@ class UpdateProfile extends Component {
         onFormSubmit={this.onFormSubmit}
       />
     );
-  }
+  };
 }
 
 const mapStateToProps = state => ({
@@ -54,4 +53,7 @@ const mapDispatchToProps = {
   onFormSubmit: updateProfile,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateProfile);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UpdateProfile);

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Content, Text, Form, Item, Label, Input, Button, View } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { translate } from '../../i18n';
+import { translate } from '../../i18n/index';
 import Loading from './Loading';
-import Messages from './Messages';
-import Header from './common/Header';
-import Spacer from './Spacer';
+import Messages from '../components/Messages';
+import Header from '../components/Header';
+import Spacer from '../components/Spacer';
 
 class SignUp extends React.Component {
   static propTypes = {

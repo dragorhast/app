@@ -1,14 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Row,
-  Col,
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-} from 'reactstrap';
+import { Row, Col, Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Error from './Error';
 
@@ -23,16 +15,10 @@ const RecipeListing = ({ error, loading, recipes }) => {
         <CardImg top src={item.image} alt={item.title} />
       </Link>
       <CardBody>
-        <CardTitle>
-          {item.title}
-        </CardTitle>
-        <CardText>
-          {item.body}
-        </CardText>
+        <CardTitle>{item.title}</CardTitle>
+        <CardText>{item.body}</CardText>
         <Link className="btn btn-primary" to={`/recipe/${item.id}`}>
-          View Recipe
-          {' '}
-          <i className="icon-arrow-right" />
+          View Recipe <i className="icon-arrow-right" />
         </Link>
       </CardBody>
     </Card>
@@ -43,12 +29,8 @@ const RecipeListing = ({ error, loading, recipes }) => {
     <div>
       <Row>
         <Col sm="12">
-          <h1>
-            Recipes
-          </h1>
-          <p>
-            The following data is read directly from Firebase.
-          </p>
+          <h1>Recipes</h1>
+          <p>The following data is read directly from Firebase.</p>
         </Col>
       </Row>
       <Row className={loading ? 'content-loading' : ''}>

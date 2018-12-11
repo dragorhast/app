@@ -5,9 +5,7 @@ import { Container, Row, Col } from 'reactstrap';
 const Template = ({ children }) => (
   <Container>
     <Row>
-      <Col sm="12">
-        {children}
-      </Col>
+      <Col sm="12">{children}</Col>
     </Row>
   </Container>
 );
