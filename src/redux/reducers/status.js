@@ -1,3 +1,7 @@
+/**
+ * Section of state that holds the current status and status message
+ */
+
 export const initialState = {
   loading: false,
   info: null,

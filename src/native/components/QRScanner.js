@@ -12,8 +12,8 @@ import { BarCodeScanner, Permissions } from 'expo';
 export default class QRScanner extends React.Component {
   static propTypes = {
     onSuccessfulScan: PropTypes.func.isRequired,
-    height: PropTypes.number,
-    width: PropTypes.number,
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
 
   static defaultProps = {
@@ -26,15 +26,15 @@ export default class QRScanner extends React.Component {
     hasCameraPermission: null,
   };
 
+  /**
+   * Sets camera permission
+   */
   async componentDidMount() {
-    // Does this persist?
+    // TODO give info how to change permission if they've accidentally pressed no
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
+    this.props.onSuccessfulScan('12345678916'); // TODO remove test
   }
-
-  handleBarCodeScanned = ({ type, data }) => {
-    console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
 
   render() {
     const { hasCameraPermission } = this.state;

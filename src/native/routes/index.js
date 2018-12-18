@@ -27,6 +27,7 @@ import ProfileComponent from '../pages/Profile';
 
 import HomePage from '../pages/Home';
 import UnlockBikePage from '../pages/UnlockBikePage';
+import BikeRentalContainer from '../../containers/BikeRentalContainer';
 
 const Index = (
   <Stack hideNavBar>
@@ -38,7 +39,7 @@ const Index = (
       {...DefaultProps.navbarProps}
     >
       <Scene key="home" component={HomePage} />
-      <Scene key="unlockBike" component={UnlockBikePage} />
+      <Scene key="unlockBike" component={BikeRentalContainer} Layout={UnlockBikePage} />
     </Stack>
     {/* Profile Stack */}
     <Stack
@@ -76,6 +77,7 @@ const Index = (
         Layout={UpdateProfileComponent}
       />
     </Stack>
+    {/* Login and logout */}
     <Scene
       hideNavBar
       key="homeLogin"

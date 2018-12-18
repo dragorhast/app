@@ -41,7 +41,6 @@ class SignUp extends React.Component {
     });
   };
 
-  // TODO alter the onSubmit form so that when you signup auto signs you in
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)

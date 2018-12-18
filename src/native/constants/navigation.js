@@ -1,3 +1,7 @@
+/**
+ * Props to be passed to navigation objects that set the style
+ */
+
 import Colors from '../../../native-base-theme/variables/commonColor';
 
 export default {

@@ -17,25 +17,39 @@ const Styles = StyleSheet.create({
   },
 });
 
-const UnlockBikePage = ({ sendBikeIDToServer }) => (
-  <Container>
-    {/* Content is the entire screen if flex is one */}
-    <Content contentContainerStyle={Styles.viewCenter}>
-      <Text>Something Here</Text>
-      <Body style={Styles.blackBody}>
-        <QRScanner onSuccessfulScan={sendBikeIDToServer} />
-      </Body>
-    </Content>
-  </Container>
-);
+const UnlockBikePage = ({ startRentalFromId }) => {
+  /**
+   * Handles the changing of pages based on success or failure
+   */
+  const sendBikeIDToServer = bikeId => {
+    startRentalFromId(bikeId)
+      .then(res => {
+        console.log(res);
+        console.log('Move to success page');
+        // Actions.bikeRentalSuccess();
+      })
+      .catch(err => {
+        console.log('Failure flash');
+        console.log(err);
+        // flash an error message
+      });
+  };
 
-UnlockBikePage.propTypes = {
-  sendBikeIDToServer: PropTypes.func,
+  return (
+    <Container>
+      {/* Content is the entire screen if flex = 1 */}
+      <Content contentContainerStyle={Styles.viewCenter}>
+        <Text>Something Here</Text>
+        <Body style={Styles.blackBody}>
+          <QRScanner onSuccessfulScan={sendBikeIDToServer} />
+        </Body>
+      </Content>
+    </Container>
+  );
 };
 
-// TODO remove this once made container
-UnlockBikePage.defaultProps = {
-  sendBikeIDToServer: () => {},
+UnlockBikePage.propTypes = {
+  startRentalFromId: PropTypes.func.isRequired,
 };
 
 export default UnlockBikePage;

@@ -1,5 +1,8 @@
 /**
- * Show Error
+ * Sets that status in state
+ *
+ * Designed to be called from another action
+ * as dispatch must be passed in through the function
  */
 export default function(dispatch, type, val) {
   return new Promise((resolve, reject) => {
