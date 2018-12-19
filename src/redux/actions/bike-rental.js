@@ -15,13 +15,13 @@ import statusMessage from './status';
  * success = sets the correct info in state + status state
  * failure = set the status in state and throw error to be handled down line
  *
+ *
+ * Should only hit the api once every 2 seconds
  */
 export function startRentalFromId(bikeID) {
   // returns a function that gives a promise
   return (dispatch, getState) =>
-    // .then() style might be easier
     new Promise(async (resolve, reject) => {
-      console.log('Bike ID in action:', bikeID);
       // LOADING
       dispatch({ type: 'RENTAL_FETCH', data: { bikeID } });
       await statusMessage(dispatch, 'loading', true);
@@ -30,19 +30,21 @@ export function startRentalFromId(bikeID) {
       const firebaseUID = getState().member.uid; // presume can only be accessed if logged in
 
       // CALL THE API
-      // What happens if this errors out?
-      // const result = await fetch('/apiEndPointHere', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ firebaseUID }),
-      // });
-      const result = {
-        data: {
-          bikeID: '12345678910',
-          rentalStartTime: new Date(),
-        },
-      };
+      const result = await fetch(`/bike/startRental/${bikeID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firebaseUID }),
+      });
 
+      // ****** TEST RESULTS *******
+      // Test Pass
+      // const result = {
+      //   data: {
+      //     bikeID: '12345678910',
+      //     rentalStartTime: new Date(),
+      //   },
+      // };
+      // Test Fail
       // const result = { error: 'Error here' };
 
       // HTTP ERROR - message decided on server
@@ -69,6 +71,62 @@ export function startRentalFromId(bikeID) {
       await statusMessage(dispatch, 'loading', false);
       // dispatch({ type: 'ERROR_SET', data: err }); // TODO make error storage
       dispatch({ type: 'RENTAL_ABORT' });
+      throw err.message;
+    });
+}
+
+/**
+ * Fetches up to date information about the users current rental
+ */
+export function fetchRentalInfo() {
+  return (dispatch, getState) =>
+    new Promise(async (resolve, reject) => {
+      // LOADING
+      // Don't bother telling Redux fetching, just use what's already there
+      console.log('RELOADING DATA');
+      await statusMessage(dispatch, 'loading', true);
+
+      // Get ID from state
+      const firebaseUID = getState().member.uid; // presume can only be accessed if logged in
+
+      // CALL THE API
+      const result = await fetch(`/user/currentRental/${firebaseUID}`);
+
+      // ****** TEST RESULTS *******
+      // Test Pass
+      // const result = {
+      //   data: {
+      //     bikeID: '12345678910',
+      //     rentalStartTime: new Date(),
+      //     costOfRentalSoFar: 200,
+      //     rentalActive: true,
+      //   },
+      // };
+      // Test Fail
+      // const result = { error: 'Error here' };
+
+      // HTTP ERROR - message decided on server
+      if (result.error) {
+        // gets caught by .catch()
+        return reject({ message: result.error });
+      }
+
+      // SUCCESSFUL HTTP RESULT
+      const r = result.data;
+      await statusMessage(dispatch, 'loading', false);
+      return resolve(
+        dispatch({
+          type: 'RENTAL_SET_DATA',
+          data: {
+            bikeID: r.bikeID,
+            rentalStartTime: r.rentalStartTime,
+            costOfRentalSoFar: r.costOfRentalSoFar,
+          },
+        })
+      );
+    }).catch(async err => {
+      await statusMessage(dispatch, 'loading', false);
+      // dispatch({ type: 'ERROR_SET', data: err }); // TODO make error storage
       throw err.message;
     });
 }

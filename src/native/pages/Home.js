@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import { Container, Content, Body, Button, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
@@ -23,7 +22,7 @@ const Home = () => (
     {/* Content is the entire screen if flex is one */}
     <Content contentContainerStyle={Styles.viewCenter}>
       <Body style={Styles.blackBody}>
-        <Button primary large onPress={Actions.unlockBike}>
+        <Button primary large onPress={Actions.bikeRentalStart}>
           <Text>RENT NOW</Text>
         </Button>
         <Button bordered primary large onPress={Actions.profileHome}>

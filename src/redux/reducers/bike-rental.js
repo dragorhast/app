@@ -3,6 +3,7 @@ export const initialState = {
   rentalStartTime: null,
   costOfRentalSoFar: null,
   rentalActive: null,
+  twoSecondWait: false,
 };
 
 export default function bikeRentalReducer(state = initialState, { type, data }) {
@@ -31,6 +32,11 @@ export default function bikeRentalReducer(state = initialState, { type, data }) 
       };
     case 'RENTAL_ABORT':
       return initialState;
+    case 'RENTAL_2_SECOND_API_WAIT':
+      return {
+        ...state,
+        twoSecondWait: data,
+      };
     default:
       return state;
   }

@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Actions } from 'react-native-router-flux';
 import { StyleSheet } from 'react-native';
-import { Container, Content, Body, Button, Text } from 'native-base';
+import { Container, Content, Body, Text, Toast } from 'native-base';
 import QRScanner from '../components/QRScanner';
+// Hacky way of passing in the correct props including this
+import BikeRentalCurrentPage from './BikeRentalCurrentPage';
 
 const Styles = StyleSheet.create({
   viewCenter: {
@@ -17,20 +20,26 @@ const Styles = StyleSheet.create({
   },
 });
 
-const UnlockBikePage = ({ startRentalFromId }) => {
+const BikeRentalStartPage = ({ startRentalFromId }) => {
   /**
    * Handles the changing of pages based on success or failure
    */
   const sendBikeIDToServer = bikeId => {
     startRentalFromId(bikeId)
-      .then(res => {
-        console.log(res);
-        console.log('Move to success page');
-        // Actions.bikeRentalSuccess();
+      .then(() => {
+        // This is a hacky way of passing in the correct props - without it here it won't load from routes/index
+        Actions.replace('bikeRentalInfo', { Layout: BikeRentalCurrentPage });
       })
       .catch(err => {
         console.log('Failure flash');
         console.log(err);
+        // Toast.show({
+        //   text: "Oops. That didn't work",
+        //   buttonText: 'Okay',
+        //   type: 'danger',
+        //   position: 'top',
+        //   duration: 5000,
+        // });
         // flash an error message
       });
   };
@@ -48,8 +57,8 @@ const UnlockBikePage = ({ startRentalFromId }) => {
   );
 };
 
-UnlockBikePage.propTypes = {
+BikeRentalStartPage.propTypes = {
   startRentalFromId: PropTypes.func.isRequired,
 };
 
-export default UnlockBikePage;
+export default BikeRentalStartPage;

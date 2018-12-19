@@ -26,8 +26,11 @@ import ProfileComponent from '../pages/Profile';
 // import AboutComponent from '../components/About';
 
 import HomePage from '../pages/Home';
-import UnlockBikePage from '../pages/UnlockBikePage';
-import BikeRentalContainer from '../../containers/BikeRentalContainer';
+import BikeRentalStartContainer from '../../containers/BikeRentalStartContainer';
+import BikeRentalStartPage from '../pages/BikeRentalStartPage';
+
+import BikeRentalInfoContainer from '../../containers/BikeRentalInfoContainer';
+import BikeRentalCurrentPage from '../pages/BikeRentalCurrentPage';
 
 const Index = (
   <Stack hideNavBar>
@@ -39,8 +42,13 @@ const Index = (
       {...DefaultProps.navbarProps}
     >
       <Scene key="home" component={HomePage} />
-      <Scene key="unlockBike" component={BikeRentalContainer} Layout={UnlockBikePage} />
+      <Scene key="bikeRentalStart" component={BikeRentalStartContainer} Layout={BikeRentalStartPage} />
+      <Scene key="bikeRentalInfo" component={BikeRentalInfoContainer} Layout={BikeRentalCurrentPage} />
     </Stack>
+    {/* Current Rental Stack */}
+    {/* <Stack key="currentRental" title={AppConfig.appName.toUpperCase()} {...DefaultProps.navbarProps}> */}
+    {/* <Scene key="bikeRentalInfo" component={BikeRentalInfoContainer} Layout={BikeRentalCurrentPage} /> */}
+    {/* </Stack> */}
     {/* Profile Stack */}
     <Stack
       key="profile"
