@@ -31,7 +31,6 @@ const BikeRentalStartPage = ({ startRentalFromId }) => {
         Actions.replace('bikeRentalInfo', { Layout: BikeRentalCurrentPage });
       })
       .catch(err => {
-        console.log('Failure flash');
         console.log(err);
         // Toast.show({
         //   text: "Oops. That didn't work",

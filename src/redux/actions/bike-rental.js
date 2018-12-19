@@ -42,6 +42,7 @@ export function startRentalFromId(bikeID) {
       //   data: {
       //     bikeID: '12345678910',
       //     rentalStartTime: new Date(),
+      //     pickUpPoint: 'Princess Street West',
       //   },
       // };
       // Test Fail
@@ -100,6 +101,7 @@ export function fetchRentalInfo() {
       //     rentalStartTime: new Date(),
       //     costOfRentalSoFar: 200,
       //     rentalActive: true,
+      //     pickUpPoint: 'Princess Street West',
       //   },
       // };
       // Test Fail

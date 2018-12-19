@@ -38,6 +38,7 @@ const BikeRentalCurrentPage = ({ rentalInfo }) => (
         <Text>{rentalInfo.bikeID}</Text> <Text>Bike ID</Text>
         {/* TODO also check for hours */}
         <Text>{getMinutesBeenRentingFor(rentalInfo.rentalStartTime)}</Text> <Text>Time uses so far</Text>
+        <Text>Pick Up Location</Text><Text>{rentalInfo.pickUpPoint}</Text>
         <Button primary large>
           <Text>TEMP LOCK BIKE</Text>
         </Button>
@@ -50,7 +51,8 @@ BikeRentalCurrentPage.propTypes = {
     bikeID: PropTypes.string,
     rentalStartTime: PropTypes.date,
     costOfRentalSoFar: PropTypes.number,
-    rentalEnded: PropTypes.bool,
+    rentalActive: PropTypes.bool,
+    pickUpPoint: PropTypes.string,
   }).isRequired,
 };
 

@@ -12,7 +12,8 @@ class BikeRentalInfoContainer extends Component {
       bikeID: PropTypes.string,
       rentalStartTime: PropTypes.date,
       costOfRentalSoFar: PropTypes.number,
-      rentalEnded: PropTypes.bool,
+      rentalActive: PropTypes.bool,
+      pickUpPoint: PropTypes.string,
     }).isRequired,
   };
 
