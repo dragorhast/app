@@ -14,6 +14,7 @@ export default {
   missingEmail: 'Email is missing',
   missingPassword: 'Password is missing',
   passwordsDontMatch: 'Passwords do not match',
+  mustBeSignedIn: 'Oops. You have to be signed in to do that',
 
   // Recipes
   recipe404: 'Recipe not found',

@@ -18,6 +18,7 @@ const Profile = ({ member, logout }) => {
       <Content>
         <List>
           {member && member.email ? (
+            // signed in
             <View>
               <Content padder>
                 <Header title={`Hi ${member.firstName},`} content={`You are currently logged in as ${member.email}`} />
@@ -41,6 +42,7 @@ const Profile = ({ member, logout }) => {
               </ListItem>
             </View>
           ) : (
+            // not signed in
             <View>
               <Content padder>
                 <Header title="Hi there," content="Please login to gain extra access" />
@@ -72,14 +74,6 @@ const Profile = ({ member, logout }) => {
               </ListItem>
             </View>
           )}
-          <ListItem onPress={Actions.locale} icon>
-            <Left>
-              <Icon name="ios-flag" />
-            </Left>
-            <Body>
-              <Text>Change Language</Text>
-            </Body>
-          </ListItem>
         </List>
       </Content>
     </Container>

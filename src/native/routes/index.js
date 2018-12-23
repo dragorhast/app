@@ -2,6 +2,7 @@ import React from 'react';
 import { Scene, Stack } from 'react-native-router-flux';
 import { Icon } from 'native-base';
 
+// Props for making nav bar look pretty
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';
 
@@ -14,8 +15,8 @@ import LoginComponent from '../pages/Login';
 import ForgotPasswordContainer from '../../containers/ForgotPassword';
 import ForgotPasswordComponent from '../pages/ForgotPassword';
 
-import LocaleContainer from '../../containers/Locale';
-import LocaleComponent from '../pages/Locale';
+// import LocaleContainer from '../../containers/Locale';
+// import LocaleComponent from '../pages/Locale';
 
 import UpdateProfileContainer from '../../containers/UpdateProfile';
 import UpdateProfileComponent from '../pages/UpdateProfile';
@@ -25,7 +26,9 @@ import ProfileComponent from '../pages/Profile';
 
 // import AboutComponent from '../components/About';
 
+// No interaction with redux required
 import HomePage from '../pages/Home';
+
 import BikeRentalStartContainer from '../../containers/BikeRentalStartContainer';
 import BikeRentalStartPage from '../pages/BikeRentalStartPage';
 
@@ -49,16 +52,14 @@ const Index = (
     {/* <Stack key="currentRental" title={AppConfig.appName.toUpperCase()} {...DefaultProps.navbarProps}> */}
     {/* <Scene key="bikeRentalInfo" component={BikeRentalInfoContainer} Layout={BikeRentalCurrentPage} /> */}
     {/* </Stack> */}
-    {/* Profile Stack */}
+    {/* All actions related to the user */}
     <Stack
       key="profile"
       title="PROFILE"
       icon={() => <Icon name="contact" {...DefaultProps.icons} />}
       {...DefaultProps.navbarProps}
     >
-      {/* Profile Home render first when bottom bar profile button is clicked */}
       <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} back />
-
       {/* These are all pages that can clicked to from inside this stack */}
       <Scene
         back
@@ -70,14 +71,6 @@ const Index = (
       />
       <Scene
         back
-        key="locale"
-        title="CHANGE LANGUAGE"
-        {...DefaultProps.navbarProps}
-        component={LocaleContainer}
-        Layout={LocaleComponent}
-      />
-      <Scene
-        back
         key="updateProfile"
         title="UPDATE PROFILE"
         {...DefaultProps.navbarProps}
@@ -85,7 +78,7 @@ const Index = (
         Layout={UpdateProfileComponent}
       />
     </Stack>
-    {/* Login and logout */}
+    {/* Login and logout scenes */}
     <Scene
       hideNavBar
       key="homeLogin"

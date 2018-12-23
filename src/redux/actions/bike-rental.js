@@ -1,3 +1,5 @@
+import ERROR_MESSAGE from '../../constants/errors';
+import { checkJSendStatus } from './util';
 /**
  * Actions for everything related to renting a bike
  */
@@ -11,12 +13,9 @@ import statusMessage from './status';
  * server.
  *
  * Note: A HTTP ERROR LIKE 404 WITH BE SUCCESSFUL RESPONSE FROM API
- *
  * success = sets the correct info in state + status state
  * failure = set the status in state and throw error to be handled down line
  *
- *
- * Should only hit the api once every 2 seconds
  */
 export function startRentalFromId(bikeID) {
   // returns a function that gives a promise
@@ -28,12 +27,13 @@ export function startRentalFromId(bikeID) {
 
       // Get ID from state
       const firebaseUID = getState().member.uid; // presume can only be accessed if logged in
+      if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
 
       // CALL THE API
-      const result = await fetch(`/bike/startRental/${bikeID}`, {
+      const result = await fetch(`/users/${firebaseUID}/rentals`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firebaseUID }),
+        body: JSON.stringify({ bikeID }),
       });
 
       // ****** TEST RESULTS *******
@@ -46,15 +46,13 @@ export function startRentalFromId(bikeID) {
       //   },
       // };
       // Test Fail
-      // const result = { error: 'Error here' };
+      // const result = { message: 'Error here' };
 
-      // HTTP ERROR - message decided on server
-      if (result.error) {
-        // gets caught by .catch()
-        return reject({ message: result.error });
-      }
+      // Rejects if JSens status of Fail or Error
+      const { message } = checkJSendStatus(result);
+      if (message) return reject({ message });
 
-      // SUCCESSFUL HTTP RESULT
+      // SUCCESSFUL HTTP + JSend RESULT
       const r = result.data;
       // sets data based on response
       await statusMessage(dispatch, 'loading', false);
@@ -83,15 +81,13 @@ export function fetchRentalInfo() {
   return (dispatch, getState) =>
     new Promise(async (resolve, reject) => {
       // LOADING
-      // Don't bother telling Redux fetching, just use what's already there
-      console.log('RELOADING DATA');
       await statusMessage(dispatch, 'loading', true);
-
       // Get ID from state
       const firebaseUID = getState().member.uid; // presume can only be accessed if logged in
+      if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
 
       // CALL THE API
-      const result = await fetch(`/user/currentRental/${firebaseUID}`);
+      const result = await fetch(`/users/${firebaseUID}/rentals`);
 
       // ****** TEST RESULTS *******
       // Test Pass
@@ -107,11 +103,9 @@ export function fetchRentalInfo() {
       // Test Fail
       // const result = { error: 'Error here' };
 
-      // HTTP ERROR - message decided on server
-      if (result.error) {
-        // gets caught by .catch()
-        return reject({ message: result.error });
-      }
+      // Rejects if JSens status of Fail or Error
+      const { message } = checkJSendStatus(result);
+      if (message) return reject({ message });
 
       // SUCCESSFUL HTTP RESULT
       const r = result.data;

@@ -1,3 +1,8 @@
+/**
+ * Container that handles interaction with redux for the signed in user;s profile
+ *
+ * When ever rendered member data is reloaded through fetchData()
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
