@@ -25,21 +25,22 @@ const BikeRentalStartPage = ({ startRentalFromId }) => {
    * Handles the changing of pages based on success or failure
    */
   const sendBikeIDToServer = bikeId => {
+    console.log('Bike ID in page: ', bikeId);
     startRentalFromId(bikeId)
       .then(() => {
         // This is a hacky way of passing in the correct props - without it here it won't load from routes/index
-        Actions.replace('bikeRentalInfo', { Layout: BikeRentalCurrentPage });
+        Actions.replace('bikeRentalInfo', { Layout: BikeRentalCurrentPage, fetchBikeRentalOnLoad: false });
       })
-      .catch(err => {
-        console.log(err);
-        // Toast.show({
-        //   text: "Oops. That didn't work",
-        //   buttonText: 'Okay',
-        //   type: 'danger',
-        //   position: 'top',
-        //   duration: 5000,
-        // });
-        // flash an error message
+      .catch(() => {
+        console.log('Fail in page');
+        // Flash generic message
+        Toast.show({
+          text: "Oops. That didn't work",
+          buttonText: 'Okay',
+          type: 'danger',
+          position: 'top',
+          duration: 5000,
+        });
       });
   };
 

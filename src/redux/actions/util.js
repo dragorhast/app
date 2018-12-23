@@ -12,7 +12,7 @@ export const checkJSendStatus = result => {
         message: result.data.message,
       };
     case JSendStatus.SUCCESS:
-      return null;
+      return {};
     default:
       throw new Error('API result status does not match any JSend Status');
   }

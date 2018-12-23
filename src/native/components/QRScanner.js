@@ -48,7 +48,7 @@ export default class QRScanner extends React.Component {
   onBarCodeRead = ({ data, type }) => {
     const { onSuccessfulScan } = this.props;
     const { within5SecondWaitingWindow } = this.state;
-    console.log('Scanned okay: ', within5SecondWaitingWindow);
+    // console.log('Execute function from scan: ', !within5SecondWaitingWindow);
 
     if (within5SecondWaitingWindow) return;
 

@@ -39,18 +39,30 @@ export function startRentalFromId(bikeID) {
       // ****** TEST RESULTS *******
       // Test Pass
       // const result = {
+      //   status: 'SUCCESS',
       //   data: {
       //     bikeID: '12345678910',
       //     rentalStartTime: new Date(),
       //     pickUpPoint: 'Princess Street West',
       //   },
       // };
+      // Test Error
+      // const result = {
+      //   status: 'ERROR',
+      //   message: 'Error here',
+      // };
       // Test Fail
-      // const result = { message: 'Error here' };
+      // const result = {
+      //   status: 'FAIL',
+      //   data: { message: 'Fail here' },
+      // };
 
       // Rejects if JSens status of Fail or Error
+      console.log(checkJSendStatus(result));
       const { message } = checkJSendStatus(result);
       if (message) return reject({ message });
+
+      console.log(message);
 
       // SUCCESSFUL HTTP + JSend RESULT
       const r = result.data;
@@ -80,6 +92,7 @@ export function startRentalFromId(bikeID) {
 export function fetchRentalInfo() {
   return (dispatch, getState) =>
     new Promise(async (resolve, reject) => {
+      console.log('Reload data');
       // LOADING
       await statusMessage(dispatch, 'loading', true);
       // Get ID from state
@@ -100,8 +113,16 @@ export function fetchRentalInfo() {
       //     pickUpPoint: 'Princess Street West',
       //   },
       // };
+      // Test Error
+      // const result = {
+      //   status: 'ERROR',
+      //   message: 'Error here',
+      // };
       // Test Fail
-      // const result = { error: 'Error here' };
+      // const result = {
+      //   status: 'FAIL',
+      //   data: { message: 'Fail here' },
+      // };
 
       // Rejects if JSens status of Fail or Error
       const { message } = checkJSendStatus(result);

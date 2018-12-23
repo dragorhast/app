@@ -1,14 +1,14 @@
 import variable from '../variables/platform';
 
 export default (variables = variable) => {
-  const platform = variables.platform;
+  const { platform } = variables;
 
   const toastTheme = {
     '.danger': {
-      backgroundColor: variables.brandDanger,
+      backgroundColor: variables.brandSuccess,
     },
     '.warning': {
-      backgroundColor: variables.brandWarning,
+      backgroundColor: variables.brandSuccess,
     },
     '.success': {
       backgroundColor: variables.brandSuccess,

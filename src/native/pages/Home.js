@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Content, Body, Button, Text } from 'native-base';
+import { Container, Content, Body, Button, Text, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
 const Styles = StyleSheet.create({

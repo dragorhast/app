@@ -27,26 +27,39 @@ const StyledPriceText = styled.Text`
 const getMinutesBeenRentingFor = rentalStartTime => {
   const currentTime = new Date();
   const milliSecondsSoFar = currentTime - new Date(rentalStartTime);
-  return Math.abs(milliSecondsSoFar / (1000 * 60));
+  return Math.round(milliSecondsSoFar / (1000 * 60));
 };
 
-const BikeRentalCurrentPage = ({ rentalInfo }) => (
-  <Container>
-    <Content>
-      <Body>
-        <StyledPriceText>{rentalInfo.costOfRentalSoFar}</StyledPriceText>
-        <Text>{rentalInfo.bikeID}</Text> <Text>Bike ID</Text>
-        {/* TODO also check for hours */}
-        <Text>{getMinutesBeenRentingFor(rentalInfo.rentalStartTime)}</Text> <Text>Time uses so far</Text>
-        <Text>Pick Up Location</Text><Text>{rentalInfo.pickUpPoint}</Text>
-        <Button primary large>
-          <Text>TEMP LOCK BIKE</Text>
-        </Button>
-      </Body>
-    </Content>
-  </Container>
-);
+class BikeRentalCurrentPage extends React.Component {
+  componentWillMount() {
+    const { getRentalInfo, fetchBikeRentalOnLoad } = this.props;
+    if (fetchBikeRentalOnLoad) getRentalInfo();
+  }
+
+  render() {
+    const { rentalInfo } = this.props;
+    return (
+      <Container>
+        <Content>
+          <Body>
+            <StyledPriceText>{rentalInfo.costOfRentalSoFar}</StyledPriceText>
+            <Text>{rentalInfo.bikeID}</Text> <Text>Bike ID</Text>
+            {/* TODO also check for hours */}
+            <Text>{getMinutesBeenRentingFor(rentalInfo.rentalStartTime)}</Text> <Text>Time used so far</Text>
+            <Text>Pick Up Location</Text>
+            <Text>{rentalInfo.pickUpPoint}</Text>
+            <Button primary large>
+              <Text>TEMP LOCK BIKE</Text>
+            </Button>
+          </Body>
+        </Content>
+      </Container>
+    );
+  }
+}
 BikeRentalCurrentPage.propTypes = {
+  fetchBikeRentalOnLoad: PropTypes.bool.isRequired,
+  getRentalInfo: PropTypes.func.isRequired,
   rentalInfo: PropTypes.shape({
     bikeID: PropTypes.string,
     rentalStartTime: PropTypes.date,
