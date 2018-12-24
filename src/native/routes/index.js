@@ -2,6 +2,7 @@ import React from 'react';
 import { Scene, Stack } from 'react-native-router-flux';
 import { Icon } from 'native-base';
 
+
 // Props for making nav bar look pretty
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';
@@ -26,7 +27,7 @@ import ProfileComponent from '../pages/Profile';
 
 // import AboutComponent from '../components/About';
 
-// No interaction with redux required
+import NativeHomeContainer from '../../containers/NativeHomeContainer';
 import HomePage from '../pages/Home';
 
 import BikeRentalStartContainer from '../../containers/BikeRentalStartContainer';
@@ -44,7 +45,7 @@ const Index = (
       icon={() => <Icon name="planet" {...DefaultProps.icons} />}
       {...DefaultProps.navbarProps}
     >
-      <Scene key="home" component={HomePage} />
+      <Scene key="home" component={NativeHomeContainer} />
       <Scene key="bikeRentalStart" component={BikeRentalStartContainer} Layout={BikeRentalStartPage} />
       <Scene key="bikeRentalInfo" component={BikeRentalInfoContainer} Layout={BikeRentalCurrentPage} />
     </Stack>

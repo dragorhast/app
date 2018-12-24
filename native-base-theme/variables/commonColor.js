@@ -99,7 +99,7 @@ export default {
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',
   brandWarning: '#f0ad4e',
-  brandDark: '#000',
+  brandDark: '#156da0',
   brandLight: '#f4f4f4',
 
   // Font

@@ -11,6 +11,7 @@
     }
   },
   "rules": {
+    "react/forbid-prop-types": "off",
     "react/jsx-filename-extension": [
       "error",
       {

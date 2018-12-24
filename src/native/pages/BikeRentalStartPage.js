@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { StyleSheet } from 'react-native';
-import { Container, Content, Body, Text, Toast } from 'native-base';
+import { StyleSheet, button } from 'react-native';
+import { Container, Content, Body, Button, H2, Toast } from 'native-base';
 import QRScanner from '../components/QRScanner';
 // Hacky way of passing in the correct props including this
 import BikeRentalCurrentPage from './BikeRentalCurrentPage';
@@ -25,7 +25,7 @@ const BikeRentalStartPage = ({ startRentalFromId }) => {
    * Handles the changing of pages based on success or failure
    */
   const sendBikeIDToServer = bikeId => {
-    console.log('Bike ID in page: ', bikeId);
+    console.log('Button works');
     startRentalFromId(bikeId)
       .then(() => {
         // This is a hacky way of passing in the correct props - without it here it won't load from routes/index
@@ -48,7 +48,7 @@ const BikeRentalStartPage = ({ startRentalFromId }) => {
     <Container>
       {/* Content is the entire screen if flex = 1 */}
       <Content contentContainerStyle={Styles.viewCenter}>
-        <Text>Something Here</Text>
+        <Button onPress={() => sendBikeIDToServer('12345678910')}>test</Button>
         <Body style={Styles.blackBody}>
           <QRScanner onSuccessfulScan={sendBikeIDToServer} />
         </Body>

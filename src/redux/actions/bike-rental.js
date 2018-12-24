@@ -1,9 +1,17 @@
-import ERROR_MESSAGE from '../../constants/errors';
-import { checkJSendStatus } from './util';
 /**
  * Actions for everything related to renting a bike
  */
+import ERROR_MESSAGE from '../../constants/errors';
+import { checkJSendStatus } from './util';
 import statusMessage from './status';
+
+/*
+* Note:
+* A HTTP ERROR LIKE 404 is regarded as a succesfull response as far as
+* fetch is concerned
+* success (fetch) = checks the JSend status then acts accordingly
+* failure (fetch) = set the status in state and throw error to be handled down line
+*/
 
 /**
  * Attempts to rent a bike using the ID code obtained from either the
@@ -11,10 +19,6 @@ import statusMessage from './status';
  *
  * Passes the bike ID and the required user ID things off to the
  * server.
- *
- * Note: A HTTP ERROR LIKE 404 WITH BE SUCCESSFUL RESPONSE FROM API
- * success = sets the correct info in state + status state
- * failure = set the status in state and throw error to be handled down line
  *
  */
 export function startRentalFromId(bikeID) {
@@ -30,22 +34,27 @@ export function startRentalFromId(bikeID) {
       if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
 
       // CALL THE API
-      const result = await fetch(`/users/${firebaseUID}/rentals`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bikeID }),
-      });
+      // const result = await fetch(`/users/me/rentals`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'TapToGo-Auth': firebaseUID,
+      //   },
+      //   body: JSON.stringify({ bikeID }),
+      // });
 
       // ****** TEST RESULTS *******
       // Test Pass
-      // const result = {
-      //   status: 'SUCCESS',
-      //   data: {
-      //     bikeID: '12345678910',
-      //     rentalStartTime: new Date(),
-      //     pickUpPoint: 'Princess Street West',
-      //   },
-      // };
+      const result = {
+        status: 'SUCCESS',
+        data: {
+          bikeID: '12345678910',
+          rentalStartTime: new Date(),
+          pickUpPoint: 'Princess Street West',
+          withinPickUpPointGeo: true,
+          ableToBeReturned: true,
+        },
+      };
       // Test Error
       // const result = {
       //   status: 'ERROR',
@@ -99,20 +108,33 @@ export function fetchRentalInfo() {
       const firebaseUID = getState().member.uid; // presume can only be accessed if logged in
       if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
 
+      // Get the bike ID - to be used on server if multiple rental to one person
+      const { bikeID } = getState().bikeRental;
+      // if (!bikeID) return reject({ message: 'No current rental' });
+
       // CALL THE API
-      const result = await fetch(`/users/${firebaseUID}/rentals`);
+      // const result = await fetch(`/users/me/rentals`, {
+      //   method: 'GET',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'TapToGo-Auth': firebaseUID,
+      //   },
+      //   body: JSON.stringify({ bikeID }),
+      // });
 
       // ****** TEST RESULTS *******
       // Test Pass
-      // const result = {
-      //   data: {
-      //     bikeID: '12345678910',
-      //     rentalStartTime: new Date(),
-      //     costOfRentalSoFar: 200,
-      //     rentalActive: true,
-      //     pickUpPoint: 'Princess Street West',
-      //   },
-      // };
+      const result = {
+        data: {
+          bikeID: '12345678910',
+          rentalStartTime: new Date(),
+          costOfRentalSoFar: 200,
+          rentalActive: true,
+          pickUpPoint: 'Princess Street West',
+          withinPickUpPointGeo: true,
+          ableToBeReturned: true,
+        },
+      };
       // Test Error
       // const result = {
       //   status: 'ERROR',
@@ -147,3 +169,7 @@ export function fetchRentalInfo() {
       throw err.message;
     });
 }
+
+/**
+ * Ends the current rental
+ */
