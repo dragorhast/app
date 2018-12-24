@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { StyleSheet, button } from 'react-native';
-import { Container, Content, Body, Button, H2, Toast } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { Container, Content, Body, Button, H2, Text, Toast } from 'native-base';
 import QRScanner from '../components/QRScanner';
 // Hacky way of passing in the correct props including this
 import BikeRentalCurrentPage from './BikeRentalCurrentPage';
@@ -48,7 +48,8 @@ const BikeRentalStartPage = ({ startRentalFromId }) => {
     <Container>
       {/* Content is the entire screen if flex = 1 */}
       <Content contentContainerStyle={Styles.viewCenter}>
-        <Button onPress={() => sendBikeIDToServer('12345678910')}>test</Button>
+        <H2>Scan QR Code to Start Rental</H2>
+        <Button onPress={() => sendBikeIDToServer('12345678910')}><Text>TEST SCAN BIKE</Text></Button>
         <Body style={Styles.blackBody}>
           <QRScanner onSuccessfulScan={sendBikeIDToServer} />
         </Body>

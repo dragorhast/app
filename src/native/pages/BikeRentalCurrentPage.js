@@ -37,7 +37,7 @@ class BikeRentalCurrentPage extends React.Component {
   }
 
   render() {
-    const { rentalInfo } = this.props;
+    const { rentalInfo, returnBike } = this.props;
     return (
       <Container>
         <Content>
@@ -48,9 +48,11 @@ class BikeRentalCurrentPage extends React.Component {
             <Text>{getMinutesBeenRentingFor(rentalInfo.rentalStartTime)}</Text> <Text>Time used so far</Text>
             <Text>Pick Up Location</Text>
             <Text>{rentalInfo.pickUpPoint}</Text>
-            <Button primary large>
-              <Text>TEMP LOCK BIKE</Text>
-            </Button>
+            {rentalInfo.ableToBeReturned && (
+              <Button primary large onPress={returnBike}>
+                <Text>RETURN BIKE</Text>
+              </Button>
+            )}
           </Body>
         </Content>
       </Container>
@@ -60,12 +62,14 @@ class BikeRentalCurrentPage extends React.Component {
 BikeRentalCurrentPage.propTypes = {
   fetchBikeRentalOnLoad: PropTypes.bool.isRequired,
   getRentalInfo: PropTypes.func.isRequired,
+  returnBike: PropTypes.func.isRequired,
   rentalInfo: PropTypes.shape({
     bikeID: PropTypes.string,
     rentalStartTime: PropTypes.date,
     costOfRentalSoFar: PropTypes.number,
     rentalActive: PropTypes.bool,
     pickUpPoint: PropTypes.string,
+    ableToBeReturned: PropTypes.bool,
   }).isRequired,
 };
 

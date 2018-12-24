@@ -84,6 +84,9 @@ export function startRentalFromId(bikeID) {
             bikeID: r.bikeID,
             rentalStartTime: r.rentalStartTime,
             costOfRentalSoFar: 0.0,
+            pickUpPoint: r.pickUpPoint,
+            withinPickUpPointGeo: r.withinPickUpPointGeo,
+            ableToBeReturned: r.ableToBeReturned,
           },
         })
       );
@@ -160,6 +163,10 @@ export function fetchRentalInfo() {
             bikeID: r.bikeID,
             rentalStartTime: r.rentalStartTime,
             costOfRentalSoFar: r.costOfRentalSoFar,
+            rentalActive: r.rentalActive,
+            pickUpPoint: r.pickUpPoint,
+            withinPickUpPointGeo: r.withinPickUpPointGeo,
+            ableToBeReturned: r.ableToBeReturned,
           },
         })
       );
@@ -173,3 +180,13 @@ export function fetchRentalInfo() {
 /**
  * Ends the current rental
  */
+export function endRental() {
+  return (dispatch, getState) =>
+    new Promise(async (resolve, reject) => {
+      resolve(
+        dispatch({
+          type: 'RENTAL_RESET',
+        })
+      );
+    });
+}
