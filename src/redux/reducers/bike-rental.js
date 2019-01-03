@@ -1,9 +1,11 @@
 export const initialState = {
   bikeID: null,
   rentalStartTime: null,
+  rentalEndTime: null,
   costOfRentalSoFar: null,
   rentalActive: null,
   pickUpPoint: null,
+  dropOffPoint: null,
   withinPickUpPointGeo: null,
   ableToBeReturned: null,
 };
@@ -35,7 +37,9 @@ export default function bikeRentalReducer(state = initialState, { type, data }) 
     case 'RENTAL_END':
       return {
         ...state,
-        costOfRentalSoFar: data.costOfRentalSoFar,
+        costOfRentalSoFar: data.totalPrice,
+        rentalEndTime: data.rentalEndTime,
+        dropOffPoint: data.dropOffPoint,
         rentalActive: false,
       };
     case 'RENTAL_RESET':

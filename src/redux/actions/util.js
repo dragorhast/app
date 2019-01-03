@@ -1,3 +1,7 @@
+/**
+ * Checks the JSend status of a result and returns the
+ * error message if the status is FAIL or ERROR
+ */
 import { JSendStatus } from '../../constants/constants';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -12,7 +16,7 @@ export const checkJSendStatus = result => {
         message: result.data.message,
       };
     case JSendStatus.SUCCESS:
-      return {};
+      return null;
     default:
       throw new Error('API result status does not match any JSend Status');
   }

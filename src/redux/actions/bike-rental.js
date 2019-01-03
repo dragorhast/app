@@ -4,14 +4,15 @@
 import ERROR_MESSAGE from '../../constants/errors';
 import { checkJSendStatus } from './util';
 import statusMessage from './status';
+import { JSendStatus } from '../../constants/constants';
 
 /*
-* Note:
-* A HTTP ERROR LIKE 404 is regarded as a succesfull response as far as
-* fetch is concerned
-* success (fetch) = checks the JSend status then acts accordingly
-* failure (fetch) = set the status in state and throw error to be handled down line
-*/
+ * Note:
+ * A HTTP ERROR LIKE 404 is regarded as a succesfull response as far as
+ * fetch is concerned
+ * success (fetch) = checks the JSend status then acts accordingly
+ * failure (fetch) = set the status in state and throw error to be handled down line
+ */
 
 /**
  * Attempts to rent a bike using the ID code obtained from either the
@@ -46,7 +47,7 @@ export function startRentalFromId(bikeID) {
       // ****** TEST RESULTS *******
       // Test Pass
       const result = {
-        status: 'SUCCESS',
+        status: JSendStatus.SUCCESS,
         data: {
           bikeID: '12345678910',
           rentalStartTime: new Date(),
@@ -57,7 +58,7 @@ export function startRentalFromId(bikeID) {
       };
       // Test Error
       // const result = {
-      //   status: 'ERROR',
+      //   status: 'JSendStatus.ERROR,
       //   message: 'Error here',
       // };
       // Test Fail
@@ -183,10 +184,52 @@ export function fetchRentalInfo() {
 export function endRental() {
   return (dispatch, getState) =>
     new Promise(async (resolve, reject) => {
-      resolve(
+      // LOADING
+      await statusMessage(dispatch, 'loading', true);
+      // Make sure signed in
+      const firebaseUID = getState().member.uid; // presume can only be accessed if logged in
+      if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
+      // make sure have active rental
+      const bikeId = getState().bikeRental;
+      if (!bikeId) return reject({ message: 'Must have active rental' });
+      // call the api
+      const result = await fetch('/users/me/rentals/current', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${firebaseUID}`,
+        },
+      });
+      // Test Pass
+      // const result = {
+      //   status: JSendStatus.SUCCESS,
+      //   data: {
+      //     bikeId,
+      //     totalPrice: 300,
+      //     rentalEndTime: new Date(),
+      //     dropOffPoint: 'Princes Street Left',
+      //   },
+      // };
+
+      const { message } = checkJSendStatus(result);
+      if (message) return reject({ message });
+
+
+      // SUCCESSFUL HTTP + JSend RESULT
+      await statusMessage(dispatch, 'loading', false);
+
+      const r = result.data;
+      return resolve(
         dispatch({
-          type: 'RENTAL_RESET',
+          type: 'RENTAL_END',
+          data: {
+            totalPrice: r.totalPrice,
+          },
         })
       );
+    }).catch(async err => {
+      await statusMessage(dispatch, 'loading', false);
+      await statusMessage(dispatch, 'error');
+      throw err.message;
     });
 }

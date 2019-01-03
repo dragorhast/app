@@ -45,9 +45,23 @@ class BikeRentalCurrentPage extends React.Component {
     if (fetchBikeRentalOnLoad) getRentalInfo();
   }
 
-  startReturnProcess = () => {
-    // set the state
-    this.setState({ modal1PutBackInRackOpen: true });
+  /**
+   * Handles ending the rental after modal 2
+   *
+   * Success:
+   * - flash green toast <-- on next page
+   * - move to succesfuly completed page
+   *
+   * Error:
+   * - set state to not show modal
+   * - flash red roast
+   */
+  confirmedEndRental = () => {
+    const { returnBike } = this.props;
+
+    returnBike()
+      .then(() => {})
+      .catch(() => {});
   };
 
   /**
@@ -82,7 +96,7 @@ class BikeRentalCurrentPage extends React.Component {
    */
   renderModalAreSure = () => {
     const { modal2AreSureOpen } = this.state;
-    const { returnBike, getRentalInfo, rentalInfo } = this.props;
+    const { getRentalInfo, rentalInfo } = this.props;
     getRentalInfo();
     return (
       <Modal
@@ -91,12 +105,10 @@ class BikeRentalCurrentPage extends React.Component {
       >
         <StyledModal>
           <H1>Are you sure?</H1>
-          <H3>
-            11:30 - 12:40
-          </H3>
+          <H3>11:30 - 12:40</H3>
           <Text>Charged by the 15 minutes - make italic</Text>
           <H2>{rentalInfo.costOfRentalSoFar}</H2>
-          <Button onPress={() => returnBike}>
+          <Button onPress={this.confirmedEndRental}>
             <Text>END RENTAL</Text>
           </Button>
         </StyledModal>
@@ -121,7 +133,7 @@ class BikeRentalCurrentPage extends React.Component {
             <Text>Pick Up Location</Text>
             <Text>{rentalInfo.pickUpPoint}</Text>
             {rentalInfo.ableToBeReturned && (
-              <Button primary large onPress={() => this.startReturnProcess()}>
+              <Button primary large onPress={() => this.setState({ modal1PutBackInRackOpen: true })}>
                 <Text>RETURN BIKE</Text>
               </Button>
             )}
