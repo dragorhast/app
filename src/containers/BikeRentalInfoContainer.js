@@ -5,7 +5,12 @@ import { connect } from 'react-redux';
 import { fetchRentalInfo, endRental } from '../redux/actions/bike-rental';
 
 const BikeRentalInfoContainer = ({ Layout, bikeRental, getRentalInfo, fetchBikeRentalOnLoad, returnBike }) => (
-  <Layout rentalInfo={bikeRental} getRentalInfo={getRentalInfo} fetchBikeRentalOnLoad={fetchBikeRentalOnLoad} returnBike={returnBike} />
+  <Layout
+    rentalInfo={bikeRental}
+    getRentalInfo={getRentalInfo}
+    fetchBikeRentalOnLoad={fetchBikeRentalOnLoad}
+    returnBike={returnBike}
+  />
 );
 
 BikeRentalInfoContainer.propTypes = {
