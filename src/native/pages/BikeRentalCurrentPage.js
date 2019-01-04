@@ -10,9 +10,8 @@
  *
  * */
 import React from 'react';
-import { View } from 'react-native';
 import Modal from 'react-native-modal';
-import { Container, Content, Body, Button, Text, H1, H2, H3 } from 'native-base';
+import { Container, Content, Body, Button, Text, H1, H2, H3, Toast } from 'native-base';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import StyledModal from '../components/styled/StyledModal';
@@ -50,7 +49,7 @@ class BikeRentalCurrentPage extends React.Component {
    *
    * Success:
    * - flash green toast <-- on next page
-   * - move to succesfuly completed page
+   * - move to successfully completed page
    *
    * Error:
    * - set state to not show modal
@@ -61,7 +60,19 @@ class BikeRentalCurrentPage extends React.Component {
 
     returnBike()
       .then(() => {})
-      .catch(() => {});
+      .catch(() => {
+        this.setState({
+          modal2AreSureOpen: false,
+          modal1PutBackInRackOpen: false,
+        });
+        Toast.show({
+          text: "Oops. That didn't work",
+          buttonText: 'Okay',
+          type: 'danger',
+          position: 'top',
+          duration: 5000,
+        });
+      });
   };
 
   /**
