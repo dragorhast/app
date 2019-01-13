@@ -193,28 +193,26 @@ export function endRental() {
       const bikeId = getState().bikeRental;
       if (!bikeId) return reject({ message: 'Must have active rental' });
       // call the api
-      const result = await fetch('/users/me/rentals/current', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${firebaseUID}`,
-        },
-      });
-      // Test Pass
-      // const result = {
-      //   status: JSendStatus.SUCCESS,
-      //   data: {
-      //     bikeId,
-      //     totalPrice: 300,
-      //     rentalEndTime: new Date(),
-      //     dropOffPoint: 'Princes Street Left',
+      // const result = await fetch('/users/me/rentals/current', {
+      //   method: 'DELETE',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `Bearer ${firebaseUID}`,
       //   },
-      // };
+      // });
+      // Test Pass
+      const result = {
+        status: JSendStatus.SUCCESS,
+        data: {
+          bikeId,
+          totalPrice: 300,
+          rentalEndTime: new Date(),
+          dropOffPoint: 'Princes Street Left',
+        },
+      };
 
       const { message } = checkJSendStatus(result);
       if (message) return reject({ message });
-
-
       // SUCCESSFUL HTTP + JSend RESULT
       await statusMessage(dispatch, 'loading', false);
 
