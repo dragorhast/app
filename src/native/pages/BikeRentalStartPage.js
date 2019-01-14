@@ -35,7 +35,7 @@ const BikeRentalStartPage = ({ startRentalFromId }) => {
         console.log('Fail in page');
         // Flash generic message
         Toast.show({
-          text: "Oops. That didn't work",
+          text: "Oops. Couldn't start rental",
           buttonText: 'Okay',
           type: 'danger',
           position: 'top',

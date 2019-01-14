@@ -14,7 +14,9 @@ import Modal from 'react-native-modal';
 import { Container, Content, Body, Button, Text, H1, H2, H3, Toast } from 'native-base';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import { Actions } from 'react-native-router-flux';
 import StyledModal from '../components/styled/StyledModal';
+import ModalConfirmationEndRental from '../components/ModalConifrmationEndRental';
 
 const StyledPriceText = styled.Text`
   color: blue;
@@ -35,7 +37,7 @@ const getMinutesBeenRentingFor = rentalStartTime => {
 
 class BikeRentalCurrentPage extends React.Component {
   state = {
-    modal2AreSureOpen: false,
+    modal2IsUserSure: false,
     modal1PutBackInRackOpen: false,
   };
 
@@ -56,23 +58,40 @@ class BikeRentalCurrentPage extends React.Component {
    * - flash red roast
    */
   confirmedEndRental = () => {
-    const { returnBike } = this.props;
+    const { returnBike, rentalInfo } = this.props;
 
     returnBike()
-      .then(() => {})
-      .catch(() => {
-        this.setState({
-          modal2AreSureOpen: false,
+      .then(async () => {
+        await this.setState({
+          modal2IsUserSure: false,
           modal1PutBackInRackOpen: false,
         });
         Toast.show({
-          text: "Oops. That didn't work",
+          text: `£${rentalInfo.lastCostChargedToCard / 100} charged to your account`,
+          type: 'success',
+          position: 'top',
+          duration: 5000,
+        });
+        Actions.home();
+        // Actions.bikeRentalEnd();
+      })
+      .catch(() => {
+        this.setState({
+          modal2IsUserSure: false,
+          modal1PutBackInRackOpen: false,
+        });
+        Toast.show({
+          text: "Oops. Couldn't cancel rental",
           buttonText: 'Okay',
           type: 'danger',
           position: 'top',
           duration: 5000,
         });
       });
+  };
+
+  closeBothModals = () => {
+    this.setState({ modal2IsUserSure: false, modal1PutBackInRackOpen: false });
   };
 
   /**
@@ -83,15 +102,12 @@ class BikeRentalCurrentPage extends React.Component {
     // render loading whilst waiting for response from fetch
     const { modal1PutBackInRackOpen } = this.state;
     return (
-      <Modal
-        isVisible={modal1PutBackInRackOpen}
-        onBackdropPress={() => this.setState({ modal2AreSureOpen: false, modal1PutBackInRackOpen: false })}
-      >
+      <Modal isVisible={modal1PutBackInRackOpen} onBackdropPress={this.closeBothModals}>
         <StyledModal>
           <H1>Is Bike back in rack?</H1>
           <H3>Place back in rack like this</H3>
           <H1>BIG IMAGE HERE</H1>
-          <Button onPress={() => this.setState({ modal1PutBackInRackOpen: false, modal2AreSureOpen: true })}>
+          <Button onPress={() => this.setState({ modal1PutBackInRackOpen: false, modal2IsUserSure: true })}>
             <Text>CONFIRM</Text>
           </Button>
         </StyledModal>
@@ -105,17 +121,18 @@ class BikeRentalCurrentPage extends React.Component {
    *
    * Fetches data from api through getRentalInfo
    */
-  renderModalAreSure = () => {
-    const { modal2AreSureOpen } = this.state;
+  renderModalConfirmation = () => {
+    const { modal2IsUserSure } = this.state;
     const { getRentalInfo, rentalInfo } = this.props;
     getRentalInfo();
     return (
       <Modal
-        isVisible={modal2AreSureOpen}
-        onBackdropPress={() => this.setState({ modal2AreSureOpen: false, modal1PutBackInRackOpen: false })}
+        isVisible={modal2IsUserSure}
+        onBackdropPress={() => this.setState({ modal2IsUserSure: false, modal1PutBackInRackOpen: false })}
       >
         <StyledModal>
           <H1>Are you sure?</H1>
+          {/* TODO insert proper times */}
           <H3>11:30 - 12:40</H3>
           <Text>Charged by the 15 minutes - make italic</Text>
           <H2>{rentalInfo.costOfRentalSoFar}</H2>
@@ -128,14 +145,22 @@ class BikeRentalCurrentPage extends React.Component {
   };
 
   render() {
-    const { rentalInfo } = this.props;
-    const { modal2AreSureOpen, modal1PutBackInRackOpen } = this.state;
+    const { rentalInfo, getRentalInfo, returnBike } = this.props;
+    const { modal2IsUserSure, modal1PutBackInRackOpen } = this.state;
 
     return (
       <Container>
         <Content>
           {modal1PutBackInRackOpen && this.renderModalPutBackInRack()}
-          {modal2AreSureOpen && this.renderModalAreSure()}
+          {modal2IsUserSure && (
+            <ModalConfirmationEndRental
+              isVisible={modal2IsUserSure}
+              closeModals={this.closeBothModals}
+              getRentalInfo={getRentalInfo}
+              returnBike={returnBike}
+              rentalInfo={rentalInfo}
+            />
+          )}
           <Body>
             <StyledPriceText>{rentalInfo.costOfRentalSoFar}</StyledPriceText>
             <Text>{rentalInfo.bikeID}</Text> <Text>Bike ID</Text>
@@ -154,6 +179,7 @@ class BikeRentalCurrentPage extends React.Component {
     );
   }
 }
+
 BikeRentalCurrentPage.propTypes = {
   fetchBikeRentalOnLoad: PropTypes.bool.isRequired,
   getRentalInfo: PropTypes.func.isRequired,

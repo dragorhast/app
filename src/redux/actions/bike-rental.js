@@ -68,11 +68,8 @@ export function startRentalFromId(bikeID) {
       // };
 
       // Rejects if JSens status of Fail or Error
-      console.log(checkJSendStatus(result));
       const { message } = checkJSendStatus(result);
       if (message) return reject({ message });
-
-      console.log(message);
 
       // SUCCESSFUL HTTP + JSend RESULT
       const r = result.data;
@@ -105,7 +102,6 @@ export function startRentalFromId(bikeID) {
 export function fetchRentalInfo() {
   return (dispatch, getState) =>
     new Promise(async (resolve, reject) => {
-      console.log('Reload data');
       // LOADING
       await statusMessage(dispatch, 'loading', true);
       // Get ID from state
@@ -113,7 +109,7 @@ export function fetchRentalInfo() {
       if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
 
       // Get the bike ID - to be used on server if multiple rental to one person
-      const { bikeID } = getState().bikeRental;
+      // const { bikeID } = getState().bikeRental;
       // if (!bikeID) return reject({ message: 'No current rental' });
 
       // CALL THE API
@@ -129,6 +125,7 @@ export function fetchRentalInfo() {
       // ****** TEST RESULTS *******
       // Test Pass
       const result = {
+        status: JSendStatus.SUCCESS,
         data: {
           bikeID: '12345678910',
           rentalStartTime: new Date(),
@@ -141,7 +138,7 @@ export function fetchRentalInfo() {
       };
       // Test Error
       // const result = {
-      //   status: 'ERROR',
+      //   status: JSendStatus.ERROR,
       //   message: 'Error here',
       // };
       // Test Fail
@@ -190,8 +187,8 @@ export function endRental() {
       const firebaseUID = getState().member.uid; // presume can only be accessed if logged in
       if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
       // make sure have active rental
-      const bikeId = getState().bikeRental;
-      if (!bikeId) return reject({ message: 'Must have active rental' });
+      const { bikeID } = getState().bikeRental;
+      if (!bikeID) return reject({ message: 'Must have active rental' });
       // call the api
       // const result = await fetch('/users/me/rentals/current', {
       //   method: 'DELETE',
@@ -204,24 +201,35 @@ export function endRental() {
       const result = {
         status: JSendStatus.SUCCESS,
         data: {
-          bikeId,
-          totalPrice: 300,
+          bikeID,
+          costChargedToCard: 200,
           rentalEndTime: new Date(),
           dropOffPoint: 'Princes Street Left',
         },
       };
 
+      // Test Fail
+      // const result = {
+      //   status: JSendStatus.FAIL,
+      //   data: {
+      //     message: "Ending didn't work",
+      //   },
+      // };
+
+      // Stop loading then declare pass or fail
+      await statusMessage(dispatch, 'loading', false);
+
       const { message } = checkJSendStatus(result);
+
       if (message) return reject({ message });
       // SUCCESSFUL HTTP + JSend RESULT
-      await statusMessage(dispatch, 'loading', false);
 
       const r = result.data;
       return resolve(
         dispatch({
           type: 'RENTAL_END',
           data: {
-            totalPrice: r.totalPrice,
+            costChargedToCard: r.costChargedToCard,
           },
         })
       );
