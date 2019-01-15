@@ -27,7 +27,7 @@ export default function bikeRentalReducer(state = INITIAL_STATE, { type, data })
         rentalActive: true,
         pickUpPoint: data.pickUpPoint,
         withinPickUpPointGeo: data.withinPickUpPointGeo,
-        ableToBeReturned: data.ableToBeReturned,
+        ableToBeReturned: data.withinPickUpPointGeo, // Later in dev this will always be true
       };
     case 'RENTAL_END':
       return {

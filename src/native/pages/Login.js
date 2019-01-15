@@ -50,7 +50,6 @@ class Login extends React.Component {
     });
   };
 
-  // TODO add toast error handling for bad login attempt
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
@@ -59,7 +58,7 @@ class Login extends React.Component {
   };
 
   render() {
-    const { loading, error, success, locale, member } = this.props;
+    const { loading, error, success, locale } = this.props;
     const { email } = this.state;
 
     if (loading) return <Loading />;

@@ -49,7 +49,9 @@ const BikeRentalStartPage = ({ startRentalFromId }) => {
       {/* Content is the entire screen if flex = 1 */}
       <Content contentContainerStyle={Styles.viewCenter}>
         <H2>Scan QR Code to Start Rental</H2>
-        <Button onPress={() => sendBikeIDToServer('12345678910')}><Text>TEST SCAN BIKE</Text></Button>
+        <Button onPress={() => sendBikeIDToServer('123456')}>
+          <Text>TEST SCAN BIKE</Text>
+        </Button>
         <Body style={Styles.blackBody}>
           <QRScanner onSuccessfulScan={sendBikeIDToServer} />
         </Body>

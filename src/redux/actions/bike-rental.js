@@ -33,7 +33,7 @@ export function startRentalFromId(bikeID) {
       if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
 
       // CALL THE API
-      // const result = await fetch(`/users/me/rentals`, {
+      // const result = await fetch(`/bikes/${bikeID}/rentals`, {
       //   method: 'POST',
       //   headers: {
       //     'Content-Type': 'application/json',
@@ -47,12 +47,11 @@ export function startRentalFromId(bikeID) {
       const result = {
         status: JSendStatus.SUCCESS,
         data: {
-          bike_id: '12345678910',
+          bike_id: '123456',
           start_time: new Date(),
-          price: 0.0,
-          pickUpPoint: 'Princess Street West', // TODO
-          withinPickUpPointGeo: true, // TODO
-          ableToBeReturned: true, // TODO
+          estimated_price: 0.0,
+          pick_up_point: 'Princess Street West', // TODO
+          current_pick_up_point: 'Princess Stress West', // TODO
         },
       };
       // Test Error
@@ -81,10 +80,9 @@ export function startRentalFromId(bikeID) {
           data: {
             bikeID: r.bike_id,
             rentalStartTime: r.start_time,
-            costOfRentalSoFar: r.price,
-            pickUpPoint: r.pickUpPoint, // TODO change
-            withinPickUpPointGeo: r.withinPickUpPointGeo, // TODO change
-            ableToBeReturned: r.ableToBeReturned, // TODO change
+            costOfRentalSoFar: r.estimated_price,
+            pickUpPoint: r.pick_up_point, // TODO change
+            withinPickUpPointGeo: !!r.current_pick_up_point, // TODO change
           },
         })
       );
@@ -126,13 +124,12 @@ export function fetchRentalInfo() {
       const result = {
         status: JSendStatus.SUCCESS,
         data: {
-          bike_id: '12345678910',
+          bike_id: '123456',
           start_time: new Date(),
-          price: 200,
-          rentalActive: true, // TODO
-          pickUpPoint: 'Princess Street West', // TODO
-          withinPickUpPointGeo: true, // TODO
-          ableToBeReturned: true, // TODO
+          estimated_price: 200,
+          rental_active: true, // TODO
+          pick_up_point: 'Princess Street West', // TODO
+          current_pick_up_point: 'Princes Street East', // TODO
         },
       };
       // Test Error
@@ -161,11 +158,10 @@ export function fetchRentalInfo() {
           data: {
             bikeID: r.bike_id,
             rentalStartTime: r.start_time,
-            costOfRentalSoFar: r.price,
-            rentalActive: r.rentalActive, // TODO change
-            pickUpPoint: r.pickUpPoint, // TODO change
-            withinPickUpPointGeo: r.withinPickUpPointGeo, // TODO change
-            ableToBeReturned: r.ableToBeReturned, // TODO change
+            costOfRentalSoFar: r.estimated_price,
+            rentalActive: r.rental_active, // TODO change
+            pickUpPoint: r.pick_up_point, // TODO change
+            withinPickUpPointGeo: !!r.current_pick_up_point, // TODO change
           },
         })
       );
@@ -205,10 +201,8 @@ export function endRental() {
       const result = {
         status: JSendStatus.SUCCESS,
         data: {
-          bike_id: '12345678910',
+          bike_id: '123456',
           price: 200,
-          end_time: new Date(),
-          dropOffPoint: 'Princes Street Left', // TODO
         },
       };
 
@@ -231,7 +225,7 @@ export function endRental() {
       const r = result.data;
       return resolve(
         dispatch({
-          type: 'RENTAL_END',
+          type: 'RENTAL_RESET',
           data: {
             costChargedToCard: r.price,
           },
