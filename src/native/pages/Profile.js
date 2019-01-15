@@ -48,7 +48,7 @@ const Profile = ({ member, logout }) => {
                 <Header title="Hi there," content="Please login to gain extra access" />
               </Content>
 
-              <ListItem onPress={Actions.login} icon>
+              <ListItem onPress={Actions.homeLogin} icon>
                 <Left>
                   <Icon name="power" />
                 </Left>

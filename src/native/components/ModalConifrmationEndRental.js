@@ -28,18 +28,19 @@ class ModalConfirmationEndRental extends React.Component {
   };
 
   componentWillMount() {
-    const { getRentalInfo } = this.props;
+    const { getRentalInfo, rentalInfo } = this.props;
     getRentalInfo();
+    console.log(rentalInfo);
   }
 
   confirmedEndRental = () => {
-    const { returnBike, rentalInfo, closeModals } = this.props;
-
+    const { returnBike, closeModals } = this.props;
     returnBike()
-      .then(async () => {
+      .then(async ({ data }) => {
         await closeModals();
+        // gets data from dispatch data because toast shows before state change
         Toast.show({
-          text: `£${rentalInfo.lastCostChargedToCard / 100} charged to your account`,
+          text: `£${data.costChargedToCard / 100} charged to your account`,
           type: 'success',
           position: 'top',
           duration: 5000,
@@ -64,7 +65,7 @@ class ModalConfirmationEndRental extends React.Component {
     return (
       <Modal isVisible={isVisible} onBackdropPress={closeModals}>
         <StyledModal>
-          <H1>Are you sure?</H1>
+          <H1>Confirmation Info</H1>
           {/* TODO insert proper times */}
           <H3>11:30 - 12:40</H3>
           <Text>Charged by the 15 minutes - make italic</Text>

@@ -1,4 +1,4 @@
-export const initialState = {
+export const INITIAL_STATE = {
   bikeID: null,
   rentalStartTime: null,
   rentalEndTime: null,
@@ -11,18 +11,12 @@ export const initialState = {
   lastCostChargedToCard: null, // TODO decide if this could be handled better
 };
 
-export default function bikeRentalReducer(state = initialState, { type, data }) {
+export default function bikeRentalReducer(state = INITIAL_STATE, { type, data }) {
   switch (type) {
     case 'RENTAL_FETCH':
       return {
-        ...state,
+        ...INITIAL_STATE,
         bikeID: data.bikeID,
-        rentalStartTime: null,
-        costOfRentalSoFar: null,
-        rentalActive: null,
-        pickUpPoint: null,
-        withinPickUpPointGeo: null,
-        ableToBeReturned: null,
       };
     case 'RENTAL_SET_DATA':
       return {
@@ -39,17 +33,17 @@ export default function bikeRentalReducer(state = initialState, { type, data }) 
       return {
         bikeID: null,
         rentalStartTime: null,
-        rentalEndTime: null,
+        rentalEndTime: null, // TODO is this needed?
         costOfRentalSoFar: null,
         rentalActive: null,
         pickUpPoint: null,
-        dropOffPoint: null,
+        dropOffPoint: null, // TODO is this needed?
         withinPickUpPointGeo: null,
         ableToBeReturned: null,
         lastCostChargedToCard: data.costChargedToCard,
       };
     case 'RENTAL_RESET':
-      return initialState;
+      return INITIAL_STATE;
     default:
       return state;
   }

@@ -121,28 +121,6 @@ class BikeRentalCurrentPage extends React.Component {
    *
    * Fetches data from api through getRentalInfo
    */
-  renderModalConfirmation = () => {
-    const { modal2IsUserSure } = this.state;
-    const { getRentalInfo, rentalInfo } = this.props;
-    getRentalInfo();
-    return (
-      <Modal
-        isVisible={modal2IsUserSure}
-        onBackdropPress={() => this.setState({ modal2IsUserSure: false, modal1PutBackInRackOpen: false })}
-      >
-        <StyledModal>
-          <H1>Are you sure?</H1>
-          {/* TODO insert proper times */}
-          <H3>11:30 - 12:40</H3>
-          <Text>Charged by the 15 minutes - make italic</Text>
-          <H2>{rentalInfo.costOfRentalSoFar}</H2>
-          <Button onPress={this.confirmedEndRental}>
-            <Text>END RENTAL</Text>
-          </Button>
-        </StyledModal>
-      </Modal>
-    );
-  };
 
   render() {
     const { rentalInfo, getRentalInfo, returnBike } = this.props;
@@ -162,7 +140,7 @@ class BikeRentalCurrentPage extends React.Component {
             />
           )}
           <Body>
-            <StyledPriceText>{rentalInfo.costOfRentalSoFar}</StyledPriceText>
+            <StyledPriceText>£{rentalInfo.costOfRentalSoFar / 100}</StyledPriceText>
             <Text>{rentalInfo.bikeID}</Text> <Text>Bike ID</Text>
             {/* TODO also check for hours */}
             <Text>{getMinutesBeenRentingFor(rentalInfo.rentalStartTime)}</Text> <Text>Time used so far</Text>

@@ -1,6 +1,5 @@
 import status from './status';
 import member from './member';
-import recipes from './recipes';
 import locale from './locale';
 import bikeRental from './bike-rental';
 
@@ -17,7 +16,6 @@ export default {
   rehydrated,
   status,
   member,
-  recipes,
   locale,
   bikeRental,
 };

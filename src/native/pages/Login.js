@@ -30,18 +30,18 @@ class Login extends React.Component {
 
   constructor(props) {
     super(props);
-    // this.state = {
-    //   email: props.member && props.member.email ? props.member.email : '',
-    //   password: '',
-    // };
-
     this.state = {
-      email: 'seanpaterson_25@msn.com',
-      password: 'Paterson25',
+      email: props.member && props.member.email ? props.member.email : '',
+      password: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    const { member } = this.props;
+    if (member.uid) Actions.home();
   }
 
   handleChange = (name, val) => {
@@ -50,6 +50,7 @@ class Login extends React.Component {
     });
   };
 
+  // TODO add toast error handling for bad login attempt
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
@@ -58,7 +59,7 @@ class Login extends React.Component {
   };
 
   render() {
-    const { loading, error, success, locale } = this.props;
+    const { loading, error, success, locale, member } = this.props;
     const { email } = this.state;
 
     if (loading) return <Loading />;

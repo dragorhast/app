@@ -37,6 +37,23 @@ import BikeRentalCurrentPage from '../pages/BikeRentalCurrentPage';
 
 const Index = (
   <Stack hideNavBar>
+    {/* Login and logout scenes */}
+    <Scene
+      hideNavBar
+      key="homeLogin"
+      title="LOGIN"
+      {...DefaultProps.navbarProps}
+      component={LoginContainer}
+      Layout={LoginComponent}
+    />
+    <Scene
+      back
+      key="signUp"
+      title="SIGN UP"
+      {...DefaultProps.navbarProps}
+      component={SignUpContainer}
+      Layout={SignUpComponent}
+    />
     {/* Home Stack */}
     <Stack
       key="home"
@@ -49,10 +66,6 @@ const Index = (
       <Scene key="bikeRentalStart" component={BikeRentalStartContainer} Layout={BikeRentalStartPage} />
       <Scene key="bikeRentalInfo" component={BikeRentalInfoContainer} Layout={BikeRentalCurrentPage} />
     </Stack>
-    {/* Current Rental Stack */}
-    {/* <Stack key="currentRental" title={AppConfig.appName.toUpperCase()} {...DefaultProps.navbarProps}> */}
-    {/* <Scene key="bikeRentalInfo" component={BikeRentalInfoContainer} Layout={BikeRentalCurrentPage} /> */}
-    {/* </Stack> */}
     {/* All actions related to the user */}
     <Stack
       key="profile"
@@ -79,23 +92,6 @@ const Index = (
         Layout={UpdateProfileComponent}
       />
     </Stack>
-    {/* Login and logout scenes */}
-    <Scene
-      hideNavBar
-      key="homeLogin"
-      title="LOGIN"
-      {...DefaultProps.navbarProps}
-      component={LoginContainer}
-      Layout={LoginComponent}
-    />
-    <Scene
-      back
-      key="signUp"
-      title="SIGN UP"
-      {...DefaultProps.navbarProps}
-      component={SignUpContainer}
-      Layout={SignUpComponent}
-    />
   </Stack>
 );
 

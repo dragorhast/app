@@ -8,30 +8,28 @@ import { JSendStatus } from '../../constants/constants';
 
 /*
  * Note:
- * A HTTP ERROR LIKE 404 is regarded as a succesfull response as far as
+ * A HTTP ERROR LIKE 404 is regarded as a successful response as far as
  * fetch is concerned
  * success (fetch) = checks the JSend status then acts accordingly
  * failure (fetch) = set the status in state and throw error to be handled down line
  */
 
 /**
- * Attempts to rent a bike using the ID code obtained from either the
- * QR scanner or from the user typing the code in to the app
- *
- * Passes the bike ID and the required user ID things off to the
- * server.
+ * Rents a bike using the ID code of the bike + the
+ * firebaseID passed in as Authorization header
+ * (QR scanner or typed in)
  *
  */
 export function startRentalFromId(bikeID) {
-  // returns a function that gives a promise
   return (dispatch, getState) =>
     new Promise(async (resolve, reject) => {
       // LOADING
-      dispatch({ type: 'RENTAL_FETCH', data: { bikeID } });
       await statusMessage(dispatch, 'loading', true);
+      // Sets bike-rental to new LOADING (presumes only 1 rental at a time)
+      dispatch({ type: 'RENTAL_FETCH', data: { bikeID } });
 
-      // Get ID from state
-      const firebaseUID = getState().member.uid; // presume can only be accessed if logged in
+      // Make sure signed in
+      const firebaseUID = getState().member.uid;
       if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
 
       // CALL THE API
@@ -39,7 +37,7 @@ export function startRentalFromId(bikeID) {
       //   method: 'POST',
       //   headers: {
       //     'Content-Type': 'application/json',
-      //     'TapToGo-Auth': firebaseUID,
+      //     Authorization: `Bearer ${firebaseUID}`,
       //   },
       //   body: JSON.stringify({ bikeID }),
       // });
@@ -49,11 +47,12 @@ export function startRentalFromId(bikeID) {
       const result = {
         status: JSendStatus.SUCCESS,
         data: {
-          bikeID: '12345678910',
-          rentalStartTime: new Date(),
-          pickUpPoint: 'Princess Street West',
-          withinPickUpPointGeo: true,
-          ableToBeReturned: true,
+          bike_id: '12345678910',
+          start_time: new Date(),
+          price: 0.0,
+          pickUpPoint: 'Princess Street West', // TODO
+          withinPickUpPointGeo: true, // TODO
+          ableToBeReturned: true, // TODO
         },
       };
       // Test Error
@@ -67,30 +66,31 @@ export function startRentalFromId(bikeID) {
       //   data: { message: 'Fail here' },
       // };
 
-      // Rejects if JSens status of Fail or Error
+      // Rejects if JSend status of Fail or Error
       const { message } = checkJSendStatus(result);
       if (message) return reject({ message });
 
       // SUCCESSFUL HTTP + JSend RESULT
       const r = result.data;
-      // sets data based on response
+
       await statusMessage(dispatch, 'loading', false);
+
       return resolve(
         dispatch({
           type: 'RENTAL_SET_DATA',
           data: {
-            bikeID: r.bikeID,
-            rentalStartTime: r.rentalStartTime,
-            costOfRentalSoFar: 0.0,
-            pickUpPoint: r.pickUpPoint,
-            withinPickUpPointGeo: r.withinPickUpPointGeo,
-            ableToBeReturned: r.ableToBeReturned,
+            bikeID: r.bike_id,
+            rentalStartTime: r.start_time,
+            costOfRentalSoFar: r.price,
+            pickUpPoint: r.pickUpPoint, // TODO change
+            withinPickUpPointGeo: r.withinPickUpPointGeo, // TODO change
+            ableToBeReturned: r.ableToBeReturned, // TODO change
           },
         })
       );
     }).catch(async err => {
       await statusMessage(dispatch, 'loading', false);
-      // dispatch({ type: 'ERROR_SET', data: err }); // TODO make error storage
+      await statusMessage(dispatch, 'error');
       dispatch({ type: 'RENTAL_ABORT' });
       throw err.message;
     });
@@ -104,22 +104,21 @@ export function fetchRentalInfo() {
     new Promise(async (resolve, reject) => {
       // LOADING
       await statusMessage(dispatch, 'loading', true);
-      // Get ID from state
+      // Make sure signed in
       const firebaseUID = getState().member.uid; // presume can only be accessed if logged in
       if (!firebaseUID) return reject({ message: ERROR_MESSAGE.mustBeSignedIn });
 
-      // Get the bike ID - to be used on server if multiple rental to one person
+      // Gets the bike ID - to be used on server if multiple rental to one person
       // const { bikeID } = getState().bikeRental;
       // if (!bikeID) return reject({ message: 'No current rental' });
 
       // CALL THE API
-      // const result = await fetch(`/users/me/rentals`, {
+      // const result = await fetch(`/users/me/rentals/current`, {
       //   method: 'GET',
       //   headers: {
       //     'Content-Type': 'application/json',
-      //     'TapToGo-Auth': firebaseUID,
+      //     Authorization: `Bearer ${firebaseUID}`,
       //   },
-      //   body: JSON.stringify({ bikeID }),
       // });
 
       // ****** TEST RESULTS *******
@@ -127,13 +126,13 @@ export function fetchRentalInfo() {
       const result = {
         status: JSendStatus.SUCCESS,
         data: {
-          bikeID: '12345678910',
-          rentalStartTime: new Date(),
-          costOfRentalSoFar: 200,
-          rentalActive: true,
-          pickUpPoint: 'Princess Street West',
-          withinPickUpPointGeo: true,
-          ableToBeReturned: true,
+          bike_id: '12345678910',
+          start_time: new Date(),
+          price: 200,
+          rentalActive: true, // TODO
+          pickUpPoint: 'Princess Street West', // TODO
+          withinPickUpPointGeo: true, // TODO
+          ableToBeReturned: true, // TODO
         },
       };
       // Test Error
@@ -147,30 +146,32 @@ export function fetchRentalInfo() {
       //   data: { message: 'Fail here' },
       // };
 
-      // Rejects if JSens status of Fail or Error
+      // Rejects if JSend status of Fail or Error
       const { message } = checkJSendStatus(result);
       if (message) return reject({ message });
 
-      // SUCCESSFUL HTTP RESULT
+      // SUCCESSFUL HTTP + JSend RESULT
       const r = result.data;
+
       await statusMessage(dispatch, 'loading', false);
+
       return resolve(
         dispatch({
           type: 'RENTAL_SET_DATA',
           data: {
-            bikeID: r.bikeID,
-            rentalStartTime: r.rentalStartTime,
-            costOfRentalSoFar: r.costOfRentalSoFar,
-            rentalActive: r.rentalActive,
-            pickUpPoint: r.pickUpPoint,
-            withinPickUpPointGeo: r.withinPickUpPointGeo,
-            ableToBeReturned: r.ableToBeReturned,
+            bikeID: r.bike_id,
+            rentalStartTime: r.start_time,
+            costOfRentalSoFar: r.price,
+            rentalActive: r.rentalActive, // TODO change
+            pickUpPoint: r.pickUpPoint, // TODO change
+            withinPickUpPointGeo: r.withinPickUpPointGeo, // TODO change
+            ableToBeReturned: r.ableToBeReturned, // TODO change
           },
         })
       );
     }).catch(async err => {
       await statusMessage(dispatch, 'loading', false);
-      // dispatch({ type: 'ERROR_SET', data: err }); // TODO make error storage
+      await statusMessage(dispatch, 'error');
       throw err.message;
     });
 }
@@ -189,6 +190,7 @@ export function endRental() {
       // make sure have active rental
       const { bikeID } = getState().bikeRental;
       if (!bikeID) return reject({ message: 'Must have active rental' });
+
       // call the api
       // const result = await fetch('/users/me/rentals/current', {
       //   method: 'DELETE',
@@ -197,14 +199,16 @@ export function endRental() {
       //     Authorization: `Bearer ${firebaseUID}`,
       //   },
       // });
+
+      // ****** TEST RESULTS *******
       // Test Pass
       const result = {
         status: JSendStatus.SUCCESS,
         data: {
-          bikeID,
-          costChargedToCard: 200,
-          rentalEndTime: new Date(),
-          dropOffPoint: 'Princes Street Left',
+          bike_id: '12345678910',
+          price: 200,
+          end_time: new Date(),
+          dropOffPoint: 'Princes Street Left', // TODO
         },
       };
 
@@ -229,7 +233,7 @@ export function endRental() {
         dispatch({
           type: 'RENTAL_END',
           data: {
-            costChargedToCard: r.costChargedToCard,
+            costChargedToCard: r.price,
           },
         })
       );
