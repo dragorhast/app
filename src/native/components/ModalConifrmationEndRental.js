@@ -68,8 +68,8 @@ class ModalConfirmationEndRental extends React.Component {
           <H1>Confirmation Info</H1>
           {/* TODO insert proper times */}
           <H3>11:30 - 12:40</H3>
-          <Text>Charged by the 15 minutes - make italic</Text>
-          <H2>{rentalInfo.costOfRentalSoFar}</H2>
+          <Text>Charged by the 15 minutes</Text>
+          <H2>£{rentalInfo.costOfRentalSoFar / 100}</H2>
           <Button onPress={this.confirmedEndRental}>
             <Text>END RENTAL</Text>
           </Button>

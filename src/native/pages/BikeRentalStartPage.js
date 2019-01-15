@@ -32,7 +32,6 @@ const BikeRentalStartPage = ({ startRentalFromId }) => {
         Actions.replace('bikeRentalInfo', { Layout: BikeRentalCurrentPage, fetchBikeRentalOnLoad: false });
       })
       .catch(() => {
-        console.log('Fail in page');
         // Flash generic message
         Toast.show({
           text: "Oops. Couldn't start rental",
