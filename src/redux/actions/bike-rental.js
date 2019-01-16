@@ -125,7 +125,7 @@ export function fetchRentalInfo() {
         status: JSendStatus.SUCCESS,
         data: {
           bike_id: '123456',
-          start_time: new Date(),
+          start_time: new Date(2019, 0, 16, 10, 0, 0),
           estimated_price: 200,
           rental_active: true, // TODO
           pick_up_point: 'Princess Street West', // TODO

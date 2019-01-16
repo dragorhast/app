@@ -10,6 +10,7 @@ import Modal from 'react-native-modal';
 import { Button, H1, H2, H3, Text, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import StyledModal from './styled/StyledModal';
+import timeFromDate from '../../util/timeFromDate';
 
 class ModalConfirmationEndRental extends React.Component {
   static propTypes = {
@@ -30,7 +31,6 @@ class ModalConfirmationEndRental extends React.Component {
   componentWillMount() {
     const { getRentalInfo, rentalInfo } = this.props;
     getRentalInfo();
-    console.log(rentalInfo);
   }
 
   confirmedEndRental = () => {
@@ -62,12 +62,16 @@ class ModalConfirmationEndRental extends React.Component {
 
   render() {
     const { isVisible, closeModals, rentalInfo } = this.props;
+    const dateRentalStart = new Date(rentalInfo.rentalStartTime);
+    const dateNow = new Date();
     return (
       <Modal isVisible={isVisible} onBackdropPress={closeModals}>
         <StyledModal>
           <H1>Confirmation Info</H1>
           {/* TODO insert proper times */}
-          <H3>11:30 - 12:40</H3>
+          <H3>
+            {timeFromDate(dateRentalStart)} - {timeFromDate(dateNow)}
+          </H3>
           <Text>Charged by the 15 minutes</Text>
           <H2>£{rentalInfo.costOfRentalSoFar / 100}</H2>
           <Button onPress={this.confirmedEndRental}>

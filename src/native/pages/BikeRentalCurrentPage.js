@@ -28,11 +28,12 @@ const StyledPriceText = styled.Text`
  * @param rentalStartTime
  * @returns minutesBeenRentingFor
  */
-// TODO change to hours been renting
-const getMinutesBeenRentingFor = rentalStartTime => {
+const getTimeBeenRentingFor = rentalStartTime => {
   const currentTime = new Date();
   const milliSecondsSoFar = currentTime - new Date(rentalStartTime);
-  return Math.round(milliSecondsSoFar / (1000 * 60));
+  const hours = Math.floor(milliSecondsSoFar / (1000 * 60 * 60));
+  const minutes = Math.round((milliSecondsSoFar / 1000) % 60);
+  return hours ? `${hours} hrs ${minutes} mins` : `${minutes} mins`;
 };
 
 class BikeRentalCurrentPage extends React.Component {
@@ -45,50 +46,6 @@ class BikeRentalCurrentPage extends React.Component {
     const { getRentalInfo, fetchBikeRentalOnLoad } = this.props;
     if (fetchBikeRentalOnLoad) getRentalInfo();
   }
-
-  /**
-   * Handles ending the rental after modal 2
-   *
-   * Success:
-   * - flash green toast <-- on next page
-   * - move to successfully completed page
-   *
-   * Error:
-   * - set state to not show modal
-   * - flash red roast
-   */
-  confirmedEndRental = () => {
-    const { returnBike, rentalInfo } = this.props;
-
-    returnBike()
-      .then(async () => {
-        await this.setState({
-          modal2IsUserSure: false,
-          modal1PutBackInRackOpen: false,
-        });
-        Toast.show({
-          text: `£${rentalInfo.lastCostChargedToCard / 100} charged to your account`,
-          type: 'success',
-          position: 'top',
-          duration: 5000,
-        });
-        Actions.home();
-        // Actions.bikeRentalEnd();
-      })
-      .catch(() => {
-        this.setState({
-          modal2IsUserSure: false,
-          modal1PutBackInRackOpen: false,
-        });
-        Toast.show({
-          text: "Oops. Couldn't cancel rental",
-          buttonText: 'Okay',
-          type: 'danger',
-          position: 'top',
-          duration: 5000,
-        });
-      });
-  };
 
   closeBothModals = () => {
     this.setState({ modal2IsUserSure: false, modal1PutBackInRackOpen: false });
@@ -143,7 +100,7 @@ class BikeRentalCurrentPage extends React.Component {
             <StyledPriceText>£{rentalInfo.costOfRentalSoFar / 100}</StyledPriceText>
             <Text>{rentalInfo.bikeID}</Text> <Text>Bike ID</Text>
             {/* TODO also check for hours */}
-            <Text>{getMinutesBeenRentingFor(rentalInfo.rentalStartTime)}</Text> <Text>Time used so far</Text>
+            <Text>{getTimeBeenRentingFor(rentalInfo.rentalStartTime)}</Text> <Text>Time used so far</Text>
             <Text>Pick Up Location</Text>
             <Text>{rentalInfo.pickUpPoint}</Text>
             {rentalInfo.ableToBeReturned && (
