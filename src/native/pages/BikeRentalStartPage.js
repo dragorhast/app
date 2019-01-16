@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { StyleSheet } from 'react-native';
-import { Container, Content, Body, Button, H2, Text, Toast } from 'native-base';
+import { StyleSheet, View } from 'react-native';
+import { Container, Content, Body, Button, H2, Icon, Item, Input, Text, Toast } from 'native-base';
 import QRScanner from '../components/QRScanner';
 // Hacky way of passing in the correct props including this
 import BikeRentalCurrentPage from './BikeRentalCurrentPage';
@@ -12,20 +12,28 @@ const Styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
   },
-  blackBody: {
+  qrScanner: {
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',
   },
+  body: {
+    flexDirection: 'column',
+    flex: 1,
+  },
 });
 
-const BikeRentalStartPage = ({ startRentalFromId }) => {
+class BikeRentalStartPage extends React.Component {
+  state = {
+    bikeIdInput: '',
+  };
+
   /**
    * Handles the changing of pages based on success or failure
    */
-  const sendBikeIDToServer = bikeId => {
-    console.log('Button works');
+  sendBikeIDToServer = bikeId => {
+    const { startRentalFromId } = this.props;
     startRentalFromId(bikeId)
       .then(() => {
         // This is a hacky way of passing in the correct props - without it here it won't load from routes/index
@@ -43,21 +51,35 @@ const BikeRentalStartPage = ({ startRentalFromId }) => {
       });
   };
 
-  return (
-    <Container>
-      {/* Content is the entire screen if flex = 1 */}
-      <Content contentContainerStyle={Styles.viewCenter}>
-        <H2>Scan QR Code to Start Rental</H2>
-        <Button onPress={() => sendBikeIDToServer('123456')}>
-          <Text>TEST SCAN BIKE</Text>
-        </Button>
-        <Body style={Styles.blackBody}>
-          <QRScanner onSuccessfulScan={sendBikeIDToServer} />
-        </Body>
-      </Content>
-    </Container>
-  );
-};
+  render() {
+    const { bikeIdInput } = this.state;
+    return (
+      <Container>
+        {/* Content is the entire screen if flex = 1 */}
+        <Content contentContainerStyle={Styles.viewCenter}>
+          <H2>Scan QR Code to Start Rental</H2>
+          <Button onPress={() => this.sendBikeIDToServer('123456')}>
+            <Text>TEST SCAN BIKE</Text>
+          </Button>
+          <Body style={Styles.body}>
+            <View style={Styles.qrScanner}>
+              <QRScanner onSuccessfulScan={this.sendBikeIDToServer} />
+            </View>
+            <Item rounded>
+              <Input
+                placeholder="6 Digit Bike ID"
+                value={bikeIdInput}
+                onChangeText={input => this.setState({ bikeIdInput: input })}
+                returnKeyType="go"
+                onSubmitEditing={() => this.sendBikeIDToServer(bikeIdInput)}
+              />
+            </Item>
+          </Body>
+        </Content>
+      </Container>
+    );
+  }
+}
 
 BikeRentalStartPage.propTypes = {
   startRentalFromId: PropTypes.func.isRequired,

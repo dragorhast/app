@@ -39,11 +39,6 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillMount() {
-    const { member } = this.props;
-    if (member.uid) Actions.home();
-  }
-
   handleChange = (name, val) => {
     this.setState({
       [name]: val,

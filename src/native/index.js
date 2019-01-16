@@ -20,9 +20,7 @@ const App = ({ store, persistor }) => (
     <Provider store={store}>
       <PersistGate loading={<Loading />} persistor={persistor}>
         <StyleProvider style={getTheme(theme)}>
-          <Router>
-            <Stack key="root">{Routes}</Stack>
-          </Router>
+          <Routes />
         </StyleProvider>
       </PersistGate>
     </Provider>

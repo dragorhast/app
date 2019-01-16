@@ -9,7 +9,7 @@ const Styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
   },
-  blackBody: {
+  body: {
     flexDirection: 'column',
     flex: 1,
     justifyContent: 'center',
@@ -37,7 +37,7 @@ const Home = ({ bikeRental }) => (
   <Container>
     {/* Content is the entire screen if flex is one */}
     <Content contentContainerStyle={Styles.viewCenter}>
-      <Body style={Styles.blackBody}>
+      <Body style={Styles.body}>
         {rentNowOrViewRental(bikeRental.bikeID)}
         <Button bordered primary large onPress={Actions.profileHome}>
           <Text>TEMP PROFILE PAGE</Text>
