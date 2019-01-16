@@ -46,7 +46,6 @@ class ModalConfirmationEndRental extends React.Component {
           duration: 5000,
         });
         Actions.home();
-        // Actions.bikeRentalEnd();
       })
       .catch(() => {
         closeModals();

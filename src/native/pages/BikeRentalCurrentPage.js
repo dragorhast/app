@@ -52,6 +52,66 @@ class BikeRentalCurrentPage extends React.Component {
   };
 
   /**
+   * Cancels a rental started by the user.
+   * Same as return bike but there should be no charge
+   * as it is under 15 minutes
+   *
+   * TODO make this work with API so that it knows there has been a cancellation
+   */
+  cancelRental = () => {
+    const { returnBike } = this.props;
+    returnBike()
+      .then(() => {
+        Toast.show({
+          text: 'Rental cancelled at no charge',
+          type: 'success',
+          position: 'top',
+          duration: 5000,
+        });
+        Actions.home();
+      })
+      .catch(() => {
+        Toast.show({
+          text: "Oops. Couldn't cancel rental",
+          buttonText: 'Okay',
+          type: 'danger',
+          position: 'top',
+          duration: 5000,
+        });
+      });
+  };
+
+  /**
+   * Render a cancel button if the bike rental is under 5 minutes.
+   * Render's a cancel button if the bike is ableToBeReturned.
+   * Render's an unclickable cancel button if bike is not within pickUpPoint
+   */
+  renderReturnButton = () => {
+    const { rentalInfo } = this.props;
+    const rentalStartWithin5Minutes = Math.abs(new Date() - rentalInfo.rentalStartTime) < 1000 * 60 * 5;
+
+    // Cancel Button
+    if (rentalInfo.withinPickUpPointGeo && rentalStartWithin5Minutes) {
+      return (
+        <Button large danger onPress={this.cancelRental}>
+          <Text>CANCEL RENTAL</Text>
+        </Button>
+      );
+    }
+    // return button, clickable or not
+    return (
+      <Button
+        primary
+        large
+        disabled={!rentalInfo.withinPickUpPointGeo}
+        onPress={() => this.setState({ modal1PutBackInRackOpen: true })}
+      >
+        <Text>RETURN BIKE</Text>
+      </Button>
+    );
+  };
+
+  /**
    * Modal that displays to the user how to
    * place the bike back in the rack properly
    */
@@ -103,11 +163,7 @@ class BikeRentalCurrentPage extends React.Component {
             <Text>{getTimeBeenRentingFor(rentalInfo.rentalStartTime)}</Text> <Text>Time used so far</Text>
             <Text>Pick Up Location</Text>
             <Text>{rentalInfo.pickUpPoint}</Text>
-            {rentalInfo.ableToBeReturned && (
-              <Button primary large onPress={() => this.setState({ modal1PutBackInRackOpen: true })}>
-                <Text>RETURN BIKE</Text>
-              </Button>
-            )}
+            {this.renderReturnButton()}
           </Body>
         </Content>
       </Container>
@@ -126,6 +182,7 @@ BikeRentalCurrentPage.propTypes = {
     rentalActive: PropTypes.bool,
     pickUpPoint: PropTypes.string,
     ableToBeReturned: PropTypes.bool,
+    withinPickUpPointGeo: PropTypes.bool,
   }).isRequired,
 };
 

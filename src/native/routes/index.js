@@ -37,8 +37,6 @@ import BikeRentalInfoContainer from '../../containers/BikeRentalInfoContainer';
 import BikeRentalCurrentPage from '../pages/BikeRentalCurrentPage';
 
 const Index = ({ member }) => {
-  console.log(member);
-
   return (
     <Router>
       <Stack hideNavBar>

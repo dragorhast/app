@@ -50,8 +50,50 @@ export function startRentalFromId(bikeID) {
           bike_id: '123456',
           start_time: new Date(),
           estimated_price: 0.0,
-          pick_up_point: 'Princess Street West', // TODO
-          current_pick_up_point: 'Princess Stress West', // TODO
+          start_location: {
+            // geoJSON
+            type: 'Feature',
+            geometry: {
+              type: 'GeometryCollection',
+              geometries: [
+                {
+                  type: 'Point',
+                  coordinates: [61, 62],
+                },
+                {
+                  type: 'Polygon',
+                  coordinates: [[]],
+                },
+              ],
+            },
+            properties: {
+              type: 'Pickup Point',
+              name: 'Princes St. West',
+            },
+          },
+          bike: {
+            current_location: {
+              // geoJSON
+              type: 'Feature',
+              geometry: {
+                type: 'GeometryCollection',
+                geometries: [
+                  {
+                    type: 'Point',
+                    coordinates: [61, 62],
+                  },
+                  {
+                    type: 'Polygon',
+                    coordinates: [[]],
+                  },
+                ],
+              },
+              properties: {
+                type: 'Pickup Point',
+                name: 'Princes St. West',
+              },
+            },
+          },
         },
       };
       // Test Error
@@ -81,8 +123,8 @@ export function startRentalFromId(bikeID) {
             bikeID: r.bike_id,
             rentalStartTime: r.start_time,
             costOfRentalSoFar: r.estimated_price,
-            pickUpPoint: r.pick_up_point, // TODO change
-            withinPickUpPointGeo: !!r.current_pick_up_point, // TODO change
+            pickUpPoint: r.start_location.properties.name,
+            withinPickUpPointGeo: r.bike.current_location.properties.type === 'Pickup Point',
           },
         })
       );
@@ -120,18 +162,103 @@ export function fetchRentalInfo() {
       // });
 
       // ****** TEST RESULTS *******
-      // Test Pass
+      // Test Pass - within pickup point
       const result = {
         status: JSendStatus.SUCCESS,
         data: {
           bike_id: '123456',
-          start_time: new Date(2019, 0, 16, 10, 0, 0),
+          start_time: new Date(),
           estimated_price: 200,
           rental_active: true, // TODO
-          pick_up_point: 'Princess Street West', // TODO
-          current_pick_up_point: 'Princes Street East', // TODO
+          start_location: {
+            // geoJSON
+            type: 'Feature',
+            geometry: {
+              type: 'GeometryCollection',
+              geometries: [
+                {
+                  type: 'Point',
+                  coordinates: [61, 62],
+                },
+                {
+                  type: 'Polygon',
+                  coordinates: [[]],
+                },
+              ],
+            },
+            properties: {
+              type: 'Pickup Point',
+              name: 'Princes St. West',
+            },
+          },
+          bike: {
+            current_location: {
+              type: 'Feature',
+              geometry: {
+                type: 'GeometryCollection',
+                geometries: [
+                  {
+                    type: 'Point',
+                    coordinates: [61, 62],
+                  },
+                  {
+                    type: 'Polygon',
+                    coordinates: [[]],
+                  },
+                ],
+              },
+              properties: {
+                type: 'Pickup Point',
+                name: 'Princes St. Gardens',
+              },
+            },
+          },
         },
       };
+
+      // Test Pass - outside pickup point
+      // const result = {
+      //   status: JSendStatus.SUCCESS,
+      //   data: {
+      //     bike_id: '123456',
+      //     start_time: new Date(2019, 0, 16, 10, 0, 0),
+      //     estimated_price: 200,
+      //     rental_active: true,
+      //     start_location: {
+      //       // geoJSON
+      //       type: 'Feature',
+      //       geometry: {
+      //         type: 'GeometryCollection',
+      //         geometries: [
+      //           {
+      //             type: 'Point',
+      //             coordinates: [61, 62],
+      //           },
+      //           {
+      //             type: 'Polygon',
+      //             coordinates: [[]],
+      //           },
+      //         ],
+      //       },
+      //       properties: {
+      //         type: 'Pickup Point',
+      //         name: 'Princes St. West',
+      //       },
+      //     },
+      //     bike: {
+      //       current_location: {
+      //         type: 'Feature',
+      //         geometry: {
+      //           type: 'Point',
+      //           coordinates: [61, 62],
+      //         },
+      //         properties: {
+      //           type: 'Location',
+      //         },
+      //       },
+      //     },
+      //   },
+      // };
       // Test Error
       // const result = {
       //   status: JSendStatus.ERROR,
@@ -159,9 +286,9 @@ export function fetchRentalInfo() {
             bikeID: r.bike_id,
             rentalStartTime: r.start_time,
             costOfRentalSoFar: r.estimated_price,
-            rentalActive: r.rental_active, // TODO change
-            pickUpPoint: r.pick_up_point, // TODO change
-            withinPickUpPointGeo: !!r.current_pick_up_point, // TODO change
+            rentalActive: r.rental_active, // TODO ensure this definitely comes back from API
+            pickUpPoint: r.start_location.properties.name,
+            withinPickUpPointGeo: r.bike.current_location.properties.type === 'Pickup Point',
           },
         })
       );
