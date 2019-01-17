@@ -26,7 +26,7 @@ export function startRentalFromId(bikeID) {
       // LOADING
       await statusMessage(dispatch, 'loading', true);
       // Sets bike-rental to new LOADING (presumes only 1 rental at a time)
-      dispatch({ type: 'RENTAL_FETCH', data: { bikeID } });
+      dispatch({ type: 'RENTAL_START_FETCH_CREATE', data: { bikeID } });
 
       // Make sure signed in
       const firebaseUID = getState().member.uid;
@@ -125,6 +125,7 @@ export function startRentalFromId(bikeID) {
             costOfRentalSoFar: r.estimated_price,
             pickUpPoint: r.start_location.properties.name,
             withinPickUpPointGeo: r.bike.current_location.properties.type === 'Pickup Point',
+            ableToBeReturned: r.bike.current_location.properties.type === 'Pickup Point',
           },
         })
       );
@@ -286,9 +287,10 @@ export function fetchRentalInfo() {
             bikeID: r.bike_id,
             rentalStartTime: r.start_time,
             costOfRentalSoFar: r.estimated_price,
-            rentalActive: r.rental_active, // TODO ensure this definitely comes back from API
+            rentalActive: r.rental_active,
             pickUpPoint: r.start_location.properties.name,
             withinPickUpPointGeo: r.bike.current_location.properties.type === 'Pickup Point',
+            ableToBeReturned: r.bike.current_location.properties.type === 'Pickup Point',
           },
         })
       );

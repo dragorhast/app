@@ -58,9 +58,6 @@ class BikeRentalStartPage extends React.Component {
         {/* Content is the entire screen if flex = 1 */}
         <Content contentContainerStyle={Styles.pageColumn}>
           <H2>Scan QR Code to Start Rental</H2>
-          <Button onPress={() => this.sendBikeIDToServer('123456')}>
-            <Text>TEST SCAN BIKE</Text>
-          </Button>
           <Body style={Styles.body}>
             <View style={Styles.qrScanner}>
               <QRScanner onSuccessfulScan={this.sendBikeIDToServer} />

@@ -22,7 +22,7 @@ class Member extends Component {
 
   componentDidMount = () => {
     const { fetchData } = this.props;
-    fetchData();
+    // fetchData(); // might be useful later but causing issues with app 17/1/19
   };
 
   render = () => {

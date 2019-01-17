@@ -6,10 +6,8 @@ export const INITIAL_STATE = {
   costOfRentalSoFar: null,
   rentalActive: null,
   pickUpPoint: null,
-  dropOffPoint: null,
   withinPickUpPointGeo: null,
   ableToBeReturned: null,
-  lastCostChargedToCard: null, // TODO decide if this could be handled better
 };
 
 export const BikeRentalPropTypes = {
@@ -18,14 +16,13 @@ export const BikeRentalPropTypes = {
   costOfRentalSoFar: PropTypes.number,
   rentalActive: PropTypes.bool,
   pickUpPoint: PropTypes.string,
-  dropOffPoint: PropTypes.string,
   withinPickUpPointGeo: PropTypes.bool,
   ableToBeReturned: PropTypes.bool,
 };
 
 export default function bikeRentalReducer(state = INITIAL_STATE, { type, data }) {
   switch (type) {
-    case 'RENTAL_FETCH':
+    case 'RENTAL_START_FETCH_CREATE':
       return {
         ...INITIAL_STATE,
         bikeID: data.bikeID,
@@ -39,20 +36,7 @@ export default function bikeRentalReducer(state = INITIAL_STATE, { type, data })
         rentalActive: true,
         pickUpPoint: data.pickUpPoint,
         withinPickUpPointGeo: data.withinPickUpPointGeo,
-        ableToBeReturned: data.withinPickUpPointGeo, // Later in dev this will always be true
-      };
-    case 'RENTAL_END':
-      return {
-        bikeID: null,
-        rentalStartTime: null,
-        rentalEndTime: null, // TODO is this needed?
-        costOfRentalSoFar: null,
-        rentalActive: null,
-        pickUpPoint: null,
-        dropOffPoint: null, // TODO is this needed?
-        withinPickUpPointGeo: null,
-        ableToBeReturned: null,
-        lastCostChargedToCard: data.costChargedToCard,
+        ableToBeReturned: data.ableToBeReturned, // Later in dev this will always be true
       };
     case 'RENTAL_RESET':
       return INITIAL_STATE;

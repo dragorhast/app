@@ -7,34 +7,22 @@
  * - Time been renting for <-- calculated on load
  * - Ability to lock / unlock bike
  * - Ability to put bike back
- *
  * */
 import React from 'react';
 import Modal from 'react-native-modal';
-import { Container, Content, Body, Button, Text, H1, H2, H3, Toast } from 'native-base';
+import { Container, Content, Body, Button, Text, H1, H3, Toast } from 'native-base';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import StyledModal from '../components/styled/StyledModal';
 import ModalConfirmationEndRental from '../components/ModalConifrmationEndRental';
+import hoursAndMinutesBetween2Points from '../../util/hoursAndMinutesBetween2Times';
+import { BikeRentalPropTypes } from '../../redux/reducers/bike-rental';
 
 const StyledPriceText = styled.Text`
   color: blue;
   font-size: 24; // this is not an error
 `;
-
-/**
- *
- * @param rentalStartTime
- * @returns minutesBeenRentingFor
- */
-const getTimeBeenRentingFor = rentalStartTime => {
-  const currentTime = new Date();
-  const milliSecondsSoFar = currentTime - new Date(rentalStartTime);
-  const hours = Math.floor(milliSecondsSoFar / (1000 * 60 * 60));
-  const minutes = Math.round((milliSecondsSoFar / 1000) % 60);
-  return hours ? `${hours} hrs ${minutes} mins` : `${minutes} mins`;
-};
 
 class BikeRentalCurrentPage extends React.Component {
   state = {
@@ -56,7 +44,7 @@ class BikeRentalCurrentPage extends React.Component {
    * Same as return bike but there should be no charge
    * as it is under 15 minutes
    *
-   * TODO make this work with API so that it knows there has been a cancellation
+   * TODO link to API diff between cancellation + end rental, modal as well
    */
   cancelRental = () => {
     const { returnBike } = this.props;
@@ -138,7 +126,6 @@ class BikeRentalCurrentPage extends React.Component {
    *
    * Fetches data from api through getRentalInfo
    */
-
   render() {
     const { rentalInfo, getRentalInfo, returnBike } = this.props;
     const { modal2IsUserSure, modal1PutBackInRackOpen } = this.state;
@@ -160,7 +147,8 @@ class BikeRentalCurrentPage extends React.Component {
             <StyledPriceText>£{rentalInfo.costOfRentalSoFar / 100}</StyledPriceText>
             <Text>{rentalInfo.bikeID}</Text> <Text>Bike ID</Text>
             {/* TODO also check for hours */}
-            <Text>{getTimeBeenRentingFor(rentalInfo.rentalStartTime)}</Text> <Text>Time used so far</Text>
+            <Text>{hoursAndMinutesBetween2Points(rentalInfo.rentalStartTime, new Date())}</Text>
+            <Text>Time used so far</Text>
             <Text>Pick Up Location</Text>
             <Text>{rentalInfo.pickUpPoint}</Text>
             {this.renderReturnButton()}
@@ -176,13 +164,7 @@ BikeRentalCurrentPage.propTypes = {
   getRentalInfo: PropTypes.func.isRequired,
   returnBike: PropTypes.func.isRequired,
   rentalInfo: PropTypes.shape({
-    bikeID: PropTypes.string,
-    rentalStartTime: PropTypes.date,
-    costOfRentalSoFar: PropTypes.number,
-    rentalActive: PropTypes.bool,
-    pickUpPoint: PropTypes.string,
-    ableToBeReturned: PropTypes.bool,
-    withinPickUpPointGeo: PropTypes.bool,
+    ...BikeRentalPropTypes,
   }).isRequired,
 };
 

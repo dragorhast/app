@@ -11,6 +11,7 @@ import { Button, H1, H2, H3, Text, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import StyledModal from './styled/StyledModal';
 import timeFromDate from '../../util/timeFromDate';
+import { BikeRentalPropTypes } from '../../redux/reducers/bike-rental';
 
 class ModalConfirmationEndRental extends React.Component {
   static propTypes = {
@@ -19,17 +20,12 @@ class ModalConfirmationEndRental extends React.Component {
     getRentalInfo: PropTypes.func.isRequired,
     returnBike: PropTypes.func.isRequired,
     rentalInfo: PropTypes.shape({
-      bikeID: PropTypes.string,
-      rentalStartTime: PropTypes.date,
-      costOfRentalSoFar: PropTypes.number,
-      rentalActive: PropTypes.bool,
-      pickUpPoint: PropTypes.string,
-      ableToBeReturned: PropTypes.bool,
+      ...BikeRentalPropTypes,
     }).isRequired,
   };
 
   componentWillMount() {
-    const { getRentalInfo, rentalInfo } = this.props;
+    const { getRentalInfo } = this.props;
     getRentalInfo();
   }
 
