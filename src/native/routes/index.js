@@ -36,70 +36,67 @@ import BikeRentalStartPage from '../pages/BikeRentalStartPage';
 import BikeRentalInfoContainer from '../../containers/BikeRentalInfoContainer';
 import BikeRentalCurrentPage from '../pages/BikeRentalCurrentPage';
 
-const Index = ({ member }) => {
-  return (
-    <Router>
-      <Stack hideNavBar>
-        {/* Home Stack */}
-        <Stack
-          key="home"
-          title={AppConfig.appName.toUpperCase()}
-          icon={() => <Icon name="planet" {...DefaultProps.icons} />}
-          {...DefaultProps.navbarProps}
-        >
-          {/* native and web home need different connections to redux so no need to pass layout as props */}
-          <Scene key="home" component={NativeHomeContainer} />
-          <Scene key="bikeRentalStart" component={BikeRentalStartContainer} Layout={BikeRentalStartPage} />
-          <Scene key="bikeRentalInfo" component={BikeRentalInfoContainer} Layout={BikeRentalCurrentPage} />
-        </Stack>
-        {/* Login and logout scenes */}
+const Index = () => (
+  <Router>
+    <Stack hideNavBar>
+      {/* Home Stack */}
+      <Stack
+        key="home"
+        title={AppConfig.appName.toUpperCase()}
+        icon={() => <Icon name="planet" {...DefaultProps.icons} />}
+        {...DefaultProps.navbarProps}
+      >
+        {/* native and web home need different connections to redux so no need to pass layout as props */}
+        <Scene key="home" component={NativeHomeContainer} />
+        <Scene key="bikeRentalStart" component={BikeRentalStartContainer} Layout={BikeRentalStartPage} />
+        <Scene key="bikeRentalInfo" component={BikeRentalInfoContainer} Layout={BikeRentalCurrentPage} />
+      </Stack>
+      {/* Login and logout scenes */}
+      <Scene
+        hideNavBar
+        key="homeLogin"
+        title="LOGIN"
+        {...DefaultProps.navbarProps}
+        component={LoginContainer}
+        Layout={LoginComponent}
+      />
+      <Scene
+        back
+        key="signUp"
+        title="SIGN UP"
+        {...DefaultProps.navbarProps}
+        component={SignUpContainer}
+        Layout={SignUpComponent}
+      />
+      {/* All actions related to the user */}
+      <Stack
+        key="profile"
+        title="PROFILE"
+        icon={() => <Icon name="contact" {...DefaultProps.icons} />}
+        {...DefaultProps.navbarProps}
+      >
+        <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} back />
+        {/* These are all pages that can clicked to from inside this stack */}
         <Scene
-          hideNavBar
-          key="homeLogin"
-          title="LOGIN"
+          back
+          key="forgotPassword"
+          title="FORGOT PASSWORD"
           {...DefaultProps.navbarProps}
-          component={LoginContainer}
-          Layout={LoginComponent}
-          initial={!member.uid}
+          component={ForgotPasswordContainer}
+          Layout={ForgotPasswordComponent}
         />
         <Scene
           back
-          key="signUp"
-          title="SIGN UP"
+          key="updateProfile"
+          title="UPDATE PROFILE"
           {...DefaultProps.navbarProps}
-          component={SignUpContainer}
-          Layout={SignUpComponent}
+          component={UpdateProfileContainer}
+          Layout={UpdateProfileComponent}
         />
-        {/* All actions related to the user */}
-        <Stack
-          key="profile"
-          title="PROFILE"
-          icon={() => <Icon name="contact" {...DefaultProps.icons} />}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} back />
-          {/* These are all pages that can clicked to from inside this stack */}
-          <Scene
-            back
-            key="forgotPassword"
-            title="FORGOT PASSWORD"
-            {...DefaultProps.navbarProps}
-            component={ForgotPasswordContainer}
-            Layout={ForgotPasswordComponent}
-          />
-          <Scene
-            back
-            key="updateProfile"
-            title="UPDATE PROFILE"
-            {...DefaultProps.navbarProps}
-            component={UpdateProfileContainer}
-            Layout={UpdateProfileComponent}
-          />
-        </Stack>
       </Stack>
-    </Router>
-  );
-};
+    </Stack>
+  </Router>
+);
 
 const mapStateToProps = state => ({
   member: state.member || {},

@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { StyleSheet, View } from 'react-native';
-import { Container, Content, Body, Button, H2, Icon, Item, Input, Text, Toast } from 'native-base';
+import { Container, Content, Body, Button, H2, Item, Input, Text, Toast } from 'native-base';
 import QRScanner from '../components/QRScanner';
-// Hacky way of passing in the correct props including this
+// Hacky way of passing in the page as Layout props
 import BikeRentalCurrentPage from './BikeRentalCurrentPage';
 
 const Styles = StyleSheet.create({
-  viewCenter: {
+  pageColumn: {
     flexDirection: 'column',
     flex: 1,
   },
@@ -56,7 +56,7 @@ class BikeRentalStartPage extends React.Component {
     return (
       <Container>
         {/* Content is the entire screen if flex = 1 */}
-        <Content contentContainerStyle={Styles.viewCenter}>
+        <Content contentContainerStyle={Styles.pageColumn}>
           <H2>Scan QR Code to Start Rental</H2>
           <Button onPress={() => this.sendBikeIDToServer('123456')}>
             <Text>TEST SCAN BIKE</Text>

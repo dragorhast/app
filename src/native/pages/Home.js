@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import { Container, Content, Body, Button, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { BikeRentalPropTypes } from '../../redux/reducers/bike-rental';
 
 const Styles = StyleSheet.create({
-  viewCenter: {
+  pageColumn: {
     flexDirection: 'column',
     flex: 1,
   },
@@ -36,7 +37,7 @@ const rentNowOrViewRental = bikeStatus => {
 const Home = ({ bikeRental }) => (
   <Container>
     {/* Content is the entire screen if flex is one */}
-    <Content contentContainerStyle={Styles.viewCenter}>
+    <Content contentContainerStyle={Styles.pageColumn}>
       <Body style={Styles.body}>
         {rentNowOrViewRental(bikeRental.bikeID)}
         <Button bordered primary large onPress={Actions.profileHome}>
@@ -48,7 +49,9 @@ const Home = ({ bikeRental }) => (
 );
 
 Home.propTypes = {
-  bikeRental: PropTypes.object.isRequired,
+  bikeRental: PropTypes.shape({
+    ...BikeRentalPropTypes,
+  }).isRequired,
 };
 
 export default Home;

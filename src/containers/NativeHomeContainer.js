@@ -9,11 +9,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Home from '../native/pages/Home';
+import { BikeRentalPropTypes } from '../redux/reducers/bike-rental';
 
 const NativeHomeContainer = ({ bikeRental }) => <Home bikeRental={bikeRental} />;
 
 NativeHomeContainer.propTypes = {
-  bikeRental: PropTypes.object.isRequired,
+  bikeRental: PropTypes.shape({
+    ...BikeRentalPropTypes,
+  }).isRequired,
 };
 
 const mapStateToProps = ({ bikeRental }) => ({

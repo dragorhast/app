@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { BikeRentalPropTypes } from '../redux/reducers/bike-rental';
 import { fetchRentalInfo, endRental } from '../redux/actions/bike-rental';
 
 const BikeRentalInfoContainer = ({ Layout, bikeRental, getRentalInfo, fetchBikeRentalOnLoad, returnBike }) => (
@@ -19,11 +19,7 @@ BikeRentalInfoContainer.propTypes = {
   returnBike: PropTypes.func.isRequired,
   Layout: PropTypes.func.isRequired,
   bikeRental: PropTypes.shape({
-    bikeID: PropTypes.string,
-    rentalStartTime: PropTypes.date,
-    costOfRentalSoFar: PropTypes.number,
-    rentalActive: PropTypes.bool,
-    pickUpPoint: PropTypes.string,
+    ...BikeRentalPropTypes,
   }).isRequired,
 };
 

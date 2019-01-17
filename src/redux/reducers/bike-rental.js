@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
+
 export const INITIAL_STATE = {
   bikeID: null,
   rentalStartTime: null,
-  rentalEndTime: null,
   costOfRentalSoFar: null,
   rentalActive: null,
   pickUpPoint: null,
@@ -9,6 +10,17 @@ export const INITIAL_STATE = {
   withinPickUpPointGeo: null,
   ableToBeReturned: null,
   lastCostChargedToCard: null, // TODO decide if this could be handled better
+};
+
+export const BikeRentalPropTypes = {
+  bikeID: PropTypes.string,
+  rentalStartTime: PropTypes.date,
+  costOfRentalSoFar: PropTypes.number,
+  rentalActive: PropTypes.bool,
+  pickUpPoint: PropTypes.string,
+  dropOffPoint: PropTypes.string,
+  withinPickUpPointGeo: PropTypes.bool,
+  ableToBeReturned: PropTypes.bool,
 };
 
 export default function bikeRentalReducer(state = INITIAL_STATE, { type, data }) {
