@@ -42,10 +42,19 @@ class Login extends React.Component {
   }
 
   handleChange = (name, val) => {
-    console.log(Firebase.auth().currentUser.email);
+    console.log(Firebase.auth().currentUser);
     this.setState({
       [name]: val,
     });
+  };
+
+  test = async () => {
+    try {
+      const result = await this.props.test();
+      console.log(result);
+    } catch (something) {
+      console.log(something);
+    }
   };
 
   handleSubmit = async () => {
@@ -88,6 +97,12 @@ class Login extends React.Component {
           <View padder>
             <Button halfWid onPress={this.handleSubmit}>
               <Text>{translate('Login', locale)}</Text>
+            </Button>
+          </View>
+
+          <View padder>
+            <Button halfWid light onPress={this.test}>
+              <Text>{translate('Sign Out', locale)}</Text>
             </Button>
           </View>
 

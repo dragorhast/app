@@ -10,11 +10,17 @@
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import { userLogin } from '../ducks/user';
+import { userLogin, userSignOut } from '../ducks/user';
 
 export default function withLogin(WrappedComponent) {
-  const LoginContainer = ({ locale, status, login }) => (
-    <WrappedComponent locale={locale} loading={status.loading} error={status.error} onFormSubmit={login} />
+  const LoginContainer = ({ locale, status, login, userSignOut }) => (
+    <WrappedComponent
+      locale={locale}
+      loading={status.loading}
+      error={status.error}
+      onFormSubmit={login}
+      test={userSignOut}
+    />
   );
 
   const mapStateToProps = state => ({
@@ -23,7 +29,8 @@ export default function withLogin(WrappedComponent) {
   });
 
   const mapDispatchToProp = {
-    login: formData => userLogin(formData),
+    login: userLogin,
+    userSignOut,
   };
 
   return connect(

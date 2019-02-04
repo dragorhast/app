@@ -117,3 +117,32 @@ export const userLogin = ({ email, password }) => async dispatch => {
     throw error;
   }
 };
+
+/**
+ * Sings out the logged in user and alters the
+ * store
+ *
+ * - Loading
+ * - checks if signed in
+ * - logs out
+ * - clears store
+ * - success message
+ *
+ * - if not logged in clear store and error
+ *
+ * @returns {Function}
+ */
+export const userSignOut = () => async dispatch => {
+  try {
+    dispatch(setStatus('loading', true));
+
+    if (!Firebase.auth().currentUser) throw new Error("User wasn't signed in");
+    await Firebase.auth().signOut();
+    dispatch(resetUser());
+    return dispatch(setStatus('success', 'Bye Bye! Signed Out okay'));
+  } catch (test) {
+    dispatch(resetUser());
+    // Same result even if error so don't throw error
+    return dispatch(setStatus('error', test.message));
+  }
+};
