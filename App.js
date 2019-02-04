@@ -11,7 +11,7 @@ import { store, persistor } from './shared/redux/store';
 // import Roboto from 'native-base/Fonts/Roboto.ttf';
 // import RobotoMedium from 'native-base/Fonts/Roboto_medium.ttf';
 
-import Router from './src/router';
+import MyRoute from './src';
 import LoadingScreen from './src/screens/Loading';
 
 export default class App extends React.Component {
@@ -34,7 +34,7 @@ export default class App extends React.Component {
         <PersistGate loading={<LoadingScreen />} persistor={persistor}>
           <StyleProvider style={getTheme(platformTheme)}>
             <Root>
-              <Router />
+              <MyRoute />
             </Root>
           </StyleProvider>
         </PersistGate>

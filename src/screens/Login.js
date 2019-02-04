@@ -20,13 +20,10 @@ const SPage = styled.View`
 class Login extends React.Component {
   static propTypes = {
     locale: PropTypes.string,
-    error: PropTypes.string,
-    loading: PropTypes.bool.isRequired,
     onFormSubmit: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    error: null,
     locale: 'en',
   };
 
@@ -68,16 +65,13 @@ class Login extends React.Component {
   };
 
   render() {
-    const { loading, error, locale } = this.props;
-
-    if (loading) return <Loading />;
+    const { locale } = this.props;
 
     return (
       <Screen>
         <SPage>
           <View padder>
             <H2>{translate('Login', locale)}</H2>
-            {error ? <Messages message={error} /> : null}
           </View>
           <Form>
             <Item stackedLabel>

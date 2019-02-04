@@ -84,7 +84,7 @@ export const userSignUp = formData => async dispatch => {
     await firebaseUpdateProfile({ id: userDb.dbId, name });
     dispatch(setUser(userFirebase.uid, userDb.dbId, email));
     // Stop loading
-    return dispatch(setStatus('success', 'Logged in baby!'));
+    return dispatch(setStatus('success', 'Welcome!'));
   } catch (error) {
     if (Firebase.auth().currentUser) {
       // Attempts to delete
@@ -111,7 +111,8 @@ export const userLogin = ({ email, password }) => async dispatch => {
     // Set database if (this will likely not be obvious)
     const dbId = user.photoURL;
 
-    return dispatch(setUser(user.uid, dbId, email));
+    dispatch(setUser(user.uid, dbId, email));
+    return dispatch(setStatus('success', 'Logged in baby!'));
   } catch (error) {
     dispatch(setStatus('error', error));
     throw error;

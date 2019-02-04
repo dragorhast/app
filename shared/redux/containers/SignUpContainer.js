@@ -15,13 +15,10 @@ import { userSignUp } from '../ducks/user';
 
 export default function withSignUp(WrappedComponent) {
   // Creates the wrapped component with no life cycle methods
-  const SignUpContainer = ({ locale, status, signUp }) => (
-    <WrappedComponent locale={locale} loading={status.loading} error={status.error} onFormSubmit={signUp} />
-  );
+  const SignUpContainer = ({ locale, signUp }) => <WrappedComponent locale={locale} onFormSubmit={signUp} />;
 
   const mapStateToProps = state => ({
     locale: state.locale.country,
-    status: state.status,
   });
 
   const mapDispatchToProp = {
