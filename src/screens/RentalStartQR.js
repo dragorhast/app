@@ -15,7 +15,7 @@ const SQrScanner = styled.View`
   align-items: center;
 `;
 
-class BikeRentalQR extends React.Component {
+class RentalStartQR extends React.Component {
   state = {
     bikeIdInput: '',
   };
@@ -25,8 +25,9 @@ class BikeRentalQR extends React.Component {
     try {
       await startRental(bikeId);
       // TODO change to info + find out how to pass props (fetchBikeRentalOnLoad: false)
-      Actions.replace(ROUTES.Home);
+      Actions[ROUTES.RentalInfoNew]();
     } catch (e) {
+      // Re-route or open modal if no payment details
       // Error displayed as Toast through root
       return Promise.resolve();
     }
@@ -57,8 +58,8 @@ class BikeRentalQR extends React.Component {
   }
 }
 
-BikeRentalQR.propTypes = {
+RentalStartQR.propTypes = {
   startRental: PropTypes.func.isRequired,
 };
 
-export default withStartRental(BikeRentalQR);
+export default withStartRental(RentalStartQR);

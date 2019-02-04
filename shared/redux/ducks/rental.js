@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Firebase } from '../../constants/firebase';
 import { setStatus } from './status';
 import ErrorMessages from '../../constants/errors';
-import { apiStartRentalId } from '../../api/tap2go';
+import { apiStartRentalId, apiFetchCurrentRental, apiEndCurrentRental } from '../../api/tap2go';
 
 // Actions
 const RENTAL_SET_ALL = 'RENTAL_SET_ALL';
@@ -82,4 +82,61 @@ export const rentalStartFromId = bikeId => async dispatch => {
   }
 };
 
+/**
+ * Gets the user's current rental info
+ * - hit db
+ * - update rental
+ * - return success
+ */
+export const rentalFetchInfo = () => async dispatch => {
+  try {
+    // Fetching doesn't trigger Loading
+    const rental = await apiFetchCurrentRental();
+
+    const withinPickUpPoint =
+      rental.current_location &&
+      rental.current_location.properties &&
+      rental.current_location.properties.type === 'Pickup Point';
+
+    return dispatch(
+      setAllRental({
+        bikeId: rental.bike_id,
+        startTime: rental.start_time,
+        costSoFar: rental.estimated_price,
+        withinPickUpPointGeo: withinPickUpPoint, // TODO check
+        ableToBeReturned: withinPickUpPoint, // TODO check
+      })
+    );
+  } catch (e) {
+    dispatch(setStatus('error', e.message));
+    throw e;
+  }
+};
+
+/**
+ * Ends the current rental
+ * - Loads
+ * - Hit API
+ * - Sets success to cost
+ * @returns {Function}
+ */
+export const rentalEnd = () => async dispatch => {
+  try {
+    dispatch(setStatus('loading', true));
+    const rental = await apiEndCurrentRental();
+    dispatch(clearRental());
+    return dispatch(setStatus('success', `Nice trip. ${rental.price}`));
+  } catch (e) {
+    dispatch(setStatus('error', e.message));
+    throw e;
+  }
+};
+
 // Selectors - put working out time here
+
+/**
+ * Selector to return the normal reducer structure
+ * plus a displayable string with the hours and minutes since
+ * the rental has started
+ */
+export const getWithTimeRentalsBeenActive = () => {};

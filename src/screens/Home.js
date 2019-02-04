@@ -9,6 +9,9 @@ const Home = () => (
     <Button onPress={() => Actions[ROUTES.RentalStart]()} large>
       <Text>RENT NOW</Text>
     </Button>
+    <Button onPress={() => Actions[ROUTES.RentalInfo]()} large>
+      <Text>CURRENT RENTAL</Text>
+    </Button>
   </Screen>
 );
 

@@ -107,7 +107,7 @@ export const apiStartRentalId = async bikeId => {
       data: {
         rental: {
           bike_id: '8861b3',
-          start_time: new Date().setHours(0, 0, 0, 0),
+          start_time: new Date(),
           estimated_price: 0,
         },
       },
@@ -117,3 +117,43 @@ export const apiStartRentalId = async bikeId => {
     throw e;
   }
 };
+
+export const apiFetchCurrentRental = async () => {
+  const dbId = Firebase.auth().currentUser.photoURL;
+  try {
+    // const result = await axiosAuth.get(`/users/${dbId || 'me'}`);
+    const result = {
+      data: {
+        rental: {
+          bike_id: '8861b3',
+          start_time: new Date().setHours(0, 0, 0, 0),
+          estimated_price: 4,
+          current_location: { properties: { type: 'Pickup Point' } },
+        },
+      },
+    };
+
+    return result.data.rental;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const apiEndCurrentRental = async () => {
+  const dbId = Firebase.auth().currentUser.photoURL;
+  try {
+    // const result = await axiosAuth.delete(`/users/${dbId || 'me'}`);
+    const result = {
+      data: {
+        rental: {
+          bike_id: '8861b3',
+          price: 3.5,
+        },
+      },
+    };
+
+    return result.data.rental;
+  } catch (e) {
+    throw e;
+  }
+}

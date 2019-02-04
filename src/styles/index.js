@@ -1,3 +1,4 @@
+// import styled from 'styled-components/native';
 import StyleVariables from '../../native-base-theme/variables/platform';
 
 export const NBVariables = StyleVariables;
@@ -7,3 +8,9 @@ export const MyStyleVariable = {
 };
 
 export * from './Views';
+
+
+
+
+
+

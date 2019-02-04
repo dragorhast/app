@@ -70,10 +70,9 @@ class MyRoute extends React.Component {
   }
 
   render() {
-    const { reduxLoading } = this.props;
     const { stateLoading, firebaseUser } = this.state;
 
-    if (reduxLoading || stateLoading) return <Loading />;
+    if (stateLoading) return <Loading />;
 
     return <Router user={firebaseUser} />;
   }

@@ -1,6 +1,9 @@
-export const delay = async time => {
-  await setTimeout(() => {}, time);
-};
+export const delay = time =>
+  new Promise(res => {
+    setTimeout(() => {
+      res();
+    }, time);
+  });
 
 /**
  * Returns the time of a date in the format
@@ -33,4 +36,9 @@ export const hoursAndMinutesBetween2Times = (startTime, endTime) => {
   const hours = Math.floor(milliSecondsSoFar / (1000 * 60 * 60));
   const minutes = Math.round((milliSecondsSoFar / 1000) % 60);
   return hours ? `${hours} hrs ${minutes} mins` : `${minutes} mins`;
+};
+
+export const minutesSinceTime = startTime => {
+  const differenceMs = Math.abs(new Date() - new Date(startTime));
+  return Math.round(differenceMs / (1000 * 60));
 };

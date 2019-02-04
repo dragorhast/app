@@ -395,6 +395,7 @@ export default (variables /* : * */ = variable) => {
     shadowOpacity: 0.4,
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 8,
   };
   return buttonTheme;
 };

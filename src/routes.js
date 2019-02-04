@@ -6,4 +6,6 @@ export default {
   Login: 'Login',
   SignUp: 'SignUp',
   RentalStart: 'RentalStart',
+  RentalInfo: 'RentalInfo',
+  RentalInfoNew: 'RentalInfoNew',
 };

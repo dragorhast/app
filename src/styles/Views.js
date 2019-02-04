@@ -19,3 +19,18 @@ export const Screen = styled.View`
   background-color: #fff;
   padding: 8px;
 `;
+
+export const BreakLine = styled.View`
+  height: 2px;
+  border-bottom-width: 2px;
+  border-bottom-color: ${props => props.color || 'grey'};
+  width: ${props => props.width || '100%'};
+`;
+
+export const StyledModal = styled.View`
+  height: 80%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px 8px;
+  box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.5);
+`;
