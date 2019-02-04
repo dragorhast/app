@@ -7,6 +7,7 @@ export default (variables /* : * */ = variable) => {
     flex: 1,
     alignItems: 'center',
     alignSelf: 'center',
+    width: '90%',
   };
 
   return bodyTheme;

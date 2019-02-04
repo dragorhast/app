@@ -1,10 +1,15 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Button, Text } from 'native-base';
+import { Actions } from 'react-native-router-flux';
+import { Screen } from '../styles';
+import ROUTES from '../routes';
 
 const Home = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'blue' }}>
-    <Text>Home Text</Text>
-  </View>
+  <Screen>
+    <Button onPress={() => Actions[ROUTES.RentalStart]()} large>
+      <Text>RENT NOW</Text>
+    </Button>
+  </Screen>
 );
 
 export default Home;

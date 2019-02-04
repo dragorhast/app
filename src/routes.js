@@ -5,4 +5,5 @@ export default {
   Home: 'Home',
   Login: 'Login',
   SignUp: 'SignUp',
+  RentalStart: 'RentalStart',
 };

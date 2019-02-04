@@ -6,7 +6,6 @@ import styled from 'styled-components/native';
 import { Screen } from '../styles';
 import { translate } from '../../shared/i18n';
 import withLogin from '../../shared/redux/containers/LoginContainer';
-import { Firebase } from '../../shared/constants/firebase';
 
 import ROUTES from '../routes';
 

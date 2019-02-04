@@ -92,3 +92,28 @@ export const apiSignUp = async (name, email, firebaseId, authToken) => {
     throw e;
   }
 };
+
+/**
+ * Creates a new rental on a bike and returns the rental
+ * info
+ *
+ * @param bikeId
+ * @returns {Promise<*>}
+ */
+export const apiStartRentalId = async bikeId => {
+  try {
+    // const result = await axiosAuth.post(`/bikes/${bikeId}/rentals`); // auth should be handled
+    const result = {
+      data: {
+        rental: {
+          bike_id: '8861b3',
+          start_time: new Date().setHours(0, 0, 0, 0),
+          estimated_price: 0,
+        },
+      },
+    };
+    return result.data.rental;
+  } catch (e) {
+    throw e;
+  }
+};
