@@ -74,7 +74,7 @@ class RentalInfo extends React.Component {
     const { returnRental } = this.props;
     try {
       await returnRental();
-      // return Actions[ROUTES.Home]();
+      return Actions[ROUTES.Home]();
     } catch (e) {
       // Handled by redux
       return Promise.resolve();
@@ -90,7 +90,7 @@ class RentalInfo extends React.Component {
     const { returnRental } = this.props;
     try {
       await returnRental();
-      // return Actions[ROUTES.Home]();
+      return Actions[ROUTES.Home]();
     } catch (e) {
       // Handled by redux
       return Promise.resolve();
@@ -122,7 +122,7 @@ class RentalInfo extends React.Component {
   };
 
   render() {
-    const { rentalInfo, getRentalInfo, loading } = this.props;
+    const { rentalInfo, getRentalInfo } = this.props;
     const { modal1PutBackInRack, modal2IsUserSure } = this.state;
 
     // if (loading) return <Loading />;
@@ -163,7 +163,7 @@ class RentalInfo extends React.Component {
           <Text>Time used so far</Text>
         </View>
 
-        <BreakLine width="60%" />
+        <BreakLine width="75%" />
 
         {/* Buttons */}
         <StyledButtonsView>

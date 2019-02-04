@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
-import { Firebase } from '../../constants/firebase';
 import { setStatus } from './status';
-import ErrorMessages from '../../constants/errors';
 import { apiStartRentalId, apiFetchCurrentRental, apiEndCurrentRental } from '../../api/tap2go';
 
 // Actions
@@ -84,8 +82,10 @@ export const rentalStartFromId = bikeId => async dispatch => {
 
 /**
  * Gets the user's current rental info
- * - hit db
- * - update rental
+ * Note: no loading for better UI
+ *
+ * - Hit API
+ * - Update rental reducer
  * - return success
  */
 export const rentalFetchInfo = () => async dispatch => {

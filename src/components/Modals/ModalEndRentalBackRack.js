@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
-import { Button, H1, H2, H3, Text, View } from 'native-base';
+import { Button, H3, Text, View } from 'native-base';
 import { StyledModal } from '../../styles';
 
 const ModalEndRentalBackRack = ({ nextPage, close, isVisible }) => (
