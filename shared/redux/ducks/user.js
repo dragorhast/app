@@ -114,7 +114,7 @@ export const userLogin = ({ email, password }) => async dispatch => {
     dispatch(setUser(user.uid, dbId, email));
     return dispatch(setStatus('success', 'Logged in baby!'));
   } catch (error) {
-    dispatch(setStatus('error', error));
+    dispatch(setStatus('error', error.message));
     throw error;
   }
 };
@@ -141,9 +141,9 @@ export const userSignOut = () => async dispatch => {
     await Firebase.auth().signOut();
     dispatch(resetUser());
     return dispatch(setStatus('success', 'Bye Bye! Signed Out okay'));
-  } catch (test) {
+  } catch (error) {
     dispatch(resetUser());
     // Same result even if error so don't throw error
-    return dispatch(setStatus('error', test.message));
+    return dispatch(setStatus('error', error.message));
   }
 };

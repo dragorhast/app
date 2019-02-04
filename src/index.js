@@ -10,6 +10,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Toast } from 'native-base';
 import { connect } from 'react-redux';
 import { Firebase } from '../shared/constants/firebase';
 import Router from './router';
@@ -40,7 +41,25 @@ class MyRoute extends React.Component {
    * Calls Toast if error or success
    * @param prevProps
    */
-  componentDidUpdate(prevProps) {}
+  componentDidUpdate(prevProps) {
+    const { error, success, reduxLoading } = this.props;
+    const { stateLoading } = this.state;
+
+    // Check if change
+    const errorChange = prevProps.error !== error;
+    const successChange = prevProps.success !== success;
+
+    if ((errorChange || successChange) && !reduxLoading && !stateLoading) {
+      console.log(errorChange ? error : success);
+      Toast.show({
+        position: 'top',
+        duration: 5000,
+        buttonText: 'okay',
+        type: errorChange ? 'danger' : 'success',
+        text: errorChange ? error : success,
+      });
+    }
+  }
 
   /**
    * Don't forget to stop listening for authentication state changes

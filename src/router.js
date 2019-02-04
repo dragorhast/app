@@ -13,8 +13,8 @@ const MyRouter = ({ user }) => (
     <Scene key="root" hideNavBar>
       <Scene key={ROUTES.Login} component={Login} title="Login" hideNavBar initial={!user} />
       <Scene key={ROUTES.SignUp} component={SignUp} title="SignUp" hideNavBar />
-      <Scene key="drawer" drawer contentComponent={SidePanel} initial={user}>
-        <Scene key={ROUTES.Home} component={Home} title="Home" />
+      <Scene key={ROUTES.Home} drawer contentComponent={SidePanel} initial={user}>
+        <Scene key="home-component" component={Home} title="Home" />
       </Scene>
       <Scene key="home" component={Home} title="Home" />
     </Scene>
