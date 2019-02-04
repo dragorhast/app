@@ -1,0 +1,8 @@
+/**
+ * A place to hold all scene keys
+ */
+export default {
+  Home: 'Home',
+  Login: 'Login',
+  SignUp: 'SignUp',
+};
