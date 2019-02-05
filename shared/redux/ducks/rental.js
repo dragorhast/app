@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
+import { Firebase } from '../../constants/firebase';
 import { apiRentalStartId, apiRentalFetchCurrent, apiRentalEndCurrent } from '../../api/tap2go';
 
 // Actions
@@ -62,10 +63,12 @@ export const rentalStartFromId = bikeId => async dispatch => {
   try {
     dispatch(setStatus('loading', true));
 
-    const rental = await apiRentalStartId(bikeId);
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+
+    const rental = await apiRentalStartId(bikeId, authToken);
     dispatch(
       setAllRental({
-        bikeId: rental.bike_id,
+        bikeId: rental.bike_identifier,
         startTime: rental.start_time,
         costSoFar: rental.estimated_price,
         withinPickUpPointGeo: true, // TODO check
@@ -91,16 +94,16 @@ export const rentalStartFromId = bikeId => async dispatch => {
 export const rentalFetchInfo = () => async dispatch => {
   try {
     // Fetching doesn't trigger Loading
-    const rental = await apiRentalFetchCurrent();
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+    const rental = await apiRentalFetchCurrent(authToken);
 
     const withinPickUpPoint =
       rental.current_location &&
       rental.current_location.properties &&
       rental.current_location.properties.type === 'Pickup Point';
-
     return dispatch(
       setAllRental({
-        bikeId: rental.bike_id,
+        bikeId: rental.bike_identifier,
         startTime: rental.start_time,
         costSoFar: rental.estimated_price,
         withinPickUpPointGeo: withinPickUpPoint, // TODO check
@@ -108,6 +111,11 @@ export const rentalFetchInfo = () => async dispatch => {
       })
     );
   } catch (e) {
+    // TODO handle better
+    if (e.message === 'NO RENTAL') {
+      await dispatch(clearRental());
+      return Promise.resolve();
+    }
     dispatch(setStatus('error', e.message));
     throw e;
   }
@@ -123,7 +131,10 @@ export const rentalFetchInfo = () => async dispatch => {
 export const rentalEnd = () => async dispatch => {
   try {
     dispatch(setStatus('loading', true));
-    const rental = await apiRentalEndCurrent();
+
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+
+    const rental = await apiRentalEndCurrent(authToken);
     dispatch(clearRental());
     return dispatch(setStatus('success', `Nice trip. £${rental.price} Has been charged`));
   } catch (e) {

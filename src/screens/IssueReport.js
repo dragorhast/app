@@ -116,6 +116,7 @@ class IssueReport extends React.Component {
               placeholder="What happens to be the matter..."
               value={description}
               onChangeText={input => this.setState({ description: input })}
+              returnKeyType="done"
             />
           </Form>
           <Button onPress={this.sendReport} primary halfWid>

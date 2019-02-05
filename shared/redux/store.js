@@ -11,7 +11,7 @@ const persistConfig = {
   key: 'root',
   storage,
   stateReconciler: autoMergeLevel2, // stops rehydrate from overriding new keys, see link below
-  whitelist: ['user', 'rental'], // so chose what to persist
+  whitelist: ['rental', 'locale', 'pickups'], // chose what to persist
 };
 
 // if need mpre advanced control of persisted states see below:

@@ -171,9 +171,7 @@ class RentalInfo extends React.Component {
           <Button
             danger
             large
-            onPress={() => {
-              console.log('report issue page');
-            }}
+            onPress={Actions[ROUTES.IssueReport]}
           >
             <Text>Report Issue</Text>
           </Button>

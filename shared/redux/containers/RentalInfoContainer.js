@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 import { rentalEnd, rentalFetchInfo } from '../ducks/rental';
 
-export default function withCurrentRental(WrappedComponent) {
+    export default function withCurrentRental(WrappedComponent) {
   // Pure function always auto re-loads children on prop change!
   class RentalInfoContainer extends React.Component {
     render() {

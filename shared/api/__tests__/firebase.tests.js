@@ -9,6 +9,7 @@ describe('firebase sign up user using e-mail', () => {
       const user = await firebaseSignUpEmail(email, 'Password');
       // Gets from SDK
       const userIDFromConsole = Firebase.auth().currentUser.uid;
+      const firebaseToken = await Firebase.auth().currentUser.getIdToken();
       expect(userIDFromConsole).toBe(user.uid);
 
       // Delete user
@@ -64,7 +65,7 @@ describe('firebase login user using e-mail', () => {
       await Firebase.auth().signOut();
       done();
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       done.fail(e);
     }
   });
@@ -85,7 +86,7 @@ describe('firebase login user using e-mail', () => {
       done();
     } catch (e) {
       await Firebase.auth().currentUser.delete();
-      console.error(e);
+      // console.error(e);
       done.fail();
     }
   });

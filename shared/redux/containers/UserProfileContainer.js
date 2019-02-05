@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { userSignOut } from '../ducks/user';
 
 export default function withUserFunctions(WrappedComponent) {
-  const UserProfileContainer = ({ locale, signOut }) => <WrappedComponent locale={locale} signOut={signOut} />;
+  const UserProfileContainer = props => <WrappedComponent locale={props.locale} signOut={props.signOut} {...props} />;
 
   const mapStateToProps = state => ({
     locale: state.locale.country,

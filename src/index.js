@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { Firebase } from '../shared/constants/firebase';
 import Router from './router';
 import Loading from './screens/LoadingScreen';
+import { delay } from '../shared/util';
 
 class MyRoute extends React.Component {
   state = {
@@ -32,7 +33,7 @@ class MyRoute extends React.Component {
     this.authSubscription = Firebase.auth().onAuthStateChanged(user => {
       this.setState({
         stateLoading: false,
-        firebaseUser: user,
+        firebaseId: user ? user.uid : null,
       });
     });
   }
@@ -70,11 +71,12 @@ class MyRoute extends React.Component {
   }
 
   render() {
-    const { stateLoading, firebaseUser } = this.state;
+    const { stateLoading, firebaseId } = this.state;
+    const { reduxLoading } = this.props;
 
-    if (stateLoading) return <Loading />;
+    if (stateLoading || reduxLoading) return <Loading />;
 
-    return <Router user={firebaseUser} />;
+    return <Router firebaseId={firebaseId} />;
   }
 }
 

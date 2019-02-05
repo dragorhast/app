@@ -18,7 +18,12 @@ export const Screen = styled.View`
   justify-content: center;
   align-items: center;
   background-color: #ffff;
-  padding: 8px;
+  /* padding: 8px; */
+`;
+
+export const Spacer = styled.View`
+  width: 100%;
+  height: ${props => props.size || '20px'};
 `;
 
 export const BreakLine = styled.View`

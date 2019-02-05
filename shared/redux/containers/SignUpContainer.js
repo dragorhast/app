@@ -16,6 +16,12 @@ import { userSignUp } from '../ducks/user';
 export default function withSignUp(WrappedComponent) {
   // Creates the wrapped component with no life cycle methods
   const SignUpContainer = ({ locale, signUp }) => <WrappedComponent locale={locale} onFormSubmit={signUp} />;
+  // class SignUpContainer extends React.Component {
+  //   render() {
+  //     const { locale, signUp } = this.props;
+  //     return <WrappedComponent locale={locale} onFormSubmit={signUp} />;
+  //   }
+  // }
 
   const mapStateToProps = state => ({
     locale: state.locale.country,

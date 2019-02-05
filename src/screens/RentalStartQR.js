@@ -40,9 +40,6 @@ class RentalStartQR extends React.Component {
       <Screen>
         <H2>Scan QR or type in 6 Digit code</H2>
         <View style={{ height: '80%', width: '90%' }}>
-          <SQrScanner>
-            <QRScanner onSuccessfulScan={this.sendBikeIdToServer} />
-          </SQrScanner>
           <Item>
             <Input
               placeholder="6 Digit Bike ID"
@@ -52,6 +49,10 @@ class RentalStartQR extends React.Component {
               onSubmitEditing={() => this.sendBikeIdToServer(bikeIdInput)}
             />
           </Item>
+
+          <SQrScanner>
+            <QRScanner onSuccessfulScan={this.sendBikeIdToServer} />
+          </SQrScanner>
         </View>
       </Screen>
     );

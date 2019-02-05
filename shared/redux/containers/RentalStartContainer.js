@@ -13,7 +13,9 @@ import { rentalStartFromId } from '../ducks/rental';
 
 export default function withStartRental(WrappedComponent) {
   // Creates the wrapped component with no life cycle methods
-  const RentalStartContainer = ({ locale, startRental }) => <WrappedComponent locale={locale} startRental={startRental} />;
+  const RentalStartContainer = ({ locale, startRental }) => (
+    <WrappedComponent locale={locale} startRental={startRental} />
+  );
 
   const mapStateToProps = state => ({
     locale: state.locale.country,
