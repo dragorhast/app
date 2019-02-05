@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
-import { apiStartRentalId, apiFetchCurrentRental, apiEndCurrentRental } from '../../api/tap2go';
+import { apiRentalStartId, apiRentalFetchCurrent, apiRentalEndCurrent } from '../../api/tap2go';
 
 // Actions
 const RENTAL_SET_ALL = 'RENTAL_SET_ALL';
@@ -62,7 +62,7 @@ export const rentalStartFromId = bikeId => async dispatch => {
   try {
     dispatch(setStatus('loading', true));
 
-    const rental = await apiStartRentalId(bikeId);
+    const rental = await apiRentalStartId(bikeId);
     dispatch(
       setAllRental({
         bikeId: rental.bike_id,
@@ -91,7 +91,7 @@ export const rentalStartFromId = bikeId => async dispatch => {
 export const rentalFetchInfo = () => async dispatch => {
   try {
     // Fetching doesn't trigger Loading
-    const rental = await apiFetchCurrentRental();
+    const rental = await apiRentalFetchCurrent();
 
     const withinPickUpPoint =
       rental.current_location &&
@@ -123,9 +123,9 @@ export const rentalFetchInfo = () => async dispatch => {
 export const rentalEnd = () => async dispatch => {
   try {
     dispatch(setStatus('loading', true));
-    const rental = await apiEndCurrentRental();
+    const rental = await apiRentalEndCurrent();
     dispatch(clearRental());
-    return dispatch(setStatus('success', `Nice trip. ${rental.price}`));
+    return dispatch(setStatus('success', `Nice trip. £${rental.price} Has been charged`));
   } catch (e) {
     dispatch(setStatus('error', e.message));
     throw e;

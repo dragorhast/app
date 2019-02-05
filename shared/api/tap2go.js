@@ -100,7 +100,7 @@ export const apiSignUp = async (name, email, firebaseId, authToken) => {
  * @param bikeId
  * @returns {Promise<*>}
  */
-export const apiStartRentalId = async bikeId => {
+export const apiRentalStartId = async bikeId => {
   try {
     // const result = await axiosAuth.post(`/bikes/${bikeId}/rentals`); // auth should be handled
     const result = {
@@ -118,7 +118,13 @@ export const apiStartRentalId = async bikeId => {
   }
 };
 
-export const apiFetchCurrentRental = async () => {
+/**
+ * Fetches the current active rental on the currently
+ * signed in user
+ *
+ * @returns {Promise<result.data.rental|{estimated_price, start_time, bike_id, current_location}>}
+ */
+export const apiRentalFetchCurrent = async () => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
     // const result = await axiosAuth.get(`/users/${dbId || 'me'}`);
@@ -139,7 +145,13 @@ export const apiFetchCurrentRental = async () => {
   }
 };
 
-export const apiEndCurrentRental = async () => {
+/**
+ * Ends the current active rental for the
+ * signed in user
+ *
+ * @returns {Promise<result.data.rental|{price, bike_id}>}
+ */
+export const apiRentalEndCurrent = async () => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
     // const result = await axiosAuth.delete(`/users/${dbId || 'me'}`);
@@ -156,4 +168,25 @@ export const apiEndCurrentRental = async () => {
   } catch (e) {
     throw e;
   }
-}
+};
+
+/**
+ * Creates an issue on the current signed in user's
+ * end point
+ *
+ * Attaches bikeId if present
+ *
+ * @param bikeId
+ * @param description
+ * @returns {Promise<void>}
+ */
+export const apiIssueCreate = async ({ bikeId, description }) => {
+  const dbId = Firebase.auth().currentUser.photoURL;
+  try {
+    // const result = await axiosAuth.post(`/users/${dbId || 'me'}/issues`);
+    const result = { data: { issue: { id: 1, description, bike_id: bikeId } } };
+    return result.data.rental;
+  } catch (e) {
+    throw e;
+  }
+};

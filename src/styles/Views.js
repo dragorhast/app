@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { Platform, Dimensions } from 'react-native';
+import { Textarea } from 'native-base';
 
 const deviceHeight = Dimensions.get('window').height;
 /**
@@ -33,4 +34,31 @@ export const StyledModal = styled.View`
   border-radius: 8px;
   padding: 16px 8px;
   box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.5);
+`;
+
+export const Card = styled.View`
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  align-self: center;
+  padding: 8px 16px;
+  border-radius: 8;
+`;
+
+export const CardMediumShadow = styled(Card)`
+  box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.1);
+  margin: 8px;
+`;
+
+export const ShadowedTextArea = styled(Textarea)`
+  /*box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.9);*/
+  border-radius: 8px;
+  margin-bottom: 16;
+`;
+
+export const StyledInline = styled.View`
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
 `;

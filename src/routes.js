@@ -8,4 +8,5 @@ export default {
   RentalStart: 'RentalStart',
   RentalInfo: 'RentalInfo',
   RentalInfoNew: 'RentalInfoNew',
+  IssueReport: 'IssueReport',
 };

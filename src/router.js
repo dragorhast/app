@@ -9,9 +9,10 @@ import SignUp from './screens/SignUp';
 import SidePanel from './components/SidePanel';
 import BikeRentalQR from './screens/RentalStartQR';
 import RentalInfo from './screens/RentalInfo';
+import IssueReport from './screens/IssueReport';
 
 // FOR TESTING VISUAL
-const VisualInspection = RentalInfo;
+const VisualInspection = IssueReport;
 
 const MyRouter = ({ user }) => (
   <Router>
@@ -23,8 +24,9 @@ const MyRouter = ({ user }) => (
         <Scene key={ROUTES.RentalInfo} component={RentalInfo} back fetchInfoOnLoad />
         <Scene key={ROUTES.RentalStart} component={BikeRentalQR} back />
         <Scene key={ROUTES.RentalInfoNew} component={RentalInfo} fetchInfoOnLoad={false} />
+        <Scene key={ROUTES.IssueReport} component={IssueReport} back />
       </Scene>
-      {/* <Scene key="test" title="test" component={VisualInspection} /> */}
+       {/*<Scene key="test" title="test" component={VisualInspection} />*/}
     </Scene>
   </Router>
 );

@@ -6,11 +6,14 @@ import ROUTES from '../routes';
 
 const Home = () => (
   <Screen>
-    <Button onPress={() => Actions[ROUTES.RentalStart]()} large>
+    <Button onPress={() => Actions[ROUTES.RentalStart]()} large halfWid>
       <Text>RENT NOW</Text>
     </Button>
-    <Button onPress={() => Actions[ROUTES.RentalInfo]()} large>
-      <Text>CURRENT RENTAL</Text>
+    <Button onPress={() => Actions[ROUTES.RentalInfo]()} large halfWid>
+      <Text>CURRENT</Text>
+    </Button>
+    <Button onPress={() => Actions[ROUTES.IssueReport]()} large danger halfWid>
+      <Text>ISSUE</Text>
     </Button>
   </Screen>
 );
