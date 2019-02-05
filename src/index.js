@@ -14,7 +14,7 @@ import { Toast } from 'native-base';
 import { connect } from 'react-redux';
 import { Firebase } from '../shared/constants/firebase';
 import Router from './router';
-import Loading from './screens/Loading';
+import Loading from './screens/LoadingScreen';
 
 class MyRoute extends React.Component {
   state = {

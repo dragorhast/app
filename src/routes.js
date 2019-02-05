@@ -9,4 +9,5 @@ export default {
   RentalInfo: 'RentalInfo',
   RentalInfoNew: 'RentalInfoNew',
   IssueReport: 'IssueReport',
+  PickupPoints: 'PickupPoints',
 };

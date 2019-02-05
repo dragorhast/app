@@ -12,7 +12,7 @@ import { store, persistor } from './shared/redux/store';
 // import RobotoMedium from 'native-base/Fonts/Roboto_medium.ttf';
 
 import MyRoute from './src';
-import LoadingScreen from './src/screens/Loading';
+import LoadingScreen from './src/screens/LoadingScreen';
 
 export default class App extends React.Component {
   // async componentWillMount() {

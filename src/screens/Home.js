@@ -12,6 +12,9 @@ const Home = () => (
     <Button onPress={() => Actions[ROUTES.RentalInfo]()} large halfWid>
       <Text>CURRENT</Text>
     </Button>
+    <Button onPress={() => Actions[ROUTES.PickupPoints]()} large halfWid>
+      <Text>PICKUP PONTS</Text>
+    </Button>
     <Button onPress={() => Actions[ROUTES.IssueReport]()} large danger halfWid>
       <Text>ISSUE</Text>
     </Button>

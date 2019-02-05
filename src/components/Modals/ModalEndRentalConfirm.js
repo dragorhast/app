@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
 import { Button, H2, H3, Text, View } from 'native-base';
 import { StyledModal } from '../../styles';
-import Loading from '../../screens/Loading';
+import Loading from '../../screens/LoadingScreen';
 import { timeFromDate } from '../../../shared/util';
 
 class ModalEndRentalConfirm extends React.Component {

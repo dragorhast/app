@@ -11,7 +11,6 @@ export default (variables /* : * */ = variable) => {
     },
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'orange',
     'NativeBase.Segment': {
       borderWidth: 0,
       backgroundColor: 'transparent',

@@ -10,7 +10,7 @@ import withSignUp from '../../shared/redux/containers/SignUpContainer';
 
 import ROUTES from '../routes';
 
-import Loading from './Loading';
+import Loading from './LoadingScreen';
 import Messages from '../components/Messages';
 
 const SPage = styled.View`

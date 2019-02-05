@@ -190,3 +190,63 @@ export const apiIssueCreate = async ({ bikeId, description }) => {
     throw e;
   }
 };
+
+
+
+// Only Sections that matter
+const pickup1 = {
+  geometry: {
+    geometries: [
+      {
+        type: 'Point',
+        coordinates: [55.949159, -3.199293],
+      },
+    ],
+  },
+  properties: {
+    name: 'Princes St West',
+    distance: 1.2,
+  },
+};
+const pickup2 = {
+  geometry: {
+    geometries: [
+      {
+        type: 'Point',
+        coordinates: [55.949159, -3.199293],
+      },
+    ],
+  },
+  properties: {
+    name: 'George St',
+    distance: 1.8,
+  },
+};
+const pickup3 = {
+  geometry: {
+    geometries: [
+      {
+        type: 'Point',
+        coordinates: [55.949159, -3.199293],
+      },
+    ],
+  },
+  properties: {
+    name: 'Toll Cross',
+    distance: 2.4,
+  },
+};
+export const apiPickupPointsFetch = async (lat = 55.949159, long = -3.199293, range = 4) => {
+  try {
+    // TODO find out if long or lng
+    // const result = await axiosAuth.get(`/pickups?lat=${lat}&long=${long}&range=${range}miles`);
+    const result = {
+      data: {
+        pickups: [pickup1, pickup2, pickup3],
+      },
+    };
+    return result.data.pickups;
+  } catch (e) {
+    throw e;
+  }
+};

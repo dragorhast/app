@@ -229,15 +229,15 @@ export default {
   inverseSpinnerColor: '#1A191B',
 
   // Tab
-  tabDefaultBg: platform === 'ios' ? '#F8F8F8' : '#3F51B5',
+  tabDefaultBg: 'white',
   topTabBarTextColor: platform === 'ios' ? '#6b6b6b' : '#b3c7f9',
-  topTabBarActiveTextColor: platform === 'ios' ? '#007aff' : '#fff',
-  topTabBarBorderColor: platform === 'ios' ? '#a7a6ab' : '#fff',
-  topTabBarActiveBorderColor: platform === 'ios' ? '#007aff' : '#fff',
+  topTabBarBorderColor: 'transparent',
+  topTabBarActiveTextColor: '#007aff',
+  topTabBarActiveBorderColor: '#007aff',
 
   // Tabs
-  tabBgColor: '#F8F8F8',
-  tabFontSize: 15,
+  tabBgColor: 'white',
+  tabFontSize: 24,
 
   // Text
   textColor: '#000',

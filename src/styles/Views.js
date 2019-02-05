@@ -17,7 +17,7 @@ export const Screen = styled.View`
    */
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: #ffff;
   padding: 8px;
 `;
 
@@ -58,7 +58,7 @@ export const ShadowedTextArea = styled(Textarea)`
 
 export const StyledInline = styled.View`
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 `;
