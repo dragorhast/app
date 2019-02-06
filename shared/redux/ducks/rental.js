@@ -149,5 +149,6 @@ export const rentalEnd = () => async dispatch => {
  * Selector to return the normal reducer structure
  * plus a displayable string with the hours and minutes since
  * the rental has started
+ * https://egghead.io/lessons/javascript-redux-colocating-selectors-with-reducers
  */
 export const getWithTimeRentalsBeenActive = () => {};
