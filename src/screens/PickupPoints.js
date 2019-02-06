@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Location, Permissions } from 'expo';
+import { Location, Permissions, MapView, Marker } from 'expo';
 import { Content, Text, View, Tabs, Tab } from 'native-base';
 import { Screen } from '../styles';
 import LoadingIndicator from '../components/LoadingIndicator';
@@ -46,7 +46,23 @@ class PickupPoints extends React.Component {
             <Content>{pickups && pickups.map(point => <PickupPoint point={point} key={point.name} />)}</Content>
           </Tab>
           <Tab heading="Map">
-            <Text>Map View</Text>
+            <MapView
+              style={{ flex: 1 }}
+              initialRegion={{
+                latitude: 55.949159,
+                longitude: -3.199293,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+            >
+              {pickups &&
+                pickups.map(point => (
+                  <MapView.Marker
+                    coordinate={{ latitude: point.coordinates[0], longitude: point.coordinates[1] }}
+                    key={point.name}
+                  />
+                ))}
+            </MapView>
           </Tab>
         </Tabs>
       </Screen>

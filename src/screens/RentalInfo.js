@@ -103,10 +103,11 @@ class RentalInfo extends React.Component {
    */
   renderReturnButton = () => {
     const { rentalInfo } = this.props;
+    const devMode = true;
     const rentalStartWithin5Minutes = minutesSinceTime(rentalInfo.startTime) < 5;
 
     // Cancel Button
-    if (rentalInfo.ableToBeReturned && rentalStartWithin5Minutes) {
+    if (rentalInfo.ableToBeReturned && rentalStartWithin5Minutes && !devMode) {
       return (
         <Button large danger onPress={this.cancelRental}>
           <Text>Cancel Rental</Text>
@@ -168,11 +169,7 @@ class RentalInfo extends React.Component {
         {/* Buttons */}
         <StyledButtonsView>
           {this.renderReturnButton()}
-          <Button
-            danger
-            large
-            onPress={Actions[ROUTES.IssueReport]}
-          >
+          <Button danger large onPress={Actions[ROUTES.IssueReport]}>
             <Text>Report Issue</Text>
           </Button>
         </StyledButtonsView>

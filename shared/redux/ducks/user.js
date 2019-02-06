@@ -91,7 +91,7 @@ export const userSignUp = formData => async dispatch => {
       Firebase.auth().currentUser.delete();
     }
     // auto sets loading to false
-    dispatch(setStatus('error', error));
+    dispatch(setStatus('error', error.message));
     throw error;
   }
 };

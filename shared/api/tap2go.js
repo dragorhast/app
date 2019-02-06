@@ -42,7 +42,6 @@ axiosAuth.interceptors.response.use(
   }
 );
 
-
 /* ******** API ENDPOINTS ******** */
 
 const getConfig = authToken => ({ headers: { Authorization: `Bearer ${authToken}` } });
@@ -186,7 +185,7 @@ const pickup1 = {
     geometries: [
       {
         type: 'Point',
-        coordinates: [55.949159, -3.199293],
+        coordinates: [55.950577, -3.206296],
       },
     ],
   },
@@ -200,7 +199,7 @@ const pickup2 = {
     geometries: [
       {
         type: 'Point',
-        coordinates: [55.949159, -3.199293],
+        coordinates: [55.953723, -3.196423],
       },
     ],
   },
@@ -214,7 +213,7 @@ const pickup3 = {
     geometries: [
       {
         type: 'Point',
-        coordinates: [55.949159, -3.199293],
+        coordinates: [55.943635, -3.204317],
       },
     ],
   },
