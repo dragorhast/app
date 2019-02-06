@@ -29,10 +29,12 @@ class SidePanel extends React.Component {
           <Spacer size={16} />
 
           <View style={{ height: 160, justifyContent: 'space-evenly' }}>
-            <H3 onPress={signOut}>Logout</H3>
+            <H3 onPress={() => this.onRouteSelected(ROUTES.IssueReport)}>Home</H3>
             <H3>Profile</H3>
             <H3 onPress={() => this.onRouteSelected(ROUTES.IssueReport)}>Issue</H3>
             <H3>About</H3>
+            <BreakLine width="100%" />
+            <H3 onPress={signOut}>Logout</H3>
           </View>
         </View>
       </Screen>
