@@ -13,7 +13,10 @@ const INITIAL_STATE = {
 // Prop Types
 export const PickupPropTypes = {
   name: PropTypes.string.isRequired,
-  coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+  coordinates: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }).isRequired,
   distance: PropTypes.number,
 };
 // Reducer

@@ -8,13 +8,25 @@
  * - function to fetch pickup points
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { pickupPointsFetch } from '../ducks/pickups';
+import { pickupPointsFetch, PickupPropTypes } from '../ducks/pickups';
+
+export const PickupProps = {
+  locale: PropTypes.string.isRequired,
+  pickups: PropTypes.arrayOf(
+    PropTypes.shape({
+      ...PickupPropTypes,
+    })
+  ).isRequired,
+  loading: PropTypes.bool.isRequired,
+  getPickupPoints: PropTypes.func.isRequired,
+};
 
 export default function withCurrentRental(WrappedComponent) {
   // Pure function always auto re-loads children on prop change!
-  class PickupPointsContainer extends React.Component {
+  class PickupPointsContainer extends React.PureComponent {
     render() {
       const { locale, pickups, loading, getPickupPoints } = this.props;
       return (
@@ -28,6 +40,10 @@ export default function withCurrentRental(WrappedComponent) {
       );
     }
   }
+
+  PickupPointsContainer.propTypes = {
+    ...PickupProps,
+  };
 
   const mapStateToProps = state => ({
     locale: state.locale.country,

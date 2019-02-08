@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { H2, Item, Input, View } from 'native-base';
 import styled from 'styled-components/native';
 import { Screen } from '../styles';
 import QRScanner from '../components/QRScanner';
 import ROUTES from '../routes';
-import withStartRental from '../../shared/redux/containers/RentalStartContainer';
+import withStartRental, { RentalStartProps } from '../../shared/redux/containers/RentalStartContainer';
 
 const SQrScanner = styled.View`
   flex-direction: row;
@@ -60,7 +59,7 @@ class RentalStartQR extends React.Component {
 }
 
 RentalStartQR.propTypes = {
-  startRental: PropTypes.func.isRequired,
+  ...RentalStartProps,
 };
 
 export default withStartRental(RentalStartQR);

@@ -1,5 +1,4 @@
-/* global window */
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -11,10 +10,10 @@ const persistConfig = {
   key: 'root',
   storage,
   stateReconciler: autoMergeLevel2, // stops rehydrate from overriding new keys, see link below
-  whitelist: ['rental', 'locale', 'pickups'], // chose what to persist
+  whitelist: ['pickups', 'locale'], // chose what to persist
 };
 
-// if need mpre advanced control of persisted states see below:
+// if need more advanced control of persisted states see below:
 // https://blog.reactnativecoach.com/the-definitive-guide-to-redux-persist-84738167975
 
 const persistedReducer = persistReducer(persistConfig, reducers);

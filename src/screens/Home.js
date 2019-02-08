@@ -3,7 +3,7 @@ import { Button, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Screen } from '../styles';
 import ROUTES from '../routes';
-import withCurrentRental from '../../shared/redux/containers/RentalInfoContainer';
+import withCurrentRental, { RentalProps } from '../../shared/redux/containers/RentalInfoContainer';
 
 class Home extends React.Component {
   componentDidMount() {
@@ -40,8 +40,8 @@ class Home extends React.Component {
   }
 }
 
-// const Home = ({ rentalInfo }) => (
-//
-// );
+Home.propTypes = {
+  ...RentalProps,
+};
 
 export default withCurrentRental(Home);

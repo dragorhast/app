@@ -1,6 +1,5 @@
 import * as FirebaseModule from 'firebase';
-// import admin from 'firebase-admin';
-import adminConfig from './firebaseServiceAccountKey';
+
 import AppConfig from './config';
 
 const fConfig = {
@@ -11,12 +10,6 @@ const fConfig = {
   storageBucket: 'dragorhast-420.appspot.com',
   messagingSenderId: '548068431376',
 };
-
-// Removed package due to node conflict
-// admin.initializeApp({
-//   credential: admin.credential.cert(adminConfig),
-//   databaseURL: fConfig.databaseURL,
-// });
 
 let firebaseInitialized = false;
 

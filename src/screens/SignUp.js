@@ -1,17 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Form, Item, Label, Input, Text, Button, View, H2 } from 'native-base';
 import styled from 'styled-components/native';
 import { translate } from '../../shared/i18n';
 import { Screen } from '../styles';
 
-import withSignUp from '../../shared/redux/containers/SignUpContainer';
+import withSignUp, { SignUpProps } from '../../shared/redux/containers/SignUpContainer';
 
 import ROUTES from '../routes';
-
-import Loading from './LoadingScreen';
-import Messages from '../components/Messages';
 
 const SPage = styled.View`
   height: 70%;
@@ -20,12 +16,7 @@ const SPage = styled.View`
 
 class SignUp extends React.Component {
   static propTypes = {
-    onFormSubmit: PropTypes.func.isRequired,
-    locale: PropTypes.string,
-  };
-
-  static defaultProps = {
-    locale: 'en',
+    ...SignUpProps,
   };
 
   constructor(props) {
@@ -49,9 +40,9 @@ class SignUp extends React.Component {
   };
 
   handleSubmit = async () => {
-    const { onFormSubmit } = this.props;
+    const { signUp } = this.props;
     try {
-      await onFormSubmit(this.state);
+      await signUp(this.state);
       Actions[ROUTES.Home]();
     } catch (e) {
       // console.error(e);

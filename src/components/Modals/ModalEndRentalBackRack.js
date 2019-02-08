@@ -20,4 +20,10 @@ const ModalEndRentalBackRack = ({ nextPage, close, isVisible }) => (
   </Modal>
 );
 
+ModalEndRentalBackRack.propTypes = {
+  nextPage: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+};
+
 export { ModalEndRentalBackRack };

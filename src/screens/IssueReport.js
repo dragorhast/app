@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Actions } from 'react-native-router-flux';
-import { Content, H3, Button, CheckBox, Form, Item, Label, Input, Text, View, Toast } from 'native-base';
+import { H3, Button, CheckBox, Form, Item, Label, Input, Text, View, Toast } from 'native-base';
 import { Screen, CardMediumShadow, ShadowedTextArea, StyledInline } from '../styles';
 import Theme from '../../native-base-theme/variables/platform';
 import ROUTES from '../routes';
-import withIssue from '../../shared/redux/containers/IssueReportContainer';
+import withIssue, { IssueReportProps } from '../../shared/redux/containers/IssueReportContainer';
 
 const StyledThisIsYourBikeID = styled(Text)`
   color: ${Theme.brandDanger};
@@ -17,8 +16,7 @@ const StyledThisIsYourBikeID = styled(Text)`
 
 class IssueReport extends React.Component {
   static propTypes = {
-    reportIssue: PropTypes.func.isRequired,
-    bikeId: PropTypes.string,
+    ...IssueReportProps,
   };
 
   static defaultProps = {

@@ -18,6 +18,13 @@ const INITIAL_STATE = {
 };
 
 // Prop Types
+export const RentalPropTypes = {
+  bikeId: PropTypes.string,
+  startTime: PropTypes.date,
+  costSoFar: PropTypes.number,
+  withinPickUpPointGeo: PropTypes.bool,
+  ableToBeReturned: PropTypes.bool,
+};
 
 // Reducer
 export default function rentalReducer(state = INITIAL_STATE, { type, payload }) {

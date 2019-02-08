@@ -1,16 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Form, Item, Label, Input, Text, Button, View, H2 } from 'native-base';
 import styled from 'styled-components/native';
 import { Screen } from '../styles';
 import { translate } from '../../shared/i18n';
-import withLogin from '../../shared/redux/containers/LoginContainer';
+import withLogin, { LoginAndOutProps } from '../../shared/redux/containers/LoginAndOutContainer';
 
 import ROUTES from '../routes';
-
-import Loading from './LoadingScreen';
-import Messages from '../components/Messages';
 
 const SPage = styled.View`
   height: 70%;
@@ -18,8 +14,7 @@ const SPage = styled.View`
 `;
 class Login extends React.Component {
   static propTypes = {
-    locale: PropTypes.string,
-    onFormSubmit: PropTypes.func.isRequired,
+    ...LoginAndOutProps,
   };
 
   static defaultProps = {
@@ -44,9 +39,9 @@ class Login extends React.Component {
   };
 
   handleSubmit = async () => {
-    const { onFormSubmit } = this.props;
+    const { login } = this.props;
     try {
-      await onFormSubmit(this.state);
+      await login(this.state);
       Actions[ROUTES.Home]();
     } catch (e) {
       return Promise.resolve();

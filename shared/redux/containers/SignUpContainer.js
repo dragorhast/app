@@ -9,19 +9,25 @@
  * - function to sign up the user
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { userSignUp } from '../ducks/user';
 
+export const SignUpProps = {
+  locale: PropTypes.string.isRequired,
+  signUp: PropTypes.func.isRequired,
+};
+
 export default function withSignUp(WrappedComponent) {
   // Creates the wrapped component with no life cycle methods
-  const SignUpContainer = ({ locale, signUp }) => <WrappedComponent locale={locale} onFormSubmit={signUp} />;
-  // class SignUpContainer extends React.Component {
-  //   render() {
-  //     const { locale, signUp } = this.props;
-  //     return <WrappedComponent locale={locale} onFormSubmit={signUp} />;
-  //   }
-  // }
+  const SignUpContainer = ({ locale, signUp, ...restProps }) => (
+    <WrappedComponent locale={locale} signUp={signUp} {...restProps} />
+  );
+
+  SignUpContainer.propTypes = {
+    ...SignUpProps,
+  };
 
   const mapStateToProps = state => ({
     locale: state.locale.country,

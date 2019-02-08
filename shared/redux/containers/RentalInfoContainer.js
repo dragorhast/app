@@ -10,26 +10,40 @@
  * - FUTURE function to CANCEL rental
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { rentalEnd, rentalFetchInfo } from '../ducks/rental';
+import { rentalEnd, rentalFetchInfo, RentalPropTypes } from '../ducks/rental';
 
-    export default function withCurrentRental(WrappedComponent) {
+export const RentalProps = {
+  locale: PropTypes.string,
+  rentalInfo: PropTypes.shape({
+    ...RentalPropTypes,
+  }).isRequired,
+  getRentalInfo: PropTypes.func.isRequired,
+  returnRental: PropTypes.func.isRequired,
+};
+
+export default function withCurrentRental(WrappedComponent) {
   // Pure function always auto re-loads children on prop change!
-  class RentalInfoContainer extends React.Component {
+  class RentalInfoContainer extends React.PureComponent {
     render() {
-      const { locale, rentalInfo, getRentalInfo, returnRental } = this.props;
+      const { locale, rentalInfo, getRentalInfo, returnRental, ...restProps } = this.props;
       return (
         <WrappedComponent
           locale={locale}
           rentalInfo={rentalInfo}
           getRentalInfo={getRentalInfo}
           returnRental={returnRental}
-          {...this.props} // passes any other through
+          {...restProps} // passes any other through
         />
       );
     }
   }
+
+  RentalInfoContainer.propTypes = {
+    ...RentalProps,
+  };
 
   const mapStateToProps = state => ({
     locale: state.locale.country,

@@ -1,14 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Button, H1, Text, View } from 'native-base';
 import styled from 'styled-components/native';
 import { Screen, BreakLine } from '../styles';
 import { ModalEndRentalBackRack, ModalEndRentalConfirm } from '../components/Modals';
-import { hoursAndMinutesBetween2Times, minutesSinceTime } from '../../shared/util';
-// import { RentalPropTypes } from '../../shared/redux/ducks/rental';
+import { minutesSinceTime } from '../../shared/util';
 import ROUTES from '../routes';
-import withCurrentRental from '../../shared/redux/containers/RentalInfoContainer';
+import withCurrentRental, { RentalProps } from '../../shared/redux/containers/RentalInfoContainer';
 
 const StyledButtonsView = styled.View`
   flex-direction: column;
@@ -178,11 +176,7 @@ class RentalInfo extends React.Component {
 }
 
 RentalInfo.propTypes = {
-  locale: PropTypes.string.isRequired,
-  fetchInfoOnLoad: PropTypes.bool.isRequired,
-  getRentalInfo: PropTypes.func.isRequired,
-  returnRental: PropTypes.func.isRequired,
-  rentalInfo: PropTypes.shape({}).isRequired,
+  ...RentalProps,
 };
 
 export default withCurrentRental(RentalInfo);

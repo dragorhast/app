@@ -1,24 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Location, Permissions, MapView, Marker } from 'expo';
-import { Content, Text, View, Tabs, Tab } from 'native-base';
+import { Location, Permissions, MapView } from 'expo';
+import { Content, Tabs, Tab } from 'native-base';
 import { Screen } from '../styles';
 import LoadingIndicator from '../components/LoadingIndicator';
 import PickupPoint from '../components/PickupPoint';
-import { PickupPropTypes } from '../../shared/redux/ducks/pickups';
-import withPickups from '../../shared/redux/containers/PickupPointsContainer';
+import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 
 class PickupPoints extends React.Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired,
-    loading: PropTypes.bool.isRequired,
-    getPickupPoints: PropTypes.func.isRequired,
-    pickups: PropTypes.arrayOf(PropTypes.shape({ ...PickupPropTypes })).isRequired,
+    ...PickupProps,
   };
 
   state = {
     locationPermission: false,
-    currentLocation: null,
+    coords: null /* Current Location */,
   };
 
   async componentDidMount() {
@@ -28,13 +23,11 @@ class PickupPoints extends React.Component {
     const { coords } = await Location.getCurrentPositionAsync({});
     this.setState({
       locationPermission: status === 'granted',
-      currentLocation: coords,
+      coords,
     });
 
-    getPickupPoints();
+    getPickupPoints(coords);
   }
-
-  // TODO add get current location
 
   render() {
     const { loading, pickups } = this.props;

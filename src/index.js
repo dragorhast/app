@@ -15,17 +15,31 @@ import { connect } from 'react-redux';
 import { Firebase } from '../shared/constants/firebase';
 import Router from './router';
 import Loading from './screens/LoadingScreen';
-import { delay } from '../shared/util';
 
 class MyRoute extends React.Component {
+  static propTypes = {
+    error: PropTypes.string,
+    success: PropTypes.string,
+    reduxLoading: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    error: null,
+    success: null,
+    reduxLoading: false,
+  };
+
   state = {
     stateLoading: true,
-    firebaseUser: undefined,
+    firebaseId: undefined,
   };
 
   /**
    * When the App component mounts, we listen for any authentication
    * state changes in Firebase.
+   *
+   * This is only needed on app start
+   *
    * Once subscribed, the 'user' parameter will either be null
    * (logged out) or an Object (logged in)
    */
