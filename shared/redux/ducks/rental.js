@@ -129,26 +129,30 @@ export const rentalFetchInfo = () => async dispatch => {
 };
 
 /**
- * Ends the current rental
+ * Ends / cancels the current rental
  * - Loads
  * - Hit API
  * - Sets success to cost
  * @returns {Function}
  */
-export const rentalEnd = () => async dispatch => {
+export const rentalEnd = (cancel = false) => async dispatch => {
   try {
     dispatch(setStatus('loading', true));
 
     const authToken = await Firebase.auth().currentUser.getIdToken();
 
-    const rental = await apiRentalEndCurrent(authToken);
+    const rental = await apiRentalEndCurrent(authToken, cancel);
     dispatch(clearRental());
-    return dispatch(setStatus('success', `Nice trip. £${rental.price} Has been charged`));
+    const message = cancel
+      ? 'Your rental has been cancelled without charge'
+      : `Nice trip. £${rental.price} Has been charged`;
+    return dispatch(setStatus('success', message));
   } catch (e) {
     dispatch(setStatus('error', e.message));
     throw e;
   }
 };
+
 
 // Selectors - put working out time here
 

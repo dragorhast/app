@@ -71,7 +71,8 @@ class RentalInfo extends React.Component {
   cancelRental = async () => {
     const { returnRental } = this.props;
     try {
-      await returnRental();
+      const cancel = true;
+      await returnRental(cancel);
       return Actions[ROUTES.Home]();
     } catch (e) {
       // Handled by redux
@@ -122,8 +123,6 @@ class RentalInfo extends React.Component {
   render() {
     const { rentalInfo, getRentalInfo } = this.props;
     const { modal1PutBackInRack, modal2IsUserSure } = this.state;
-
-    // if (loading) return <Loading />;
 
     if (modal1PutBackInRack) {
       return (

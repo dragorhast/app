@@ -141,15 +141,22 @@ export const apiRentalFetchCurrent = async authToken => {
 };
 
 /**
- * Ends the current active rental for the
+ * Ends / cancels the current active rental for the
  * signed in user
  *
+ * If cancel = true given as arg then
+ *
+ * @param authToken
+ * @param cancel
  * @returns {Promise<result.data.rental|{price, bike_id}>}
  */
-export const apiRentalEndCurrent = async authToken => {
+export const apiRentalEndCurrent = async (authToken, cancel = false) => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
-    const result = await axiosAuth.delete(`/users/${dbId || 'me'}/rentals/current`, getConfig(authToken));
+    const result = await axiosAuth.delete(
+      `/users/${dbId || 'me'}/rentals/current${cancel ? '/type=cancel' : ''}`,
+      getConfig(authToken)
+    );
 
     return result.data.data.rental;
   } catch (e) {
@@ -185,7 +192,7 @@ const pickup1 = {
     geometries: [
       {
         type: 'Point',
-        coordinates:{ latitude: 55.950577, longitude: -3.206296 },
+        coordinates: { latitude: 55.950577, longitude: -3.206296 },
       },
     ],
   },
@@ -199,7 +206,7 @@ const pickup2 = {
     geometries: [
       {
         type: 'Point',
-        coordinates: { latitude: 55.953723, longitude: -3.196423},
+        coordinates: { latitude: 55.953723, longitude: -3.196423 },
       },
     ],
   },

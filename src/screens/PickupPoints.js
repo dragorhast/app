@@ -51,6 +51,7 @@ class PickupPoints extends React.Component {
             <Content>{pickups && pickups.map(point => <PickupPoint point={point} key={point.name} />)}</Content>
           </Tab>
           <Tab heading="Map">
+            {/* TODO test putting map in own component and not rendering until header is clicked to improve performance */}
             <View style={{ flex: 1 }}>
               <MapView
                 style={{ flex: 1 }}
@@ -78,7 +79,7 @@ class PickupPoints extends React.Component {
                     </MapView.Marker>
                   ))}
               </MapView>
-              {/* TODO make the transition where this enters nicers */}
+              {/* TODO make the transition where this enters nicer */}
               {/* TODO add a button to close the pop up */}
               {mapBottomPointVisible && <PickupPoint point={mapBottomPoint} />}
             </View>
