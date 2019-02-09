@@ -1,6 +1,7 @@
 import React from 'react';
 import { Location, Permissions, MapView } from 'expo';
-import { Content, Tabs, Tab } from 'native-base';
+import styled from 'styled-components/native';
+import { Content, Tabs, Tab, Icon, View } from 'native-base';
 import { Screen } from '../styles';
 import LoadingIndicator from '../components/LoadingIndicator';
 import PickupPoint from '../components/PickupPoint';
@@ -14,6 +15,8 @@ class PickupPoints extends React.Component {
   state = {
     locationPermission: false,
     coords: null /* Current Location */,
+    mapBottomPointVisible: false,
+    mapBottomPoint: {},
   };
 
   async componentDidMount() {
@@ -27,10 +30,19 @@ class PickupPoints extends React.Component {
     });
 
     getPickupPoints(coords);
+    this.makePointVisible = this.makePointVisible.bind(this);
   }
+
+  makePointVisible = point => {
+    this.setState({
+      mapBottomPointVisible: true, // TODO change
+      mapBottomPoint: point,
+    });
+  };
 
   render() {
     const { loading, pickups } = this.props;
+    const { mapBottomPointVisible, mapBottomPoint } = this.state;
     return (
       <Screen>
         {loading && <LoadingIndicator />}
@@ -39,23 +51,37 @@ class PickupPoints extends React.Component {
             <Content>{pickups && pickups.map(point => <PickupPoint point={point} key={point.name} />)}</Content>
           </Tab>
           <Tab heading="Map">
-            <MapView
-              style={{ flex: 1 }}
-              initialRegion={{
-                latitude: 55.949159,
-                longitude: -3.199293,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
-            >
-              {pickups &&
-                pickups.map(point => (
-                  <MapView.Marker
-                    coordinate={{ latitude: point.coordinates[0], longitude: point.coordinates[1] }}
-                    key={point.name}
-                  />
-                ))}
-            </MapView>
+            <View style={{ flex: 1 }}>
+              <MapView
+                style={{ flex: 1 }}
+                initialRegion={{
+                  latitude: 55.949159,
+                  longitude: -3.199293,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                }}
+              >
+                {pickups &&
+                  pickups.map(point => (
+                    <MapView.Marker
+                      coordinate={point.coordinates}
+                      title={point.name}
+                      key={point.name}
+                      onPress={() => this.makePointVisible(point)}
+                    >
+                      <Icon
+                        name="ios-bicycle"
+                        ios="ios-bicycle"
+                        android="md-bicycle"
+                        style={{ fontSize: 40, color: 'green' }}
+                      />
+                    </MapView.Marker>
+                  ))}
+              </MapView>
+              {/* TODO make the transition where this enters nicers */}
+              {/* TODO add a button to close the pop up */}
+              {mapBottomPointVisible && <PickupPoint point={mapBottomPoint} />}
+            </View>
           </Tab>
         </Tabs>
       </Screen>

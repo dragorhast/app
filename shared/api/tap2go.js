@@ -185,7 +185,7 @@ const pickup1 = {
     geometries: [
       {
         type: 'Point',
-        coordinates: [55.950577, -3.206296],
+        coordinates:{ latitude: 55.950577, longitude: -3.206296 },
       },
     ],
   },
@@ -199,7 +199,7 @@ const pickup2 = {
     geometries: [
       {
         type: 'Point',
-        coordinates: [55.953723, -3.196423],
+        coordinates: { latitude: 55.953723, longitude: -3.196423},
       },
     ],
   },
@@ -213,7 +213,7 @@ const pickup3 = {
     geometries: [
       {
         type: 'Point',
-        coordinates: [55.943635, -3.204317],
+        coordinates: { latitude: 55.943635, longitude: -3.204317 },
       },
     ],
   },
@@ -222,10 +222,10 @@ const pickup3 = {
     distance: 2.4,
   },
 };
-export const apiPickupPointsFetch = async (lat = 55.949159, long = -3.199293, range = 4) => {
+export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.199293, range = 4) => {
   try {
     // TODO find out if long or lng
-    // const result = await axiosAuth.get(`/pickups?lat=${lat}&long=${long}&range=${range}miles`);
+    // const result = await axiosAuth.get(`/pickups?latitude=${latitude}&longitude=${longitude}&range=${range}miles`);
     const result = {
       data: {
         pickups: [pickup1, pickup2, pickup3],

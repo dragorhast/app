@@ -32,11 +32,11 @@ const PickupPoint = ({ point }) => (
         <Text>RESERVE</Text>
       </Button>
       <Icon
-        name="iso-walk"
+        name="ios-walk"
         ios="ios-walk"
         anroid="md-walk"
         style={{ fontSize: 40, color: 'green' }}
-        onPress={() => goToLocation({ latitude: point.coordinates[0], longitude: point.coordinates[1] })}
+        onPress={() => goToLocation(point.coordinates)}
       />
     </StyledInline>
   </CardMediumShadow>
