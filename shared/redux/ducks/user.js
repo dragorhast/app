@@ -80,7 +80,7 @@ export const userSignUp = formData => async dispatch => {
     const name = `${firstName} ${lastName}`;
 
     const userFirebase = await firebaseSignUpEmail(email, password);
-    const userDb = await apiSignUp(name, email, userFirebase.authToken);
+    const userDb = await apiSignUp(userFirebase.authToken, name, email);
     await firebaseUpdateProfile({ id: userDb.dbId, name });
     dispatch(setUser(userFirebase.uid, userDb.dbId, email));
     // Stop loading
@@ -147,6 +147,3 @@ export const userSignOut = () => async dispatch => {
     return dispatch(setStatus('error', error.message));
   }
 };
-
-
-

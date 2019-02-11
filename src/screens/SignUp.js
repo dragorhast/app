@@ -45,7 +45,6 @@ class SignUp extends React.Component {
       await signUp(this.state);
       Actions[ROUTES.Home]();
     } catch (e) {
-      // console.error(e);
       return Promise.resolve();
     }
   };

@@ -12,6 +12,7 @@ const INITIAL_STATE = {
 };
 // Prop Types
 export const PickupPropTypes = {
+  pickupId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   coordinates: PropTypes.shape({
     latitude: PropTypes.number,
@@ -74,6 +75,7 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
     const pickups = pickupsRaw.map(pickup => {
       if (!pickup.properties.distance) allDistances = false;
       return {
+        pickupId: pickup.id,
         name: pickup.properties.name,
         coordinates: pickup.geometry.geometries.find(g => g.type === 'Point').coordinates,
         distance: pickup.properties.distance,

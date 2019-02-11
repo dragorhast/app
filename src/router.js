@@ -13,11 +13,12 @@ import BikeRentalQR from './screens/RentalStartQR';
 import RentalInfo from './screens/RentalInfo';
 import IssueReport from './screens/IssueReport';
 import PickupPoints from './screens/PickupPoints';
+import ReservationCreate from './screens/ReservationCreate';
 
 // FOR TESTING VISUAL
-import TestScreen from './screens/test-screen';
+// import TestScreen from './screens/test-screen';
 
-const VisualInspection = PickupPoints;
+const VisualInspection = ReservationCreate;
 
 // const MyRouter = ({ firebaseId }) => ();
 
@@ -46,6 +47,7 @@ class MyRouter extends React.Component {
             <Scene key={ROUTES.RentalInfoNew} component={RentalInfo} fetchInfoOnLoad={false} />
             <Scene key={ROUTES.IssueReport} component={IssueReport} back />
             <Scene key={ROUTES.PickupPoints} component={PickupPoints} back />
+            <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} back />
           </Drawer>
           {/* <Scene key="test" title="test" component={VisualInspection} /> */}
         </Scene>

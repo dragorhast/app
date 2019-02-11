@@ -55,7 +55,7 @@ const getConfig = authToken => ({ headers: { Authorization: `Bearer ${authToken}
  * @param authToken
  * @returns {Promise<{dbId: number}>}
  */
-export const apiSignUp = async (name, email, authToken) => {
+export const apiSignUp = async (authToken, name, email) => {
   try {
     const result = await axiosAuth.post(
       '/users',
@@ -66,7 +66,13 @@ export const apiSignUp = async (name, email, authToken) => {
       getConfig(authToken)
     );
 
-    const { user } = result.data.data;
+    let user;
+    if (result.data.data) {
+      // eslint-disable-next-line prefer-destructuring
+      user = result.data.data.user;
+    } else {
+      throw new Error('Server error creating user');
+    }
 
     return {
       dbId: user.id,
@@ -87,20 +93,11 @@ export const apiUserDelete = authToken => axiosAuth.delete('/users/me', getConfi
  * @param authToken
  * @returns {Promise<*>}
  */
-export const apiRentalStartId = async (bikeId, authToken) => {
+export const apiRentalStartId = async (authToken, bikeId) => {
   // console.log(authToken);
   try {
     const result = await axiosAuth.post(`/bikes/${bikeId}/rentals`, {}, getConfig(authToken));
 
-    // const result = {
-    //   data: {
-    //     rental: {
-    //       bike_id: '8861b3',
-    //       start_time: new Date(),
-    //       estimated_price: 0,
-    //     },
-    //   },
-    // };
     return result.data.data.rental;
   } catch (e) {
     throw e;
@@ -118,16 +115,6 @@ export const apiRentalFetchCurrent = async authToken => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
     const result = await axiosAuth.get(`/users/${dbId || 'me'}/rentals/current`, getConfig(authToken));
-    // const result = {
-    //   data: {
-    //     rental: {
-    //       bike_id: '8861b3',
-    //       start_time: new Date().setHours(0, 0, 0, 0),
-    //       estimated_price: 4,
-    //       current_location: { properties: { type: 'Pickup Point' } },
-    //     },
-    //   },
-    // };
 
     // TODO handle better
     if (result.data.data.message === 'You have no current rental.') throw new Error('NO RENTAL');
@@ -172,9 +159,10 @@ export const apiRentalEndCurrent = async (authToken, cancel = false) => {
  *
  * @param bikeId
  * @param description
+ * @param authToken
  * @returns {Promise<void>}
  */
-export const apiIssueCreate = async ({ bikeId, description }, authToken) => {
+export const apiIssueCreate = async (authToken, { bikeId, description }) => {
   const dbId = Firebase.auth().currentUser.photoURL;
   const data = bikeId ? { description, bike_identifier: bikeId } : { description };
   try {
@@ -188,6 +176,7 @@ export const apiIssueCreate = async ({ bikeId, description }, authToken) => {
 
 // Only Sections that matter
 const pickup1 = {
+  id: 1,
   geometry: {
     geometries: [
       {
@@ -202,6 +191,7 @@ const pickup1 = {
   },
 };
 const pickup2 = {
+  id: 2,
   geometry: {
     geometries: [
       {
@@ -216,6 +206,7 @@ const pickup2 = {
   },
 };
 const pickup3 = {
+  id: 3,
   geometry: {
     geometries: [
       {
@@ -239,6 +230,31 @@ export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.
       },
     };
     return result.data.pickups;
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * Api end point to create a reservation at a location
+ * for a set date date and time
+ *
+ * @param authToken
+ * @param pickupId
+ * @returns {Promise<void>}
+ */
+export const apiReservationStart = async (authToken, pickupId, datetime) => {
+  try {
+    // const result = await axiosAuth.post(`/pickups/${pickupId}/reservations`, getConfig(authToken), {
+    //   date: datetime,
+    // });
+    const result = {
+      id: 1,
+      datetime: new Date(2, 10, 18, 30),
+      pickup: {
+        ...pickup1,
+      },
+    };
   } catch (e) {
     throw e;
   }

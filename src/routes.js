@@ -10,4 +10,5 @@ export default {
   RentalInfoNew: 'RentalInfoNew',
   IssueReport: 'IssueReport',
   PickupPoints: 'PickupPoints',
+  ReservationCreation: 'ReservationCreate',
 };

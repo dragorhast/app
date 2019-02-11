@@ -52,7 +52,7 @@ export const updateRental = updateField => ({
 
 export const clearRental = () => ({ type: RENTAL_CLEAR });
 
-// Async Actions
+// Thunks
 /**
  * Creates a rental in the db if the user scans/types
  * in the code associated with a bike
@@ -72,7 +72,7 @@ export const rentalStartFromId = bikeId => async dispatch => {
 
     const authToken = await Firebase.auth().currentUser.getIdToken();
 
-    const rental = await apiRentalStartId(bikeId, authToken);
+    const rental = await apiRentalStartId(authToken, bikeId);
     dispatch(
       setAllRental({
         bikeId: rental.bike_identifier,

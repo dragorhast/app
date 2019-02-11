@@ -28,14 +28,14 @@ export default function withCurrentRental(WrappedComponent) {
   // Pure function always auto re-loads children on prop change!
   class PickupPointsContainer extends React.PureComponent {
     render() {
-      const { locale, pickups, loading, getPickupPoints } = this.props;
+      const { locale, pickups, loading, getPickupPoints, ...restProps } = this.props;
       return (
         <WrappedComponent
           locale={locale}
           pickups={pickups}
           loading={loading} // from pickups reducer
           getPickupPoints={getPickupPoints}
-          {...this.props} // passes any other through
+          {...restProps} // passes any others through
         />
       );
     }

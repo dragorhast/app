@@ -9,7 +9,7 @@ Spacer.propTypes = {
 };
 
 Spacer.defaultProps = {
-  size: 20,
+  size: 16,
 };
 
 export default Spacer;

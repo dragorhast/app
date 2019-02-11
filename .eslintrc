@@ -24,6 +24,7 @@
         ],returnedInfo
       }
     ],
+    "no-shadow": "off",
     "consistent-return": "off",
     "global-require": "off",
     "no-console": "off",

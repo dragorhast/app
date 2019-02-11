@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Actions } from 'react-native-router-flux';
 import getDirections from 'react-native-google-maps-directions';
-import { Button, Icon, H3, Text, View } from 'native-base';
+import { Button, Icon, H3, Text } from 'native-base';
+import ROUTES from '../routes';
 import { CardMediumShadow, StyledInline } from '../styles';
 import { PickupPropTypes } from '../../shared/redux/ducks/pickups';
+import withReservationCreation from '../../shared/redux/containers/ReservationCreationContainer';
 
 const goToLocation = latAndLng => {
   getDirections({
@@ -21,14 +24,21 @@ const goToLocation = latAndLng => {
   });
 };
 
-const PickupPoint = ({ point }) => (
+const PickupPoint = ({ point, startReserveCreate }) => (
   <CardMediumShadow style={{ width: '90%' }}>
     <StyledInline>
       <H3>{point.name}</H3>
       <Text>{point.distance} Miles</Text>
     </StyledInline>
     <StyledInline>
-      <Button small>
+      <Button
+        small
+        onPress={async () => {
+          await startReserveCreate({ id: point.pickupId, name: point.name });
+          Actions[ROUTES.ReservationCreation]();
+          return Promise.resolve();
+        }}
+      >
         <Text>RESERVE</Text>
       </Button>
       <Icon
@@ -46,6 +56,8 @@ PickupPoint.propTypes = {
   point: PropTypes.shape({
     ...PickupPropTypes,
   }).isRequired,
+  /* Function to start reservation. Doesn't use full container so only applying prop types of function */
+  startReserveCreate: PropTypes.func.isRequired,
 };
 
-export default PickupPoint;
+export default withReservationCreation(PickupPoint);
