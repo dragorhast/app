@@ -35,6 +35,9 @@ class Home extends React.Component {
         <Button onPress={() => Actions[ROUTES.IssueReport]()} large danger halfWid>
           <Text>ISSUE</Text>
         </Button>
+        <Button onPress={() => Actions[ROUTES.ReservationsUpcoming]()} large light halfWid>
+          <Text>RESERVATIONS</Text>
+        </Button>
       </Screen>
     );
   }

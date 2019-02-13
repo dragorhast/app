@@ -21,6 +21,7 @@ class ReservationDisplay extends React.PureComponent {
     // Works on both iOS and Android
     Alert.alert(
       'Are you sure you want to cancel?',
+      '',
       [
         {
           text: 'Cancel',

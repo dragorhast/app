@@ -39,7 +39,7 @@ class ReservationCreate extends React.PureComponent {
     const reserveNext30Minutes = !changedDateAndTime;
     try {
       await makeReservation(reserveNext30Minutes);
-      Actions[ROUTES.ReservationDisplayBurger]();
+      Actions[ROUTES.ReservationDisplayWithBurger]();
     } catch (e) {
       Actions.back();
     }

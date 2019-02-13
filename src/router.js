@@ -15,11 +15,12 @@ import IssueReport from './screens/IssueReport';
 import PickupPoints from './screens/PickupPoints';
 import ReservationCreate from './screens/ReservationCreate';
 import ReservationDisplay from './screens/ReservationDisplay';
+import ReservationsUpcoming from './screens/ReservationsUpcoming';
 
 // FOR TESTING VISUAL
-// import TestScreen from './screens/test-screen';
+import TestScreen from './screens/test-screen';
 
-const VisualInspection = ReservationDisplay;
+const VisualInspection = TestScreen;
 
 // const MyRouter = ({ firebaseId }) => ();
 
@@ -49,8 +50,10 @@ class MyRouter extends React.Component {
             <Scene key={ROUTES.IssueReport} component={IssueReport} back />
             <Scene key={ROUTES.PickupPoints} component={PickupPoints} back />
             <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} back />
-            <Scene key={ROUTES.ReservationDisplayBurger} component={ReservationDisplay} title="Reservation" />
-            {/*<Scene key="test" title="test" component={VisualInspection} />*/}
+            <Scene key={ROUTES.ReservationDisplayWithBurger} component={ReservationDisplay} title="Reservation" />
+            <Scene key={ROUTES.ReservationDisplayWithBack} component={ReservationDisplay} title="Reservation" back />
+            <Scene key={ROUTES.ReservationsUpcoming} component={ReservationsUpcoming} title="Upcoming Reservations" />
+            {/* <Scene key="test" title="test" component={VisualInspection} /> */}
           </Drawer>
         </Scene>
       </Router>

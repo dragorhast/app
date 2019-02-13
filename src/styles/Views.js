@@ -21,6 +21,11 @@ export const Screen = styled.View`
   /* padding: 8px; */
 `;
 
+export const ScrollableScreen = styled(Screen)`
+  height: 100%;
+  justify-content: flex-start;
+`;
+
 export const Spacer = styled.View`
   width: 100%;
   height: ${props => props.size || '20px'};
@@ -53,6 +58,8 @@ export const Card = styled.View`
 export const CardMediumShadow = styled(Card)`
   box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.1);
   margin: 8px;
+  width: 60%;
+  ${props => (props.padding ? `padding: ${props.padding}px` : '')};
 `;
 
 export const ShadowedTextArea = styled(Textarea)`

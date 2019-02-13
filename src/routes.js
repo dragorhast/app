@@ -11,6 +11,7 @@ export default {
   IssueReport: 'IssueReport',
   PickupPoints: 'PickupPoints',
   ReservationCreation: 'ReservationCreate',
-  ReservationDisplayBack: 'ReservationDisplayBack',
-  ReservationDisplayBurger: 'ReservationDisplayBurger',
+  ReservationDisplayWithBack: 'ReservationDisplayWithBack',
+  ReservationDisplayWithBurger: 'ReservationDisplayWithBurger',
+  ReservationsUpcoming: 'ReservationsUpcoming',
 };

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
-import { apiReservationStart } from '../../api/tap2go';
+import { apiReservationCreate } from '../../api/tap2go';
 import { setSingleReservationDisplay } from './reservationDisplay';
 
 // Prop Types
@@ -92,7 +92,7 @@ export const reservationMake = reserveNow => async (dispatch, getState) => {
     const authToken = await Firebase.auth().currentUser.getIdToken();
     const { reserveCreate } = getState();
     const datetime = reserveNow ? new Date() : reserveCreate.datetime;
-    const reservation = await apiReservationStart(authToken, reserveCreate.pickupId, datetime);
+    const reservation = await apiReservationCreate(authToken, reserveCreate.pickupId, datetime);
     dispatch(clearReservationCreation());
     // TODO remove this in to call back
     await dispatch(

@@ -245,7 +245,7 @@ export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.
  * @param datetime
  * @returns {Promise<void>}
  */
-export const apiReservationStart = async (authToken, pickupId, datetime) => {
+export const apiReservationCreate = async (authToken, pickupId, datetime) => {
   try {
     const result = await axiosAuth.post(`/pickups/${pickupId}/reservations`, getConfig(authToken), {
       reserved_for: datetime,
@@ -284,4 +284,17 @@ export const apiReservationCancel = async (authToken, reservationId) => {
   } catch (e) {
     throw e;
   }
+};
+
+/**
+ * Api end point to fetch all rentals for a user that
+ * have not been collected and are in the future
+ *
+ * @param authToken
+ * @returns {Promise<*>}
+ */
+export const apiReservationsFetch = async authToken => {
+  const dbId = Firebase.auth().currentUser.photoURL;
+  const result = await axiosAuth.get(`/users/${dbId || 'me'}/reservations/`, getConfig(authToken));
+  return result.data.data.reservations;
 };

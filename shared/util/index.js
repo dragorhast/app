@@ -45,6 +45,18 @@ export const minutesSinceTime = startTime => {
   return Math.round(differenceMs / (1000 * 60));
 };
 
+export const prettyDateTime = datetime => {
+  const date = new Date(datetime);
+
+  return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}`;
+};
+
+/**
+ * Opens up google maps and gives the user directions
+ * to walk to the coordinates given
+ *
+ * @param latAndLng
+ */
 export const goToLocation = latAndLng => {
   getDirections({
     destination: latAndLng,
