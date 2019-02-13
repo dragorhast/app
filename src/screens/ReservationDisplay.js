@@ -2,17 +2,35 @@ import React from 'react';
 import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { H2, Text, View, Button, Icon } from 'native-base';
-import { Screen, CardMediumShadow, BreakLine, StyledInline } from '../styles';
+import { Screen, CardMediumShadow, StyledInline } from '../styles';
 import Spacer from '../components/Spacer';
 import ROUTES from '../routes';
 import withReservationDisplay, {
   ReservationDisplayProps,
 } from '../../shared/redux/containers/ReservationDisplayContainer';
+import { goToLocation } from '../../shared/util';
 
 class ReservationDisplay extends React.PureComponent {
   cancelReservation = () => {
     const { cancelReservation, reserveDisplay } = this.props;
     cancelReservation(reserveDisplay.id);
+    Actions[ROUTES.Home]();
+  };
+
+  cancelReservationAlert = () => {
+    // Works on both iOS and Android
+    Alert.alert(
+      'Are you sure you want to cancel?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => this.cancelReservation() },
+      ],
+      { cancelable: true }
+    );
   };
 
   loadUnlockBikeScreen = () => {
@@ -32,7 +50,13 @@ class ReservationDisplay extends React.PureComponent {
             {/* TODO add clickable link to directions */}
             <StyledInline onPress={() => console.log('Would change page')}>
               <H2 link>{reserveDisplay.pickupName}</H2>
-              <Icon name="ios-walk" ios="ios-walk" anroid="md-walk" style={{ fontSize: 40, color: 'green' }} />
+              <Icon
+                name="ios-walk"
+                ios="ios-walk"
+                anroid="md-walk"
+                style={{ fontSize: 40, color: 'green' }}
+                onPress={() => goToLocation(reserveDisplay.pickupLocation)}
+              />
             </StyledInline>
             <Text>Date + Time</Text>
             <H2>
@@ -47,7 +71,7 @@ class ReservationDisplay extends React.PureComponent {
             <Button large primary onPress={this.loadUnlockBikeScreen}>
               <Text>Unlock A Bike</Text>
             </Button>
-            <Button large danger bordered onPress={this.cancelReservation}>
+            <Button large danger bordered onPress={this.cancelReservationAlert}>
               <Text>Cancel Reservation</Text>
             </Button>
           </View>

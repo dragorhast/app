@@ -1,28 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import getDirections from 'react-native-google-maps-directions';
 import { Button, Icon, H3, Text } from 'native-base';
+import { goToLocation } from '../../shared/util';
 import ROUTES from '../routes';
 import { CardMediumShadow, StyledInline } from '../styles';
 import { PickupPropTypes } from '../../shared/redux/ducks/pickups';
 import withReservationCreation from '../../shared/redux/containers/ReservationCreationContainer';
-
-const goToLocation = latAndLng => {
-  getDirections({
-    destination: latAndLng,
-    params: [
-      {
-        key: 'travelmode',
-        value: 'walking',
-      },
-      {
-        key: 'dir_action',
-        value: 'navigate',
-      },
-    ],
-  });
-};
 
 const PickupPoint = ({ point, startReserveCreate }) => (
   <CardMediumShadow style={{ width: '90%' }}>

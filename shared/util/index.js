@@ -1,3 +1,5 @@
+import getDirections from 'react-native-google-maps-directions';
+
 export const delay = time =>
   new Promise(res => {
     setTimeout(() => {
@@ -41,4 +43,20 @@ export const hoursAndMinutesBetween2Times = (startTime, endTime) => {
 export const minutesSinceTime = startTime => {
   const differenceMs = Math.abs(new Date() - new Date(startTime));
   return Math.round(differenceMs / (1000 * 60));
+};
+
+export const goToLocation = latAndLng => {
+  getDirections({
+    destination: latAndLng,
+    params: [
+      {
+        key: 'travelmode',
+        value: 'walking',
+      },
+      {
+        key: 'dir_action',
+        value: 'navigate',
+      },
+    ],
+  });
 };

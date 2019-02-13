@@ -8,6 +8,10 @@ export const ReservationDisplayPropTypes = {
   reservationId: PropTypes.number,
   pickupId: PropTypes.number,
   pickupName: PropTypes.string,
+  pickupLocation: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }),
   datetime: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
 };
 
@@ -22,6 +26,7 @@ const INITIAL_STATE = {
   reservationId: null,
   pickupId: null,
   pickupName: null,
+  pickupLocation: null,
   datetime: null,
 };
 // Reducer
@@ -33,6 +38,7 @@ export default function reservationDisplayReducer(state = INITIAL_STATE, { type,
         reservationId: payload.reservationId,
         pickupId: payload.pickupId,
         pickupName: payload.pickupName,
+        pickupLocation: payload.pickupLocation,
         datetime: payload.datetime,
       };
     case RESERVATION_DISPLAY_SET_FIELD:
@@ -47,12 +53,13 @@ export default function reservationDisplayReducer(state = INITIAL_STATE, { type,
   }
 }
 // Action Creators
-export const setSingleReservationDisplay = ({ reservationId, pickupId, pickupName, datetime }) => ({
+export const setSingleReservationDisplay = ({ reservationId, pickupId, pickupName, pickupLocation, datetime }) => ({
   type: RESERVATION_DISPLAY_SET_SINGLE,
   payload: {
     reservationId,
     pickupId,
     pickupName,
+    pickupLocation,
     datetime,
   },
 });
