@@ -10,6 +10,10 @@ export default (variables /* : * */ = variable) => {
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
+
+    '.link': {
+      color: variables.linkColor,
+    },
   };
 
   return h3Theme;

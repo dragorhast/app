@@ -2,6 +2,14 @@ import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
 import { apiReservationStart } from '../../api/tap2go';
+import { setSingleReservationDisplay } from './reservationDisplay';
+
+// Prop Types
+export const ReservationCreationPropTypes = {
+  pickupId: PropTypes.number,
+  pickupName: PropTypes.string,
+  datetime: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+};
 
 // Actions
 const RESERVATION_CREATION_START = 'RESERVATION_CREATION_START';
@@ -12,13 +20,6 @@ const INITIAL_STATE = {
   pickupId: null,
   pickupName: null,
   datetime: null,
-};
-
-// Prop Types
-export const ReservationCreationPropTypes = {
-  pickupId: PropTypes.number,
-  pickupName: PropTypes.string,
-  datetime: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
 };
 
 // Reducer
@@ -65,7 +66,7 @@ const clearReservationCreation = () => ({
  * @param name
  * @returns {Function}
  */
-export const reservationCreate = ({ id, name }) => async dispatch => {
+export const reservationStart = ({ id, name }) => async dispatch => {
   try {
     await dispatch(setStatus('loading', true));
     await dispatch(startReservationCreation({ id, name }));
@@ -80,6 +81,7 @@ export const reservationCreate = ({ id, name }) => async dispatch => {
  * to create a reservation for the user at a pickup point
  *
  * Sets the reservationDisplay on completion for re-routing
+ * Returns the reservation
  *
  * @returns {Function}
  */
@@ -92,15 +94,17 @@ export const reservationMake = reserveNow => async (dispatch, getState) => {
     const datetime = reserveNow ? new Date() : reserveCreate.datetime;
     const reservation = await apiReservationStart(authToken, reserveCreate.pickupId, datetime);
     dispatch(clearReservationCreation());
-    // await dispatch(
-    //   setReservationDisplay({
-    //     datetime: reservation.datetime,
-    //     pickupName: reservation.pickup.name,
-    //     pickupId: reservation.pickup.id,
-    //     pickupCoordinates: reservation.pickup.coordinates,
-    //   })
-    // );
+    // TODO remove this in to call back
+    await dispatch(
+      setSingleReservationDisplay({
+        reservationId: reservation.id,
+        datetime: reservation.reserved_for,
+        pickupName: reservation.pickup.properties.name,
+        pickupId: reservation.pickup.properties.id,
+      })
+    );
     dispatch(setStatus('success', 'Reservation created!'));
+    return reservation;
   } catch (e) {
     dispatch(setStatus('error', e.message));
     throw e;

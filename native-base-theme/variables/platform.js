@@ -112,6 +112,7 @@ export default {
   brandWarning: '#f0ad4e',
   brandDark: '#000',
   brandLight: '#f4f4f4',
+  linkColor: '#2b89b8',
 
   // Container
   containerBgColor: '#fff',

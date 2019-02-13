@@ -15,6 +15,10 @@ export default (variables /* : * */ = variable) => {
     '.italic': {
       fontStyle: 'italic',
     },
+
+    '.link': {
+      color: variables.linkColor,
+    },
   };
 
   return textTheme;

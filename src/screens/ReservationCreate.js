@@ -2,17 +2,22 @@ import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { H2, Button, Text, View } from 'native-base';
-import { Screen, CardMediumShadow, BreakLine } from '../styles';
+import { Screen, CardMediumShadow } from '../styles';
 import ROUTES from '../routes';
 import Loading from './LoadingScreen';
+import Spacer from '../components/Spacer';
 import withReservationCreation, {
   ReservationCreationProps,
 } from '../../shared/redux/containers/ReservationCreationContainer';
-import Spacer from '../components/Spacer';
 
+/**
+ * Screen for setting the date + time of reservation
+ * plus asking the user for confirmation
+ */
 class ReservationCreate extends React.PureComponent {
   state = {
     isDatePickerVisible: false,
+    changedDateAndTime: false,
   };
 
   _showDateTimePicker = () => this.setState({ isDatePickerVisible: true });
@@ -23,27 +28,28 @@ class ReservationCreate extends React.PureComponent {
     const { setDateTimeReservationCreation } = this.props;
     console.log('A date has been picked: ', datetime);
     setDateTimeReservationCreation(datetime);
+    this.setState({ changedDateAndTime: true });
     this._hideDateTimePicker();
   };
 
-  reserve = async next30Minutes => {
+  reserve = async () => {
     const { makeReservation } = this.props;
+    const { changedDateAndTime } = this.state;
 
-    makeReservation(next30Minutes)
-      .then(() => Actions[ROUTES.Home]())
-      .catch(() => Actions.back());
-    // try {
-    //   await makeReservation(next30Minutes);
-    //   Actions[ROUTES.Home]();
-    // } catch (e) {
-    //   Actions.back();
-    // }
+    const reserveNext30Minutes = !changedDateAndTime;
+    try {
+      await makeReservation(reserveNext30Minutes);
+      Actions[ROUTES.ReservationDisplayBurger]();
+    } catch (e) {
+      Actions.back();
+    }
   };
 
   render() {
     const { reserveCreate } = this.props;
-    const { isDatePickerVisible } = this.state;
+    const { isDatePickerVisible, changedDateAndTime } = this.state;
 
+    // TODO decide if this should re-route instead of Loading
     if (!reserveCreate) return <Loading />;
 
     // TODO remove this out to a selector
@@ -54,19 +60,23 @@ class ReservationCreate extends React.PureComponent {
         <CardMediumShadow style={{ height: '90%', width: '90%' }}>
           {/* Pickup Point + Date text */}
           <View style={{ height: 128, justifyContent: 'space-between' }}>
-            <Text>Pickup Point</Text>
+            <Text>Selected</Text>
             <H2>{reserveCreate.pickupName}</H2>
             <Text>Date + Time</Text>
-            <H2>
-              {date.getDay()}/{date.getMonth()}/{date.getFullYear()} - {date.getHours()}:{date.getMinutes()}
-            </H2>
+            {changedDateAndTime ? (
+              <H2>
+                {date.getDay()}/{date.getMonth()}/{date.getFullYear()} - {date.getHours()}:{date.getMinutes()}
+              </H2>
+            ) : (
+              <H2>Next 30 minutes</H2>
+            )}
           </View>
 
           <Spacer />
 
           {/* Buttons */}
           <View style={{ flex: 1, width: '80%', justifyContent: 'flex-start', alignSelf: 'center' }}>
-            <Button primary onPress={this._showDateTimePicker}>
+            <Button light onPress={this._showDateTimePicker}>
               <Text>Change reservation time</Text>
             </Button>
 
@@ -78,15 +88,9 @@ class ReservationCreate extends React.PureComponent {
 Then you can just pick up any bike once you get there!`}
             </Text>
 
-            <BreakLine style={{ marginTop: 16, marginBottom: 16 }} />
-
             {/* TODO add check that only shows 30 min button if bikes available at location */}
-            <Button light large onPress={() => this.reserve(true)}>
-              <Text>Next 30 minutes</Text>
-            </Button>
-
             <Button primary large onPress={this.reserve}>
-              <Text>Confirm Time</Text>
+              <Text>Confirm</Text>
             </Button>
           </View>
         </CardMediumShadow>
@@ -96,7 +100,7 @@ Then you can just pick up any bike once you get there!`}
           onCancel={this._hideDateTimePicker}
           mode="datetime"
           date={date}
-          is24Hour // only works android
+          minimumDate={new Date()}
         />
       </Screen>
     );

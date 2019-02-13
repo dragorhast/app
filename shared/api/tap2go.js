@@ -7,13 +7,6 @@ import { Firebase } from '../constants/firebase';
 import CONSTANTS from '../constants/config';
 
 /* ******** SETS UP AXIOS ******** */
-/**
- * Axios that hase the baseUrl attached
- * @type {AxiosInstance}
- */
-const axiosNoAuth = axios.create({
-  baseURL: CONSTANTS.apiBaseURL,
-});
 
 /**
  * Axios that has the base url and
@@ -38,7 +31,7 @@ axiosAuth.interceptors.response.use(
     return response;
   },
   error => {
-    return error.response;
+    return Promise.reject(error);
   }
 );
 
@@ -115,14 +108,20 @@ export const apiRentalFetchCurrent = async authToken => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
     const result = await axiosAuth.get(`/users/${dbId || 'me'}/rentals/current`, getConfig(authToken));
-
-    // TODO handle better
-    if (result.data.data.message === 'You have no current rental.') throw new Error('NO RENTAL');
-
     // TEST - Sets current location
     if (result.data.data.rental) result.data.data.rental.current_location = { properties: { type: 'Pickup Point' } };
     return result.data.data.rental;
   } catch (e) {
+    // TODO find a better way to handle this as this couples to rental rentalFetchInfo()
+    if (
+      e.response &&
+      e.response.data &&
+      e.response.data.data &&
+      e.response.data.data.message &&
+      e.response.data.data.message === 'You have no current rental.'
+    ) {
+      throw new Error('NO RENTAL');
+    }
     throw e;
   }
 };
@@ -226,10 +225,12 @@ export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.
     // const result = await axiosAuth.get(`/pickups?latitude=${latitude}&longitude=${longitude}&range=${range}miles`);
     const result = {
       data: {
-        pickups: [pickup1, pickup2, pickup3],
+        data: {
+          pickups: [pickup1, pickup2, pickup3],
+        },
       },
     };
-    return result.data.pickups;
+    return result.data.data.pickups;
   } catch (e) {
     throw e;
   }
@@ -241,20 +242,45 @@ export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.
  *
  * @param authToken
  * @param pickupId
+ * @param datetime
  * @returns {Promise<void>}
  */
 export const apiReservationStart = async (authToken, pickupId, datetime) => {
   try {
-    // const result = await axiosAuth.post(`/pickups/${pickupId}/reservations`, getConfig(authToken), {
-    //   date: datetime,
-    // });
-    const result = {
-      id: 1,
-      datetime: new Date(2, 10, 18, 30),
-      pickup: {
-        ...pickup1,
-      },
-    };
+    const result = await axiosAuth.post(`/pickups/${pickupId}/reservations`, getConfig(authToken), {
+      reserved_for: datetime,
+    });
+    // const result = {
+    //   data: {
+    //     data: {
+    //       reservation: {
+    //         id: 1,
+    //         reserved_for: new Date(2019, 2, 10, 18, 30),
+    //         pickup: {
+    //           ...pickup1,
+    //         },
+    //       },
+    //     },
+    //   },
+    // };
+    return result.data.data.reservation;
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * Api end point to cancel a reservation that is in the future
+ *
+ * @param authToken
+ * @param reservationId
+ * @returns {Promise<result.data.data.reservation|{id}>}
+ */
+export const apiReservationCancel = async (authToken, reservationId) => {
+  try {
+    // TODO waiting for the reservation end point to be changed
+    // const result = await axiosAuth.delete(`/reservations/${reservationId}`, getConfig(authToken));
+    return null;
   } catch (e) {
     throw e;
   }

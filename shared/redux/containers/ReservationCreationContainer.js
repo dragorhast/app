@@ -1,11 +1,5 @@
 /**
- * Higher Order Component that will pass props to any component/screen/page
- * that exports with this functions
- *
- * Must pass as props:
- * - locale
- * - list of pickup points
- * - function to fetch pickup points
+ * Higher Order Component used for a user starting a reservation
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -13,7 +7,7 @@ import { connect } from 'react-redux';
 
 import {
   reservationMake,
-  reservationCreate,
+  reservationStart,
   setDateTimeReservationCreation,
   ReservationCreationPropTypes,
 } from '../ducks/reservationCreations';
@@ -64,7 +58,7 @@ export default function withReservationCreation(WrappedComponent) {
 
   const mapDispatchToProp = {
     makeReservation: reservationMake,
-    startReserveCreate: reservationCreate,
+    startReserveCreate: reservationStart,
     setDateTimeReservationCreation,
   };
 

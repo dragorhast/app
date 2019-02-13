@@ -5,6 +5,7 @@ import UserReducer from './user';
 import RentalReducer from './rental';
 import PickupPointsReducer from './pickups';
 import ReservationCreationReducer from './reservationCreations';
+import ReservationDisplayReducer from './reservationDisplay';
 
 export default combineReducers({
   locale: LocaleReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   rental: RentalReducer,
   pickups: PickupPointsReducer,
   reserveCreate: ReservationCreationReducer,
+  reserveDisplay: ReservationDisplayReducer
 });
