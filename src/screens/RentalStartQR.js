@@ -23,7 +23,6 @@ class RentalStartQR extends React.Component {
     const { startRental } = this.props;
     try {
       await startRental(bikeId);
-      // TODO change to info + find out how to pass props (fetchBikeRentalOnLoad: false)
       Actions[ROUTES.RentalInfoNew]();
     } catch (e) {
       // Re-route or open modal if no payment details

@@ -35,7 +35,7 @@ class PickupPoints extends React.Component {
 
   makePointVisible = point => {
     this.setState({
-      mapBottomPointVisible: true, // TODO change
+      mapBottomPointVisible: true, // TODO refactor page related to this
       mapBottomPoint: point,
     });
   };

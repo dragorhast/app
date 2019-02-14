@@ -13,7 +13,6 @@ class ModalEndRentalConfirm extends React.Component {
 
   static propTypes = {
     close: PropTypes.func.isRequired,
-    // TODO validate
     rentalInfo: PropTypes.shape({
       rentalStartTime: PropTypes.string,
     }).isRequired,

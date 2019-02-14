@@ -67,7 +67,6 @@ class RentalInfo extends React.Component {
    * Only available with 5 minutes of starting rental
    * @returns {Promise<void>}
    */
-  // TODO update to proper cancel api
   cancelRental = async () => {
     const { returnRental } = this.props;
     try {

@@ -49,7 +49,6 @@ class ReservationCreate extends React.PureComponent {
     const { reserveCreate } = this.props;
     const { isDatePickerVisible, changedDateAndTime } = this.state;
 
-    // TODO decide if this should re-route instead of Loading
     if (!reserveCreate) return <Loading />;
 
     return (
