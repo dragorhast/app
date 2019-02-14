@@ -153,7 +153,6 @@ export const rentalEnd = (cancel = false) => async dispatch => {
   }
 };
 
-
 // Selectors - put working out time here
 
 /**

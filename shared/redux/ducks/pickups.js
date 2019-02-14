@@ -75,14 +75,14 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
     const pickups = pickupsRaw.map(pickup => {
       if (!pickup.properties.distance) allDistances = false;
       return {
-        pickupId: pickup.id,
+        pickupId: pickup.properties.id,
         name: pickup.properties.name,
-        coordinates: pickup.geometry.geometries.find(g => g.type === 'Point').coordinates,
+        coordinates: pickup.properties.center,
         distance: pickup.properties.distance,
       };
     });
 
-    if (!allDistances) dispatch(setStatus('error', "Sorry couldn't get all distances from current location"));
+    // if (!allDistances) dispatch(setStatus('error', "Sorry couldn't get all distances from current location"));
 
     return dispatch(setPickups(pickups));
   } catch (e) {

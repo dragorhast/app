@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
-import { Content } from 'native-base';
+import { Container, Content } from 'native-base';
+import { Alert } from 'react-native';
 import { ScrollableScreen } from '../styles';
 import ReservationCard from '../components/ReservationCard';
 import ROUTES from '../routes';
 import withReservationDisplay, {
   ReservationDisplayProps,
 } from '../../shared/redux/containers/ReservationDisplayContainer';
+import { prettyDateTime } from '../../shared/util';
 
 class ReservationsUpcoming extends Component {
-  componentWillUnmount() {
+  componentWillMount() {
     const { fetchUsersReservations } = this.props;
     fetchUsersReservations();
   }
@@ -20,22 +22,41 @@ class ReservationsUpcoming extends Component {
     Actions[ROUTES.ReservationDisplayWithBack]();
   };
 
+  reservationConfirmCancel = ({ id, pickupName, datetime }) => {
+    const { cancelReservation } = this.props;
+    Alert.alert(
+      'Are you sure you want to cancel',
+      `Reservation at ${pickupName} at ${prettyDateTime(datetime)}`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => cancelReservation(id) },
+      ],
+      { cancelable: true }
+    );
+  };
+
   render() {
-    const { reservationsList, cancelReservation } = this.props;
+    const { reserveDisplay } = this.props;
     return (
-      <Content>
-        <ScrollableScreen>
-          {reservationsList &&
-            reservationsList.map(reservation => (
-              <ReservationCard
-                reservation={reservation}
-                cancelReservation={cancelReservation}
-                viewFullReservation={this.goToFullReservationPage}
-                key={reservation.reservationId}
-              />
-            ))}
-        </ScrollableScreen>
-      </Content>
+      <Container>
+        <Content>
+          <ScrollableScreen>
+            {reserveDisplay.list &&
+              reserveDisplay.list.map(reservation => (
+                <ReservationCard
+                  reservation={reservation}
+                  cancelReservation={this.reservationConfirmCancel}
+                  viewFullReservation={this.goToFullReservationPage}
+                  key={reservation.reservationId}
+                />
+              ))}
+          </ScrollableScreen>
+        </Content>
+      </Container>
     );
   }
 }

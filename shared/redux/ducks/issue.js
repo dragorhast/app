@@ -20,7 +20,10 @@ export const issueReport = ({ bikeId, description }) => async dispatch => {
 
     const authToken = await Firebase.auth().currentUser.getIdToken();
 
-    const issue = await apiIssueCreate(authToken, { bikeId, description });
+    console.log('Bike id: ', bikeId, ' description: ', description);
+    const data = bikeId ? { bike_identifier: bikeId, description } : { description };
+
+    const issue = await apiIssueCreate(authToken, data);
 
     return dispatch(setStatus('success', 'Issues reported. Sorry about that!'));
   } catch (e) {

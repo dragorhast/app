@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
-import { apiReservationCreate } from '../../api/tap2go';
+import { apiReservationCreate, apiPickupFetchSingle } from '../../api/tap2go';
 import { setSingleReservationDisplay } from './reservationDisplay';
 
 // Prop Types
@@ -93,8 +93,14 @@ export const reservationMake = reserveNow => async (dispatch, getState) => {
     const { reserveCreate } = getState();
     const datetime = reserveNow ? new Date() : reserveCreate.datetime;
     const reservation = await apiReservationCreate(authToken, reserveCreate.pickupId, datetime);
+
+    // hack to set pickup until its added to api
+    const pickup = await apiPickupFetchSingle(authToken, reservation.pickup_id);
+    reservation.pickup = pickup;
+
     dispatch(clearReservationCreation());
-    // TODO remove this in to call back
+
+    // TODO remove this in to call back?
     await dispatch(
       setSingleReservationDisplay({
         reservationId: reservation.id,

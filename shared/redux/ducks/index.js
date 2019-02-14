@@ -14,5 +14,5 @@ export default combineReducers({
   rental: RentalReducer,
   pickups: PickupPointsReducer,
   reserveCreate: ReservationCreationReducer,
-  reserveDisplay: ReservationDisplayReducer
+  reserveDisplay: ReservationDisplayReducer,
 });

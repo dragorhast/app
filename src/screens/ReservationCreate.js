@@ -6,6 +6,7 @@ import { Screen, CardMediumShadow } from '../styles';
 import ROUTES from '../routes';
 import Loading from './LoadingScreen';
 import Spacer from '../components/Spacer';
+import { prettyDateTime } from '../../shared/util';
 import withReservationCreation, {
   ReservationCreationProps,
 } from '../../shared/redux/containers/ReservationCreationContainer';
@@ -26,7 +27,6 @@ class ReservationCreate extends React.PureComponent {
 
   _handleDatePicked = datetime => {
     const { setDateTimeReservationCreation } = this.props;
-    console.log('A date has been picked: ', datetime);
     setDateTimeReservationCreation(datetime);
     this.setState({ changedDateAndTime: true });
     this._hideDateTimePicker();
@@ -41,7 +41,7 @@ class ReservationCreate extends React.PureComponent {
       await makeReservation(reserveNext30Minutes);
       Actions[ROUTES.ReservationDisplayWithBurger]();
     } catch (e) {
-      Actions.back();
+      Actions.pop();
     }
   };
 
@@ -52,9 +52,6 @@ class ReservationCreate extends React.PureComponent {
     // TODO decide if this should re-route instead of Loading
     if (!reserveCreate) return <Loading />;
 
-    // TODO remove this out to a selector
-    const date = new Date(reserveCreate.datetime);
-
     return (
       <Screen>
         <CardMediumShadow style={{ height: '90%', width: '90%' }}>
@@ -63,13 +60,7 @@ class ReservationCreate extends React.PureComponent {
             <Text>Selected</Text>
             <H2>{reserveCreate.pickupName}</H2>
             <Text>Date + Time</Text>
-            {changedDateAndTime ? (
-              <H2>
-                {date.getDay()}/{date.getMonth()}/{date.getFullYear()} - {date.getHours()}:{date.getMinutes()}
-              </H2>
-            ) : (
-              <H2>Next 30 minutes</H2>
-            )}
+            {changedDateAndTime ? <H2>{prettyDateTime(reserveCreate.datetime)}</H2> : <H2>Next 30 minutes</H2>}
           </View>
 
           <Spacer />
@@ -99,7 +90,7 @@ Then you can just pick up any bike once you get there!`}
           onConfirm={this._handleDatePicked}
           onCancel={this._hideDateTimePicker}
           mode="datetime"
-          date={date}
+          date={reserveCreate.datetime}
           minimumDate={new Date()}
         />
       </Screen>

@@ -5,7 +5,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { reservationCancel, reservationsFetchUsers, setSingleReservationDisplay, ReservationDisplayPropTypes } from '../ducks/reservationDisplay';
+import {
+  reservationCancel,
+  reservationsFetchForUser,
+  setSingleReservationDisplay,
+  ReservationDisplayPropTypes,
+} from '../ducks/reservationDisplay';
 
 export const ReservationDisplayProps = {
   locale: PropTypes.string.isRequired,
@@ -48,12 +53,11 @@ export default function withReservationDisplay(WrappedComponent) {
   const mapStateToProps = state => ({
     locale: state.locale.country,
     reserveDisplay: state.reserveDisplay,
-    reservationList: state.reserveDisplay.list,
   });
 
   const mapDispatchToProp = {
     cancelReservation: reservationCancel,
-    fetchUsersReservations: reservationsFetchUsers,
+    fetchUsersReservations: reservationsFetchForUser,
     setSingleReservationDisplay,
   };
 

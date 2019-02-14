@@ -14,20 +14,20 @@ import { issueReport } from '../ducks/issue';
 
 export const IssueReportProps = {
   locale: PropTypes.string.isRequired,
-  bikeId: PropTypes.string.isRequired,
+  bikeId: PropTypes.string,
   reportIssue: PropTypes.func.isRequired,
 };
 
 export default function withIssue(WrappedComponent) {
   // Creates the wrapped component with no life cycle methods
-  class RentalStartContainer extends React.PureComponent {
+  class IssueReportContainer extends React.PureComponent {
     render() {
       const { locale, bikeId, reportIssue, ...restProps } = this.props;
       return <WrappedComponent locale={locale} bikeId={bikeId} reportIssue={reportIssue} {...restProps} />;
     }
   }
 
-  RentalStartContainer.propTypes = {
+  IssueReportContainer.propTypes = {
     ...IssueReportProps,
   };
 
@@ -43,5 +43,5 @@ export default function withIssue(WrappedComponent) {
   return connect(
     mapStateToProps,
     mapDispatchToProp
-  )(RentalStartContainer);
+  )(IssueReportContainer);
 }

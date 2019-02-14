@@ -20,17 +20,39 @@ const axiosAuth = axios.create({
 
 // Console.log Response + Requests
 
-// axiosAuth.interceptors.request.use(request => {
-//   console.log('Starting Request', request);
-//   return request;
-// });
+/**
+ * Decides what to return based on JSend status
+ *
+ * - Success = return request
+ * - Fail = throw error with message data.data.message
+ * - Error = throw error with message data.message
+ * @param data
+ */
+const checkJSendStatus = response => {
+  switch (response.data.status) {
+    case 'success':
+      return response;
+    case 'fail':
+      throw new Error(response.data.data.message);
+    case 'error':
+      throw new Error(response.data.message);
+    default:
+      return response;
+  }
+};
+
+axiosAuth.interceptors.request.use(request => {
+  console.log(request);
+  return request;
+});
 
 axiosAuth.interceptors.response.use(
   response => {
     // console.log('Response:', response);
-    return response;
+    return checkJSendStatus(response);
   },
   error => {
+    console.log(JSON.parse(JSON.stringify(error)));
     return Promise.reject(error);
   }
 );
@@ -104,10 +126,10 @@ export const apiRentalStartId = async (authToken, bikeId) => {
  * @returns {Promise<result.data.rental|{estimated_price, start_time, bike_id, current_location}>}
  */
 export const apiRentalFetchCurrent = async authToken => {
-  console.log(authToken);
+  // console.log(authToken);
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
-    const result = await axiosAuth.get(`/users/${dbId || 'me'}/rentals/current`, getConfig(authToken));
+    const result = await axiosAuth.get(`/users/${dbId}/rentals/current`, getConfig(authToken));
     // TEST - Sets current location
     if (result.data.data.rental) result.data.data.rental.current_location = { properties: { type: 'Pickup Point' } };
     return result.data.data.rental;
@@ -139,11 +161,11 @@ export const apiRentalFetchCurrent = async authToken => {
 export const apiRentalEndCurrent = async (authToken, cancel = false) => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
-    const result = await axiosAuth.delete(
-      `/users/${dbId || 'me'}/rentals/current${cancel ? '/type=cancel' : ''}`,
+    const result = await axiosAuth.patch(
+      `/users/${dbId}/rentals/current/${cancel ? 'cancel' : 'complete'}`,
+      {},
       getConfig(authToken)
     );
-
     return result.data.data.rental;
   } catch (e) {
     throw e;
@@ -156,14 +178,13 @@ export const apiRentalEndCurrent = async (authToken, cancel = false) => {
  *
  * Attaches bikeId if present
  *
- * @param bikeId
- * @param description
+ * @param data - { bike_id, description } or just { description }
  * @param authToken
  * @returns {Promise<void>}
  */
-export const apiIssueCreate = async (authToken, { bikeId, description }) => {
+// eslint-disable-next-line camelcase
+export const apiIssueCreate = async (authToken, data) => {
   const dbId = Firebase.auth().currentUser.photoURL;
-  const data = bikeId ? { description, bike_identifier: bikeId } : { description };
   try {
     const result = await axiosAuth.post(`/users/${dbId || 'me'}/issues`, data, getConfig(authToken));
     // const result = { data: { issue: { id: 1, description, bike_id: bikeId } } };
@@ -173,67 +194,25 @@ export const apiIssueCreate = async (authToken, { bikeId, description }) => {
   }
 };
 
-// Only Sections that matter
-const pickup1 = {
-  id: 1,
-  geometry: {
-    geometries: [
-      {
-        type: 'Point',
-        coordinates: { latitude: 55.950577, longitude: -3.206296 },
-      },
-    ],
-  },
-  properties: {
-    name: 'Princes St West',
-    distance: 1.2,
-  },
-};
-const pickup2 = {
-  id: 2,
-  geometry: {
-    geometries: [
-      {
-        type: 'Point',
-        coordinates: { latitude: 55.953723, longitude: -3.196423 },
-      },
-    ],
-  },
-  properties: {
-    name: 'George St',
-    distance: 1.8,
-  },
-};
-const pickup3 = {
-  id: 3,
-  geometry: {
-    geometries: [
-      {
-        type: 'Point',
-        coordinates: { latitude: 55.943635, longitude: -3.204317 },
-      },
-    ],
-  },
-  properties: {
-    name: 'Toll Cross',
-    distance: 2.4,
-  },
-};
 export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.199293, range = 4) => {
   try {
-    // TODO find out if long or lng
-    // const result = await axiosAuth.get(`/pickups?latitude=${latitude}&longitude=${longitude}&range=${range}miles`);
-    const result = {
-      data: {
-        data: {
-          pickups: [pickup1, pickup2, pickup3],
-        },
-      },
-    };
+    const result = await axiosAuth.get(`/pickups?latitude=${latitude}&longitude=${longitude}&range=${range}miles`);
     return result.data.data.pickups;
   } catch (e) {
     throw e;
   }
+};
+
+/**
+ * Gets information for a single Pickup Point
+ *
+ * @param authToken
+ * @param id
+ * @returns {Promise<*>}
+ */
+export const apiPickupFetchSingle = async (authToken, id) => {
+  const result = await axiosAuth.get(`/pickups/${id}`, getConfig(authToken));
+  return result.data.data.pickup;
 };
 
 /**
@@ -247,9 +226,13 @@ export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.
  */
 export const apiReservationCreate = async (authToken, pickupId, datetime) => {
   try {
-    const result = await axiosAuth.post(`/pickups/${pickupId}/reservations`, getConfig(authToken), {
-      reserved_for: datetime,
-    });
+    const result = await axiosAuth.post(
+      `/pickups/${pickupId}/reservations`,
+      {
+        reserved_for: datetime,
+      },
+      getConfig(authToken)
+    );
     // const result = {
     //   data: {
     //     data: {
@@ -280,6 +263,8 @@ export const apiReservationCancel = async (authToken, reservationId) => {
   try {
     // TODO waiting for the reservation end point to be changed
     // const result = await axiosAuth.delete(`/reservations/${reservationId}`, getConfig(authToken));
+    const dbId = Firebase.auth().currentUser.photoURL;
+    await axiosAuth.delete(`/users/${dbId}/reservations/current`, getConfig(authToken));
     return null;
   } catch (e) {
     throw e;
@@ -295,6 +280,7 @@ export const apiReservationCancel = async (authToken, reservationId) => {
  */
 export const apiReservationsFetch = async authToken => {
   const dbId = Firebase.auth().currentUser.photoURL;
-  const result = await axiosAuth.get(`/users/${dbId || 'me'}/reservations/`, getConfig(authToken));
-  return result.data.data.reservations;
+  // TODO remove current from end
+  const result = await axiosAuth.get(`/users/${dbId || 'me'}/reservations/current`, getConfig(authToken));
+  return result.data.data.reservation; // TODO add s
 };

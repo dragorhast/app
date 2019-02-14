@@ -52,7 +52,12 @@ class MyRouter extends React.Component {
             <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} back />
             <Scene key={ROUTES.ReservationDisplayWithBurger} component={ReservationDisplay} title="Reservation" />
             <Scene key={ROUTES.ReservationDisplayWithBack} component={ReservationDisplay} title="Reservation" back />
-            <Scene key={ROUTES.ReservationsUpcoming} component={ReservationsUpcoming} title="Upcoming Reservations" />
+            <Scene
+              key={ROUTES.ReservationsUpcoming}
+              component={ReservationsUpcoming}
+              title="Upcoming Reservations"
+              back
+            />
             {/* <Scene key="test" title="test" component={VisualInspection} /> */}
           </Drawer>
         </Scene>

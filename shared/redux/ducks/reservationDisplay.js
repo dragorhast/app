@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
-import { apiReservationCancel, apiReservationsFetch } from '../../api/tap2go';
+import { apiReservationCancel, apiReservationsFetch, apiPickupFetchSingle } from '../../api/tap2go';
 
 // Prop Types
-const ReservationDisplaySingle = {
+export const ReservationDisplaySingle = {
   reservationId: PropTypes.number,
   pickupId: PropTypes.number,
   pickupName: PropTypes.string,
@@ -17,9 +17,11 @@ const ReservationDisplaySingle = {
 
 // Each entry in the list is the same as one single
 export const ReservationDisplayPropTypes = {
-  list: PropTypes.shape({
-    ...ReservationDisplaySingle,
-  }),
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      ...ReservationDisplaySingle,
+    })
+  ),
   ...ReservationDisplaySingle,
 };
 
@@ -109,11 +111,11 @@ export const reservationCancel = reservationId => async (dispatch, getState) => 
     dispatch(setStatus('loading'));
     const authToken = await Firebase.auth().currentUser.getIdToken();
 
-    await apiReservationCancel(authToken, reservationId || getState.reserveDisplay.reservationId);
+    await apiReservationCancel(authToken, reservationId || getState().reserveDisplay.reservationId);
 
-    dispatch('success', 'Reservation cancelled');
+    dispatch(setStatus('success', 'Reservation cancelled'));
   } catch (e) {
-    console.error(e);
+    console.log(e);
     dispatch(setStatus('error', 'Unable to cancel reservations'));
     throw e;
   }
@@ -125,28 +127,48 @@ export const reservationCancel = reservationId => async (dispatch, getState) => 
  *
  * @returns {Function}
  */
-export const reservationsFetchUsers = () => async dispatch => {
+export const reservationsFetchForUser = () => async dispatch => {
   try {
-    dispatch(setStatus('loading'));
     const authToken = await Firebase.auth().currentUser.getIdToken();
 
     const reservations = await apiReservationsFetch(authToken);
-    dispatch(
-      setReservationsList(
-        // gets each reservation in to a form that will be useful for single display
-        reservations.map(reservation => ({
-          reservationId: reservation.id,
-          datetime: reservation.reserved_for,
-          pickupName: reservation.pickup.properties.name,
-          pickupId: reservation.pickup.properties.id,
-          pickupLocation: reservation.pickup.properties.center,
-        }))
-      )
-    );
-    // Doesn't not need success message as will distract from what's happening
-    dispatch('loading', false);
+
+    // Hack around the fact api doesn't return pickup point on each reservation
+    // TODO remove brackets around reservations same time remove current from apiReservationsFetch
+    const reservationWithPickup = await getPickupForEachReservation(authToken, [reservations]);
+
+    // Gets in to a state the store can understand
+    const reservationList = reservationWithPickup.map(reservation => ({
+      reservationId: reservation.id || 1, // TODO remove
+      datetime: reservation.reserved_for,
+      pickupName: reservation.pickup.properties.name,
+      pickupId: reservation.pickup_id,
+      pickupLocation: reservation.pickup.properties.center,
+    }));
+    return dispatch(setReservationsList(reservationList));
   } catch (e) {
+    console.log(e.message);
+    // TODO handle differently on the api
+    if (e.message === 'Could not find reservation with the given params.' || e.message.includes('404')) {
+      dispatch(setReservationsList([]));
+      return Promise.resolve(); // not an error
+    }
     dispatch(setStatus('error', 'Unable to get current reservations'));
     throw e;
   }
+};
+
+/**
+ * Calls the api to fetch the pickup for reach reservation
+ * @param authToken
+ * @param reservations - array of reservations without pickup
+ * @returns {Promise<any[]>}
+ */
+const getPickupForEachReservation = async (authToken, reservations) => {
+  const promises = reservations.map(async res => ({
+    ...res,
+    pickup: await apiPickupFetchSingle(authToken, res.pickup_id),
+  }));
+
+  return Promise.all(promises);
 };
