@@ -5,6 +5,7 @@ export default {
   Home: 'Home',
   Login: 'Login',
   SignUp: 'SignUp',
+  Profile: 'Profile',
   RentalStart: 'RentalStart',
   RentalInfo: 'RentalInfo',
   RentalInfoNew: 'RentalInfoNew',

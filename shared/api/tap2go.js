@@ -42,7 +42,6 @@ const checkJSendStatus = response => {
 };
 
 axiosAuth.interceptors.request.use(request => {
-  console.log(request);
   return request;
 });
 
@@ -52,7 +51,7 @@ axiosAuth.interceptors.response.use(
     return checkJSendStatus(response);
   },
   error => {
-    console.log(JSON.parse(JSON.stringify(error)));
+    // console.log(JSON.parse(JSON.stringify(error)));
     return Promise.reject(error);
   }
 );
@@ -99,6 +98,54 @@ export const apiSignUp = async (authToken, name, email) => {
 
 // no need async / await, just through the error
 export const apiUserDelete = authToken => axiosAuth.delete('/users/me', getConfig(authToken));
+
+/**
+ * Gets the card details for a user's default payment method
+ *
+ * @param authToken
+ * @returns {AxiosPromise<any>}
+ */
+export const apiUserFetchPaymentDetails = authToken => {
+  const dbId = Firebase.auth().currentUser.photoURL;
+  try {
+    const result = axiosAuth.get(`/users/${dbId}/payment`, getConfig(authToken));
+
+    // return result.data.data.payment_details;
+    return {
+      card_number: '4242424242424242',
+      month: '11',
+      year: '19',
+    };
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
+ * Sets or updates a user's payment details
+ *
+ * @param authToken
+ * @param paymentDetails
+ * @returns {AxiosPromise<any>}
+ */
+export const apiUserSetPaymentDetails = (authToken, paymentDetails) => {
+  const dbId = Firebase.auth().currentUser.photoURL;
+  try {
+    // return axiosAuth.post(
+    //   `/users/${dbId}/payment`,
+    //   {
+    //     card_number: paymentDetails.cardNumber,
+    //     month: paymentDetails.month,
+    //     year: paymentDetails.year,
+    //     cvc: paymentDetails.cvc,
+    //   },
+    //   getConfig(authToken)
+    // );
+    return;
+  } catch (e) {
+    throw e;
+  }
+};
 
 /**
  * Creates a new rental on a bike and returns the rental

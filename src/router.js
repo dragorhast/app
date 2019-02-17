@@ -16,6 +16,7 @@ import PickupPoints from './screens/PickupPoints';
 import ReservationCreate from './screens/ReservationCreate';
 import ReservationDisplay from './screens/ReservationDisplay';
 import ReservationsUpcoming from './screens/ReservationsUpcoming';
+import ProfileScreen from './screens/ProfileScreen';
 
 // FOR TESTING VISUAL
 import TestScreen from './screens/test-screen';
@@ -58,11 +59,30 @@ class MyRouter extends React.Component {
               title="Upcoming Reservations"
               back
             />
+            <Scene key={ROUTES.Profile} component={ProfileScreen} title="Profile" back />
             {/* <Scene key="test" title="test" component={VisualInspection} /> */}
           </Drawer>
         </Scene>
       </Router>
     );
+
+    // return (
+    //   <Router>
+    //     <Scene key="root" hideNavBar>
+    //       <Drawer
+    //         key={ROUTES.Home}
+    //         contentComponent={SidePanel}
+    //         drawerIcon={
+    //           <Icon name="ios-menu" ios="ios-menu" android="md-menu" style={{ fontSize: 32, color: 'green' }} />
+    //         }
+    //         drawerWidth={150}
+    //         {...this.props}
+    //       >
+    //         <Scene key="test" title="test" component={VisualInspection} />
+    //       </Drawer>
+    //     </Scene>
+    //   </Router>
+    // );
   }
 }
 
