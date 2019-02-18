@@ -9,4 +9,8 @@ npm-debug.*
 .idea/
 
 shared/constants/config.js
-shared/constants/firebaseServiceAccountKey.json
+
+
+native/node_modules/
+native/shared/constants/config.js
+
