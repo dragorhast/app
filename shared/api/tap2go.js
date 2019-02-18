@@ -3,6 +3,7 @@
  * Dragorhast / Tap2Go Python API
  */
 import axios from 'axios';
+import { stripeGetToken } from './stripe';
 import { Firebase } from '../constants/firebase';
 import CONSTANTS from '../constants/config';
 
@@ -100,48 +101,24 @@ export const apiSignUp = async (authToken, name, email) => {
 export const apiUserDelete = authToken => axiosAuth.delete('/users/me', getConfig(authToken));
 
 /**
- * Gets the card details for a user's default payment method
- *
- * @param authToken
- * @returns {AxiosPromise<any>}
- */
-export const apiUserFetchPaymentDetails = authToken => {
-  const dbId = Firebase.auth().currentUser.photoURL;
-  try {
-    const result = axiosAuth.get(`/users/${dbId}/payment`, getConfig(authToken));
-
-    // return result.data.data.payment_details;
-    return {
-      card_number: '4242424242424242',
-      month: '11',
-      year: '19',
-    };
-  } catch (e) {
-    throw e;
-  }
-};
-
-/**
  * Sets or updates a user's payment details
  *
  * @param authToken
- * @param paymentDetails
+ * @param stripeToken
  * @returns {AxiosPromise<any>}
  */
-export const apiUserSetPaymentDetails = (authToken, paymentDetails) => {
+export const apiUserSetPaymentDetails = (authToken, stripeToken) => {
   const dbId = Firebase.auth().currentUser.photoURL;
+  console.log(stripeToken);
   try {
     // return axiosAuth.post(
     //   `/users/${dbId}/payment`,
     //   {
-    //     card_number: paymentDetails.cardNumber,
-    //     month: paymentDetails.month,
-    //     year: paymentDetails.year,
-    //     cvc: paymentDetails.cvc,
+    //     stripe_source_token: stripeToken,
     //   },
     //   getConfig(authToken)
     // );
-    return;
+    // return;
   } catch (e) {
     throw e;
   }

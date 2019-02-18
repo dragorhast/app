@@ -1,7 +1,7 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import { H3, Button, Text, View } from 'native-base';
-import { Screen, Spacer } from '../styles';
+import { Screen, Spacer, CardMediumShadow } from '../styles';
 import PaymentDetailsForm from '../components/PaymentDetailsForm';
 import ROUTES from '../routes';
 import withPaymentDetails, { PaymentProps } from '../../shared/redux/containers/PaymentContainer';
@@ -19,16 +19,21 @@ class ProfileScreen extends React.PureComponent {
     return (
       <Screen>
         {/* Payment Details */}
-        <View style={{ width: '80%', alignItems: 'center' }}>
-          <H3 style={{ alignSelf: 'flex-start' }}>Payment Details</H3>
+        <CardMediumShadow padding={16} style={{ width: '80%', alignItems: 'center' }}>
+          {/* <View style={{ width: '80%', alignItems: 'center' }}> */}
+          <H3>Payment Details</H3>
+
+          <Spacer />
+
           <PaymentDetailsForm paymentDetails={paymentDetails} onChangeText={editSectionPayments} />
-        </View>
+          {/* </View> */}
 
-        <Spacer />
+          <Spacer />
 
-        <Button onPress={this.update}>
-          <Text>Update</Text>
-        </Button>
+          <Button onPress={this.update}>
+            <Text>Update</Text>
+          </Button>
+        </CardMediumShadow>
       </Screen>
     );
   }

@@ -41,7 +41,7 @@ const PaymentDetailsForm = ({ paymentDetails, onChangeText }) => {
 
         <Item floatingLabel style={{ width: 64 }}>
           <Label>CVC</Label>
-          <Input value={paymentDetails.cvc} onChangeText={text => onChangeText({ cvc: text })} maxLength={3} />
+          <Input value={paymentDetails.cvc} onChangeText={text => onChangeText({ cvc: text })} maxLength={3} password />
         </Item>
       </StyledInline>
     </View>
