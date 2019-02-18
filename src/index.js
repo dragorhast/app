@@ -16,7 +16,7 @@ import { Firebase } from '../shared/constants/firebase';
 import Router from './router';
 import Loading from './screens/LoadingScreen';
 
-class MyRoute extends React.Component {
+class MyRoute extends React.PureComponent {
   static propTypes = {
     error: PropTypes.string,
     success: PropTypes.string,
@@ -95,9 +95,9 @@ class MyRoute extends React.Component {
 }
 
 const mapStateToProps = ({ status }) => ({
-  reduxLoading: status.loading,
-  error: status.error,
-  success: status.success,
+  // reduxLoading: status.loading, // this causes too many full re-renders!
+  error: status.error, // TODO remove this from here
+  success: status.success, // TODO remove this from here
 });
 
 export default connect(mapStateToProps)(MyRoute);

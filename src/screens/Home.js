@@ -6,12 +6,13 @@ import ROUTES from '../routes';
 import withCurrentRental, { RentalProps } from '../../shared/redux/containers/RentalInfoContainer';
 
 class Home extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     const { getRentalInfo } = this.props;
     try {
       getRentalInfo();
     } catch (e) {
       console.log(e);
+      return Promise.resolve();
     }
   }
 
@@ -29,7 +30,7 @@ class Home extends React.Component {
           </Button>
         )}
 
-        <Button onPress={() => Actions[ROUTES.PickupPoints]()} large halfWid>
+        <Button onPress={() => Actions.push(ROUTES.PickupPoints)} large halfWid>
           <Text>PICKUP POINTS</Text>
         </Button>
         <Button onPress={() => Actions[ROUTES.IssueReport]()} large danger halfWid>
