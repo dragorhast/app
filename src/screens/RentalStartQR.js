@@ -25,9 +25,13 @@ class RentalStartQR extends React.Component {
       await startRental(bikeId);
       Actions[ROUTES.RentalInfoNew]();
     } catch (e) {
-      // Re-route or open modal if no payment details
-      // Error displayed as Toast through root
-      return Promise.resolve();
+      if (e.message === 'NO PAYMENT METHOD') {
+        Actions.replace(ROUTES.PaymentRequired, {
+          callbackOnSuccessfulPaymentUpload: () => Actions.replace(ROUTES.RentalStart),
+        });
+        return;
+      }
+      // Actions.push(ROUTES.RentalStart);
     }
   };
 

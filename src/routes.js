@@ -11,8 +11,9 @@ export default {
   RentalInfoNew: 'RentalInfoNew',
   IssueReport: 'IssueReport',
   PickupPoints: 'PickupPoints',
-  ReservationCreation: 'ReservationCreate',
+  ReservationCreation: 'ReservationCreation',
   ReservationDisplayWithBack: 'ReservationDisplayWithBack',
   ReservationDisplayWithBurger: 'ReservationDisplayWithBurger',
   ReservationsUpcoming: 'ReservationsUpcoming',
+  PaymentRequired: 'PaymentRequired',
 };

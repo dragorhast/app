@@ -41,7 +41,13 @@ class ReservationCreate extends React.PureComponent {
       await makeReservation(reserveNext30Minutes);
       Actions[ROUTES.ReservationDisplayWithBurger]();
     } catch (e) {
-      Actions.pop();
+      if (e.message === 'NO PAYMENT METHOD') {
+        Actions.replace(ROUTES.PaymentRequired, {
+          callbackOnSuccessfulPaymentUpload: () => Actions.replace(ROUTES.ReservationCreation),
+        });
+        return;
+      }
+      Actions.replace(ROUTES.ReservationCreation); // makes it stay on page
     }
   };
 

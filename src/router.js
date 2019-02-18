@@ -9,7 +9,7 @@ import Login from './screens/Login';
 import Home from './screens/Home';
 import SignUp from './screens/SignUp';
 import SidePanel from './components/SidePanel';
-import BikeRentalQR from './screens/RentalStartQR';
+import RentalStartQR from './screens/RentalStartQR';
 import RentalInfo from './screens/RentalInfo';
 import IssueReport from './screens/IssueReport';
 import PickupPoints from './screens/PickupPoints';
@@ -17,6 +17,7 @@ import ReservationCreate from './screens/ReservationCreate';
 import ReservationDisplay from './screens/ReservationDisplay';
 import ReservationsUpcoming from './screens/ReservationsUpcoming';
 import ProfileScreen from './screens/ProfileScreen';
+import PaymentRequired from './screens/PaymentRequired';
 
 // FOR TESTING VISUAL
 import TestScreen from './screens/test-screen';
@@ -25,12 +26,12 @@ const VisualInspection = TestScreen;
 
 // const MyRouter = ({ firebaseId }) => ();
 
-class MyRouter extends React.Component {
+class MyRouter extends React.PureComponent {
   render() {
     const { firebaseId } = this.props;
     return (
       <Router>
-        <Scene key="root" hideNavBar>
+        <Scene key="root">
           <Scene key={ROUTES.SignUp} component={SignUp} title="SignUp" hideNavBar initial={!firebaseId} />
           <Scene key={ROUTES.Login} component={Login} title="Login" hideNavBar />
           {/* Any child components that don't have back will show hamburger */}
@@ -42,15 +43,13 @@ class MyRouter extends React.Component {
               <Icon name="ios-menu" ios="ios-menu" android="md-menu" style={{ fontSize: 32, color: 'green' }} />
             }
             drawerWidth={150}
+            hideNavBar
             {...this.props}
           >
             <Scene key={ROUTES.Home} component={Home} title="Tap 2 Go" />
-            <Scene key={ROUTES.RentalInfo} component={RentalInfo} back fetchInfoOnLoad />
-            <Scene key={ROUTES.RentalStart} component={BikeRentalQR} back />
+            <Scene key={ROUTES.RentalInfo} component={RentalInfo} fetchInfoOnLoad back />
             <Scene key={ROUTES.RentalInfoNew} component={RentalInfo} fetchInfoOnLoad={false} />
             <Scene key={ROUTES.IssueReport} component={IssueReport} back />
-            <Scene key={ROUTES.PickupPoints} component={PickupPoints} back />
-            <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} back />
             <Scene key={ROUTES.ReservationDisplayWithBurger} component={ReservationDisplay} title="Reservation" />
             <Scene key={ROUTES.ReservationDisplayWithBack} component={ReservationDisplay} title="Reservation" back />
             <Scene
@@ -62,9 +61,15 @@ class MyRouter extends React.Component {
             <Scene key={ROUTES.Profile} component={ProfileScreen} title="Profile" back />
             {/* <Scene key="test" title="test" component={VisualInspection} /> */}
           </Drawer>
+          <Scene key={ROUTES.RentalStart} component={RentalStartQR} back />
+          <Scene key={ROUTES.PickupPoints} component={PickupPoints} back />
+          <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} back />
+          <Scene key={ROUTES.PaymentRequired} component={PaymentRequired} title="Payment Required" back />
         </Scene>
       </Router>
     );
+
+    // ****** FOR TESTING ****** //
 
     // return (
     //   <Router>

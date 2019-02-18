@@ -156,7 +156,7 @@ export const apiUserSetPaymentDetails = (authToken, paymentDetails) => {
  * @returns {Promise<*>}
  */
 export const apiRentalStartId = async (authToken, bikeId) => {
-  // console.log(authToken);
+  throw new Error('NO PAYMENT METHOD');
   try {
     const result = await axiosAuth.post(`/bikes/${bikeId}/rentals`, {}, getConfig(authToken));
 
@@ -272,6 +272,7 @@ export const apiPickupFetchSingle = async (authToken, id) => {
  * @returns {Promise<void>}
  */
 export const apiReservationCreate = async (authToken, pickupId, datetime) => {
+  throw new Error('NO PAYMENT METHOD');
   try {
     const result = await axiosAuth.post(
       `/pickups/${pickupId}/reservations`,
