@@ -1,0 +1,17 @@
+.route {
+    display: block;
+    height: 100vh;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 100%;
+}
+/* TODO set route base size */
+@media screen and (min-width: 399px) {
+    .grid {
+        display: grid;
+        grid-template-columns: 25% 75%;
+    }
+}
+
