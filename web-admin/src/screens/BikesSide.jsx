@@ -6,14 +6,9 @@ import { Redirect } from 'react-router-dom';
 class BikeSide extends React.PureComponent {
   render(){
     return(
-      <Media query={{minWidth: 399}}>
-        {matches =>
-          matches ? <Redirect from="/bikes" to="/bikes/map" /> :
-            <div>
-              <h2>Bikes List</h2>
-            </div>
-        }
-      </Media>
+      <div>
+        <h2>Bike Screen</h2>
+      </div>
     );
   }
 }

@@ -3,13 +3,13 @@
     height: 100vh;
 }
 
-.grid {
+.grid-layout {
     display: grid;
     grid-template-columns: 100%;
 }
-/* TODO set route base size */
+/* TODO set size in a constant */
 @media screen and (min-width: 399px) {
-    .grid {
+    .grid-layout {
         display: grid;
         grid-template-columns: 25% 75%;
     }

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import './styles/App.css';
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import Navbar from './components/Navbar';
 import BikeSide from "./screens/BikesSide";
 import BikeMap from './screens/BikesMap';
+
+import SmallScreenRoute from './SmallScreenRoute';
+import BigScreenRoute from './BigScreenRoute';
 
 /*
 NOTES:
@@ -31,8 +34,8 @@ class App extends Component {
       <Router>
         <div className="route">
           <Navbar /> {/* Nav bar always displayed */}
-          <Route exact path="/bikes" component={BikeSide} />
-          <Route exact path="/bikes/map" component={BikeMap} />
+          <SmallScreenRoute path="/bikes" Component={BikeSide} reroutePath="/bikes/map" />
+          <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikeSide} />
         </div>
       </Router>
     );
