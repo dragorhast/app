@@ -33,5 +33,5 @@ if (
 
 export const Firebase = firebaseInitialized ? FirebaseModule : null;
 // Database reference
-export const FirebaseRef = firebaseInitialized ? FirebaseModule.database().ref() : null;
+// export const FirebaseRef = firebaseInitialized ? FirebaseModule.database().ref() : null;
 // export const FirebaseAdmin = admin;

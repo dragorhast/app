@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { apiPickupPointsFetch } from '../../api/tap2go';
+
 // Actions
 const PICKUPS_LOADING = 'PICKUPS_LOADING';
 const PICKUPS_SET = 'PICKUPS_SET';
@@ -71,9 +72,9 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
     const pickupsRaw = await apiPickupPointsFetch(currentLocation);
 
     // Gets our required from GeoJson structure - distance might be undefined
-    let allDistances = true;
+    // let allDistances = true;
     const pickups = pickupsRaw.map(pickup => {
-      if (!pickup.properties.distance) allDistances = false;
+      // if (!pickup.properties.distance) allDistances = false;
       return {
         pickupId: pickup.properties.id,
         name: pickup.properties.name,

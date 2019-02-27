@@ -1,6 +1,6 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
-import { H3, Button, Text, View } from 'native-base';
+import { H3, Button, Text } from 'native-base';
 import { Screen, Spacer, CardMediumShadow } from '../styles';
 import PaymentDetailsForm from '../components/PaymentDetailsForm';
 import ROUTES from '../routes';
@@ -20,7 +20,6 @@ class ProfileScreen extends React.PureComponent {
       <Screen>
         {/* Payment Details */}
         <CardMediumShadow padding={16} style={{ width: '80%', alignItems: 'center' }}>
-          {/* <View style={{ width: '80%', alignItems: 'center' }}> */}
           <H3>Payment Details</H3>
 
           <Spacer />

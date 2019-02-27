@@ -3,7 +3,6 @@
  * Dragorhast / Tap2Go Python API
  */
 import axios from 'axios';
-import { stripeGetToken } from './stripe';
 import { Firebase } from '../constants/firebase';
 import CONSTANTS from '../constants/config';
 
@@ -15,7 +14,7 @@ import CONSTANTS from '../constants/config';
  *
  * @type {AxiosInstance}
  */
-const axiosAuth = axios.create({
+const axiosBaseUrl = axios.create({
   baseURL: CONSTANTS.apiBaseURL,
 });
 
@@ -27,7 +26,7 @@ const axiosAuth = axios.create({
  * - Success = return request
  * - Fail = throw error with message data.data.message
  * - Error = throw error with message data.message
- * @param data
+ * @param response
  */
 const checkJSendStatus = response => {
   switch (response.data.status) {
@@ -42,11 +41,11 @@ const checkJSendStatus = response => {
   }
 };
 
-axiosAuth.interceptors.request.use(request => {
+axiosBaseUrl.interceptors.request.use(request => {
   return request;
 });
 
-axiosAuth.interceptors.response.use(
+axiosBaseUrl.interceptors.response.use(
   response => {
     // console.log('Response:', response);
     return checkJSendStatus(response);
@@ -66,13 +65,12 @@ const getConfig = authToken => ({ headers: { Authorization: `Bearer ${authToken}
  *
  * @param name
  * @param email
- * @param firebaseId
  * @param authToken
  * @returns {Promise<{dbId: number}>}
  */
 export const apiSignUp = async (authToken, name, email) => {
   try {
-    const result = await axiosAuth.post(
+    const result = await axiosBaseUrl.post(
       '/users',
       {
         first: name,
@@ -98,7 +96,7 @@ export const apiSignUp = async (authToken, name, email) => {
 };
 
 // no need async / await, just through the error
-export const apiUserDelete = authToken => axiosAuth.delete('/users/me', getConfig(authToken));
+export const apiUserDelete = authToken => axiosBaseUrl.delete('/users/me', getConfig(authToken));
 
 /**
  * Sets or updates a user's payment details
@@ -111,7 +109,7 @@ export const apiUserSetPaymentDetails = (authToken, stripeToken) => {
   const dbId = Firebase.auth().currentUser.photoURL;
   console.log(stripeToken);
   try {
-    // return axiosAuth.post(
+    // return axiosBaseUrl.post(
     //   `/users/${dbId}/payment`,
     //   {
     //     stripe_source_token: stripeToken,
@@ -133,9 +131,9 @@ export const apiUserSetPaymentDetails = (authToken, stripeToken) => {
  * @returns {Promise<*>}
  */
 export const apiRentalStartId = async (authToken, bikeId) => {
-  throw new Error('NO PAYMENT METHOD');
+  // throw new Error('NO PAYMENT METHOD'); // TESTING
   try {
-    const result = await axiosAuth.post(`/bikes/${bikeId}/rentals`, {}, getConfig(authToken));
+    const result = await axiosBaseUrl.post(`/bikes/${bikeId}/rentals`, {}, getConfig(authToken));
 
     return result.data.data.rental;
   } catch (e) {
@@ -153,9 +151,8 @@ export const apiRentalFetchCurrent = async authToken => {
   // console.log(authToken);
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
-    const result = await axiosAuth.get(`/users/${dbId}/rentals/current`, getConfig(authToken));
+    const result = await axiosBaseUrl.get(`/users/${dbId}/rentals/current`, getConfig(authToken));
     // TEST - Sets current location
-    if (result.data.data.rental) result.data.data.rental.current_location = { properties: { type: 'Pickup Point' } };
     return result.data.data.rental;
   } catch (e) {
     // TODO find a better way to handle this as this couples to rental rentalFetchInfo()
@@ -185,7 +182,7 @@ export const apiRentalFetchCurrent = async authToken => {
 export const apiRentalEndCurrent = async (authToken, cancel = false) => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
-    const result = await axiosAuth.patch(
+    const result = await axiosBaseUrl.patch(
       `/users/${dbId}/rentals/current/${cancel ? 'cancel' : 'complete'}`,
       {},
       getConfig(authToken)
@@ -210,7 +207,7 @@ export const apiRentalEndCurrent = async (authToken, cancel = false) => {
 export const apiIssueCreate = async (authToken, data) => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
-    const result = await axiosAuth.post(`/users/${dbId || 'me'}/issues`, data, getConfig(authToken));
+    const result = await axiosBaseUrl.post(`/users/${dbId || 'me'}/issues`, data, getConfig(authToken));
     // const result = { data: { issue: { id: 1, description, bike_id: bikeId } } };
     return result.data.data.rental;
   } catch (e) {
@@ -220,7 +217,7 @@ export const apiIssueCreate = async (authToken, data) => {
 
 export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.199293, range = 4) => {
   try {
-    const result = await axiosAuth.get(`/pickups?latitude=${latitude}&longitude=${longitude}&range=${range}miles`);
+    const result = await axiosBaseUrl.get(`/pickups?latitude=${latitude}&longitude=${longitude}&range=${range}miles`);
     return result.data.data.pickups;
   } catch (e) {
     throw e;
@@ -235,7 +232,7 @@ export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.
  * @returns {Promise<*>}
  */
 export const apiPickupFetchSingle = async (authToken, id) => {
-  const result = await axiosAuth.get(`/pickups/${id}`, getConfig(authToken));
+  const result = await axiosBaseUrl.get(`/pickups/${id}`, getConfig(authToken));
   return result.data.data.pickup;
 };
 
@@ -249,28 +246,16 @@ export const apiPickupFetchSingle = async (authToken, id) => {
  * @returns {Promise<void>}
  */
 export const apiReservationCreate = async (authToken, pickupId, datetime) => {
-  throw new Error('NO PAYMENT METHOD');
+  // throw new Error('NO PAYMENT METHOD'); // TESTING
   try {
-    const result = await axiosAuth.post(
+    const result = await axiosBaseUrl.post(
       `/pickups/${pickupId}/reservations`,
       {
         reserved_for: datetime,
       },
       getConfig(authToken)
     );
-    // const result = {
-    //   data: {
-    //     data: {
-    //       reservation: {
-    //         id: 1,
-    //         reserved_for: new Date(2019, 2, 10, 18, 30),
-    //         pickup: {
-    //           ...pickup1,
-    //         },
-    //       },
-    //     },
-    //   },
-    // };
+
     return result.data.data.reservation;
   } catch (e) {
     throw e;
@@ -282,14 +267,14 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
  *
  * @param authToken
  * @param reservationId
- * @returns {Promise<result.data.data.reservation|{id}>}
+ * @returns {Promise<>}
  */
 export const apiReservationCancel = async (authToken, reservationId) => {
   try {
     // TODO waiting for the reservation end point to be changed
-    // const result = await axiosAuth.delete(`/reservations/${reservationId}`, getConfig(authToken));
+    // const result = await axiosBaseUrl.delete(`/reservations/${reservationId}`, getConfig(authToken));
     const dbId = Firebase.auth().currentUser.photoURL;
-    await axiosAuth.delete(`/users/${dbId}/reservations/current`, getConfig(authToken));
+    await axiosBaseUrl.delete(`/users/${dbId}/reservations/current`, getConfig(authToken));
     return null;
   } catch (e) {
     throw e;
@@ -306,6 +291,30 @@ export const apiReservationCancel = async (authToken, reservationId) => {
 export const apiReservationsFetch = async authToken => {
   const dbId = Firebase.auth().currentUser.photoURL;
   // TODO remove current from end
-  const result = await axiosAuth.get(`/users/${dbId || 'me'}/reservations/current`, getConfig(authToken));
-  return result.data.data.reservation; // TODO add s
+  const result = await axiosBaseUrl.get(`/users/${dbId || 'me'}/reservations/current`, getConfig(authToken));
+  return result.data.data.reservation;
+};
+
+/**
+ * Api end point to fetch all of the bikes on the system
+ * @returns {Promise<*>}
+ */
+const bike = {
+  identifier: '8861b3',
+  current_location: {
+    features: { pickupName: 'Princes St West' },
+    geometry: { coordinates: '55.9518, -3.1990049' },
+  },
+  status: 'out_of_service',
+};
+export const apiBikesFetch = () => {
+  // const result = await axiosBaseUrl.get('/bikes');
+  const result = {
+    data: {
+      data: {
+        bikes: [bike, bike, bike, bike],
+      },
+    },
+  };
+  return result.data.data.bikes;
 };
