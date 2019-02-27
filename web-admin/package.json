@@ -4,7 +4,11 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.2.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.15",
+    "@fortawesome/free-solid-svg-icons": "^5.7.2",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "@svgr/webpack": "4.1.0",
+    "axios": "^0.18.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
@@ -12,6 +16,7 @@
     "babel-plugin-named-asset-import": "^0.3.1",
     "babel-preset-react-app": "^7.0.1",
     "bfj": "6.1.1",
+    "capitalize": "^2.0.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "css-loader": "1.0.0",
     "dotenv": "6.0.0",
@@ -24,6 +29,7 @@
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "7.12.4",
     "file-loader": "2.0.0",
+    "firebase": "^5.8.4",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.1",
     "html-webpack-plugin": "4.0.0-alpha.2",
@@ -39,12 +45,18 @@
     "postcss-loader": "3.0.0",
     "postcss-preset-env": "6.5.0",
     "postcss-safe-parser": "4.0.1",
+    "prop-types": "^15.7.2",
     "react": "^16.8.3",
     "react-app-polyfill": "^0.2.1",
     "react-dev-utils": "^7.0.3",
     "react-dom": "^16.8.3",
     "react-media": "^1.9.2",
+    "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
@@ -111,8 +123,8 @@
       "node"
     ],
     "watchPlugins": [
-      "/Users/seanpro/Documents/programing_projects/uni-3.1/dragorhast/app/web-admin/node_modules/jest-watch-typeahead/filename.js",
-      "/Users/seanpro/Documents/programing_projects/uni-3.1/dragorhast/app/web-admin/node_modules/jest-watch-typeahead/testname.js"
+      "~/Documents/programing_projects/uni-3.1/dragorhast/app/web-admin/node_modules/jest-watch-typeahead/filename.js",
+      "~/Documents/programing_projects/uni-3.1/dragorhast/app/web-admin/node_modules/jest-watch-typeahead/testname.js"
     ]
   },
   "babel": {
