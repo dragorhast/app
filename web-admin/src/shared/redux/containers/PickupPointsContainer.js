@@ -24,7 +24,7 @@ export const PickupProps = {
   getPickupPoints: PropTypes.func.isRequired,
 };
 
-export default function withCurrentRental(WrappedComponent) {
+export default function withPickupPoints(WrappedComponent) {
   // Pure function always auto re-loads children on prop change!
   class PickupPointsContainer extends React.PureComponent {
     render() {

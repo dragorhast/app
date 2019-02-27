@@ -9,8 +9,15 @@
     grid-template-columns: 100%;
     height: 100%;
 }
+@media screen and (min-width: 549px) {
+    .grid-layout {
+        display: grid;
+        grid-template-columns: 40% 60%;
+    }
+}
+
 /* TODO set size in a constant */
-@media screen and (min-width: 399px) {
+@media screen and (min-width: 849px) {
     .grid-layout {
         display: grid;
         grid-template-columns: 25% 75%;

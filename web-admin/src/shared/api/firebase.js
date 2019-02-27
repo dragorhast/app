@@ -4,7 +4,7 @@
  *
  * Easily testable if here
  */
-import { Firebase, FirebaseRef } from '../constants/firebase';
+import { Firebase } from '../constants/firebase';
 
 export const firebaseSignUpEmail = async (email, password) => {
   try {

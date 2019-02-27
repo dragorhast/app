@@ -1,1 +1,1 @@
-export const PHONE_BREAK_POINT = 399;
+export const PHONE_BREAK_POINT = 549;

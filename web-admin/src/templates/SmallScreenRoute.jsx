@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import Media from 'react-media';
-import { PHONE_BREAK_POINT } from './styles/constants'
+import { PHONE_BREAK_POINT } from '../styles/constants'
 
 
 /**

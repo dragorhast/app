@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledNavbar = styled.header`
+const SNavbar = styled.header`
   position: sticky;
   top: 0; /* Distance from top to stick to*/
   background-color: darkslategray; // TODO change to primary
-  height: 80px;
+  height: 32px;
   flex: 1;
   display: flex;
   flex-direction: row;
@@ -16,9 +16,9 @@ const StyledNavbar = styled.header`
 class Navbar extends React.PureComponent {
   render(){
     return(
-      <StyledNavbar>
+      <SNavbar>
         <h2>Tap 2 Go</h2>
-      </StyledNavbar>
+      </SNavbar>
     );
   }
 }
