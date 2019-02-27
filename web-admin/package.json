@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.2.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.15",
+    "@fortawesome/free-solid-svg-icons": "^5.7.2",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "@svgr/webpack": "4.1.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
@@ -111,8 +114,8 @@
       "node"
     ],
     "watchPlugins": [
-      "/Users/seanpro/Documents/programing_projects/uni-3.1/dragorhast/app/web-admin/node_modules/jest-watch-typeahead/filename.js",
-      "/Users/seanpro/Documents/programing_projects/uni-3.1/dragorhast/app/web-admin/node_modules/jest-watch-typeahead/testname.js"
+      "~/Documents/programing_projects/uni-3.1/dragorhast/app/web-admin/node_modules/jest-watch-typeahead/filename.js",
+      "~/Documents/programing_projects/uni-3.1/dragorhast/app/web-admin/node_modules/jest-watch-typeahead/testname.js"
     ]
   },
   "babel": {

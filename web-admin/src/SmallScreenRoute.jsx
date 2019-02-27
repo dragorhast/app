@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import Media from 'react-media';
+import { PHONE_BREAK_POINT } from './styles/constants'
 
 
 /**
@@ -13,9 +14,9 @@ export default class SmallScreenRoute extends React.PureComponent {
     const { path, Component, reroutePath }  = this.props;
     // TODO set width as a constant
     return(
-      <Media query={{maxWidth: 399 }}>
+      <Media query={{maxWidth: PHONE_BREAK_POINT }}>
         {
-          matchesQuery => matchesQuery ?
+          smallScreen => smallScreen ?
             <Route exact path={path} render={routerProps => <Component {...routerProps} />} />
             :
             <Redirect from={path} to={reroutePath} />

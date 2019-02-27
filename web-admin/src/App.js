@@ -9,25 +9,6 @@ import BikeMap from './screens/BikesMap';
 import SmallScreenRoute from './SmallScreenRoute';
 import BigScreenRoute from './BigScreenRoute';
 
-/*
-NOTES:
-
-Issue having with current set up is that when BikeMap is > 400 it tried to render BikeSide
-but BikeSide tried to redirect when large
-
-What we need is a re-usable way of rendering the below arrangement
-
-* Phone screen
-    * /bikes = list of bikes
-    * /bikes/map = map view of bikes
-    * /bikes/:id = detailed view of bike
-* Web screen
-    * /bikes = redirect to /bikes/map
-    * /bikes/map = list of bikes on the left and map view on right
-    * /bikes/:id = list of bikes on the left and detailed view on right
-
- */
-
 class App extends Component {
   render() {
     return (
