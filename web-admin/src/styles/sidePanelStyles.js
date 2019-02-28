@@ -1,0 +1,37 @@
+import styled from 'styled-components';
+
+export const SSideComponent = styled.div`
+  height: 100%;
+  border-right: 1px solid lightgrey;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const SControlBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 32px;
+  justify-content: space-between;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border-bottom: 2px solid lightgrey;
+`;
+
+export const SListItem = styled.div`
+  // flex set up
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start; 
+  // height + width
+  width: 100%;
+  // in from size
+  padding: 8px 16px;
+  box-sizing: border-box;
+
+  border: 2px solid  lavender;
+`;
+
+

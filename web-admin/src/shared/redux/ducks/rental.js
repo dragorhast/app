@@ -78,8 +78,8 @@ export const rentalStartFromId = bikeId => async dispatch => {
         bikeId: rental.bike_identifier,
         startTime: rental.start_time,
         costSoFar: rental.estimated_price,
-        withinPickUpPointGeo: true, // TODO check
-        ableToBeReturned: true, // TODO check
+        withinPickUpPointGeo: !!rental.current_location.properties.pickup_point,
+        ableToBeReturned: true,
       })
     );
 
@@ -104,17 +104,13 @@ export const rentalFetchInfo = () => async dispatch => {
     const authToken = await Firebase.auth().currentUser.getIdToken();
     const rental = await apiRentalFetchCurrent(authToken);
 
-    const withinPickUpPoint =
-      rental.current_location &&
-      rental.current_location.properties &&
-      rental.current_location.properties.type === 'Pickup Point';
     return dispatch(
       setAllRental({
         bikeId: rental.bike_identifier,
         startTime: rental.start_time,
         costSoFar: rental.estimated_price,
-        withinPickUpPointGeo: withinPickUpPoint, // TODO check
-        ableToBeReturned: withinPickUpPoint, // TODO check
+        withinPickUpPointGeo: !!rental.current_location.properties.pickup_point,
+        ableToBeReturned: !!rental.current_location.properties.pickup_point,
       })
     );
   } catch (e) {

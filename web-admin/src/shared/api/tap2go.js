@@ -153,7 +153,6 @@ export const apiRentalFetchCurrent = async authToken => {
   try {
     const result = await axiosBaseUrl.get(`/users/${dbId}/rentals/current`, getConfig(authToken));
     // TEST - Sets current location
-    if (result.data.data.rental) result.data.data.rental.current_location = { properties: { type: 'Pickup Point' } };
     return result.data.data.rental;
   } catch (e) {
     // TODO find a better way to handle this as this couples to rental rentalFetchInfo()
@@ -256,19 +255,7 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
       },
       getConfig(authToken)
     );
-    // const result = {
-    //   data: {
-    //     data: {
-    //       reservation: {
-    //         id: 1,
-    //         reserved_for: new Date(2019, 2, 10, 18, 30),
-    //         pickup: {
-    //           ...pickup1,
-    //         },
-    //       },
-    //     },
-    //   },
-    // };
+
     return result.data.data.reservation;
   } catch (e) {
     throw e;
@@ -308,7 +295,6 @@ export const apiReservationsFetch = async authToken => {
   return result.data.data.reservation;
 };
 
-
 /**
  * Api end point to fetch all of the bikes on the system
  * @returns {Promise<*>}
@@ -326,9 +312,9 @@ export const apiBikesFetch = () => {
   const result = {
     data: {
       data: {
-        bikes: [bike,bike,bike,bike],
+        bikes: [bike, bike, bike, bike],
       },
-    }
+    },
   };
   return result.data.data.bikes;
 };

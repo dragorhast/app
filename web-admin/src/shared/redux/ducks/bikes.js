@@ -38,12 +38,15 @@ export default function bikesReducer(state = INITIAl_STATE, { type, payload }) {
 }
 
 // Action Creators
-const loadingBikes = (loading = true) => ({ type: BIKES_LOADING, payload: loading});
+const loadingBikes = (loading = true) => ({ type: BIKES_LOADING, payload: loading });
 
 const setBikes = bikes => {
-  const checkBikeProperties = bike => { if (!bike.id || !bike.locationCoordinates || !bike.status) throw new Error('Each bike must have correct properties for action'); };
+  const checkBikeProperties = bike => {
+    if (!bike.id || !bike.locationCoordinates || !bike.status)
+      throw new Error('Each bike must have correct properties for action');
+  };
   bikes.forEach(bike => checkBikeProperties(bike));
-  return { type: BIKES_SET, payload: bikes};
+  return { type: BIKES_SET, payload: bikes };
 };
 
 // Thunks
@@ -56,7 +59,7 @@ const setBikes = bikes => {
  * @returns {*}
  */
 const bikeStatusFromString = status => {
-  switch(status){
+  switch (status) {
     case 'available' || 'broken' || 'rented':
       return Capitalize(status);
     case 'needs_serviced':
@@ -64,7 +67,7 @@ const bikeStatusFromString = status => {
     case 'out_of_service':
       return 'Out Of Service';
     default:
-      throw new Error("Status unknown");
+      throw new Error('Status unknown');
   }
 };
 
@@ -87,8 +90,7 @@ export const bikesFetch = () => async dispatch => {
     dispatch(loadingBikes(false));
     throw e;
   }
-}
-
+};
 
 // Selectors
 // TODO add selectors for sorting the list of bikes

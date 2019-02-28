@@ -6,8 +6,9 @@ import { store, persistor } from './shared/redux/store';
 import './styles/App.css';
 
 import Navbar from './components/Navbar';
-import BikeSide from "./screens/BikesSide";
+import BikesSide from "./screens/SideScreens/Bikes";
 import BikeMap from './screens/BikesMap';
+import PickupsSide from './screens/SideScreens/Pickups';
 
 import SmallScreenRoute from './templates/SmallScreenRoute';
 import BigScreenRoute from './templates/BigScreenRoute';
@@ -20,8 +21,10 @@ class App extends Component {
           <Router>
             <div className="route">
               <Navbar /> {/* Nav bar always displayed */}
-              <SmallScreenRoute path="/bikes" Component={BikeSide} reroutePath="/bikes/map" />
-              <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikeSide} />
+              <SmallScreenRoute path="/bikes" Component={BikesSide} reroutePath="/bikes/map" />
+              <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} />
+              <SmallScreenRoute path="/pickups" Component={PickupsSide} reroutePath="/pickups/map" />
+              <BigScreenRoute path="/pickups/map" Screen={BikeMap} SidePanel={PickupsSide} />
             </div>
           </Router>
         </PersistGate>
