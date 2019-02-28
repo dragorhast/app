@@ -6,11 +6,12 @@ const SNavbar = styled.header`
   top: 0; /* Distance from top to stick to*/
   background-color: darkslategray; // TODO change to primary
   height: 32px;
-  flex: 1;
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 16px;
+
+  color: white;
 `;
 
 class Navbar extends React.PureComponent {

@@ -1,13 +1,14 @@
 .route {
-    display: block;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
     font-size: 16px;
+    height: 100vh;
 }
 
 .grid-layout {
+    flex: 1; /* 100% height - nav + footer's set height */
     display: grid;
     grid-template-columns: 100%;
-    height: 100%;
 }
 @media screen and (min-width: 549px) {
     .grid-layout {
