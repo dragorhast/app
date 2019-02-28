@@ -1,10 +1,8 @@
 import React from 'react';
 import { Location, Permissions, MapView } from 'expo';
-import styled from 'styled-components/native';
-import { Content, Tabs, Tab, Icon, View, Text, Button } from 'native-base';
+import { Content, Tabs, Tab, Icon, View } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Screen } from '../styles';
-import LoadingIndicator from '../components/LoadingIndicator';
 import PickupPoint from '../components/PickupPoint';
 import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 import ROUTES from '../routes';
@@ -47,7 +45,7 @@ class PickupPoints extends React.Component {
   };
 
   render() {
-    const { loading, pickups } = this.props;
+    const { pickups } = this.props;
     const { mapBottomPointVisible, mapBottomPoint } = this.state;
     return (
       <Screen>
