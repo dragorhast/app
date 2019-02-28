@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 import ControlArrows from '../../components/ControlArrows';
 import PickupListItem from '../../components/PickupListItem';
 import { SSideComponent, SControlBar } from '../../styles/sidePanelStyles';
+import { SSmallScreenTransition } from '../../styles/commonStyles';
 
 class Pickups extends React.PureComponent {
   componentWillMount() {
@@ -11,10 +14,17 @@ class Pickups extends React.PureComponent {
   }
 
   render() {
-    const { pickups } = this.props;
+    const { pickups, smallScreen } = this.props;
 
     return (
       <SSideComponent>
+        {smallScreen && (
+          <SSmallScreenTransition>
+            <Link to="/pickups/map">
+              <h2>Map View</h2>
+            </Link>
+          </SSmallScreenTransition>
+        )}
         <SControlBar>
           <ControlArrows
             label="Name"
@@ -38,6 +48,7 @@ class Pickups extends React.PureComponent {
 
 Pickups.propTypes = {
   ...PickupProps,
+  smallScreen: PropTypes.bool.isRequired,
 };
 
 export default withPickups(Pickups);
