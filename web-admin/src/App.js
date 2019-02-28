@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { Provider } from 'react-redux';
 import { store, persistor } from './shared/redux/store';
 import './styles/App.css';
 
 import Navbar from './components/Navbar';
-import BikesSide from "./screens/SideScreens/Bikes";
+import BikesSide from './screens/SideScreens/Bikes';
 import BikeMap from './screens/BikesMap';
 import PickupsSide from './screens/SideScreens/Pickups';
 

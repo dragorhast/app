@@ -14,8 +14,8 @@ const SNavbar = styled.header`
 `;
 
 class Navbar extends React.PureComponent {
-  render(){
-    return(
+  render() {
+    return (
       <SNavbar>
         <h2>Tap 2 Go</h2>
       </SNavbar>

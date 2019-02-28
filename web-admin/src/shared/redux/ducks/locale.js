@@ -30,4 +30,3 @@ export default function localeReducer(state = INITIAL_STATE, { type, locale }) {
 export function replaceLocale(locale) {
   return { type: LOCALE_REPLACE, locale };
 }
-

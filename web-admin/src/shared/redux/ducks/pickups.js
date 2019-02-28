@@ -58,7 +58,8 @@ const loadingPickups = (loadingStatus = true) => ({ type: PICKUPS_LOADING, paylo
  */
 const setPickups = pickups => {
   const checkProperties = pickup => {
-    if (!pickup.name || !pickup.coordinates || !pickup.status) throw new Error('Each pickup must have name, coordinates + status to set');
+    if (!pickup.name || !pickup.coordinates || !pickup.status)
+      throw new Error('Each pickup must have name, coordinates + status to set');
   };
   pickups.forEach(pickup => checkProperties(pickup));
 
@@ -103,7 +104,7 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
  * @returns {string}
  */
 const decideBikeStatus = bikeArray => {
-  switch(bikeArray.length){
+  switch (bikeArray.length) {
     case bikeArray < 5:
       return 'Low';
     case bikeArray < 12:

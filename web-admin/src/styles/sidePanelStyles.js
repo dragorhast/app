@@ -24,14 +24,12 @@ export const SListItem = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start; 
+  align-items: flex-start;
   // height + width
   width: 100%;
   // in from size
   padding: 8px 16px;
   box-sizing: border-box;
 
-  border: 2px solid  lavender;
+  border: 2px solid lavender;
 `;
-
-

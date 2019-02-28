@@ -29,10 +29,7 @@ class MyRoute extends React.PureComponent {
     reduxLoading: false,
   };
 
-  state = {
-    stateLoading: true,
-    firebaseId: undefined,
-  };
+  state = { stateLoading: true, firebaseId: undefined };
 
   /**
    * When the App component mounts, we listen for any authentication

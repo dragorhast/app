@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Media from 'react-media';
-import { PHONE_BREAK_POINT } from '../styles/constants'
+import { PHONE_BREAK_POINT } from '../styles/constants';
 
 /**
  * Component will render the side panel component
@@ -9,18 +9,19 @@ import { PHONE_BREAK_POINT } from '../styles/constants'
  */
 
 export default class BigScreenRoute extends React.PureComponent {
-  render(){
+  render() {
     const { path, Screen, SidePanel } = this.props;
-    return(
-      <Route exact path={path} render={routerProps =>
-        <div className="grid-layout">
-          <Media
-            query={{minWidth: PHONE_BREAK_POINT }}
-            render={() => <SidePanel {...routerProps} />}
-          />
-          <Screen {...routerProps} />
-        </div>
-    } />
+    return (
+      <Route
+        exact
+        path={path}
+        render={routerProps => (
+          <div className="grid-layout">
+            <Media query={{ minWidth: PHONE_BREAK_POINT }} render={() => <SidePanel {...routerProps} />} />
+            <Screen {...routerProps} />
+          </div>
+        )}
+      />
     );
   }
 }

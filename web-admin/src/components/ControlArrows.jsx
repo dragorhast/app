@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 const SArrowsAndLabel = styled.div`
   display: flex;
@@ -28,8 +28,12 @@ export default ({ label, onUpPress, onDownPress }) => (
   <SArrowsAndLabel>
     {label}
     <SArrows>
-      <SArrow><FontAwesomeIcon icon={faCaretUp} onClick={onUpPress} size="1x" /></SArrow>
-      <SArrow><FontAwesomeIcon icon={faCaretDown} onClick={onDownPress} size="1x" /></SArrow>
+      <SArrow>
+        <FontAwesomeIcon icon={faCaretUp} onClick={onUpPress} size="1x" />
+      </SArrow>
+      <SArrow>
+        <FontAwesomeIcon icon={faCaretDown} onClick={onDownPress} size="1x" />
+      </SArrow>
     </SArrows>
   </SArrowsAndLabel>
 );
