@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +25,7 @@ const SArrow = styled.span`
   }
 `;
 
-export default ({ label, onUpPress, onDownPress }) => (
+const ControlArrows = ({ label, onUpPress, onDownPress }) => (
   <SArrowsAndLabel>
     {label}
     <SArrows>
@@ -37,3 +38,11 @@ export default ({ label, onUpPress, onDownPress }) => (
     </SArrows>
   </SArrowsAndLabel>
 );
+
+ControlArrows.propTypes = {
+  label: PropTypes.string.isRequired,
+  onUpPress: PropTypes.func.isRequired,
+  onDownPress: PropTypes.func.isRequired,
+};
+
+export default ControlArrows;

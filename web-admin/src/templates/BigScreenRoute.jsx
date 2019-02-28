@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import Media from 'react-media';
 import { PHONE_BREAK_POINT } from '../styles/constants';
@@ -25,3 +26,9 @@ export default class BigScreenRoute extends React.PureComponent {
     );
   }
 }
+
+BigScreenRoute.propTypes = {
+  path: PropTypes.string.isRequired,
+  Screen: PropTypes.func.isRequired,
+  SidePanel: PropTypes.func.isRequired,
+};

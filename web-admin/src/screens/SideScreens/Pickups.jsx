@@ -36,4 +36,8 @@ class Pickups extends React.PureComponent {
   }
 }
 
+Pickups.propTypes = {
+  ...PickupProps,
+};
+
 export default withPickups(Pickups);

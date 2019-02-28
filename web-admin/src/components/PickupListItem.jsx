@@ -21,7 +21,7 @@ const SStatus = styled.span`
 
 const PickupListItem = ({ id, name, status }) => (
   <SListItem>
-    <SInline>
+    <SInline onClick={() => console.log(id)}>
       {name} <SStatus status={status}>{status}</SStatus>
     </SInline>
   </SListItem>
