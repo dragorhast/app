@@ -14,8 +14,8 @@ const INITIAl_STATE = {
 // Prop Types
 export const BikePropTypes = {
   id: PropTypes.string.isRequired,
-  locationName: PropTypes.string,
-  locationCoordinates: PropTypes.string.isRequired,
+  locationName: PropTypes.string.isRequired,
+  coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
   status: PropTypes.string.isRequired,
 };
 
@@ -41,8 +41,9 @@ export default function bikesReducer(state = INITIAl_STATE, { type, payload }) {
 const loadingBikes = (loading = true) => ({ type: BIKES_LOADING, payload: loading });
 
 const setBikes = bikes => {
+  console.log('Inside setBikes: ', bikes);
   const checkBikeProperties = bike => {
-    if (!bike.id || !bike.locationCoordinates || !bike.status)
+    if (!bike.id || !bike.coordinates || !bike.status)
       throw new Error('Each bike must have correct properties for action');
   };
   bikes.forEach(bike => checkBikeProperties(bike));
@@ -64,8 +65,8 @@ const bikeStatusFromString = status => {
       return Capitalize(status);
     case 'needs_serviced':
       return 'Needs Serviced';
-    case 'out_of_service':
-      return 'Out Of Service';
+    case 'out_of_circulation':
+      return 'Out Of Circ';
     default:
       throw new Error('Status unknown');
   }
@@ -77,14 +78,23 @@ export const bikesFetch = () => async dispatch => {
 
     const bikesRaw = await apiBikesFetch();
 
-    // Gets api response ready for reducer
-    const bikes = bikesRaw.map(bike => ({
-      id: bike.identifier,
-      locationName: bike.current_location.features.pickupName,
-      locationCoordinates: bike.current_location.geometry.coordinates, // TODO find out if must be converted to string
-      status: bikeStatusFromString(bike.status),
-    }));
+    // Helper for getting response ready for reducer
+    const pickupPointOrPrettyPrintCoords = location =>
+      (location.features && location.features.pickup) ||
+      `${location.geometry.coordinates[0].toFixed(2)}, ${location.geometry.coordinates[1].toFixed(2)}`;
 
+    // Gets api response ready for reducer
+    const bikes = bikesRaw.map(bike => {
+      // No current_location if rented
+      const bikeRented = !bike.current_location;
+      return {
+        id: bike.identifier,
+        /* Pickup name or lat, lng as a string */
+        locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
+        coordinates: bikeRented ? null : bike.current_location.geometry.coordinates,
+        status: bikeStatusFromString(bike.status),
+      };
+    });
     return dispatch(setBikes(bikes));
   } catch (e) {
     dispatch(loadingBikes(false));

@@ -13,4 +13,6 @@ export default {
   firebaseAPIKey: 'AIzaSyB4teiiZNG0hujsd2rEe6lNorm0tFAi2aY',
 
   apiBaseURL: 'http://localhost:8080/api/v1',
+
+  googleApiKey: 'AIzaSyBbX_wWlxR8qX-Fih6UPrHvZY7k3Wp_M7c',
 };

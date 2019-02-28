@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import BikesSide from './screens/SideScreens/Bikes';
 import BikeMap from './screens/BikesMap';
 import PickupsSide from './screens/SideScreens/Pickups';
+import PickupsMap from './screens/PickupsMap';
 
 import SmallScreenRoute from './templates/SmallScreenRoute';
 import BigScreenRoute from './templates/BigScreenRoute';
@@ -24,7 +25,7 @@ class App extends Component {
               <SmallScreenRoute path="/bikes" Component={BikesSide} reroutePath="/bikes/map" />
               <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} />
               <SmallScreenRoute path="/pickups" Component={PickupsSide} reroutePath="/pickups/map" />
-              <BigScreenRoute path="/pickups/map" Screen={BikeMap} SidePanel={PickupsSide} />
+              <BigScreenRoute path="/pickups/map" Screen={PickupsMap} SidePanel={PickupsSide} />
             </div>
           </Router>
         </PersistGate>

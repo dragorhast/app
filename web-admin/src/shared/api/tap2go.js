@@ -300,22 +300,7 @@ export const apiReservationsFetch = async authToken => {
  * Api end point to fetch all of the bikes on the system
  * @returns {Promise<*>}
  */
-const bike = {
-  identifier: '8861b3',
-  current_location: {
-    features: { pickupName: 'Princes St West' },
-    geometry: { coordinates: '55.9518, -3.1990049' },
-  },
-  status: 'out_of_service',
-};
-export const apiBikesFetch = () => {
-  // const result = await axiosBaseUrl.get('/bikes');
-  const result = {
-    data: {
-      data: {
-        bikes: [bike, bike, bike, bike],
-      },
-    },
-  };
+export const apiBikesFetch = async () => {
+  const result = await axiosBaseUrl.get('/bikes');
   return result.data.data.bikes;
 };

@@ -28,12 +28,7 @@ class Bikes extends React.PureComponent {
         </SControlBar>
         {bikes &&
           bikes.map(bike => (
-            <BikeListItem
-              key={bike.id}
-              id={bike.id}
-              location={bike.locationName || bike.locationCoordinates}
-              status={bike.status}
-            />
+            <BikeListItem key={bike.id} id={bike.id} location={bike.locationName} status={bike.status} />
           ))}
       </SSideComponent>
     );
