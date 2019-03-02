@@ -16,6 +16,7 @@ const SNavbar = styled.header`
 
 class Navbar extends React.PureComponent {
   render() {
+    // TODO make a burger appear on small screens
     return (
       <SNavbar>
         <h2>Tap 2 Go</h2>

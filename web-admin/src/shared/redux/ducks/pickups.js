@@ -95,7 +95,17 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
 };
 
 // Selectors - sort by distance
+/*
+Steps to make selector
+- Add field + asc / desc filter to this store
+- add non memoized selector to get the pickups
+- add memoized selector to sort based on filters
+- call that one in mapStateToProps
+ */
+export const sortPickups = () => {};
 
+
+// Helper Functions
 /**
  * Based on the number of bikes at a
  * pickup point decided status

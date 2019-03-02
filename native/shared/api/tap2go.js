@@ -106,7 +106,7 @@ export const apiUserDelete = authToken => axiosBaseUrl.delete('/users/me', getCo
  * @returns {AxiosPromise<any>}
  */
 export const apiUserSetPaymentDetails = (authToken, stripeToken) => {
-  const dbId = Firebase.auth().currentUser.photoURL;
+  // const dbId = Firebase.auth().currentUser.photoURL;
   console.log(stripeToken);
   try {
     // return axiosBaseUrl.post(
@@ -272,10 +272,11 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
 export const apiReservationCancel = async (authToken, reservationId) => {
   try {
     // TODO waiting for the reservation end point to be changed
-    // const result = await axiosBaseUrl.delete(`/reservations/${reservationId}`, getConfig(authToken));
-    const dbId = Firebase.auth().currentUser.photoURL;
-    await axiosBaseUrl.delete(`/users/${dbId}/reservations/current`, getConfig(authToken));
-    return null;
+    const result = await axiosBaseUrl.delete(`/reservations/${reservationId}`, getConfig(authToken));
+    return result.data.data.reservation;
+    // const dbId = Firebase.auth().currentUser.photoURL;
+    // await axiosBaseUrl.delete(`/users/${dbId}/reservations/current`, getConfig(authToken));
+    // return null;
   } catch (e) {
     throw e;
   }
@@ -299,22 +300,7 @@ export const apiReservationsFetch = async authToken => {
  * Api end point to fetch all of the bikes on the system
  * @returns {Promise<*>}
  */
-const bike = {
-  identifier: '8861b3',
-  current_location: {
-    features: { pickupName: 'Princes St West' },
-    geometry: { coordinates: '55.9518, -3.1990049' },
-  },
-  status: 'out_of_service',
-};
-export const apiBikesFetch = () => {
-  // const result = await axiosBaseUrl.get('/bikes');
-  const result = {
-    data: {
-      data: {
-        bikes: [bike, bike, bike, bike],
-      },
-    },
-  };
+export const apiBikesFetch = async () => {
+  const result = await axiosBaseUrl.get('/bikes');
   return result.data.data.bikes;
 };

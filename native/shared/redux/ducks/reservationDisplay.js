@@ -93,17 +93,17 @@ export const setReservationsList = reservationList => ({
  * @param keyValuePair
  * @returns {{payload: {field: string, value: *}, type: string}}
  */
-const setFieldReservation = keyValuePair => ({
-  type: RESERVATION_DISPLAY_SET_FIELD,
-  payload: {
-    field: Object.keys(keyValuePair)[0],
-    value: keyValuePair[Object.keys(keyValuePair)[0]],
-  },
-});
+// const setFieldReservation = keyValuePair => ({
+//   type: RESERVATION_DISPLAY_SET_FIELD,
+//   payload: {
+//     field: Object.keys(keyValuePair)[0],
+//     value: keyValuePair[Object.keys(keyValuePair)[0]],
+//   },
+// });
 
-const clearReservationSingle = () => ({
-  type: RESERVATION_DISPLAY_CLEAR_SINGLE,
-});
+// const clearReservationSingle = () => ({
+//   type: RESERVATION_DISPLAY_CLEAR_SINGLE,
+// });
 
 // Thunks
 export const reservationCancel = reservationId => async (dispatch, getState) => {

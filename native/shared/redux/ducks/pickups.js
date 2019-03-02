@@ -20,6 +20,7 @@ export const PickupPropTypes = {
     longitude: PropTypes.number,
   }).isRequired,
   distance: PropTypes.number,
+  status: PropTypes.string,
 };
 // Reducer
 export default function pickupsReducer(state = INITIAL_STATE, { type, payload }) {
@@ -56,10 +57,11 @@ const loadingPickups = (loadingStatus = true) => ({ type: PICKUPS_LOADING, paylo
  * @returns {{payload: *, type: string}}
  */
 const setPickups = pickups => {
-  const checkNameAndCoordinates = pickup => {
-    if (!pickup.name || !pickup.coordinates) throw new Error('Each pickup must have name + coordinates to set');
+  const checkProperties = pickup => {
+    if (!pickup.name || !pickup.coordinates || !pickup.status)
+      throw new Error('Each pickup must have name, coordinates + status to set');
   };
-  pickups.forEach(pickup => checkNameAndCoordinates(pickup));
+  pickups.forEach(pickup => checkProperties(pickup));
 
   return { type: PICKUPS_SET, payload: pickups };
 };
@@ -80,11 +82,11 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
         name: pickup.properties.name,
         coordinates: pickup.properties.center,
         distance: pickup.properties.distance,
+        status: decideBikeStatus(pickup.properties.bikes || []),
       };
     });
 
     // if (!allDistances) dispatch(setStatus('error', "Sorry couldn't get all distances from current location"));
-
     return dispatch(setPickups(pickups));
   } catch (e) {
     dispatch(setStatus('error', e.message));
@@ -93,3 +95,34 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
 };
 
 // Selectors - sort by distance
+/*
+Steps to make selector
+- Add field + asc / desc filter to this store
+- add non memoized selector to get the pickups
+- add memoized selector to sort based on filters
+- call that one in mapStateToProps
+ */
+export const sortPickups = () => {};
+
+
+// Helper Functions
+/**
+ * Based on the number of bikes at a
+ * pickup point decided status
+ *
+ * @param bikeArray
+ * @returns {string}
+ */
+const decideBikeStatus = bikeArray => {
+  switch (bikeArray.length) {
+    case bikeArray < 5:
+      return 'Low';
+    case bikeArray < 12:
+      return 'Medium';
+
+    case bikeArray >= 12:
+      return 'High';
+    default:
+      return 'Unknown';
+  }
+};
