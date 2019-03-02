@@ -17,6 +17,9 @@ import BigScreenRoute from './templates/BigScreenRoute';
 import MustbeLoggedIn from './screens/MustbeLoggedIn';
 import Login from './screens/Login';
 
+import Report from './screens/Reports';
+import ReportsSide from './screens/SideScreens/ReportsSide';
+
 class App extends Component {
   render() {
     return (
@@ -29,6 +32,7 @@ class App extends Component {
               <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} />
               <SmallScreenRoute path="/pickups" Component={PickupsSide} reroutePath="/pickups/map" />
               <BigScreenRoute path="/pickups/map" Screen={PickupsMap} SidePanel={PickupsSide} />
+              <BigScreenRoute path="/reports" Screen={Report} SidePanel={ReportsSide} />
               <Route exact path="/mustbe" component={MustbeLoggedIn} />
               <Route exact path="/login" component={Login} />
             </div>
