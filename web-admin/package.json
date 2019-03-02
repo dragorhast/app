@@ -35,7 +35,7 @@
     "firebase": "^5.8.5",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.1",
-    "google-react-maps": "^1.4.2",
+    "google-maps-react": "^2.0.2",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
     "jest": "23.6.0",

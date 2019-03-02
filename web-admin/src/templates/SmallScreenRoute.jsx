@@ -8,26 +8,6 @@ import { PHONE_BREAK_POINT } from '../styles/constants';
  * class will render the component props on a phone screen
  * but re-route on a larger screen
  */
-
-// export default class SmallScreenRoute extends React.PureComponent {
-//   render() {
-//     const { path, Component, reroutePath } = this.props;
-//     return (
-//       <Route
-//         exact
-//         path={path}
-//         render={routerProps => (
-//           <Media query={{ maxWidth: PHONE_BREAK_POINT }}>
-//             {smallScreen =>
-//               smallScreen ? <Component {...routerProps} smallScreen/> : <Redirect from={path} to={reroutePath}/>
-//             }
-//           </Media>
-//         )}
-//       />
-//     );
-//   }
-// }
-
 const SmallScreenRoute = ({ path, Component, reroutePath }) => (
   <Route
     exact
