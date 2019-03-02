@@ -133,13 +133,12 @@ export const reservationsFetchForUser = () => async dispatch => {
 
     const reservations = await apiReservationsFetch(authToken);
 
-    // Hack around the fact api doesn't return pickup point on each reservation
-    // TODO remove brackets around reservations same time remove current from apiReservationsFetch
-    const reservationWithPickup = await getPickupForEachReservation(authToken, [reservations]);
+    // Gets information for the pickup point for each reservation
+    const reservationWithPickup = await getPickupForEachReservation(authToken, reservations);
 
     // Gets in to a state the store can understand
     const reservationList = reservationWithPickup.map(reservation => ({
-      reservationId: reservation.id || 1, // TODO remove
+      reservationId: reservation.id,
       datetime: reservation.reserved_for,
       pickupName: reservation.pickup.properties.name,
       pickupId: reservation.pickup_id,
@@ -147,12 +146,6 @@ export const reservationsFetchForUser = () => async dispatch => {
     }));
     return dispatch(setReservationsList(reservationList));
   } catch (e) {
-    console.log(e.message);
-    // TODO handle differently on the api
-    if (e.message === 'Could not find reservation with the given params.' || e.message.includes('404')) {
-      dispatch(setReservationsList([]));
-      return Promise.resolve(); // not an error
-    }
     dispatch(setStatus('error', 'Unable to get current reservations'));
     throw e;
   }

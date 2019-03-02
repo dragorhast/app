@@ -249,7 +249,7 @@ export const apiPickupFetchSingle = async (authToken, id) => {
  * @returns {Promise<void>}
  */
 export const apiReservationCreate = async (authToken, pickupId, datetime) => {
-  throw new Error('NO PAYMENT METHOD');
+  // throw new Error('NO PAYMENT METHOD');
   try {
     const result = await axiosAuth.post(
       `/pickups/${pickupId}/reservations`,
@@ -258,19 +258,6 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
       },
       getConfig(authToken)
     );
-    // const result = {
-    //   data: {
-    //     data: {
-    //       reservation: {
-    //         id: 1,
-    //         reserved_for: new Date(2019, 2, 10, 18, 30),
-    //         pickup: {
-    //           ...pickup1,
-    //         },
-    //       },
-    //     },
-    //   },
-    // };
     return result.data.data.reservation;
   } catch (e) {
     throw e;
@@ -286,10 +273,7 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
  */
 export const apiReservationCancel = async (authToken, reservationId) => {
   try {
-    // TODO waiting for the reservation end point to be changed
-    // const result = await axiosAuth.delete(`/reservations/${reservationId}`, getConfig(authToken));
-    const dbId = Firebase.auth().currentUser.photoURL;
-    await axiosAuth.delete(`/users/${dbId}/reservations/current`, getConfig(authToken));
+    await axiosAuth.delete(`/reservations/${reservationId}`, getConfig(authToken));
     return null;
   } catch (e) {
     throw e;
@@ -305,7 +289,6 @@ export const apiReservationCancel = async (authToken, reservationId) => {
  */
 export const apiReservationsFetch = async authToken => {
   const dbId = Firebase.auth().currentUser.photoURL;
-  // TODO remove current from end
   const result = await axiosAuth.get(`/users/${dbId || 'me'}/reservations/current`, getConfig(authToken));
-  return result.data.data.reservation; // TODO add s
+  return result.data.data.reservations;
 };
