@@ -1,5 +1,13 @@
 import styled from 'styled-components';
 
+export const SCenteredScreen = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+
 export const SInline = styled.div`
   display: flex;
   flex-direction: row;

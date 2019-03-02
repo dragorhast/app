@@ -1,14 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-const SMustBeLoggedIn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-`;
+import { SCenteredScreen } from '../styles/commonStyles';
 
 const SButton = styled.button`
   border-radius: 8px;
@@ -23,10 +16,10 @@ const SButton = styled.button`
 `;
 
 export default () => (
-  <SMustBeLoggedIn>
+  <SCenteredScreen>
     <h3>You must be logged in to access this page</h3>
     <SButton>
       <Link to="/login">Log In</Link>
     </SButton>
-  </SMustBeLoggedIn>
+  </SCenteredScreen>
 );

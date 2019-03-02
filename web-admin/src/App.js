@@ -15,6 +15,7 @@ import PickupsMap from './screens/PickupsMap';
 import SmallScreenRoute from './templates/SmallScreenRoute';
 import BigScreenRoute from './templates/BigScreenRoute';
 import MustbeLoggedIn from './screens/MustbeLoggedIn';
+import Login from './screens/Login';
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
               <SmallScreenRoute path="/pickups" Component={PickupsSide} reroutePath="/pickups/map" />
               <BigScreenRoute path="/pickups/map" Screen={PickupsMap} SidePanel={PickupsSide} />
               <Route exact path="/mustbe" component={MustbeLoggedIn} />
+              <Route exact path="/login" component={Login} />
             </div>
           </Router>
         </PersistGate>
