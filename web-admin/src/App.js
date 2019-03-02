@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './shared/redux/store';
 import './styles/App.css';
 
-import Navbar from './components/Navbar';
-import TabBar from './components/TabBar';
+// import Navbar from './components/Navbar';
+import LoggedInNavbar from './components/LoggedInNavBar';
 import BikesSide from './screens/SideScreens/Bikes';
 import BikeMap from './screens/BikesMap';
 import PickupsSide from './screens/SideScreens/Pickups';
@@ -22,8 +22,7 @@ class App extends Component {
         <PersistGate loading={<h2>Loading</h2>} persistor={persistor}>
           <Router>
             <div className="route">
-              <Navbar /> {/* Nav bar always displayed */}
-              <Route path="/" component={TabBar} /> {/* Always displayed but has access to location props */}
+              <Route path="/" component={LoggedInNavbar} /> {/* Always displayed but has access to location props */}
               <SmallScreenRoute path="/bikes" Component={BikesSide} reroutePath="/bikes/map" />
               <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} />
               <SmallScreenRoute path="/pickups" Component={PickupsSide} reroutePath="/pickups/map" />

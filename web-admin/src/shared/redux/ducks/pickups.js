@@ -104,7 +104,6 @@ Steps to make selector
  */
 export const sortPickups = () => {};
 
-
 // Helper Functions
 /**
  * Based on the number of bikes at a
