@@ -8,10 +8,14 @@ import './styles/App.css';
 
 // import Navbar from './components/Navbar';
 import LoggedInNavBar from './components/LoggedInNavBar';
+
 import BikesSide from './screens/SideScreens/Bikes';
 import BikeMap from './screens/BikesMap';
+import BikeSingle from './screens/BikeSingle';
+
 import PickupsSide from './screens/SideScreens/Pickups';
 import PickupsMap from './screens/PickupsMap';
+import PickupSingle from './screens/PickupSingle';
 
 import SmallScreenRoute from './templates/SmallScreenRoute';
 import BigScreenRoute from './templates/BigScreenRoute';
@@ -19,7 +23,7 @@ import MustBeLoggedIn from './screens/MustbeLoggedIn';
 import Login from './screens/Login';
 
 class App extends Component {
-  state = { firebaseId: undefined };
+  state = { firebaseId: undefined, loaded: false };
 
   /**
    * When the App component mounts, we listen for any authentication
@@ -34,32 +38,57 @@ class App extends Component {
     this.authSubscription = Firebase.auth().onAuthStateChanged(user => {
       this.setState({
         firebaseId: user ? user.uid : null,
+        loaded: true,
       });
     });
   }
 
   render() {
-    const { firebaseId } = this.state;
+    const { firebaseId, loaded } = this.state;
     return (
       <Provider store={store}>
-        <PersistGate loading={<h2>Loading</h2>} persistor={persistor}>
-          <Router>
-            <div className="route">
-              {firebaseId && <Route path="/" component={LoggedInNavBar} />}
-              {!firebaseId && <Route exact path="/login" component={Login} />}
-              <SmallScreenRoute path="/bikes" Component={BikesSide} reroutePath="/bikes/map" loggedIn={!!firebaseId} />
-              <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
-              <SmallScreenRoute
-                path="/pickups"
-                Component={PickupsSide}
-                reroutePath="/pickups/map"
-                loggedIn={!!firebaseId}
-              />
-              <BigScreenRoute path="/pickups/map" Screen={PickupsMap} SidePanel={PickupsSide} loggedIn={!!firebaseId} />
-              <Route exact path="/not-authorized" component={MustBeLoggedIn} />
-            </div>
-          </Router>
-        </PersistGate>
+        {loaded && (
+          <PersistGate loading={<h2>Loading</h2>} persistor={persistor}>
+            <Router>
+              <div className="route">
+                {firebaseId && <Route path="/" component={LoggedInNavBar} />}
+                {!firebaseId && <Route exact path="/login" component={Login} />}
+                <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
+                <SmallScreenRoute
+                  path="/bikes"
+                  Component={BikesSide}
+                  reroutePath="/bikes/map"
+                  loggedIn={!!firebaseId}
+                />
+                <BigScreenRoute
+                  path="/bikes/single/:id"
+                  Screen={BikeSingle}
+                  SidePanel={BikesSide}
+                  loggedIn={!!firebaseId}
+                />
+                <SmallScreenRoute
+                  path="/pickups"
+                  Component={PickupsSide}
+                  reroutePath="/pickups/map"
+                  loggedIn={!!firebaseId}
+                />
+                <BigScreenRoute
+                  path="/pickups/map"
+                  Screen={PickupsMap}
+                  SidePanel={PickupsSide}
+                  loggedIn={!!firebaseId}
+                />
+                <BigScreenRoute
+                  path="/pickups/single/:id"
+                  Screen={PickupSingle}
+                  SidePanel={PickupsSide}
+                  loggedIn={!!firebaseId}
+                />
+                <Route exact path="/not-authorized" component={MustBeLoggedIn} />
+              </div>
+            </Router>
+          </PersistGate>
+        )}
       </Provider>
     );
   }

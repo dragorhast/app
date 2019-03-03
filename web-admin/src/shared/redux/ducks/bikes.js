@@ -1,26 +1,22 @@
-import PropTypes from 'prop-types';
 import Capitalize from 'capitalize';
 import { apiBikesFetch } from '../../api/tap2go';
+import { BikePropTypes as BikePropTypesCopy } from './bikeSingle';
 
 // Actions
 const BIKES_LOADING = 'BIKES_LOADING';
 const BIKES_SET = 'BIKES_SET';
 
 // Initial State
-const INITIAl_STATE = {
+const INITIAL_STATE = {
   loading: false,
   bikes: [],
 };
 // Prop Types
-export const BikePropTypes = {
-  id: PropTypes.string.isRequired,
-  locationName: PropTypes.string.isRequired,
-  coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
-  status: PropTypes.string.isRequired,
-};
+// Allows both to be aligned to their own duck
+export const BikePropTypes = BikePropTypesCopy;
 
 // Reducer
-export default function bikesReducer(state = INITIAl_STATE, { type, payload }) {
+export default function bikesReducer(state = INITIAL_STATE, { type, payload }) {
   switch (type) {
     case BIKES_LOADING:
       return {
@@ -92,6 +88,7 @@ export const bikesFetch = () => async dispatch => {
         locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
         coordinates: bikeRented ? null : bike.current_location.geometry.coordinates,
         status: bikeStatusFromString(bike.status),
+        battery: bike.battery,
       };
     });
     return dispatch(setBikes(bikes));

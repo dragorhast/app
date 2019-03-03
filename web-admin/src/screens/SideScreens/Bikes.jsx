@@ -13,6 +13,12 @@ class Bikes extends React.PureComponent {
     fetchBikes();
   }
 
+  selectBike = async bike => {
+    const { setSingleBikeDisplay, history } = this.props;
+    await setSingleBikeDisplay({ ...bike });
+    history.push(`/bikes/single/${bike.id}`);
+  };
+
   render() {
     const { bikes, smallScreen } = this.props;
     return (
@@ -36,10 +42,7 @@ class Bikes extends React.PureComponent {
             onDownPress={() => console.log('down press')}
           />
         </SControlBar>
-        {bikes &&
-          bikes.map(bike => (
-            <BikeListItem key={bike.id} id={bike.id} location={bike.locationName} status={bike.status} />
-          ))}
+        {bikes && bikes.map(bike => <BikeListItem key={bike.id} bike={bike} selectBike={this.selectBike} />)}
       </SSideComponent>
     );
   }
@@ -48,6 +51,9 @@ class Bikes extends React.PureComponent {
 Bikes.propTypes = {
   ...BikesProps,
   smallScreen: PropTypes.bool.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default withBikes(Bikes);

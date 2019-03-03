@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { SInline } from '../styles/commonStyles';
 import { SListItem } from '../styles/sidePanelStyles';
+import { BikePropTypes } from '../shared/redux/ducks/bikeSingle';
 
 // TODO set all colours from theme
 const SStatus = styled.span`
@@ -15,19 +16,20 @@ const SStatus = styled.span`
     }
   }};
 `;
-const BikeListItem = ({ id, location, status }) => (
-  <SListItem>
-    {id}
+const BikeListItem = ({ bike, selectBike }) => (
+  <SListItem onClick={() => selectBike(bike)}>
+    {bike.id}
     <SInline>
-      {location} <SStatus status={status}> {status}</SStatus>
+      {bike.location} <SStatus status={bike.status}> {bike.status}</SStatus>
     </SInline>
   </SListItem>
 );
 
 BikeListItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  bike: PropTypes.shape({
+    ...BikePropTypes,
+  }).isRequired,
+  selectBike: PropTypes.func.isRequired,
 };
 
 export default BikeListItem;
