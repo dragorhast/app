@@ -1,36 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Map, Marker, InfoWindow } from 'google-react-maps';
+import { GoogleApiWrapper, Map, Marker, InfoWindow } from 'google-maps-react';
 import { Link } from 'react-router-dom';
 import withPickup, { PickupProps } from '../shared/redux/containers/PickupPointsContainer';
 import CONFIG from '../shared/constants/config';
-import { mapConfigOptions, mapCenter } from '../styles/map';
+import { mapCenter } from '../styles/map';
 import { SSmallScreenTransition } from '../styles/commonStyles';
 
 class PickupsMap extends React.PureComponent {
-  // TODO make pickup + bike maps more DRY
   state = {
-    idOfOPickupWithInfoOpen: null,
+    showingInfoWindow: false,
+    activeMarker: {},
+    selectedPlace: {},
   };
 
   componentWillMount() {
     const { getPickupPoints } = this.props;
     getPickupPoints();
-    this.infoWindowCloseAll = this.infoWindowCloseAll.bind(this);
-    this.infoWindowOpen = this.infoWindowOpen.bind(this);
+    this.onMarkerClick = this.onMarkerClick.bind(this);
+    this.onMapClick = this.onMapClick.bind(this);
   }
 
-  infoWindowCloseAll = () => {
-    this.setState({ idOfOPickupWithInfoOpen: null });
-  };
+  /**
+   * Sets the state so that the InfoWindow
+   * knows which marker to associate with
+   * then makes the InfoWindow visible
+   *
+   * @param props
+   * @param marker
+   */
+  onMarkerClick = (props, marker) =>
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true,
+    });
 
-  infoWindowOpen = id => {
-    this.setState({ idOfOPickupWithInfoOpen: id });
+  /**
+   * Closes the info window
+   */
+  onMapClick = () => {
+    const { showingInfoWindow } = this.state;
+
+    if (showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null,
+      });
+    }
   };
 
   render() {
-    const { pickups, smallScreen } = this.props;
-    const { idOfOPickupWithInfoOpen } = this.state;
+    const { smallScreen, google, pickups } = this.props;
+    const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -41,32 +63,26 @@ class PickupsMap extends React.PureComponent {
             </Link>
           </SSmallScreenTransition>
         )}
-        <Map
-          api-key={CONFIG.googleApiKey}
-          style={{ flex: 1 }}
-          center={mapCenter}
-          onMount={(map, maps) => {
-            this.map = map; // Store the google map instance for custom actions. (Outside the react components.)
-            this.maps = maps; // Store a reference to the google maps javascript api in case we need some of it's helper methods.
-          }}
-          optionsConstructor={maps =>
-            // Options Constructor always has a this context of the options object. To override the default options do the following:
-            Object.assign(this, mapConfigOptions(maps))
-          }
-        >
-          {pickups &&
-            pickups.map(pickup => (
-              <Marker
-                coords={{ lat: pickup.coordinates.latitude, lng: pickup.coordinates.longitude }}
-                icon="/pickup-point-icon-fa.png"
-                onClick={() => this.infoWindowOpen(pickup.pickupId)}
-              >
-                <InfoWindow open={idOfOPickupWithInfoOpen === pickup.pickupId} onCloseClick={this.infoWindowCloseAll}>
-                  <div>This marker has an icon image.</div>
-                </InfoWindow>
-              </Marker>
-            ))}
-        </Map>
+        <div style={{ flex: 1 }}>
+          <Map google={google} zoom={15} initialCenter={mapCenter} onClick={this.onMapClick}>
+            {pickups &&
+              pickups.map(pickup => (
+                <Marker
+                  icon="/pickup-point-icon-fa.png"
+                  key={pickup.pickupId}
+                  id={pickup.pickupId}
+                  name={pickup.name}
+                  position={{ lat: pickup.coordinates.latitude, lng: pickup.coordinates.longitude }}
+                  onClick={this.onMarkerClick}
+                />
+              ))}
+            <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
+              <div>
+                <h3>{selectedPlace.name}</h3>
+              </div>
+            </InfoWindow>
+          </Map>
+        </div>
       </div>
     );
   }
@@ -75,6 +91,7 @@ class PickupsMap extends React.PureComponent {
 PickupsMap.propTypes = {
   ...PickupProps,
   smallScreen: PropTypes.bool.isRequired,
+  google: PropTypes.shape().isRequired,
 };
 
-export default withPickup(PickupsMap);
+export default withPickup(GoogleApiWrapper({ apiKey: CONFIG.googleApiKey })(PickupsMap));

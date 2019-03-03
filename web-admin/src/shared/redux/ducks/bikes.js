@@ -41,7 +41,6 @@ export default function bikesReducer(state = INITIAl_STATE, { type, payload }) {
 const loadingBikes = (loading = true) => ({ type: BIKES_LOADING, payload: loading });
 
 const setBikes = bikes => {
-  console.log('Inside setBikes: ', bikes);
   const checkBikeProperties = bike => {
     if (!bike.id || !bike.coordinates || !bike.status)
       throw new Error('Each bike must have correct properties for action');

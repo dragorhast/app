@@ -5,7 +5,10 @@ import Media from 'react-media';
 import { PHONE_BREAK_POINT } from '../styles/constants';
 
 /**
- * Component will render the side panel component
+ * Component for rendering screens that are visible on big OR small
+ * screens
+ *
+ * Will render the side panel component
  * on large screens but not on small ones
  */
 
