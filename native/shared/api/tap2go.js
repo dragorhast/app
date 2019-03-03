@@ -246,7 +246,7 @@ export const apiPickupFetchSingle = async (authToken, id) => {
  * @returns {Promise<void>}
  */
 export const apiReservationCreate = async (authToken, pickupId, datetime) => {
-  // throw new Error('NO PAYMENT METHOD'); // TESTING
+  // throw new Error('NO PAYMENT METHOD');
   try {
     const result = await axiosBaseUrl.post(
       `/pickups/${pickupId}/reservations`,
@@ -255,7 +255,6 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
       },
       getConfig(authToken)
     );
-
     return result.data.data.reservation;
   } catch (e) {
     throw e;
@@ -271,12 +270,8 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
  */
 export const apiReservationCancel = async (authToken, reservationId) => {
   try {
-    // TODO waiting for the reservation end point to be changed
-    const result = await axiosBaseUrl.delete(`/reservations/${reservationId}`, getConfig(authToken));
-    return result.data.data.reservation;
-    // const dbId = Firebase.auth().currentUser.photoURL;
-    // await axiosBaseUrl.delete(`/users/${dbId}/reservations/current`, getConfig(authToken));
-    // return null;
+    await axiosAuth.delete(`/reservations/${reservationId}`, getConfig(authToken));
+    return null;
   } catch (e) {
     throw e;
   }
@@ -291,16 +286,6 @@ export const apiReservationCancel = async (authToken, reservationId) => {
  */
 export const apiReservationsFetch = async authToken => {
   const dbId = Firebase.auth().currentUser.photoURL;
-  // TODO remove current from end
-  const result = await axiosBaseUrl.get(`/users/${dbId || 'me'}/reservations/current`, getConfig(authToken));
-  return result.data.data.reservation;
-};
-
-/**
- * Api end point to fetch all of the bikes on the system
- * @returns {Promise<*>}
- */
-export const apiBikesFetch = async () => {
-  const result = await axiosBaseUrl.get('/bikes');
-  return result.data.data.bikes;
+  const result = await axiosAuth.get(`/users/${dbId || 'me'}/reservations/current`, getConfig(authToken));
+  return result.data.data.reservations;
 };

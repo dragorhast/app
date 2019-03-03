@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://ia-6ey.ssp6.native.exp.direct",
+  "packagerNgrokUrl": "https://packager.ia-6ey.ssp6.native.exp.direct",
+  "ngrokPid": 71700
 }
