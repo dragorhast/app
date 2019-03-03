@@ -28,3 +28,19 @@ export const SSmallScreenTransition = styled.div`
     color: grey;
   }
 `;
+
+export const SButton = styled.button`
+  border-radius: 8px;
+  border: 2px solid lavender;
+  padding: 8px 16px;
+  font-size: 24px;
+
+  :hover {
+    background-color: lavender;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+`;

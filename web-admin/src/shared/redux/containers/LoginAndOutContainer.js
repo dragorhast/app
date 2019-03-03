@@ -21,7 +21,7 @@ export const LoginAndOutProps = {
 
 export default function withLogin(WrappedComponent) {
   const LoginAndOutContainer = ({ locale, login, logout, ...restProps }) => (
-    <WrappedComponent locale={locale} login={login} logout={logout} test={userSignOut} {...restProps} />
+    <WrappedComponent locale={locale} login={login} logout={logout} {...restProps} />
   );
 
   LoginAndOutContainer.propTypes = {

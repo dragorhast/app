@@ -1,19 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { SCenteredScreen } from '../styles/commonStyles';
-
-const SButton = styled.button`
-  border-radius: 8px;
-  border: 2px solid lavender;
-  padding: 8px;
-  font-size: 24px;
-
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-`;
+import { SCenteredScreen, SButton } from '../styles/commonStyles';
 
 export default () => (
   <SCenteredScreen>

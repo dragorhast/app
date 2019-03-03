@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import withSignOut from '../shared/redux/containers/LoginAndOutContainer';
 
 const STabBar = styled.div`
   position: sticky;
@@ -35,35 +36,56 @@ const SNavSelection = styled.div`
   ${props => props.selected && 'color: green;'}
 `;
 
-const LoggedInNavBar = ({ location }) => (
-  <STabBar>
-    <SNavSelection>Tap 2 Go</SNavSelection>
-    <Link to="/bikes">
-      <SNavSelection selected={location.pathname.match(/\/bikes/g)}>Bike</SNavSelection>
-    </Link>
-    <Link to="/pickups">
-      <SNavSelection selected={location.pathname.match(/\/pickup/g)}>Pickup Points</SNavSelection>
-    </Link>
-    <Link to="/issues">
-      <SNavSelection selected={location.pathname.match(/\/issue/g)}>Issues</SNavSelection>
-    </Link>
-    <Link to="/reservations">
-      <SNavSelection selected={location.pathname.match(/\/reservations/g)}>Reservations</SNavSelection>
-    </Link>
-    <Link to="/reports">
-      <SNavSelection selected={location.pathname.match(/\/reports/g)}>Reports</SNavSelection>
-    </Link>
-    <div style={{ flex: 1 }} />
+class LoggedInNavBar extends React.PureComponent {
+  initiateLogOut = async () => {
+    const { logout, history } = this.props;
+    try {
+      await logout();
+      history.replace('/login');
+    } catch (e) {
+      // Do nothing if error
+      console.log(e);
+      return Promise.resolve();
+    }
+  };
 
-    <SNavSelection>Login</SNavSelection>
-  </STabBar>
-);
+  render() {
+    const { location } = this.props;
+    return (
+      <STabBar>
+        <SNavSelection>Tap 2 Go</SNavSelection>
+        <Link to="/bikes">
+          <SNavSelection selected={location.pathname.match(/\/bikes/g)}>Bike</SNavSelection>
+        </Link>
+        <Link to="/pickups">
+          <SNavSelection selected={location.pathname.match(/\/pickup/g)}>Pickup Points</SNavSelection>
+        </Link>
+        <Link to="/issues">
+          <SNavSelection selected={location.pathname.match(/\/issue/g)}>Issues</SNavSelection>
+        </Link>
+        <Link to="/reservations">
+          <SNavSelection selected={location.pathname.match(/\/reservations/g)}>Reservations</SNavSelection>
+        </Link>
+        <Link to="/reports">
+          <SNavSelection selected={location.pathname.match(/\/reports/g)}>Reports</SNavSelection>
+        </Link>
+        <div style={{ flex: 1 }} />
+
+        <SNavSelection onClick={this.initiateLogOut}>Sign Out</SNavSelection>
+      </STabBar>
+    );
+  }
+}
 
 LoggedInNavBar.propTypes = {
   /* Passed in from <Route> */
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
+  logout: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default LoggedInNavBar;
+export default withSignOut(LoggedInNavBar);

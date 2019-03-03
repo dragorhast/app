@@ -105,18 +105,17 @@ export const apiUserDelete = authToken => axiosBaseUrl.delete('/users/me', getCo
  * @param stripeToken
  * @returns {AxiosPromise<any>}
  */
-export const apiUserSetPaymentDetails = (authToken, stripeToken) => {
-  // const dbId = Firebase.auth().currentUser.photoURL;
-  console.log(stripeToken);
+export const apiUserSetPaymentDetails = async (authToken, stripeToken) => {
+  const dbId = Firebase.auth().currentUser.photoURL;
   try {
-    // return axiosBaseUrl.post(
-    //   `/users/${dbId}/payment`,
-    //   {
-    //     stripe_source_token: stripeToken,
-    //   },
-    //   getConfig(authToken)
-    // );
-    // return;
+    await axiosBaseUrl.put(
+      `/users/${dbId}/payment`,
+      {
+        token: stripeToken,
+      },
+      getConfig(authToken)
+    );
+    return null;
   } catch (e) {
     throw e;
   }
@@ -131,7 +130,6 @@ export const apiUserSetPaymentDetails = (authToken, stripeToken) => {
  * @returns {Promise<*>}
  */
 export const apiRentalStartId = async (authToken, bikeId) => {
-  // throw new Error('NO PAYMENT METHOD'); // TESTING
   try {
     const result = await axiosBaseUrl.post(`/bikes/${bikeId}/rentals`, {}, getConfig(authToken));
 
@@ -148,7 +146,6 @@ export const apiRentalStartId = async (authToken, bikeId) => {
  * @returns {Promise<result.data.rental|{estimated_price, start_time, bike_id, current_location}>}
  */
 export const apiRentalFetchCurrent = async authToken => {
-  // console.log(authToken);
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
     const result = await axiosBaseUrl.get(`/users/${dbId}/rentals/current`, getConfig(authToken));
@@ -271,12 +268,8 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
  */
 export const apiReservationCancel = async (authToken, reservationId) => {
   try {
-    // TODO waiting for the reservation end point to be changed
     const result = await axiosBaseUrl.delete(`/reservations/${reservationId}`, getConfig(authToken));
     return result.data.data.reservation;
-    // const dbId = Firebase.auth().currentUser.photoURL;
-    // await axiosBaseUrl.delete(`/users/${dbId}/reservations/current`, getConfig(authToken));
-    // return null;
   } catch (e) {
     throw e;
   }
