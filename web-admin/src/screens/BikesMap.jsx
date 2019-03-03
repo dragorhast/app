@@ -93,6 +93,7 @@ class BikeMap extends React.PureComponent {
 BikeMap.propTypes = {
   ...BikesProps,
   smallScreen: PropTypes.bool.isRequired,
+  google: PropTypes.object.isRequired,
 };
 
 export default withBikes(GoogleApiWrapper({ apiKey: CONFIG.googleApiKey })(BikeMap));
