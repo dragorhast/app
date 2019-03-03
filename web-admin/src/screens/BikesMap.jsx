@@ -54,8 +54,6 @@ class BikeMap extends React.PureComponent {
     const { bikes, smallScreen, google } = this.props;
     const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
 
-    console.log(selectedPlace);
-
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {smallScreen && (

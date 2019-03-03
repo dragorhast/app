@@ -19,12 +19,15 @@ const STabBar = styled.div`
     color: grey;
     flex: 1;
     height: 100%;
+
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
 
 const SNavSelection = styled.div`
   flex: 1;
-  border-right: 1px solid grey;
   padding: 16px 8px;
   text-align: center;
   height: 100%;
@@ -33,7 +36,7 @@ const SNavSelection = styled.div`
   justify-content: center;
   align-items: center;
 
-  ${props => props.selected && 'color: green;'}
+  ${props => props.selected && 'color: green; border-bottom: 2px solid green;'}
 `;
 
 class LoggedInNavBar extends React.PureComponent {
@@ -71,7 +74,9 @@ class LoggedInNavBar extends React.PureComponent {
         </Link>
         <div style={{ flex: 1 }} />
 
-        <SNavSelection onClick={this.initiateLogOut}>Sign Out</SNavSelection>
+        <a to="#">
+          <SNavSelection onClick={this.initiateLogOut}>Sign Out</SNavSelection>
+        </a>
       </STabBar>
     );
   }
