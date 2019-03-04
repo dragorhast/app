@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, H3, Text } from 'native-base';
-import { goToLocation } from '../../shared/util';
+import { goToLocation } from '../../shared/util/geo-location';
 import { CardMediumShadow, StyledInline } from '../styles';
 import { PickupPropTypes } from '../../shared/redux/ducks/pickups';
 import withReservationCreation from '../../shared/redux/containers/ReservationCreationContainer';

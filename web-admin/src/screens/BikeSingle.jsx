@@ -53,6 +53,13 @@ const SLittleMap = styled.div`
 `;
 
 class BikeSingle extends React.PureComponent {
+  componentWillMount() {
+    const { bike, fetchSingleBike, match } = this.props;
+    if (!bike.id) {
+      fetchSingleBike(match.params.id);
+    }
+  }
+
   render() {
     const { bike, google } = this.props;
     return (
@@ -100,6 +107,11 @@ class BikeSingle extends React.PureComponent {
 BikeSingle.propTypes = {
   ...BikesProps,
   google: PropTypes.object.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default withBikes(GoogleApiWrapper({ apiKey: CONFIG.googleApiKey })(BikeSingle));

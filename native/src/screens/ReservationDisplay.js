@@ -8,7 +8,7 @@ import ROUTES from '../routes';
 import withReservationDisplay, {
   ReservationDisplayProps,
 } from '../../shared/redux/containers/ReservationDisplayContainer';
-import { goToLocation } from '../../shared/util';
+import { goToLocation } from '../../shared/util/geo-location';
 
 class ReservationDisplay extends React.PureComponent {
   cancelReservation = () => {

@@ -1,5 +1,12 @@
-import getDirections from 'react-native-google-maps-directions';
+import Capitalize from 'capitalize';
 
+/**
+ * Forces a time delay if called with await
+ * inside an async function
+ *
+ * @param time
+ * @returns {Promise<any>}
+ */
 export const delay = time =>
   new Promise(res => {
     setTimeout(() => {
@@ -52,23 +59,34 @@ export const prettyDateTime = datetime => {
 };
 
 /**
- * Opens up google maps and gives the user directions
- * to walk to the coordinates given
+ * Used for bike locations.
+ * Gets either
+ * - current pickup point
+ * - String of coordinates
  *
- * @param latAndLng
+ * @param location
+ * @returns string - pretty printed
  */
-export const goToLocation = latAndLng => {
-  getDirections({
-    destination: latAndLng,
-    params: [
-      {
-        key: 'travelmode',
-        value: 'walking',
-      },
-      {
-        key: 'dir_action',
-        value: 'navigate',
-      },
-    ],
-  });
+export const pickupPointOrPrettyPrintCoords = location =>
+  (location.features && location.features.pickup) ||
+  `${location.geometry.coordinates[0].toFixed(2)}, ${location.geometry.coordinates[1].toFixed(2)}`;
+
+/**
+ * Returns a proper readable string based on
+ * the status given from the api
+ *
+ * @param status
+ * @returns {*}
+ */
+export const bikeStatusFromString = status => {
+  switch (status) {
+    case 'available' || 'broken' || 'rented':
+      return Capitalize(status);
+    case 'needs_serviced':
+      return 'Needs Serviced';
+    case 'out_of_circulation':
+      return 'Out Of Circ';
+    default:
+      throw new Error('Status unknown');
+  }
 };

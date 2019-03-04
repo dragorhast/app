@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { bikesFetch, BikePropTypes } from '../ducks/bikes';
-import { setBike } from '../ducks/bikeSingle';
+import { setBike, bikeSingleFetch } from '../ducks/bikeSingle';
 
 export const BikesProps = {
   locale: PropTypes.string.isRequired,
@@ -17,13 +17,23 @@ export const BikesProps = {
   }),
   loading: PropTypes.bool.isRequired,
   fetchBikes: PropTypes.func.isRequired,
+  fetchSingleBike: PropTypes.func.isRequired,
 };
 
 export default function withBikes(WrappedComponent) {
   // Pure function always auto re-loads children on prop change!
   class BikesContainer extends React.PureComponent {
     render() {
-      const { locale, loading, bikes, bike, fetchBikes, setSingleBikeDisplay, ...restProps } = this.props;
+      const {
+        locale,
+        loading,
+        bikes,
+        bike,
+        fetchBikes,
+        fetchSingleBike,
+        setSingleBikeDisplay,
+        ...restProps
+      } = this.props;
       return (
         <WrappedComponent
           locale={locale}
@@ -31,6 +41,7 @@ export default function withBikes(WrappedComponent) {
           bikes={bikes}
           bike={bike}
           fetchBikes={fetchBikes}
+          fetchSingleBike={fetchSingleBike}
           setSingleBikeDisplay={setSingleBikeDisplay}
           {...restProps} // passes any others through
         />
@@ -52,6 +63,7 @@ export default function withBikes(WrappedComponent) {
   const mapDispatchToProp = {
     fetchBikes: bikesFetch,
     setSingleBikeDisplay: setBike,
+    fetchSingleBike: bikeSingleFetch,
   };
 
   return connect(

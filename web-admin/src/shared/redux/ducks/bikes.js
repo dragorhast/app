@@ -1,7 +1,7 @@
-import Capitalize from 'capitalize';
 import { apiBikesFetch } from '../../api/tap2go';
 import { BikePropTypes as BikePropTypesCopy } from './bikeSingle';
 import { Firebase } from '../../constants/firebase';
+import { pickupPointOrPrettyPrintCoords, bikeStatusFromString } from '../../util';
 
 // Actions
 const BIKES_LOADING = 'BIKES_LOADING';
@@ -47,39 +47,17 @@ const setBikes = bikes => {
 };
 
 // Thunks
-
 /**
- * Returns a proper readable string based on
- * the status given from the api
+ * Fetches the information for all bikes
  *
- * @param status
- * @returns {*}
+ * @returns {Function}
  */
-const bikeStatusFromString = status => {
-  switch (status) {
-    case 'available' || 'broken' || 'rented':
-      return Capitalize(status);
-    case 'needs_serviced':
-      return 'Needs Serviced';
-    case 'out_of_circulation':
-      return 'Out Of Circ';
-    default:
-      throw new Error('Status unknown');
-  }
-};
-
 export const bikesFetch = () => async dispatch => {
   try {
     dispatch(loadingBikes(true));
 
     const authToken = await Firebase.auth().currentUser.getIdToken();
-    console.log(authToken);
     const bikesRaw = await apiBikesFetch(authToken);
-
-    // Helper for getting response ready for reducer
-    const pickupPointOrPrettyPrintCoords = location =>
-      (location.features && location.features.pickup) ||
-      `${location.geometry.coordinates[0].toFixed(2)}, ${location.geometry.coordinates[1].toFixed(2)}`;
 
     // Gets api response ready for reducer
     const bikes = bikesRaw.map(bike => {

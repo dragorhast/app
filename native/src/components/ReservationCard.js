@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { H2, Text, Icon } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { CardMediumShadow, StyledInline } from '../styles';
-import { goToLocation, prettyDateTime } from '../../shared/util';
+import { prettyDateTime } from '../../shared/util';
+import { goToLocation } from '../../shared/util/geo-location';
 import { ReservationDisplaySingle } from '../../shared/redux/ducks/reservationDisplay';
 
 const ReservationCard = ({ cancelReservation, reservation, viewFullReservation }) => (

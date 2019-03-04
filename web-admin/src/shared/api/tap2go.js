@@ -297,3 +297,16 @@ export const apiBikesFetch = async authToken => {
   const result = await axiosBaseUrl.get('/bikes', getConfig(authToken));
   return result.data.data.bikes;
 };
+
+/**
+ * Api end point for a single bike based on its
+ * identifier 6 digit hex number
+ *
+ * @param authToken
+ * @param bikeId
+ * @returns {Promise<BikeListItem.propTypes.bike|{}>}
+ */
+export const apiBikeSingleFetch = async (authToken, bikeId) => {
+  const result = await axiosBaseUrl.get(`/bikes/${bikeId}`, getConfig(authToken));
+  return result.data.data.bike;
+};
