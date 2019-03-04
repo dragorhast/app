@@ -1,4 +1,8 @@
 import PropTypes from 'prop-types';
+import { setStatus } from './status';
+import { Firebase } from '../../constants/firebase';
+import { pickupStateFromBikeCount } from '../../util';
+import { apiPickupFetchSingle } from '../../api/tap2go';
 // Actions
 const PICKUP_SINGLE_SET = 'PICKUP_SINGLE_SET';
 // Initial State
@@ -47,4 +51,25 @@ export const setPickup = ({ pickupId, name, coordinates, distance, status }) => 
 
 // Thunks
 
-export const pickupSingleFetch = () => {};
+export const pickupSingleFetch = pickupId => async dispatch => {
+  try {
+    dispatch(setStatus('loading', true));
+
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+    const pickup = await apiPickupFetchSingle(authToken, pickupId);
+
+    dispatch(
+      setPickup({
+        pickupId: pickup.properties.id,
+        name: pickup.properties.name,
+        coordinates: pickup.properties.center,
+        distance: pickup.properties.distance,
+        status: pickupStateFromBikeCount(pickup.properties.bikes || []),
+      })
+    );
+    return dispatch('loading', false);
+  } catch (e) {
+    dispatch(setStatus('error', e.message));
+    throw e;
+  }
+};

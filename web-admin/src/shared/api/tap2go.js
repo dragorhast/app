@@ -200,7 +200,6 @@ export const apiRentalEndCurrent = async (authToken, cancel = false) => {
  * @param authToken
  * @returns {Promise<void>}
  */
-// eslint-disable-next-line camelcase
 export const apiIssueCreate = async (authToken, data) => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
@@ -212,6 +211,16 @@ export const apiIssueCreate = async (authToken, data) => {
   }
 };
 
+/**
+ * Gets all pickup points - at some point will
+ * be in order of closes to current location and
+ * within the range
+ *
+ * @param latitude
+ * @param longitude
+ * @param range
+ * @returns {Promise<pickupsReducer|Array>}
+ */
 export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.199293, range = 4) => {
   try {
     const result = await axiosBaseUrl.get(`/pickups?latitude=${latitude}&longitude=${longitude}&range=${range}miles`);

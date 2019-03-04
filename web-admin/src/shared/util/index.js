@@ -90,3 +90,24 @@ export const bikeStatusFromString = status => {
       throw new Error('Status unknown');
   }
 };
+
+/**
+ * Based on the number of bikes at a
+ * pickup point decided status
+ *
+ * @param bikeArray
+ * @returns {string}
+ */
+export const pickupStateFromBikeCount = bikeArray => {
+  switch (bikeArray.length) {
+    case bikeArray < 5:
+      return 'Low';
+    case bikeArray < 12:
+      return 'Medium';
+
+    case bikeArray >= 12:
+      return 'High';
+    default:
+      return 'Unknown';
+  }
+};

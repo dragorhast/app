@@ -1,7 +1,7 @@
 import { PickupPropTypes as PickupPropTypesCopy } from './pickupSingle';
 import { setStatus } from './status';
 import { apiPickupPointsFetch } from '../../api/tap2go';
-
+import { pickupStateFromBikeCount } from '../../util';
 // Actions
 const PICKUPS_LOADING = 'PICKUPS_LOADING';
 const PICKUPS_SET = 'PICKUPS_SET';
@@ -75,7 +75,7 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
         name: pickup.properties.name,
         coordinates: pickup.properties.center,
         distance: pickup.properties.distance,
-        status: decideBikeStatus(pickup.properties.bikes || []),
+        status: pickupStateFromBikeCount(pickup.properties.bikes || []),
       };
     });
 
@@ -96,25 +96,3 @@ Steps to make selector
 - call that one in mapStateToProps
  */
 export const sortPickups = () => {};
-
-// Helper Functions
-/**
- * Based on the number of bikes at a
- * pickup point decided status
- *
- * @param bikeArray
- * @returns {string}
- */
-const decideBikeStatus = bikeArray => {
-  switch (bikeArray.length) {
-    case bikeArray < 5:
-      return 'Low';
-    case bikeArray < 12:
-      return 'Medium';
-
-    case bikeArray >= 12:
-      return 'High';
-    default:
-      return 'Unknown';
-  }
-};

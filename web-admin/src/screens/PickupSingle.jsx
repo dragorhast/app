@@ -7,6 +7,13 @@ const SPickupSingle = styled.div`
 `;
 
 class PickupSingle extends React.PureComponent {
+  componentWillMount() {
+    const { pickup, fetchSinglePickup, match } = this.props;
+    if (!pickup.pickupId) {
+      fetchSinglePickup(match.params.id);
+    }
+  }
+
   render() {
     return (
       <SPickupSingle>
