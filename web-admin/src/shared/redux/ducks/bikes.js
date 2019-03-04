@@ -1,6 +1,7 @@
 import Capitalize from 'capitalize';
 import { apiBikesFetch } from '../../api/tap2go';
 import { BikePropTypes as BikePropTypesCopy } from './bikeSingle';
+import { Firebase } from '../../constants/firebase';
 
 // Actions
 const BIKES_LOADING = 'BIKES_LOADING';
@@ -71,7 +72,9 @@ export const bikesFetch = () => async dispatch => {
   try {
     dispatch(loadingBikes(true));
 
-    const bikesRaw = await apiBikesFetch();
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+    console.log(authToken);
+    const bikesRaw = await apiBikesFetch(authToken);
 
     // Helper for getting response ready for reducer
     const pickupPointOrPrettyPrintCoords = location =>

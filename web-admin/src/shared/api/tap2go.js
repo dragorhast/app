@@ -293,7 +293,7 @@ export const apiReservationsFetch = async authToken => {
  * Api end point to fetch all of the bikes on the system
  * @returns {Promise<*>}
  */
-export const apiBikesFetch = async () => {
-  const result = await axiosBaseUrl.get('/bikes');
+export const apiBikesFetch = async authToken => {
+  const result = await axiosBaseUrl.get('/bikes', getConfig(authToken));
   return result.data.data.bikes;
 };
