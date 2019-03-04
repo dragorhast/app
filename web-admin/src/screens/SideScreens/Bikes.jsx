@@ -5,7 +5,7 @@ import withBikes, { BikesProps } from '../../shared/redux/containers/BikesContai
 import ControlArrows from '../../components/ControlArrows';
 import BikeListItem from '../../components/BikeListItem';
 import { SSideComponent, SControlBar } from '../../styles/sidePanelStyles';
-import { SSmallScreenTransition } from '../../styles/commonStyles';
+import { SSmallScreenTabs } from '../../styles/commonStyles';
 
 class Bikes extends React.PureComponent {
   componentWillMount() {
@@ -24,11 +24,11 @@ class Bikes extends React.PureComponent {
     return (
       <SSideComponent>
         {smallScreen && (
-          <SSmallScreenTransition>
+          <SSmallScreenTabs>
             <Link to="/bikes/map">
               <h2>Map View</h2>
             </Link>
-          </SSmallScreenTransition>
+          </SSmallScreenTabs>
         )}
         <SControlBar>
           <ControlArrows

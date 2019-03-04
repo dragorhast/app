@@ -15,7 +15,7 @@ export const SInline = styled.div`
   justify-content: space-between;
 `;
 
-export const SSmallScreenTransition = styled.div`
+export const SSmallScreenTabs = styled.div`
   height: 48px;
   width: 100%;
   display: flex;

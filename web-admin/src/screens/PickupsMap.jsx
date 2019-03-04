@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import withPickup, { PickupProps } from '../shared/redux/containers/PickupPointsContainer';
 import CONFIG from '../shared/constants/config';
 import { mapCenter } from '../styles/map';
-import { SSmallScreenTransition } from '../styles/commonStyles';
+import { SSmallScreenTabs } from '../styles/commonStyles';
 
 class PickupsMap extends React.PureComponent {
   state = {
@@ -57,11 +57,11 @@ class PickupsMap extends React.PureComponent {
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {smallScreen && (
-          <SSmallScreenTransition>
+          <SSmallScreenTabs>
             <Link to="/bikes">
               <h2>List View</h2>
             </Link>
-          </SSmallScreenTransition>
+          </SSmallScreenTabs>
         )}
         <div style={{ flex: 1 }}>
           <Map google={google} zoom={15} initialCenter={mapCenter} onClick={this.onMapClick}>

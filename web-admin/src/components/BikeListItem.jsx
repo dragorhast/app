@@ -18,8 +18,8 @@ const SStatus = styled.span`
 `;
 const BikeListItem = ({ bike, selectBike }) => (
   <SListItem onClick={() => selectBike(bike)}>
-    {bike.id}
     <SInline>
+      {bike.id}
       {bike.location} <SStatus status={bike.status}> {bike.status}</SStatus>
     </SInline>
   </SListItem>

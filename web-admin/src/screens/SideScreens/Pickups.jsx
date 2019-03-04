@@ -5,7 +5,7 @@ import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPo
 import ControlArrows from '../../components/ControlArrows';
 import PickupListItem from '../../components/PickupListItem';
 import { SSideComponent, SControlBar } from '../../styles/sidePanelStyles';
-import { SSmallScreenTransition } from '../../styles/commonStyles';
+import { SSmallScreenTabs } from '../../styles/commonStyles';
 
 class Pickups extends React.PureComponent {
   componentWillMount() {
@@ -19,11 +19,11 @@ class Pickups extends React.PureComponent {
     return (
       <SSideComponent>
         {smallScreen && (
-          <SSmallScreenTransition>
+          <SSmallScreenTabs>
             <Link to="/pickups/map">
               <h2>Map View</h2>
             </Link>
-          </SSmallScreenTransition>
+          </SSmallScreenTabs>
         )}
         <SControlBar>
           <ControlArrows
