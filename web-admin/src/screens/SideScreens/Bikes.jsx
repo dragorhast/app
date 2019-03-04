@@ -13,6 +13,13 @@ class Bikes extends React.PureComponent {
     fetchBikes();
   }
 
+  /**
+   * Sets display pickup in redux then
+   * re-routes to single page display
+   *
+   * @param bike
+   * @returns {Promise<void>}
+   */
   selectBike = async bike => {
     const { setSingleBikeDisplay, history } = this.props;
     await setSingleBikeDisplay({ ...bike });

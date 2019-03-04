@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import withPickupPoints, { PickupProps } from '../shared/redux/containers/PickupPointsContainer';
 
 const SPickupSingle = styled.div`
   padding: 16px;
@@ -15,4 +16,8 @@ class PickupSingle extends React.PureComponent {
   }
 }
 
-export default PickupSingle;
+PickupSingle.propTypes = {
+  ...PickupProps,
+};
+
+export default withPickupPoints(PickupSingle);

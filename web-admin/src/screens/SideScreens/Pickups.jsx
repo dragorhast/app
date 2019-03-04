@@ -13,6 +13,19 @@ class Pickups extends React.PureComponent {
     getPickupPoints();
   }
 
+  /**
+   * Sets display pickup in redux then
+   * re-routes to single page display
+   *
+   * @param pickup
+   * @returns {Promise<void>}
+   */
+  selectPickup = async pickup => {
+    const { setSinglePickupDisplay, history } = this.props;
+    await setSinglePickupDisplay({ ...pickup });
+    history.push(`/pickups/single/${pickup.pickupId}`);
+  };
+
   render() {
     const { pickups, smallScreen } = this.props;
 
@@ -39,7 +52,7 @@ class Pickups extends React.PureComponent {
         </SControlBar>
         {pickups &&
           pickups.map(pickup => (
-            <PickupListItem key={pickup.pickupId} id={pickup.pickupId} name={pickup.name} status={pickup.status} />
+            <PickupListItem key={pickup.pickupId} pickup={pickup} selectPickup={this.selectPickup} />
           ))}
       </SSideComponent>
     );
@@ -49,6 +62,9 @@ class Pickups extends React.PureComponent {
 Pickups.propTypes = {
   ...PickupProps,
   smallScreen: PropTypes.bool.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default withPickups(Pickups);

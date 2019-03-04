@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { SInline } from '../styles/commonStyles';
 import { SListItem } from '../styles/sidePanelStyles';
+import { PickupPropTypes } from '../shared/redux/ducks/pickups';
 
 const SStatus = styled.span`
   color: ${props => {
@@ -19,18 +20,17 @@ const SStatus = styled.span`
   }};
 `;
 
-const PickupListItem = ({ id, name, status }) => (
+const PickupListItem = ({ pickup, selectPickup }) => (
   <SListItem>
-    <SInline onClick={() => console.log(id)}>
-      {name} <SStatus status={status}>{status}</SStatus>
+    <SInline onClick={() => selectPickup(pickup)}>
+      {pickup.name} <SStatus status={pickup.status}>{pickup.status}</SStatus>
     </SInline>
   </SListItem>
 );
 
 PickupListItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  ...PickupPropTypes,
+  selectPickup: PropTypes.func.isRequired,
 };
 
 export default PickupListItem;

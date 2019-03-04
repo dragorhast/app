@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { PickupPropTypes as PickupPropTypesCopy } from './pickupSingle';
 import { setStatus } from './status';
 import { apiPickupPointsFetch } from '../../api/tap2go';
 
@@ -12,16 +12,9 @@ const INITIAL_STATE = {
   pickups: [],
 };
 // Prop Types
-export const PickupPropTypes = {
-  pickupId: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  coordinates: PropTypes.shape({
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-  }).isRequired,
-  distance: PropTypes.number,
-  status: PropTypes.string,
-};
+// Allows both to be aligned to their own duck
+export const PickupPropTypes = PickupPropTypesCopy;
+
 // Reducer
 export default function pickupsReducer(state = INITIAL_STATE, { type, payload }) {
   switch (type) {
