@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import withBikes, { BikesProps } from '../../shared/redux/containers/BikesContainer';
-import ControlArrows from '../../components/ControlArrows';
-import BikeListItem from '../../components/BikeListItem';
-import { SSideComponent, SControlBar } from '../../styles/sidePanelStyles';
-import { SSmallScreenTabs } from '../../styles/commonStyles';
+import BikeList from '../../components/BikeList';
+import { SSideComponent } from '../../styles/components/SidePanelSections';
+import { SSmallScreenTabs } from '../../styles/components/Common';
 
 class Bikes extends React.PureComponent {
   componentWillMount() {
     const { fetchBikes } = this.props;
     fetchBikes();
+    this.selectBike = this.selectBike.bind(this);
   }
 
   /**
@@ -37,19 +37,7 @@ class Bikes extends React.PureComponent {
             </Link>
           </SSmallScreenTabs>
         )}
-        <SControlBar>
-          <ControlArrows
-            label="Location"
-            onUpPress={() => console.log('up press')}
-            onDownPress={() => console.log('down press')}
-          />
-          <ControlArrows
-            label="Status"
-            onUpPress={() => console.log('up press')}
-            onDownPress={() => console.log('down press')}
-          />
-        </SControlBar>
-        {bikes && bikes.map(bike => <BikeListItem key={bike.id} bike={bike} selectBike={this.selectBike} />)}
+        <BikeList bikes={bikes} selectBike={this.selectBike} />
       </SSideComponent>
     );
   }

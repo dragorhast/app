@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { SInline } from '../styles/commonStyles';
-import { SListItem } from '../styles/sidePanelStyles';
+import { SInline } from '../styles/components/Common';
+import { SListItem } from '../styles/components/SidePanelSections';
 import { BikePropTypes } from '../shared/redux/ducks/bikeSingle';
 
 // TODO set all colours from theme

@@ -242,6 +242,11 @@ export const apiPickupFetchSingle = async (authToken, id) => {
   return result.data.data.pickup;
 };
 
+export const apiPickupFetchBikes = async (authToken, pickupId) => {
+  const result = await axiosBaseUrl.get(`/pickups/${pickupId}/bikes`);
+  return result.data.data.bikes;
+};
+
 /**
  * Api end point to create a reservation at a location
  * for a set date date and time

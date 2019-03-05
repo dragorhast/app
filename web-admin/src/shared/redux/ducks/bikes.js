@@ -37,13 +37,23 @@ export default function bikesReducer(state = INITIAL_STATE, { type, payload }) {
 // Action Creators
 const loadingBikes = (loading = true) => ({ type: BIKES_LOADING, payload: loading });
 
-const setBikes = bikes => {
+/**
+ * Checks all bikes are correct.
+ *
+ * Allows for a different actionType to be passed
+ * so that it can be utilised on different bike lists
+ * (namely from pickupSingle)
+ * @param bikes
+ * @param actionType
+ * @returns {{payload: *, type: string}}
+ */
+export const setBikes = (bikes, actionType = BIKES_SET) => {
   const checkBikeProperties = bike => {
     if (!bike.id || !bike.coordinates || !bike.status)
       throw new Error('Each bike must have correct properties for action');
   };
   bikes.forEach(bike => checkBikeProperties(bike));
-  return { type: BIKES_SET, payload: bikes };
+  return { type: actionType, payload: bikes };
 };
 
 // Thunks
@@ -60,18 +70,7 @@ export const bikesFetch = () => async dispatch => {
     const bikesRaw = await apiBikesFetch(authToken);
 
     // Gets api response ready for reducer
-    const bikes = bikesRaw.map(bike => {
-      // No current_location if rented
-      const bikeRented = !bike.current_location;
-      return {
-        id: bike.identifier,
-        /* Pickup name or lat, lng as a string */
-        locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
-        coordinates: bikeRented ? null : bike.current_location.geometry.coordinates,
-        status: bikeStatusFromString(bike.status),
-        battery: bike.battery,
-      };
-    });
+    const bikes = getRawBikeDataReady(bikesRaw);
     return dispatch(setBikes(bikes));
   } catch (e) {
     dispatch(loadingBikes(false));
@@ -81,3 +80,19 @@ export const bikesFetch = () => async dispatch => {
 
 // Selectors
 // TODO add selectors for sorting the list of bikes
+
+// Helper functions
+export const getRawBikeDataReady = bikesRaw => {
+  return bikesRaw.map(bike => {
+    // No current_location if rented
+    const bikeRented = !bike.current_location;
+    return {
+      id: bike.identifier,
+      /* Pickup name or lat, lng as a string */
+      locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
+      coordinates: bikeRented ? null : bike.current_location.geometry.coordinates,
+      status: bikeStatusFromString(bike.status),
+      battery: bike.battery,
+    };
+  });
+};

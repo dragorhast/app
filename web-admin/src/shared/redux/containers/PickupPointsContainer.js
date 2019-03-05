@@ -12,7 +12,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { pickupPointsFetch, PickupPropTypes } from '../ducks/pickups';
-import { setPickup, pickupSingleFetch } from '../ducks/pickupSingle';
+import { setPickup, pickupSingleFetch, pickupBikesFetch } from '../ducks/pickupSingle';
+import { BikePropTypes } from '../ducks/bikeSingle';
 
 export const PickupProps = {
   locale: PropTypes.string.isRequired,
@@ -25,6 +26,13 @@ export const PickupProps = {
   getPickupPoints: PropTypes.func.isRequired,
   setSinglePickupDisplay: PropTypes.func.isRequired,
   fetchSinglePickup: PropTypes.func.isRequired,
+  fetchPickupBikes: PropTypes.func.isRequired,
+  pickupPointBikes: PropTypes.arrayOf(
+    PropTypes.shape({
+      ...BikePropTypes,
+    })
+  ).isRequired,
+  // fetchPickupReservation: PropTypes.func.isRequired,
 };
 
 export default function withPickupPoints(WrappedComponent) {
@@ -38,7 +46,9 @@ export default function withPickupPoints(WrappedComponent) {
         loading,
         getPickupPoints,
         fetchSinglePickup,
+        fetchPickupBikes,
         setSinglePickupDisplay,
+        pickupPointBikes,
         ...restProps
       } = this.props;
       return (
@@ -49,7 +59,9 @@ export default function withPickupPoints(WrappedComponent) {
           loading={loading} // from pickups reducer
           getPickupPoints={getPickupPoints}
           fetchSinglePickup={fetchSinglePickup}
+          fetchPickupBikes={fetchPickupBikes}
           setSinglePickupDisplay={setSinglePickupDisplay}
+          pickupPointBikes={pickupPointBikes}
           {...restProps} // passes any others through
         />
       );
@@ -63,7 +75,8 @@ export default function withPickupPoints(WrappedComponent) {
   const mapStateToProps = state => ({
     locale: state.locale.country,
     pickups: state.pickups.pickups,
-    pickup: state.pickupSingle,
+    pickup: state.pickupSingle.pickup,
+    pickupPointBikes: state.pickupSingle.bikes,
     loading: state.pickups.loading,
   });
 
@@ -71,6 +84,8 @@ export default function withPickupPoints(WrappedComponent) {
     getPickupPoints: pickupPointsFetch,
     setSinglePickupDisplay: setPickup,
     fetchSinglePickup: pickupSingleFetch,
+    fetchPickupBikes: pickupBikesFetch,
+    // fetchPickupReservation: pickupReservationsFetch,
   };
 
   return connect(

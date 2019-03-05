@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { SInline } from '../styles/commonStyles';
-import { SListItem } from '../styles/sidePanelStyles';
+import { SInline } from '../styles/components/Common';
+import { SListItem } from '../styles/components/SidePanelSections';
 import { PickupPropTypes } from '../shared/redux/ducks/pickups';
 
 const SStatus = styled.span`
@@ -29,7 +29,9 @@ const PickupListItem = ({ pickup, selectPickup }) => (
 );
 
 PickupListItem.propTypes = {
-  ...PickupPropTypes,
+  pickup: PropTypes.shape({
+    ...PickupPropTypes,
+  }).isRequired,
   selectPickup: PropTypes.func.isRequired,
 };
 

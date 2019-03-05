@@ -4,48 +4,15 @@ import styled from 'styled-components';
 import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
 import CONFIG from '../shared/constants/config';
 import withBikes, { BikesProps } from '../shared/redux/containers/BikesContainer';
-
-const SBikeSingle = styled.div`
-  padding: 32px;
-  width: 80%;
-
-  @media screen and (max-width: 999px) {
-    width: 90%;
-  }
-`;
-
-const SInfoAndMap = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-
-  @media screen and (max-width: 999px) {
-    flex-direction: column;
-  }
-`;
-
-const SInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin-bottom: 16px;
-`;
-
-const SInfoLabelAndText = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-`;
-
-const SInfoLabel = styled.span`
-  font-size: 32px;
-  width: 160px;
-`;
-
-const SInfoText = styled.span`
-  font-size: 32px;
-`;
+import {
+  SSingleScreen,
+  SSingleHeading,
+  SInfoRowToColumn,
+  SInfo,
+  SInfoLabelAndText,
+  SInfoLabelSmaller,
+  SInfoText,
+} from '../styles/components/InfoSections';
 
 const SLittleMap = styled.div`
   width: 240px;
@@ -63,24 +30,24 @@ class BikeSingle extends React.PureComponent {
   render() {
     const { bike, google } = this.props;
     return (
-      <SBikeSingle>
-        <h1 style={{ textAlign: 'center' }}>Bike Details</h1>
-        <SInfoAndMap>
+      <SSingleScreen>
+        <SSingleHeading>Bike Details</SSingleHeading>
+        <SInfoRowToColumn>
           <SInfo>
             <SInfoLabelAndText>
-              <SInfoLabel>Identifier</SInfoLabel>
+              <SInfoLabelSmaller>Identifier</SInfoLabelSmaller>
               <SInfoText>{bike.id}</SInfoText>
             </SInfoLabelAndText>
             <SInfoLabelAndText>
-              <SInfoLabel>Location</SInfoLabel>
+              <SInfoLabelSmaller>Location</SInfoLabelSmaller>
               <SInfoText>{bike.locationName}</SInfoText>
             </SInfoLabelAndText>
             <SInfoLabelAndText>
-              <SInfoLabel>Status</SInfoLabel>
+              <SInfoLabelSmaller>Status</SInfoLabelSmaller>
               <SInfoText>{bike.status}</SInfoText>
             </SInfoLabelAndText>
             <SInfoLabelAndText>
-              <SInfoLabel>Battery</SInfoLabel>
+              <SInfoLabelSmaller>Battery</SInfoLabelSmaller>
               <SInfoText>{bike.battery}%</SInfoText>
             </SInfoLabelAndText>
           </SInfo>
@@ -98,8 +65,8 @@ class BikeSingle extends React.PureComponent {
               <Marker icon="/bike-icon-fa.png" position={{ lat: bike.coordinates[1], lng: bike.coordinates[0] }} />
             </Map>
           </SLittleMap>
-        </SInfoAndMap>
-      </SBikeSingle>
+        </SInfoRowToColumn>
+      </SSingleScreen>
     );
   }
 }

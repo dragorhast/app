@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 import ControlArrows from '../../components/ControlArrows';
 import PickupListItem from '../../components/PickupListItem';
-import { SSideComponent, SControlBar } from '../../styles/sidePanelStyles';
-import { SSmallScreenTabs } from '../../styles/commonStyles';
+import { SSideComponent, SControlBar } from '../../styles/components/SidePanelSections';
+import { SSmallScreenTabs } from '../../styles/components/Common';
 
 class Pickups extends React.PureComponent {
   componentWillMount() {

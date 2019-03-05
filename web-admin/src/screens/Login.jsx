@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SButton, SCenteredScreen } from '../styles/commonStyles';
+import { SButton, SCenteredScreen } from '../styles/components/Common';
 import withLogin, { LoginAndOutProps } from '../shared/redux/containers/LoginAndOutContainer';
 
 const SFormBlock = styled.div`

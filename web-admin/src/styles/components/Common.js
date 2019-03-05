@@ -15,6 +15,7 @@ export const SInline = styled.div`
   justify-content: space-between;
 `;
 
+// TODO refactor to SidePanelSections
 export const SSmallScreenTabs = styled.div`
   height: 48px;
   width: 100%;

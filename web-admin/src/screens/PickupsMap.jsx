@@ -4,8 +4,8 @@ import { GoogleApiWrapper, Map, Marker, InfoWindow } from 'google-maps-react';
 import { Link } from 'react-router-dom';
 import withPickup, { PickupProps } from '../shared/redux/containers/PickupPointsContainer';
 import CONFIG from '../shared/constants/config';
-import { mapCenter } from '../styles/map';
-import { SSmallScreenTabs } from '../styles/commonStyles';
+import { mapCenter } from '../styles/constants';
+import { SSmallScreenTabs } from '../styles/components/Common';
 
 class PickupsMap extends React.PureComponent {
   state = {

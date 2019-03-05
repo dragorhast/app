@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { GoogleApiWrapper, Map, Marker, InfoWindow } from 'google-maps-react';
 import { Link } from 'react-router-dom';
 import CONFIG from '../shared/constants/config';
-import { mapCenter } from '../styles/map';
+import { mapCenter } from '../styles/constants';
 import withBikes, { BikesProps } from '../shared/redux/containers/BikesContainer';
-import { SSmallScreenTabs } from '../styles/commonStyles';
+import { SSmallScreenTabs } from '../styles/components/Common';
 
 class BikeMap extends React.PureComponent {
   state = {

@@ -1,17 +1,22 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
+import { getRawBikeDataReady, setBikes } from './bikes';
 import { pickupStateFromBikeCount } from '../../util';
-import { apiPickupFetchSingle } from '../../api/tap2go';
+import { apiPickupFetchSingle, apiPickupFetchBikes } from '../../api/tap2go';
 // Actions
 const PICKUP_SINGLE_SET = 'PICKUP_SINGLE_SET';
+const PICKUP_BIKES_SET = 'PICKUP_BIKES_SET';
 // Initial State
 const INITIAL_STATE = {
-  pickupId: '',
-  name: '',
-  coordinates: null,
-  distance: null,
-  status: '',
+  pickup: {
+    pickupId: '',
+    name: '',
+    coordinates: null,
+    distance: null,
+    status: '',
+  },
+  bikes: [],
 };
 
 // Prop Types
@@ -31,7 +36,13 @@ export default function pickupSingleReducer(state = INITIAL_STATE, { type, paylo
   switch (type) {
     case PICKUP_SINGLE_SET:
       return {
-        ...payload,
+        ...state,
+        pickup: { ...payload },
+      };
+    case PICKUP_BIKES_SET:
+      return {
+        ...state,
+        bikes: payload,
       };
     default:
       return state;
@@ -50,7 +61,6 @@ export const setPickup = ({ pickupId, name, coordinates, distance, status }) => 
 });
 
 // Thunks
-
 export const pickupSingleFetch = pickupId => async dispatch => {
   try {
     dispatch(setStatus('loading', true));
@@ -58,7 +68,7 @@ export const pickupSingleFetch = pickupId => async dispatch => {
     const authToken = await Firebase.auth().currentUser.getIdToken();
     const pickup = await apiPickupFetchSingle(authToken, pickupId);
 
-    dispatch(
+    await dispatch(
       setPickup({
         pickupId: pickup.properties.id,
         name: pickup.properties.name,
@@ -67,9 +77,27 @@ export const pickupSingleFetch = pickupId => async dispatch => {
         status: pickupStateFromBikeCount(pickup.properties.bikes || []),
       })
     );
-    return dispatch('loading', false);
+    return dispatch(setStatus('loading', false));
   } catch (e) {
     dispatch(setStatus('error', e.message));
     throw e;
   }
 };
+
+export const pickupBikesFetch = pickupId => async dispatch => {
+  try {
+    dispatch(setStatus('loading', true));
+
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+    const bikes = await apiPickupFetchBikes(authToken, pickupId);
+
+    await dispatch(setBikes(getRawBikeDataReady(bikes), PICKUP_BIKES_SET));
+    return dispatch(setStatus('loading', false));
+  } catch (e) {
+    console.log('bike fail');
+    dispatch(setStatus('error', e.message));
+    throw e;
+  }
+};
+// eslint-disable-next-line no-unused-vars
+// export const pickupReservationsFetch = pickupId => {};
