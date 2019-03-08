@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { GoogleApiWrapper, Map, Marker, InfoWindow } from 'google-maps-react';
-import { Link } from 'react-router-dom';
+import MapToListTabs from '../components/MapToListTabs';
 import CONFIG from '../shared/constants/config';
 import { mapCenter } from '../styles/constants';
 import withBikes, { BikesProps } from '../shared/redux/containers/BikesContainer';
-import { SSmallScreenTabs } from '../styles/components/Common';
 
 class BikeMap extends React.PureComponent {
   state = {
@@ -56,13 +55,7 @@ class BikeMap extends React.PureComponent {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {smallScreen && (
-          <SSmallScreenTabs>
-            <Link to="/bikes">
-              <h2>List View</h2>
-            </Link>
-          </SSmallScreenTabs>
-        )}
+        {smallScreen && <MapToListTabs mapView linkToList="/bikes" />}
         <div style={{ flex: 1 }}>
           <Map google={google} zoom={15} initialCenter={mapCenter} onClick={this.onMapClick}>
             {bikes &&

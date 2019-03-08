@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { GoogleApiWrapper, Map, Marker, InfoWindow } from 'google-maps-react';
-import { Link } from 'react-router-dom';
 import withPickup, { PickupProps } from '../shared/redux/containers/PickupPointsContainer';
 import CONFIG from '../shared/constants/config';
 import { mapCenter } from '../styles/constants';
-import { SSmallScreenTabs } from '../styles/components/Common';
+import MapToListTabs from '../components/MapToListTabs';
 
 class PickupsMap extends React.PureComponent {
   state = {
@@ -56,13 +55,7 @@ class PickupsMap extends React.PureComponent {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {smallScreen && (
-          <SSmallScreenTabs>
-            <Link to="/bikes">
-              <h2>List View</h2>
-            </Link>
-          </SSmallScreenTabs>
-        )}
+        {smallScreen && <MapToListTabs mapView linkToList="/pickups" />}
         <div style={{ flex: 1 }}>
           <Map google={google} zoom={15} initialCenter={mapCenter} onClick={this.onMapClick}>
             {pickups &&

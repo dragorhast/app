@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import withBikes, { BikesProps } from '../../shared/redux/containers/BikesContainer';
 import BikeList from '../../components/BikeList';
 import { SSideComponent } from '../../styles/components/SidePanelSections';
-import { SSmallScreenTabs } from '../../styles/components/Common';
+import MapToListTabs from '../../components/MapToListTabs';
 
 class Bikes extends React.PureComponent {
   componentWillMount() {
@@ -30,13 +29,7 @@ class Bikes extends React.PureComponent {
     const { bikes, smallScreen } = this.props;
     return (
       <SSideComponent>
-        {smallScreen && (
-          <SSmallScreenTabs>
-            <Link to="/bikes/map">
-              <h2>Map View</h2>
-            </Link>
-          </SSmallScreenTabs>
-        )}
+        {smallScreen && <MapToListTabs listView linkToMap="/bikes/map" />}
         <BikeList bikes={bikes} selectBike={this.selectBike} />
       </SSideComponent>
     );
