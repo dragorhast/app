@@ -12,7 +12,7 @@ const STabBar = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 64px;
+  height: 64px !important;
   border-bottom: 1px solid grey;
   a {
     text-decoration: none;
@@ -36,9 +36,13 @@ const SNavSelection = styled.div`
   justify-content: center;
   align-items: center;
 
-  ${props => props.selected && 'color: green; border-bottom: 2px solid green;'}
+  ${props =>
+    props.selected &&
+    `
+  color: ${props.theme.primary};
+  border-bottom: 2px solid ${props.theme.primary};
+`}
 `;
-
 class LoggedInNavBar extends React.PureComponent {
   initiateLogOut = async () => {
     const { logout, history } = this.props;

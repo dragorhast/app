@@ -19,7 +19,7 @@ const SArrows = styled.div`
 `;
 
 const SArrow = styled.span`
-  color: purple; // TODO set to primary - theme
+  color: ${props => props.theme.primary}; // TODO set to primary - theme
   :hover {
     cursor: pointer;
   }

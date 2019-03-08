@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 import { store, persistor } from './shared/redux/store';
 import { Firebase } from './shared/constants/firebase';
 import './styles/App.css';
+
+// Theming
+import Theme from './styles/styledComponentTheme';
 
 // import Navbar from './components/Navbar';
 import LoggedInNavBar from './components/LoggedInNavBar';
@@ -47,48 +51,50 @@ class App extends Component {
     const { firebaseId, loaded } = this.state;
     return (
       <Provider store={store}>
-        {loaded && (
-          <PersistGate loading={<h2>Loading</h2>} persistor={persistor}>
-            <Router>
-              <div className="route">
-                {firebaseId && <Route path="/" component={LoggedInNavBar} />}
-                {!firebaseId && <Route exact path="/login" component={Login} />}
-                <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
-                <SmallScreenRoute
-                  path="/bikes"
-                  Component={BikesSide}
-                  reroutePath="/bikes/map"
-                  loggedIn={!!firebaseId}
-                />
-                <BigScreenRoute
-                  path="/bikes/single/:id"
-                  Screen={BikeSingle}
-                  SidePanel={BikesSide}
-                  loggedIn={!!firebaseId}
-                />
-                <SmallScreenRoute
-                  path="/pickups"
-                  Component={PickupsSide}
-                  reroutePath="/pickups/map"
-                  loggedIn={!!firebaseId}
-                />
-                <BigScreenRoute
-                  path="/pickups/map"
-                  Screen={PickupsMap}
-                  SidePanel={PickupsSide}
-                  loggedIn={!!firebaseId}
-                />
-                <BigScreenRoute
-                  path="/pickups/single/:id"
-                  Screen={PickupSingle}
-                  SidePanel={PickupsSide}
-                  loggedIn={!!firebaseId}
-                />
-                <Route exact path="/not-authorized" component={MustBeLoggedIn} />
-              </div>
-            </Router>
-          </PersistGate>
-        )}
+        <ThemeProvider theme={Theme}>
+          {loaded && (
+            <PersistGate loading={<h2>Loading</h2>} persistor={persistor}>
+              <Router>
+                <div className="route">
+                  {firebaseId && <Route path="/" component={LoggedInNavBar} />}
+                  {!firebaseId && <Route exact path="/login" component={Login} />}
+                  <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
+                  <SmallScreenRoute
+                    path="/bikes"
+                    Component={BikesSide}
+                    reroutePath="/bikes/map"
+                    loggedIn={!!firebaseId}
+                  />
+                  <BigScreenRoute
+                    path="/bikes/single/:id"
+                    Screen={BikeSingle}
+                    SidePanel={BikesSide}
+                    loggedIn={!!firebaseId}
+                  />
+                  <SmallScreenRoute
+                    path="/pickups"
+                    Component={PickupsSide}
+                    reroutePath="/pickups/map"
+                    loggedIn={!!firebaseId}
+                  />
+                  <BigScreenRoute
+                    path="/pickups/map"
+                    Screen={PickupsMap}
+                    SidePanel={PickupsSide}
+                    loggedIn={!!firebaseId}
+                  />
+                  <BigScreenRoute
+                    path="/pickups/single/:id"
+                    Screen={PickupSingle}
+                    SidePanel={PickupsSide}
+                    loggedIn={!!firebaseId}
+                  />
+                  <Route exact path="/not-authorized" component={MustBeLoggedIn} />
+                </div>
+              </Router>
+            </PersistGate>
+          )}
+        </ThemeProvider>
       </Provider>
     );
   }

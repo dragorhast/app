@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const SSideComponent = styled.div`
-  height: 100%;
+  height: calc(100vh - 64px); // height of top bar
   border-right: 1px solid lightgrey;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@ export const SControlBar = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 32px;
+  height: 48px;
   justify-content: space-between;
   padding: 0 16px;
   box-sizing: border-box;
