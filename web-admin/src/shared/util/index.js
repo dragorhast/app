@@ -52,6 +52,12 @@ export const minutesSinceTime = startTime => {
   return Math.round(differenceMs / (1000 * 60));
 };
 
+/**
+ * Returns datetime string in format
+ * dd/mm/yyyy - hh:mm
+ * @param datetime
+ * @returns {string}
+ */
 export const prettyDateTime = datetime => {
   const date = new Date(datetime);
 

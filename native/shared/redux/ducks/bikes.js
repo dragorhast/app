@@ -1,26 +1,23 @@
-import PropTypes from 'prop-types';
-import Capitalize from 'capitalize';
 import { apiBikesFetch } from '../../api/tap2go';
+import { BikePropTypes as BikePropTypesCopy } from './bikeSingle';
+import { Firebase } from '../../constants/firebase';
+import { pickupPointOrPrettyPrintCoords, bikeStatusFromString } from '../../util';
 
 // Actions
 const BIKES_LOADING = 'BIKES_LOADING';
 const BIKES_SET = 'BIKES_SET';
 
 // Initial State
-const INITIAl_STATE = {
+const INITIAL_STATE = {
   loading: false,
   bikes: [],
 };
 // Prop Types
-export const BikePropTypes = {
-  id: PropTypes.string.isRequired,
-  locationName: PropTypes.string.isRequired,
-  coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
-  status: PropTypes.string.isRequired,
-};
+// Allows both to be aligned to their own duck
+export const BikePropTypes = BikePropTypesCopy;
 
 // Reducer
-export default function bikesReducer(state = INITIAl_STATE, { type, payload }) {
+export default function bikesReducer(state = INITIAL_STATE, { type, payload }) {
   switch (type) {
     case BIKES_LOADING:
       return {
@@ -40,61 +37,40 @@ export default function bikesReducer(state = INITIAl_STATE, { type, payload }) {
 // Action Creators
 const loadingBikes = (loading = true) => ({ type: BIKES_LOADING, payload: loading });
 
-const setBikes = bikes => {
-  console.log('Inside setBikes: ', bikes);
+/**
+ * Checks all bikes are correct.
+ *
+ * Allows for a different actionType to be passed
+ * so that it can be utilised on different bike lists
+ * (namely from pickupSingle)
+ * @param bikes
+ * @param actionType
+ * @returns {{payload: *, type: string}}
+ */
+export const setBikes = (bikes, actionType = BIKES_SET) => {
   const checkBikeProperties = bike => {
     if (!bike.id || !bike.coordinates || !bike.status)
       throw new Error('Each bike must have correct properties for action');
   };
   bikes.forEach(bike => checkBikeProperties(bike));
-  return { type: BIKES_SET, payload: bikes };
+  return { type: actionType, payload: bikes };
 };
 
 // Thunks
-
 /**
- * Returns a proper readable string based on
- * the status given from the api
+ * Fetches the information for all bikes
  *
- * @param status
- * @returns {*}
+ * @returns {Function}
  */
-const bikeStatusFromString = status => {
-  switch (status) {
-    case 'available' || 'broken' || 'rented':
-      return Capitalize(status);
-    case 'needs_serviced':
-      return 'Needs Serviced';
-    case 'out_of_circulation':
-      return 'Out Of Circ';
-    default:
-      throw new Error('Status unknown');
-  }
-};
-
 export const bikesFetch = () => async dispatch => {
   try {
     dispatch(loadingBikes(true));
 
-    const bikesRaw = await apiBikesFetch();
-
-    // Helper for getting response ready for reducer
-    const pickupPointOrPrettyPrintCoords = location =>
-      (location.features && location.features.pickup) ||
-      `${location.geometry.coordinates[0].toFixed(2)}, ${location.geometry.coordinates[1].toFixed(2)}`;
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+    const bikesRaw = await apiBikesFetch(authToken);
 
     // Gets api response ready for reducer
-    const bikes = bikesRaw.map(bike => {
-      // No current_location if rented
-      const bikeRented = !bike.current_location;
-      return {
-        id: bike.identifier,
-        /* Pickup name or lat, lng as a string */
-        locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
-        coordinates: bikeRented ? null : bike.current_location.geometry.coordinates,
-        status: bikeStatusFromString(bike.status),
-      };
-    });
+    const bikes = getRawBikeDataReady(bikesRaw);
     return dispatch(setBikes(bikes));
   } catch (e) {
     dispatch(loadingBikes(false));
@@ -104,3 +80,19 @@ export const bikesFetch = () => async dispatch => {
 
 // Selectors
 // TODO add selectors for sorting the list of bikes
+
+// Helper functions
+export const getRawBikeDataReady = bikesRaw => {
+  return bikesRaw.map(bike => {
+    // No current_location if rented
+    const bikeRented = !bike.current_location;
+    return {
+      id: bike.identifier,
+      /* Pickup name or lat, lng as a string */
+      locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
+      coordinates: bikeRented ? null : bike.current_location.geometry.coordinates,
+      status: bikeStatusFromString(bike.status),
+      battery: bike.battery,
+    };
+  });
+};

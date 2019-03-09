@@ -290,16 +290,38 @@ export const apiReservationCancel = async (authToken, reservationId) => {
 };
 
 /**
- * Api end point to fetch all rentals for a user that
+ * Api end point to fetch all reservations for a user that
  * have not been collected and are in the future
  *
  * @param authToken
  * @returns {Promise<*>}
  */
-export const apiReservationsFetch = async authToken => {
+export const apiReservationsUserFetch = async authToken => {
   const dbId = Firebase.auth().currentUser.photoURL;
-  // TODO remove current from end
   const result = await axiosBaseUrl.get(`/users/${dbId || 'me'}/reservations/current`, getConfig(authToken));
+  return result.data.data.reservations;
+};
+
+/**
+ * Api end point to fetch all reservations
+ * must be an admin to access
+ *
+ * @param authToken
+ * @returns {Promise<*>}
+ */
+export const apiReservationsAdminFetch = async authToken => {
+  const result = await axiosBaseUrl.get('/reservations', getConfig(authToken));
+  return result.data.data.reservations;
+};
+
+/**
+ * Api end point to fetch data for a single reservation
+ * @param authToken
+ * @param reservationId
+ * @returns {Promise<void>}
+ */
+export const apiReservationSingleFetch = async (authToken, reservationId) => {
+  const result = await axiosBaseUrl.get(`/reservations/${reservationId}`, getConfig(authToken));
   return result.data.data.reservation;
 };
 
@@ -308,6 +330,7 @@ export const apiReservationsFetch = async authToken => {
  * @returns {Promise<*>}
  */
 export const apiBikesFetch = async authToken => {
+  console.log(authToken);
   const result = await axiosBaseUrl.get('/bikes', getConfig(authToken));
   return result.data.data.bikes;
 };

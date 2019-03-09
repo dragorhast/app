@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import withPickupPoints, { PickupProps } from '../shared/redux/containers/PickupPointsContainer';
 import { SSingleScreen, SSingleHeading, SInfoLabelAndText, SInfoText } from '../styles/components/InfoSections';
@@ -53,6 +54,11 @@ class PickupSingle extends React.PureComponent {
 
 PickupSingle.propTypes = {
   ...PickupProps,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default withPickupPoints(PickupSingle);

@@ -12,8 +12,8 @@ import { prettyDateTime } from '../../shared/util';
 
 class ReservationsUpcoming extends Component {
   componentWillMount() {
-    const { fetchUsersReservations } = this.props;
-    fetchUsersReservations();
+    const { fetchReservations } = this.props;
+    fetchReservations();
   }
 
   goToFullReservationPage = async reservation => {

@@ -9,6 +9,7 @@ const STabBar = styled.div`
   top: 0; /* Distance from top to stick to*/
   background-color: white; // TODO change to primary
   display: flex;
+  overflow: scroll; // TODO change to burger
   flex-direction: row;
   align-items: center;
   width: 100%;

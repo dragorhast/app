@@ -7,9 +7,11 @@ import { connect } from 'react-redux';
 
 import {
   reservationCancel,
-  reservationsFetchForUser,
+  reservationsFetch,
+  reservationSingleFetch,
   setSingleReservationDisplay,
   ReservationDisplayPropTypes,
+  ReservationDisplaySingleProps,
 } from '../ducks/reservationDisplay';
 
 export const ReservationDisplayProps = {
@@ -17,8 +19,14 @@ export const ReservationDisplayProps = {
   reserveDisplay: PropTypes.shape({
     ...ReservationDisplayPropTypes,
   }).isRequired,
+  reservations: PropTypes.arrayOf(
+    PropTypes.shape({
+      ...ReservationDisplaySingleProps,
+    })
+  ),
   cancelReservation: PropTypes.func.isRequired,
-  fetchUsersReservations: PropTypes.func.isRequired,
+  fetchReservations: PropTypes.func.isRequired,
+  fetchSingleReservation: PropTypes.func.isRequired,
   setSingleReservationDisplay: PropTypes.func.isRequired,
 };
 
@@ -28,8 +36,10 @@ export default function withReservationDisplay(WrappedComponent) {
       const {
         locale,
         reserveDisplay,
+        reservations,
         cancelReservation,
-        fetchUsersReservations,
+        fetchReservations,
+        fetchSingleReservation,
         setSingleReservationDisplay,
         ...restProps
       } = this.props;
@@ -37,8 +47,10 @@ export default function withReservationDisplay(WrappedComponent) {
         <WrappedComponent
           locale={locale}
           reserveDisplay={reserveDisplay}
+          reservations={reservations}
           cancelReservation={cancelReservation}
-          fetchUsersReservations={fetchUsersReservations}
+          fetchReservations={fetchReservations}
+          fetchSingleReservation={fetchSingleReservation}
           setSingleReservationDisplay={setSingleReservationDisplay}
           {...restProps} // passes any other through
         />
@@ -53,11 +65,13 @@ export default function withReservationDisplay(WrappedComponent) {
   const mapStateToProps = state => ({
     locale: state.locale.country,
     reserveDisplay: state.reserveDisplay,
+    reservations: state.reserveDisplay.list,
   });
 
   const mapDispatchToProp = {
     cancelReservation: reservationCancel,
-    fetchUsersReservations: reservationsFetchForUser,
+    fetchReservations: reservationsFetch,
+    fetchSingleReservation: reservationSingleFetch,
     setSingleReservationDisplay,
   };
 

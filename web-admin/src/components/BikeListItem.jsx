@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { SInline } from '../styles/components/Common';
 import { SListItem } from '../styles/components/SidePanelSections';
 import { BikePropTypes } from '../shared/redux/ducks/bikeSingle';
 
@@ -10,7 +9,7 @@ const SStatus = styled.span`
   color: ${props => {
     switch (props.status) {
       case 'Available' || 'Rented':
-        return 'green';
+        return props.theme.success;
       default:
         return '';
     }
@@ -18,10 +17,11 @@ const SStatus = styled.span`
 `;
 const BikeListItem = ({ bike, selectBike }) => (
   <SListItem onClick={() => selectBike(bike)}>
-    <SInline>
+    <div>
       {bike.id}
-      {bike.location} <SStatus status={bike.status}> {bike.status}</SStatus>
-    </SInline>
+      {bike.location}
+    </div>
+    <SStatus status={bike.status}> {bike.status}</SStatus>
   </SListItem>
 );
 

@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
-import { apiReservationCancel, apiReservationsFetch, apiPickupFetchSingle } from '../../api/tap2go';
+import {
+  apiReservationCancel,
+  apiReservationsUserFetch,
+  apiReservationsAdminFetch,
+  apiPickupFetchSingle,
+} from '../../api/tap2go';
 
 // Prop Types
-export const ReservationDisplaySingle = {
+export const ReservationDisplaySingleProps = {
   reservationId: PropTypes.number,
   pickupId: PropTypes.number,
   pickupName: PropTypes.string,
@@ -19,10 +24,10 @@ export const ReservationDisplaySingle = {
 export const ReservationDisplayPropTypes = {
   list: PropTypes.arrayOf(
     PropTypes.shape({
-      ...ReservationDisplaySingle,
+      ...ReservationDisplaySingleProps,
     })
   ),
-  ...ReservationDisplaySingle,
+  ...ReservationDisplaySingleProps,
 };
 
 // Actions
@@ -127,18 +132,22 @@ export const reservationCancel = reservationId => async (dispatch, getState) => 
  *
  * @returns {Function}
  */
-export const reservationsFetchForUser = () => async dispatch => {
+export const reservationsFetch = (admin = false) => async dispatch => {
   try {
     const authToken = await Firebase.auth().currentUser.getIdToken();
+    let reservations;
+    if (admin) {
+      reservations = await apiReservationsAdminFetch(authToken);
+    } else {
+      reservations = await apiReservationsUserFetch(authToken);
+    }
 
-    const reservations = await apiReservationsFetch(authToken);
-
-    // Gets information for the pickup point for each reservation
+    // Hack around the fact api doesn't return pickup point on each reservation
     const reservationWithPickup = await getPickupForEachReservation(authToken, reservations);
 
     // Gets in to a state the store can understand
     const reservationList = reservationWithPickup.map(reservation => ({
-      reservationId: reservation.id,
+      reservationId: reservation.id, // TODO remove
       datetime: reservation.reserved_for,
       pickupName: reservation.pickup.properties.name,
       pickupId: reservation.pickup_id,
@@ -146,6 +155,12 @@ export const reservationsFetchForUser = () => async dispatch => {
     }));
     return dispatch(setReservationsList(reservationList));
   } catch (e) {
+    console.log(e.message);
+    // TODO handle differently on the api
+    if (e.message === 'Could not find reservation with the given params.' || e.message.includes('404')) {
+      dispatch(setReservationsList([]));
+      return Promise.resolve(); // not an error
+    }
     dispatch(setStatus('error', 'Unable to get current reservations'));
     throw e;
   }

@@ -47,6 +47,7 @@ class Pickups extends React.PureComponent {
           pickups.map(pickup => (
             <PickupListItem key={pickup.pickupId} pickup={pickup} selectPickup={this.selectPickup} />
           ))}
+        {pickups.length === 0 && <h3 style={{ textAlign: 'center', fontStyle: 'italic' }}>No Pickups</h3>}
       </SSideComponent>
     );
   }

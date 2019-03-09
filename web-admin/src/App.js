@@ -21,6 +21,10 @@ import PickupsSide from './screens/SideScreens/Pickups';
 import PickupsMap from './screens/PickupsMap';
 import PickupSingle from './screens/PickupSingle';
 
+import ReservationsSide from './screens/SideScreens/Reservations';
+import ReservationSingle from './screens/ReservationSingle';
+import ReservationsHome from './screens/ReservationsHome';
+
 import SmallScreenRoute from './templates/SmallScreenRoute';
 import BigScreenRoute from './templates/BigScreenRoute';
 import MustBeLoggedIn from './screens/MustbeLoggedIn';
@@ -87,6 +91,24 @@ class App extends Component {
                     path="/pickups/single/:id"
                     Screen={PickupSingle}
                     SidePanel={PickupsSide}
+                    loggedIn={!!firebaseId}
+                  />
+                  <SmallScreenRoute
+                    path="/reservations"
+                    Component={ReservationsSide}
+                    loggedIn={!!firebaseId}
+                    reroutePath="/reservations/home"
+                  />
+                  <BigScreenRoute
+                    path="/reservations/home"
+                    Screen={ReservationsHome}
+                    SidePanel={ReservationsSide}
+                    loggedIn={!!firebaseId}
+                  />
+                  <BigScreenRoute
+                    path="/reservations/single/:id"
+                    Screen={ReservationSingle}
+                    SidePanel={ReservationsSide}
                     loggedIn={!!firebaseId}
                   />
                   <Route exact path="/not-authorized" component={MustBeLoggedIn} />

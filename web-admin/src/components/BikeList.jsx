@@ -5,10 +5,6 @@ import BikeListItem from './BikeListItem';
 import ControlArrows from './ControlArrows';
 import { BikePropTypes } from '../shared/redux/ducks/bikes';
 
-// const BikeList = ({ bikes, selectBike }) => (
-//
-// );
-
 class BikeList extends React.PureComponent {
   render() {
     const { bikes, selectBike } = this.props;

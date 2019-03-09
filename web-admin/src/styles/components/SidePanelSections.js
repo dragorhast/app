@@ -9,27 +9,37 @@ export const SSideComponent = styled.div`
 `;
 
 export const SControlBar = styled.div`
-  display: flex;
-  flex-direction: row;
+  // grid
+  display: grid;
+  grid-template-columns: 47.5% 47.5%;
+  grid-column-gap: 5%;
+
+  justify-items: start;
+  align-items: center;
+  // height + width
   width: 100%;
   height: 48px;
-  justify-content: space-between;
-  padding: 0 16px;
+  // in from size
+  padding: 8px 16px;
   box-sizing: border-box;
-  border-bottom: 2px solid lightgrey;
+  // border
+  border: 1px solid lavender;
 `;
 
 export const SListItem = styled.div`
-  // flex set up
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
+  // grid
+  display: grid;
+  grid-template-columns: 47.5% 47.5%;
+  grid-column-gap: 5%;
+
+  justify-items: start;
+  align-items: center;
+
   // height + width
   width: 100%;
   // in from size
   padding: 8px 16px;
   box-sizing: border-box;
-
-  border: 2px solid lavender;
+  // border
+  border: 1px solid lavender;
 `;

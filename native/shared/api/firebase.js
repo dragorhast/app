@@ -33,6 +33,7 @@ export const firebaseLoginEmail = async (email, password) => {
  *
  * @param id
  * @param name
+ * @param type - manager/operators/user
  * @returns {Promise<void>}
  */
 export const firebaseUpdateProfile = ({ id, name }) =>

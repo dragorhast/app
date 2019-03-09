@@ -105,18 +105,17 @@ export const apiUserDelete = authToken => axiosBaseUrl.delete('/users/me', getCo
  * @param stripeToken
  * @returns {AxiosPromise<any>}
  */
-export const apiUserSetPaymentDetails = (authToken, stripeToken) => {
-  // const dbId = Firebase.auth().currentUser.photoURL;
-  console.log(stripeToken);
+export const apiUserSetPaymentDetails = async (authToken, stripeToken) => {
+  const dbId = Firebase.auth().currentUser.photoURL;
   try {
-    // return axiosBaseUrl.post(
-    //   `/users/${dbId}/payment`,
-    //   {
-    //     stripe_source_token: stripeToken,
-    //   },
-    //   getConfig(authToken)
-    // );
-    // return;
+    await axiosBaseUrl.put(
+      `/users/${dbId}/payment`,
+      {
+        token: stripeToken,
+      },
+      getConfig(authToken)
+    );
+    return null;
   } catch (e) {
     throw e;
   }
@@ -131,7 +130,6 @@ export const apiUserSetPaymentDetails = (authToken, stripeToken) => {
  * @returns {Promise<*>}
  */
 export const apiRentalStartId = async (authToken, bikeId) => {
-  // throw new Error('NO PAYMENT METHOD'); // TESTING
   try {
     const result = await axiosBaseUrl.post(`/bikes/${bikeId}/rentals`, {}, getConfig(authToken));
 
@@ -148,7 +146,6 @@ export const apiRentalStartId = async (authToken, bikeId) => {
  * @returns {Promise<result.data.rental|{estimated_price, start_time, bike_id, current_location}>}
  */
 export const apiRentalFetchCurrent = async authToken => {
-  // console.log(authToken);
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
     const result = await axiosBaseUrl.get(`/users/${dbId}/rentals/current`, getConfig(authToken));
@@ -203,7 +200,6 @@ export const apiRentalEndCurrent = async (authToken, cancel = false) => {
  * @param authToken
  * @returns {Promise<void>}
  */
-// eslint-disable-next-line camelcase
 export const apiIssueCreate = async (authToken, data) => {
   const dbId = Firebase.auth().currentUser.photoURL;
   try {
@@ -215,6 +211,16 @@ export const apiIssueCreate = async (authToken, data) => {
   }
 };
 
+/**
+ * Gets all pickup points - at some point will
+ * be in order of closes to current location and
+ * within the range
+ *
+ * @param latitude
+ * @param longitude
+ * @param range
+ * @returns {Promise<pickupsReducer|Array>}
+ */
 export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.199293, range = 4) => {
   try {
     const result = await axiosBaseUrl.get(`/pickups?latitude=${latitude}&longitude=${longitude}&range=${range}miles`);
@@ -236,6 +242,11 @@ export const apiPickupFetchSingle = async (authToken, id) => {
   return result.data.data.pickup;
 };
 
+export const apiPickupFetchBikes = async (authToken, pickupId) => {
+  const result = await axiosBaseUrl.get(`/pickups/${pickupId}/bikes`);
+  return result.data.data.bikes;
+};
+
 /**
  * Api end point to create a reservation at a location
  * for a set date date and time
@@ -246,7 +257,7 @@ export const apiPickupFetchSingle = async (authToken, id) => {
  * @returns {Promise<void>}
  */
 export const apiReservationCreate = async (authToken, pickupId, datetime) => {
-  // throw new Error('NO PAYMENT METHOD');
+  // throw new Error('NO PAYMENT METHOD'); // TESTING
   try {
     const result = await axiosBaseUrl.post(
       `/pickups/${pickupId}/reservations`,
@@ -255,6 +266,7 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
       },
       getConfig(authToken)
     );
+
     return result.data.data.reservation;
   } catch (e) {
     throw e;
@@ -270,22 +282,56 @@ export const apiReservationCreate = async (authToken, pickupId, datetime) => {
  */
 export const apiReservationCancel = async (authToken, reservationId) => {
   try {
-    await axiosAuth.delete(`/reservations/${reservationId}`, getConfig(authToken));
-    return null;
+    const result = await axiosBaseUrl.delete(`/reservations/${reservationId}`, getConfig(authToken));
+    return result.data.data.reservation;
   } catch (e) {
     throw e;
   }
 };
 
 /**
- * Api end point to fetch all rentals for a user that
+ * Api end point to fetch all reservations for a user that
  * have not been collected and are in the future
  *
  * @param authToken
  * @returns {Promise<*>}
  */
-export const apiReservationsFetch = async authToken => {
+export const apiReservationsUserFetch = async authToken => {
   const dbId = Firebase.auth().currentUser.photoURL;
-  const result = await axiosAuth.get(`/users/${dbId || 'me'}/reservations/current`, getConfig(authToken));
+  const result = await axiosBaseUrl.get(`/users/${dbId || 'me'}/reservations/current`, getConfig(authToken));
   return result.data.data.reservations;
+};
+
+/**
+ * Api end point to fetch all reservations
+ * must be an admin to access
+ *
+ * @param authToken
+ * @returns {Promise<*>}
+ */
+export const apiReservationsAdminFetch = async authToken => {
+  const result = await axiosBaseUrl.get('/reservations', getConfig(authToken));
+  return result.data.data.reservations;
+};
+
+/**
+ * Api end point to fetch all of the bikes on the system
+ * @returns {Promise<*>}
+ */
+export const apiBikesFetch = async authToken => {
+  const result = await axiosBaseUrl.get('/bikes', getConfig(authToken));
+  return result.data.data.bikes;
+};
+
+/**
+ * Api end point for a single bike based on its
+ * identifier 6 digit hex number
+ *
+ * @param authToken
+ * @param bikeId
+ * @returns {Promise<BikeListItem.propTypes.bike|{}>}
+ */
+export const apiBikeSingleFetch = async (authToken, bikeId) => {
+  const result = await axiosBaseUrl.get(`/bikes/${bikeId}`, getConfig(authToken));
+  return result.data.data.bike;
 };

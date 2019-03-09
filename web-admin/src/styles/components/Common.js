@@ -15,19 +15,11 @@ export const SInline = styled.div`
   justify-content: space-between;
 `;
 
-// TODO refactor to SidePanelSections
-export const SSmallScreenTabs = styled.div`
-  height: 48px;
+export const S2x50PercGrid = styled.div`
+  display: grid;
+  grid-template-columns: 47.5% 47.5%;
+  grid-column-gap: 5%;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid grey; // TODO change colour
-
-  a {
-    text-decoration: none;
-    color: grey;
-  }
 `;
 
 export const SButton = styled.button`

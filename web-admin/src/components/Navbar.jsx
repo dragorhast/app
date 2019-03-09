@@ -5,6 +5,7 @@ const SNavbar = styled.header`
   position: sticky;
   top: 0; /* Distance from top to stick to*/
   background-color: darkslategray; // TODO change to primary
+  overflow: scroll;
   height: 32px;
   display: flex;
   flex-direction: row;

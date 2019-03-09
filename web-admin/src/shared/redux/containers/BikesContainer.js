@@ -31,7 +31,7 @@ export default function withBikes(WrappedComponent) {
         bike,
         fetchBikes,
         fetchSingleBike,
-        setSingleBikeDisplay,
+        setSingleReservationDisplay,
         ...restProps
       } = this.props;
       return (
@@ -42,7 +42,7 @@ export default function withBikes(WrappedComponent) {
           bike={bike}
           fetchBikes={fetchBikes}
           fetchSingleBike={fetchSingleBike}
-          setSingleBikeDisplay={setSingleBikeDisplay}
+          setSingleBikeDisplay={setSingleReservationDisplay}
           {...restProps} // passes any others through
         />
       );
@@ -62,7 +62,7 @@ export default function withBikes(WrappedComponent) {
 
   const mapDispatchToProp = {
     fetchBikes: bikesFetch,
-    setSingleBikeDisplay: setBike,
+    setSingleReservationDisplay: setBike,
     fetchSingleBike: bikeSingleFetch,
   };
 

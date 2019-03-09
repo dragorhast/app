@@ -37,6 +37,14 @@ export const SInfo = styled.div`
   margin-bottom: 16px;
 `;
 
+export const SInfoWith2ColumnsForLabelAndText = styled.div`
+  display: grid;
+  grid-template-columns: 37.5% 57.5%;
+  grid-column-gap: 5%;
+  grid-row-gap: 8px;
+  max-width: 640px;
+`;
+
 export const SInfoLabelAndText = styled.div`
   display: flex;
   flex-direction: row;
