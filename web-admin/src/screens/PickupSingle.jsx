@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import withPickupPoints, { PickupProps } from '../shared/redux/containers/PickupPointsContainer';
 import { SSingleScreen, SSingleHeading, SInfoLabelAndText, SInfoText } from '../styles/components/InfoSections';
 import BikeList from '../components/BikeList';
+import ReservationList from '../components/ReservationsList';
 
 const S50Grid = styled.div`
   display: grid;
@@ -15,18 +16,18 @@ const S50Grid = styled.div`
 
 class PickupSingle extends React.PureComponent {
   componentWillMount() {
-    const { pickup, fetchSinglePickup, match, fetchPickupBikes } = this.props;
+    const { pickup, fetchSinglePickup, match, fetchPickupBikes, fetchPickupReservations } = this.props;
     const pickupId = match.params.id;
     if (!pickup.pickupId) {
       fetchSinglePickup(pickupId);
     }
 
     fetchPickupBikes(pickupId);
-    // fetchPickupReservation();
+    fetchPickupReservations(pickupId);
   }
 
   render() {
-    const { pickup, pickupPointBikes } = this.props;
+    const { pickup, pickupPointBikes, pickupPointReservations } = this.props;
     return (
       <SSingleScreen>
         <SSingleHeading>{pickup.name} Details</SSingleHeading>
@@ -43,8 +44,8 @@ class PickupSingle extends React.PureComponent {
             <BikeList bikes={pickupPointBikes} selectBike={() => {}} />
           </div>
           <div>
-            <h2 style={{ textAlign: 'center' }}>Issues</h2>
-            <BikeList bikes={pickupPointBikes} selectBike={() => {}} />
+            <h2 style={{ textAlign: 'center' }}>Reservations</h2>
+            <ReservationList reservations={pickupPointReservations} selectReservation={() => {}} />
           </div>
         </S50Grid>
       </SSingleScreen>

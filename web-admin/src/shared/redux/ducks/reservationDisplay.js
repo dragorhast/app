@@ -90,26 +90,6 @@ export const setReservationsList = reservationList => ({
   payload: reservationList,
 });
 
-/**
- * Sets a single field for displaying a single reservation using
- * a key value pair that aligns with which field to change and the
- * value to set it to
- *
- * @param keyValuePair
- * @returns {{payload: {field: string, value: *}, type: string}}
- */
-// const setFieldReservation = keyValuePair => ({
-//   type: RESERVATION_DISPLAY_SET_FIELD,
-//   payload: {
-//     field: Object.keys(keyValuePair)[0],
-//     value: keyValuePair[Object.keys(keyValuePair)[0]],
-//   },
-// });
-
-// const clearReservationSingle = () => ({
-//   type: RESERVATION_DISPLAY_CLEAR_SINGLE,
-// });
-
 // Thunks
 export const reservationCancel = reservationId => async (dispatch, getState) => {
   try {
@@ -137,22 +117,17 @@ export const reservationCancel = reservationId => async (dispatch, getState) => 
 export const reservationsFetch = (admin = false) => async dispatch => {
   try {
     const authToken = await Firebase.auth().currentUser.getIdToken();
-    let reservations;
+    let reservationsRaw;
     if (admin) {
-      reservations = await apiReservationsAdminFetch(authToken);
+      reservationsRaw = await apiReservationsAdminFetch(authToken);
     } else {
-      reservations = await apiReservationsUserFetch(authToken);
+      reservationsRaw = await apiReservationsUserFetch(authToken);
     }
 
     // Gets in to a state the store can understand
-    const reservationList = reservations.map(reservation => ({
-      reservationId: reservation.id, // TODO remove
-      datetime: reservation.reserved_for,
-      pickupName: reservation.pickup.properties.name,
-      pickupId: reservation.pickup_id,
-      pickupLocation: reservation.pickup.properties.center,
-    }));
-    return dispatch(setReservationsList(reservationList));
+    const reservations = getRawReservationDataReady(reservationsRaw);
+
+    return dispatch(setReservationsList(reservations));
   } catch (e) {
     console.log(e.message);
     // TODO handle differently on the api
@@ -187,3 +162,19 @@ export const reservationSingleFetch = reservationId => async dispatch => {
     dispatch(setStatus('error', `Unable to get reservation ${reservationId} from the API`));
   }
 };
+
+// ****** Helper Function ****** //
+/**
+ * Ensures same format is used for pickups list + reservations list
+ *
+ * @param reservationsRaw
+ * @returns {*}
+ */
+export const getRawReservationDataReady = reservationsRaw =>
+  reservationsRaw.map(reservation => ({
+    reservationId: reservation.id, // TODO remove
+    datetime: reservation.reserved_for,
+    pickupName: reservation.pickup.properties.name,
+    pickupId: reservation.pickup_id,
+    pickupLocation: reservation.pickup.properties.center,
+  }));

@@ -243,8 +243,13 @@ export const apiPickupFetchSingle = async (authToken, id) => {
 };
 
 export const apiPickupFetchBikes = async (authToken, pickupId) => {
-  const result = await axiosBaseUrl.get(`/pickups/${pickupId}/bikes`);
+  const result = await axiosBaseUrl.get(`/pickups/${pickupId}/bikes`, getConfig(authToken));
   return result.data.data.bikes;
+};
+
+export const apiPickupFetchReservations = async (authToken, pickupId) => {
+  const result = await axiosBaseUrl.get(`/pickups/${pickupId}/reservations`, getConfig(authToken));
+  return result.data.data.reservations;
 };
 
 /**
