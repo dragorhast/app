@@ -13,13 +13,14 @@ import {
   SInfoText,
   SLittleMap,
 } from '../styles/components/InfoSections';
+import IssuesList from '../components/IssuesList';
 
 class BikeSingle extends React.PureComponent {
   componentWillMount() {
-    const { bike, fetchSingleBike, match } = this.props;
-    if (!bike.id) {
-      fetchSingleBike(match.params.id);
-    }
+    const { bike, fetchSingleBike, fetchBikeIssues, match } = this.props;
+    if (!bike.id) fetchSingleBike(match.params.id);
+
+    fetchBikeIssues(match.params.id);
   }
 
   render() {
@@ -45,6 +46,13 @@ class BikeSingle extends React.PureComponent {
               <SInfoLabelSmaller>Battery</SInfoLabelSmaller>
               <SInfoText>{bike.battery}%</SInfoText>
             </SInfoLabelAndText>
+
+            {bike.issues.length > 0 && (
+              <div style={{ margin: '16px' }}>
+                <h2 style={{ textAlign: 'center' }}>Issues</h2>
+                <IssuesList issues={bike.issues} selectIssue={() => {}} />
+              </div>
+            )}
           </SInfo>
           <SLittleMap>
             <Map

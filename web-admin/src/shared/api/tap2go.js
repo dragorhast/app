@@ -370,3 +370,15 @@ export const apiBikeSingleFetch = async (authToken, bikeId) => {
   const result = await axiosBaseUrl.get(`/bikes/${bikeId}`, getConfig(authToken));
   return result.data.data.bike;
 };
+
+/**
+ * Ends point to get all of the issues associated with
+ * a bike
+ * @param authToken
+ * @param bikeId
+ * @returns {Promise<void>}
+ */
+export const apiBikeSingleFetchIssues = async (authToken, bikeId) => {
+  const result = await axiosBaseUrl.get(`/bikes/${bikeId}/issues`, getConfig(authToken));
+  return result.data.data.issues;
+};

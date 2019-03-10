@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { bikesFetch, BikePropTypes } from '../ducks/bikes';
-import { setBike, bikeSingleFetch } from '../ducks/bikeSingle';
+import { setBike, bikeSingleFetch, bikeSingleFetchIssues } from '../ducks/bikeSingle';
 
 export const BikesProps = {
   locale: PropTypes.string.isRequired,
@@ -18,6 +18,7 @@ export const BikesProps = {
   loading: PropTypes.bool.isRequired,
   fetchBikes: PropTypes.func.isRequired,
   fetchSingleBike: PropTypes.func.isRequired,
+  fetchBikeIssues: PropTypes.func.isRequired,
 };
 
 export default function withBikes(WrappedComponent) {
@@ -31,6 +32,7 @@ export default function withBikes(WrappedComponent) {
         bike,
         fetchBikes,
         fetchSingleBike,
+        fetchBikeIssues,
         setSingleReservationDisplay,
         ...restProps
       } = this.props;
@@ -42,6 +44,7 @@ export default function withBikes(WrappedComponent) {
           bike={bike}
           fetchBikes={fetchBikes}
           fetchSingleBike={fetchSingleBike}
+          fetchBikeIssues={fetchBikeIssues}
           setSingleBikeDisplay={setSingleReservationDisplay}
           {...restProps} // passes any others through
         />
@@ -64,6 +67,7 @@ export default function withBikes(WrappedComponent) {
     fetchBikes: bikesFetch,
     setSingleReservationDisplay: setBike,
     fetchSingleBike: bikeSingleFetch,
+    fetchBikeIssues: bikeSingleFetchIssues,
   };
 
   return connect(

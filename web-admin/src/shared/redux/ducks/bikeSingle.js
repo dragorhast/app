@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
-import { apiBikeSingleFetch } from '../../api/tap2go';
+import { apiBikeSingleFetch, apiBikeSingleFetchIssues } from '../../api/tap2go';
 import { Firebase } from '../../constants/firebase';
 import { pickupPointOrPrettyPrintCoords, bikeStatusFromString } from '../../util';
+import { IssueSinglePropTypes, getRawIssuesDataReady } from './issues';
 
 // Actions
 const BIKE_SINGLE_SET = 'BIKE_SINGLE_SET';
+const BIKE_SINGLE_ISSUES_SET = 'BIKE_SINGLE_ISSUES_SET';
 
 // Initial State
 const INITIAL_STATE = {
@@ -14,6 +16,7 @@ const INITIAL_STATE = {
   coordinates: [0, 0],
   status: '',
   battery: '',
+  issues: [],
 };
 
 // Prop Types
@@ -23,6 +26,11 @@ export const BikePropTypes = {
   coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
   status: PropTypes.string.isRequired,
   battery: PropTypes.number.isRequired,
+  issues: PropTypes.arrayOf(
+    PropTypes.shape({
+      ...IssueSinglePropTypes,
+    })
+  ),
 };
 
 // Reducer
@@ -31,6 +39,11 @@ export default function bikeSingleReducer(state = INITIAL_STATE, { type, payload
     case BIKE_SINGLE_SET:
       return {
         ...payload,
+      };
+    case BIKE_SINGLE_ISSUES_SET:
+      return {
+        ...state,
+        issues: payload,
       };
     default:
       return state;
@@ -49,6 +62,11 @@ export const setBike = ({ id, locationName, coordinates, status, battery }) => (
   },
 });
 
+export const setBikeIssues = issues => ({
+  type: BIKE_SINGLE_ISSUES_SET,
+  payload: issues,
+});
+
 // Thunks
 
 export const bikeSingleFetch = bikeId => async dispatch => {
@@ -60,7 +78,7 @@ export const bikeSingleFetch = bikeId => async dispatch => {
 
     const bikeRented = !bike.current_location;
 
-    dispatch(
+    await dispatch(
       setBike({
         id: bike.identifier,
         locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
@@ -71,7 +89,22 @@ export const bikeSingleFetch = bikeId => async dispatch => {
     );
     return dispatch(setStatus('loading', false));
   } catch (e) {
+    dispatch(setStatus('error', e.message));
+    throw e;
+  }
+};
+
+export const bikeSingleFetchIssues = bikeId => async dispatch => {
+  try {
     dispatch(setStatus('loading', true));
+
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+    const issuesRaw = await apiBikeSingleFetchIssues(authToken, bikeId);
+
+    await dispatch(setBikeIssues(getRawIssuesDataReady(issuesRaw)));
+    return dispatch(setStatus('loading', false));
+  } catch (e) {
+    dispatch(setStatus('error', e.message));
     throw e;
   }
 };
