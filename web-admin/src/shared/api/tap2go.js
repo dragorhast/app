@@ -212,6 +212,19 @@ export const apiIssueCreate = async (authToken, data) => {
 };
 
 /**
+ * Fetches all OPEN issues
+ *
+ * Must be admin to access
+ *
+ * @param authToken
+ * @returns {Promise<*>}
+ */
+export const apiIssuesFetch = async authToken => {
+  const result = await axiosBaseUrl.get('/issues', getConfig(authToken));
+  return result.data.data.issues;
+};
+
+/**
  * Gets all pickup points - at some point will
  * be in order of closes to current location and
  * within the range

@@ -125,7 +125,7 @@ export const reservationsFetch = (admin = false) => async dispatch => {
     }
 
     // Gets in to a state the store can understand
-    const reservations = getRawReservationDataReady(reservationsRaw);
+    const reservations = getRawReservationsDataReady(reservationsRaw);
 
     return dispatch(setReservationsList(reservations));
   } catch (e) {
@@ -170,7 +170,7 @@ export const reservationSingleFetch = reservationId => async dispatch => {
  * @param reservationsRaw
  * @returns {*}
  */
-export const getRawReservationDataReady = reservationsRaw =>
+export const getRawReservationsDataReady = reservationsRaw =>
   reservationsRaw.map(reservation => ({
     reservationId: reservation.id, // TODO remove
     datetime: reservation.reserved_for,

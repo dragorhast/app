@@ -8,7 +8,7 @@ const SArrowsAndLabel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 8px;
+  margin: 0;
 `;
 
 const SArrows = styled.div`

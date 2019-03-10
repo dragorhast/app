@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
 import { getRawBikeDataReady, setBikes } from './bikes';
-import { getRawReservationDataReady } from './reservationDisplay';
+import { getRawReservationsDataReady } from './reservationDisplay';
 import { pickupStateFromBikeCount } from '../../util';
 import { apiPickupFetchSingle, apiPickupFetchBikes, apiPickupFetchReservations } from '../../api/tap2go';
 // Actions
@@ -134,7 +134,7 @@ export const pickupReservationsFetch = pickupId => async dispatch => {
     const authToken = await Firebase.auth().currentUser.getIdToken();
     const reservationsRaw = await apiPickupFetchReservations(authToken, pickupId);
 
-    await dispatch(setPickupReservations(getRawReservationDataReady(reservationsRaw)));
+    await dispatch(setPickupReservations(getRawReservationsDataReady(reservationsRaw)));
     return dispatch(setStatus('loading', false));
   } catch (e) {
     console.log('Pickup point reservations failed ', e.message);

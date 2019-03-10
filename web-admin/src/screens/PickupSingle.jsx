@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import withPickupPoints, { PickupProps } from '../shared/redux/containers/PickupPointsContainer';
 import { SSingleScreen, SSingleHeading, SInfoLabelAndText, SInfoText } from '../styles/components/InfoSections';
-import BikeList from '../components/BikeList';
+import BikesList from '../components/BikesList';
 import ReservationList from '../components/ReservationsList';
 
 const S50Grid = styled.div`
@@ -41,7 +41,7 @@ class PickupSingle extends React.PureComponent {
           <SInfoText>Bikes Reserved</SInfoText>
           <div>
             <h2 style={{ textAlign: 'center' }}>Bikes</h2>
-            <BikeList bikes={pickupPointBikes} selectBike={() => {}} />
+            <BikesList bikes={pickupPointBikes} selectBike={() => {}} />
           </div>
           <div>
             <h2 style={{ textAlign: 'center' }}>Reservations</h2>

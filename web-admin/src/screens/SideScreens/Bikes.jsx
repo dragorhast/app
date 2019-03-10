@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withBikes, { BikesProps } from '../../shared/redux/containers/BikesContainer';
-import BikeList from '../../components/BikeList';
+import BikesList from '../../components/BikesList';
 import { SSideComponent } from '../../styles/components/SidePanelSections';
 import MapToListTabs from '../../components/MapToListTabs';
 
@@ -30,7 +30,7 @@ class Bikes extends React.PureComponent {
     return (
       <SSideComponent>
         {smallScreen && <MapToListTabs listView linkToMap="/bikes/map" />}
-        <BikeList bikes={bikes} selectBike={this.selectBike} />
+        <BikesList bikes={bikes} selectBike={this.selectBike} />
       </SSideComponent>
     );
   }

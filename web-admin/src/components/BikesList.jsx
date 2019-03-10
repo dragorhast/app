@@ -5,7 +5,7 @@ import BikeListItem from './BikeListItem';
 import ControlArrows from './ControlArrows';
 import { BikePropTypes } from '../shared/redux/ducks/bikes';
 
-class BikeList extends React.PureComponent {
+class BikesList extends React.PureComponent {
   render() {
     const { bikes, selectBike } = this.props;
     return (
@@ -29,7 +29,7 @@ class BikeList extends React.PureComponent {
   }
 }
 
-BikeList.propTypes = {
+BikesList.propTypes = {
   bikes: PropTypes.arrayOf(
     PropTypes.shape({
       ...BikePropTypes,
@@ -39,4 +39,4 @@ BikeList.propTypes = {
 };
 
 // TODO create + wrap in with bike controls
-export default BikeList;
+export default BikesList;

@@ -11,7 +11,7 @@ import './styles/App.css';
 import Theme from './styles/styledComponentTheme';
 
 // import Navbar from './components/Navbar';
-import LoggedInNavBar from './components/LoggedInNavBar';
+// import LoggedInNavBar from './components/LoggedInNavBar';
 
 import BikesSide from './screens/SideScreens/Bikes';
 import BikeMap from './screens/BikesMap';
@@ -24,6 +24,8 @@ import PickupSingle from './screens/PickupSingle';
 import ReservationsSide from './screens/SideScreens/Reservations';
 import ReservationSingle from './screens/ReservationSingle';
 import ReservationsHome from './screens/ReservationsHome';
+
+import IssuesSide from './screens/SideScreens/Issues';
 
 import SmallScreenRoute from './templates/SmallScreenRoute';
 import BigScreenRoute from './templates/BigScreenRoute';
@@ -60,7 +62,7 @@ class App extends Component {
             <PersistGate loading={<h2>Loading</h2>} persistor={persistor}>
               <Router>
                 <div className="route">
-                  {firebaseId && <Route path="/" component={LoggedInNavBar} />}
+                  {/* {firebaseId && <Route path="/" component={LoggedInNavBar} />} */}
                   {!firebaseId && <Route exact path="/login" component={Login} />}
                   <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
                   <SmallScreenRoute
@@ -110,6 +112,12 @@ class App extends Component {
                     Screen={ReservationSingle}
                     SidePanel={ReservationsSide}
                     loggedIn={!!firebaseId}
+                  />
+                  <SmallScreenRoute
+                    Component={IssuesSide}
+                    loggedIn={!!firebaseId}
+                    path="/issues"
+                    reroutePath="/issues"
                   />
                   <Route exact path="/not-authorized" component={MustBeLoggedIn} />
                 </div>
