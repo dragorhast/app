@@ -11,7 +11,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { pickupPointsFetch, PickupPropTypes } from '../ducks/pickups';
+import { pickupPointsFetch, PickupPropTypes, getPickupsWithFilters } from '../ducks/pickups';
 import { setPickup, pickupSingleFetch, pickupBikesFetch, pickupReservationsFetch } from '../ducks/pickupSingle';
 import { BikePropTypes } from '../ducks/bikeSingle';
 import { ReservationDisplaySingleProps } from '../ducks/reservationDisplay';
@@ -82,13 +82,13 @@ export default function withPickupPoints(WrappedComponent) {
     ...PickupProps,
   };
 
-  const mapStateToProps = state => ({
-    locale: state.locale.country,
-    pickups: state.pickups.pickups,
-    pickup: state.pickupSingle.pickup,
-    pickupPointBikes: state.pickupSingle.bikes,
-    pickupPointReservations: state.pickupSingle.reservations,
-    loading: state.pickups.loading,
+  const mapStateToProps = ({ locale, pickups, pickupSingle }) => ({
+    locale: locale.country,
+    pickups: getPickupsWithFilters(pickups.pickups, pickups.nameFilter, pickups.statusFilter),
+    pickup: pickupSingle.pickup,
+    pickupPointBikes: pickupSingle.bikes,
+    pickupPointReservations: pickupSingle.reservations,
+    loading: pickups.loading,
   });
 
   const mapDispatchToProp = {

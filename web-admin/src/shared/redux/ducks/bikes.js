@@ -12,8 +12,8 @@ const BIKES_FILTER_SET = 'BIKES_FILTER_SET';
 // Initial State
 const INITIAL_STATE = {
   loading: false,
-  locationFilter: true, // sorts ascending
-  statusFilter: true, // sorts ascending
+  locationFilter: 'asc', // sorts ascending
+  statusFilter: 'asc', // sorts ascending
   bikes: [],
 };
 // Prop Types
@@ -30,6 +30,7 @@ export default function bikesReducer(state = INITIAL_STATE, { type, payload }) {
       };
     case BIKES_SET:
       return {
+        ...state,
         loading: false,
         bikes: payload,
       };
@@ -47,14 +48,14 @@ export default function bikesReducer(state = INITIAL_STATE, { type, payload }) {
 export const setBikesLocationOrderAsc = boolean => ({
   type: BIKES_FILTER_SET,
   payload: {
-    locationName: boolean,
+    locationFilter: boolean ? 'asc' : 'desc',
   },
 });
 
 export const setBikesStatusFilterAsc = boolean => ({
   type: BIKES_FILTER_SET,
   payload: {
-    status: boolean,
+    statusFilter: boolean ? 'asc' : 'desc',
   },
 });
 
@@ -114,7 +115,7 @@ export const bikesFetch = () => async dispatch => {
 export const getBikesWithFilter = (bikes, locationFilter, statusFilter) =>
   _.orderBy(bikes, ['locationName', 'status'], [locationFilter, statusFilter]);
 
-// Helper functions
+// ******* Helper functions ******* //
 export const getRawBikeDataReady = bikesRaw => {
   return bikesRaw.map(bike => {
     // No current_location if rented

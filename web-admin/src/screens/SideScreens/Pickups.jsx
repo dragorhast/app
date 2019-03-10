@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 import ControlArrows from '../../components/ControlArrows';
 import PickupListItem from '../../components/PickupListItem';
 import { SSideComponent, SControlBar } from '../../styles/components/SidePanelSections';
 import MapToListTabs from '../../components/MapToListTabs';
+import { withPickupFilter, PickupFilterProps } from '../../shared/redux/containers/Filters/PickupFilters';
 
 class Pickups extends React.PureComponent {
   componentWillMount() {
@@ -26,7 +28,7 @@ class Pickups extends React.PureComponent {
   };
 
   render() {
-    const { pickups, smallScreen } = this.props;
+    const { pickups, smallScreen, setPickupNameOrderAsc, setPickupStatusOrderAsc } = this.props;
 
     return (
       <SSideComponent>
@@ -34,13 +36,13 @@ class Pickups extends React.PureComponent {
         <SControlBar>
           <ControlArrows
             label="Name"
-            onUpPress={() => console.log('up press')}
-            onDownPress={() => console.log('down press')}
+            onUpPress={() => setPickupNameOrderAsc(true)}
+            onDownPress={() => setPickupNameOrderAsc(false)}
           />
           <ControlArrows
             label="Status"
-            onUpPress={() => console.log('up press')}
-            onDownPress={() => console.log('down press')}
+            onUpPress={() => setPickupStatusOrderAsc(true)}
+            onDownPress={() => setPickupStatusOrderAsc(false)}
           />
         </SControlBar>
         {pickups &&
@@ -55,10 +57,14 @@ class Pickups extends React.PureComponent {
 
 Pickups.propTypes = {
   ...PickupProps,
+  ...PickupFilterProps,
   smallScreen: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default withPickups(Pickups);
+export default compose(
+  withPickups,
+  withPickupFilter
+)(Pickups);
