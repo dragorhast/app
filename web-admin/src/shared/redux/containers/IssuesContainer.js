@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { IssueSinglePropTypes, issuesFetch } from '../ducks/issues';
+import { IssueSinglePropTypes, issuesFetch, setSingleIssueDisplay } from '../ducks/issues';
 
 export const IssuesProps = {
   locale: PropTypes.string.isRequired,
@@ -16,9 +16,17 @@ export const IssuesProps = {
 export default function withIssues(WrappedComponent) {
   class IssuesContainer extends React.PureComponent {
     render() {
-      const { locale, issues, fetchIssues } = this.props;
+      const { locale, issues, fetchIssues, setSingleIssueDisplay, ...restProps } = this.props;
 
-      return <WrappedComponent locale={locale} issues={issues} fetchIssues={fetchIssues} />;
+      return (
+        <WrappedComponent
+          locale={locale}
+          issues={issues}
+          fetchIssues={fetchIssues}
+          setSingleIssueDisplay={setSingleIssueDisplay}
+          {...restProps}
+        />
+      );
     }
   }
   IssuesContainer.propTypes = {
@@ -32,6 +40,7 @@ export default function withIssues(WrappedComponent) {
 
   const mapDispatchToProps = {
     fetchIssues: issuesFetch,
+    setSingleIssueDisplay,
   };
 
   return connect(

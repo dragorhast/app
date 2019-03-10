@@ -26,6 +26,7 @@ import ReservationSingle from './screens/ReservationSingle';
 import ReservationsHome from './screens/ReservationsHome';
 
 import IssuesSide from './screens/SideScreens/Issues';
+import IssueSingle from './screens/IssueSingle';
 
 import SmallScreenRoute from './templates/SmallScreenRoute';
 import BigScreenRoute from './templates/BigScreenRoute';
@@ -118,6 +119,12 @@ class App extends Component {
                     loggedIn={!!firebaseId}
                     path="/issues"
                     reroutePath="/issues"
+                  />
+                  <BigScreenRoute
+                    path="/issues/single/:id"
+                    Screen={IssueSingle}
+                    SidePanel={IssuesSide}
+                    loggedIn={!!firebaseId}
                   />
                   <Route exact path="/not-authorized" component={MustBeLoggedIn} />
                 </div>

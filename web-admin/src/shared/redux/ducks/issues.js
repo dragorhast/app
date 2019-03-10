@@ -5,7 +5,7 @@ import { Firebase } from '../../constants/firebase';
 
 // Prop Types
 export const IssueSinglePropTypes = {
-  id: PropTypes.string,
+  id: PropTypes.number,
   type: PropTypes.string,
   status: PropTypes.string,
   datetime: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
@@ -24,6 +24,7 @@ const INITIAL_STATE = {
 
 // Actions
 const ISSUES_SET_LIST = 'ISSUES_SET_LIST';
+const ISSUES_SET_SINGLE = 'ISSUES_SET_SINGLE';
 
 // Reducer
 export default function issueReducer(state = INITIAL_STATE, { type, payload }) {
@@ -32,6 +33,11 @@ export default function issueReducer(state = INITIAL_STATE, { type, payload }) {
       return {
         ...state,
         issuesList: payload,
+      };
+    case ISSUES_SET_SINGLE:
+      return {
+        ...state,
+        issueSingle: payload,
       };
     default:
       return state;
@@ -42,6 +48,11 @@ export default function issueReducer(state = INITIAL_STATE, { type, payload }) {
 const setIssueList = issues => ({
   type: ISSUES_SET_LIST,
   payload: issues,
+});
+
+export const setSingleIssueDisplay = ({ id, type, status, datetime }) => ({
+  type: ISSUES_SET_SINGLE,
+  payload: { id, type, status, datetime },
 });
 
 // Thunks

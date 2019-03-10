@@ -13,7 +13,7 @@ const SControlBar3 = styled(SListItem3Columns)`
 
 class IssuesList extends React.PureComponent {
   render() {
-    const { issues } = this.props;
+    const { issues, selectIssue } = this.props;
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <SControlBar3>
@@ -33,7 +33,7 @@ class IssuesList extends React.PureComponent {
             onDownPress={() => console.log('down press')}
           />
         </SControlBar3>
-        {issues && issues.map(issue => <IssueListItem key={issue.id} selectIssues={() => {}} issue={issue} />)}
+        {issues && issues.map(issue => <IssueListItem key={issue.id} selectIssues={selectIssue} issue={issue} />)}
       </div>
     );
   }
@@ -45,6 +45,7 @@ IssuesList.propTypes = {
       ...IssueSinglePropTypes,
     })
   ).isRequired,
+  selectIssue: PropTypes.func.isRequired,
 };
 
 export default IssuesList;
