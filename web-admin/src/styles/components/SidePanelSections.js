@@ -15,7 +15,7 @@ export const SListItem = styled.div`
   grid-column-gap: 5%;
 
   justify-items: start;
-  align-items: center;
+  align-items: flex-end;
 
   // height + width
   width: 100%;

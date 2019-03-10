@@ -22,6 +22,7 @@ const SArrow = styled.span`
   color: ${props => props.theme.primary}; // TODO set to primary - theme
   :hover {
     cursor: pointer;
+    opacity: 0.6;
   }
 `;
 

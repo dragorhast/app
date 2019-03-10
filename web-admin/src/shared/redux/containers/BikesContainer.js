@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { bikesFetch, BikePropTypes } from '../ducks/bikes';
+import { bikesFetch, BikePropTypes, getBikesWithFilter } from '../ducks/bikes';
 import { setBike, bikeSingleFetch, bikeSingleFetchIssues } from '../ducks/bikeSingle';
 
 export const BikesProps = {
@@ -56,11 +56,11 @@ export default function withBikes(WrappedComponent) {
     ...BikesProps,
   };
 
-  const mapStateToProps = state => ({
-    locale: state.locale.country,
-    loading: state.bikes.loading,
-    bikes: state.bikes.bikes,
-    bike: state.bikeSingle,
+  const mapStateToProps = ({ locale, bikes, bikeSingle }) => ({
+    locale: locale.country,
+    loading: bikes.loading,
+    bikes: getBikesWithFilter(bikes.bikes, bikes.locationFilter, bikes.statusFilter),
+    bike: bikeSingle,
   });
 
   const mapDispatchToProp = {

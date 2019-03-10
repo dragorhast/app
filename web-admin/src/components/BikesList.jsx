@@ -4,22 +4,23 @@ import { SControlBar } from '../styles/components/SidePanelSections';
 import BikeListItem from './BikeListItem';
 import ControlArrows from './ControlArrows';
 import { BikePropTypes } from '../shared/redux/ducks/bikes';
+import { withBikeFilter, BikeFilterProps } from '../shared/redux/containers/Filters/BikesFilters';
 
 class BikesList extends React.PureComponent {
   render() {
-    const { bikes, selectBike } = this.props;
+    const { bikes, selectBike, setBikesLocationOrderAsc, setBikesStatusFilterAsc } = this.props;
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <SControlBar>
           <ControlArrows
             label="Location"
-            onUpPress={() => console.log('up press')}
-            onDownPress={() => console.log('down press')}
+            onUpPress={() => setBikesLocationOrderAsc(true)}
+            onDownPress={() => setBikesLocationOrderAsc(false)}
           />
           <ControlArrows
             label="Status"
-            onUpPress={() => console.log('up press')}
-            onDownPress={() => console.log('down press')}
+            onUpPress={() => setBikesStatusFilterAsc(true)}
+            onDownPress={() => setBikesStatusFilterAsc(false)}
           />
         </SControlBar>
         {bikes && bikes.map(bike => <BikeListItem key={bike.id} bike={bike} selectBike={() => selectBike(bike)} />)}
@@ -30,6 +31,7 @@ class BikesList extends React.PureComponent {
 }
 
 BikesList.propTypes = {
+  ...BikeFilterProps,
   bikes: PropTypes.arrayOf(
     PropTypes.shape({
       ...BikePropTypes,
@@ -39,4 +41,4 @@ BikesList.propTypes = {
 };
 
 // TODO create + wrap in with bike controls
-export default BikesList;
+export default withBikeFilter(BikesList);

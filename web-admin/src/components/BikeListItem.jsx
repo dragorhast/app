@@ -16,9 +16,9 @@ const SStatus = styled.span`
 `;
 const BikeListItem = ({ bike, selectBike }) => (
   <SListItem onClick={() => selectBike(bike)}>
-    <div>
-      {bike.id}
-      {bike.location}
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <span>{bike.id}</span>
+      <span>{bike.locationName}</span>
     </div>
     <SStatus status={bike.status}> {bike.status}</SStatus>
   </SListItem>
