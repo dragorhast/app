@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
@@ -35,9 +36,12 @@ const RESERVATION_DISPLAY_SET_SINGLE = 'RESERVATION_DISPLAY_SET_SINGLE';
 const RESERVATION_DISPLAY_SET_FIELD = 'RESERVATION_DISPLAY_SET_FIELD';
 const RESERVATION_DISPLAY_CLEAR_SINGLE = 'RESERVATION_DISPLAY_CLEAR_SINGLE';
 const RESERVATION_DISPLAY_SET_LIST = 'RESERVATION_DISPLAY_SET_LIST';
+const RESERVATION_DISPLAY_FILTERS_SET = 'RESERVATION_DISPLAY_FILTERS_SET';
 
 // Initial State
 const INITIAL_STATE = {
+  pickupNameFilter: 'asc',
+  timeFilter: 'asc',
   list: [],
   reservationId: null,
   pickupId: null,
@@ -69,11 +73,30 @@ export default function reservationDisplayReducer(state = INITIAL_STATE, { type,
       };
     case RESERVATION_DISPLAY_CLEAR_SINGLE:
       return INITIAL_STATE;
+    case RESERVATION_DISPLAY_FILTERS_SET:
+      return {
+        ...state,
+        ...payload,
+      };
     default:
       return state;
   }
 }
 // Action Creators
+export const setReservationNameOrderAsc = boolean => ({
+  type: RESERVATION_DISPLAY_FILTERS_SET,
+  payload: {
+    pickupNameFilter: boolean ? 'asc' : 'desc',
+  },
+});
+
+export const setReservationTimeOrderAsc = boolean => ({
+  type: RESERVATION_DISPLAY_FILTERS_SET,
+  payload: {
+    timeFilter: boolean ? 'asc' : 'desc',
+  },
+});
+
 export const setSingleReservationDisplay = ({ reservationId, pickupId, pickupName, pickupLocation, datetime }) => ({
   type: RESERVATION_DISPLAY_SET_SINGLE,
   payload: {
@@ -162,6 +185,10 @@ export const reservationSingleFetch = reservationId => async dispatch => {
     dispatch(setStatus('error', `Unable to get reservation ${reservationId} from the API`));
   }
 };
+
+// Selectors
+export const getReservationsWithFilter = (reservations, pickupNameFilter, timeFilter) =>
+  _.orderBy(reservations, ['pickupName', 'datetime'], [pickupNameFilter, timeFilter]);
 
 // ****** Helper Function ****** //
 /**

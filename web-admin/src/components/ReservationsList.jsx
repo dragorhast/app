@@ -5,22 +5,26 @@ import { SControlBar } from '../styles/components/SidePanelSections';
 import ReservationListItem from './ReservationListItem';
 import ControlArrows from './ControlArrows';
 import { ReservationDisplaySingleProps } from '../shared/redux/ducks/reservationDisplay';
+import {
+  withReservationsFilters,
+  ReservationsFilterProps,
+} from '../shared/redux/containers/Filters/ReservationsFilters';
 
 class ReservationsList extends React.PureComponent {
   render() {
-    const { reservations, selectReservation } = this.props;
+    const { reservations, selectReservation, setReservationNameOrderAsc, setReservationTimeOrderAsc } = this.props;
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <SControlBar>
           <ControlArrows
             label="Pickup Points"
-            onUpPress={() => console.log('up press')}
-            onDownPress={() => console.log('down press')}
+            onUpPress={() => setReservationNameOrderAsc(false)}
+            onDownPress={() => setReservationNameOrderAsc(true)}
           />
           <ControlArrows
             label="Time"
-            onUpPress={() => console.log('up press')}
-            onDownPress={() => console.log('down press')}
+            onUpPress={() => setReservationTimeOrderAsc(false)}
+            onDownPress={() => setReservationTimeOrderAsc(true)}
           />
         </SControlBar>
         {reservations &&
@@ -39,6 +43,7 @@ class ReservationsList extends React.PureComponent {
 }
 
 ReservationsList.propTypes = {
+  ...ReservationsFilterProps,
   reservations: PropTypes.arrayOf(
     PropTypes.shape({
       ...ReservationDisplaySingleProps,
@@ -48,4 +53,4 @@ ReservationsList.propTypes = {
 };
 
 // TODO create + wrap with reservation controls
-export default ReservationsList;
+export default withReservationsFilters(ReservationsList);

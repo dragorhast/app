@@ -12,6 +12,7 @@ import {
   setSingleReservationDisplay,
   ReservationDisplayPropTypes,
   ReservationDisplaySingleProps,
+  getReservationsWithFilter,
 } from '../ducks/reservationDisplay';
 
 export const ReservationDisplayProps = {
@@ -62,10 +63,14 @@ export default function withReservationDisplay(WrappedComponent) {
     ...ReservationDisplayProps,
   };
 
-  const mapStateToProps = state => ({
-    locale: state.locale.country,
-    reserveDisplay: state.reserveDisplay,
-    reservations: state.reserveDisplay.list,
+  const mapStateToProps = ({ locale, reserveDisplay }) => ({
+    locale: locale.country,
+    reserveDisplay,
+    reservations: getReservationsWithFilter(
+      reserveDisplay.list,
+      reserveDisplay.pickupNameFilter,
+      reserveDisplay.timeFilter
+    ),
   });
 
   const mapDispatchToProp = {
