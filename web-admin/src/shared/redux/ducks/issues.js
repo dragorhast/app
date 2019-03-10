@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { setStatus } from './status';
 import { apiIssueCreate, apiIssuesFetch, apiIssueFetchSingle } from '../../api/tap2go';
 import { Firebase } from '../../constants/firebase';
@@ -16,6 +17,9 @@ export const IssueSinglePropTypes = {
 
 // Initial State
 const INITIAL_STATE = {
+  statusFilter: 'asc',
+  typeFilter: 'asc',
+  timeFilter: 'asc',
   issuesList: [],
   issueSingle: {
     id: '',
@@ -31,6 +35,7 @@ const INITIAL_STATE = {
 // Actions
 const ISSUES_SET_LIST = 'ISSUES_SET_LIST';
 const ISSUES_SET_SINGLE = 'ISSUES_SET_SINGLE';
+const ISSUES_FILTER_SET = 'ISSUES_FILTER_SET';
 
 // Reducer
 export default function issueReducer(state = INITIAL_STATE, { type, payload }) {
@@ -45,12 +50,38 @@ export default function issueReducer(state = INITIAL_STATE, { type, payload }) {
         ...state,
         issueSingle: payload,
       };
+    case ISSUES_FILTER_SET:
+      return {
+        ...state,
+        ...payload,
+      };
     default:
       return state;
   }
 }
 
 // Action Creators
+export const setIssuesStatusOrderAsc = boolean => ({
+  type: ISSUES_FILTER_SET,
+  payload: {
+    statusFilter: boolean ? 'asc' : 'desc',
+  },
+});
+
+export const setIssuesTypeOrderAsc = boolean => ({
+  type: ISSUES_FILTER_SET,
+  payload: {
+    typeFilter: boolean ? 'asc' : 'desc',
+  },
+});
+
+export const setIssuesTimeOrderAsc = boolean => ({
+  type: ISSUES_FILTER_SET,
+  payload: {
+    timeFilter: boolean ? 'asc' : 'desc',
+  },
+});
+
 const setIssueList = issues => ({
   type: ISSUES_SET_LIST,
   payload: issues,
@@ -120,6 +151,10 @@ export const issueReport = ({ bikeId, description }) => async dispatch => {
     return Promise.resolve();
   }
 };
+
+// Selectors
+export const getIssuesWithFilter = (issues, statusFilter, typeFilter, timeFilter) =>
+  _.orderBy(issues, ['status', 'type', 'datetime'], [statusFilter, typeFilter, timeFilter]);
 
 // ****** Helper Functions ***** //
 export const getRawIssuesDataReady = issuesRaw => issuesRaw.map(issue => getSingleRawIssueDataReady(issue));

@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { IssueSinglePropTypes, issuesFetch, issueFetchSingle, setSingleIssueDisplay } from '../ducks/issues';
+import {
+  IssueSinglePropTypes,
+  issuesFetch,
+  issueFetchSingle,
+  setSingleIssueDisplay,
+  getIssuesWithFilter,
+} from '../ducks/issues';
 
 export const IssuesProps = {
   locale: PropTypes.string.isRequired,
@@ -40,10 +46,10 @@ export default function withIssues(WrappedComponent) {
     ...IssuesProps,
   };
 
-  const mapStateToProps = state => ({
-    locale: state.locale.country,
-    issues: state.issues.issuesList,
-    issue: state.issues.issueSingle,
+  const mapStateToProps = ({ locale, issues }) => ({
+    locale: locale.country,
+    issues: getIssuesWithFilter(issues.issuesList, issues.statusFilter, issues.typeFilter, issues.timeFilter),
+    issue: issues.issueSingle,
   });
 
   const mapDispatchToProps = {
