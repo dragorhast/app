@@ -8,7 +8,7 @@ export const IssueSinglePropTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
   bikeId: PropTypes.string,
-  userId: PropTypes.string,
+  userId: PropTypes.number,
   status: PropTypes.string,
   datetime: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
   desc: PropTypes.string,

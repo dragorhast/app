@@ -353,7 +353,7 @@ export const apiReservationSingleFetch = async (authToken, reservationId) => {
  * @returns {Promise<*>}
  */
 export const apiBikesFetch = async authToken => {
-  console.log(authToken);
+  // console.log(authToken);
   const result = await axiosBaseUrl.get('/bikes', getConfig(authToken));
   return result.data.data.bikes;
 };

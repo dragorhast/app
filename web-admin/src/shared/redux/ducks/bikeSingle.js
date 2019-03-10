@@ -38,6 +38,7 @@ export default function bikeSingleReducer(state = INITIAL_STATE, { type, payload
   switch (type) {
     case BIKE_SINGLE_SET:
       return {
+        ...state,
         ...payload,
       };
     case BIKE_SINGLE_ISSUES_SET:
@@ -101,6 +102,7 @@ export const bikeSingleFetchIssues = bikeId => async dispatch => {
     const authToken = await Firebase.auth().currentUser.getIdToken();
     const issuesRaw = await apiBikeSingleFetchIssues(authToken, bikeId);
 
+    console.log('Issues Raw: ', issuesRaw, ' with Id: ', bikeId);
     await dispatch(setBikeIssues(getRawIssuesDataReady(issuesRaw)));
     return dispatch(setStatus('loading', false));
   } catch (e) {

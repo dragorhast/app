@@ -61,14 +61,6 @@ const SGrid = styled.div`
   }
 `;
 
-// const SDescription = styled.div`
-//   border-radius: 8px;
-//   border: 2px solid lavender;
-//   width: 320px;
-//   min-height: 64px;
-//   padding: 8px;
-// `;
-
 const STextArea = styled.textarea`
   width: 320px;
   min-height: 64px;
@@ -92,14 +84,13 @@ class IssueSingle extends React.PureComponent {
 
   componentWillMount() {
     const { issue, fetchSingleIssue, match } = this.props;
-    const { selectedUpdateIssueOption } = this.state;
     if (!issue.id) fetchSingleIssue(match.params.id);
-    console.log(selectedUpdateIssueOption);
     this.selectOption = this.selectOption.bind(this);
   }
 
   selectOption = option => {
-    console.log(option);
+    const { selectedUpdateIssueOption } = this.state;
+    console.log('Before Selection: ', selectedUpdateIssueOption);
     this.setState({ selectedUpdateIssueOption: option.value });
   };
 

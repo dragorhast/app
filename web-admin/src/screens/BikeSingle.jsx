@@ -18,9 +18,24 @@ import IssuesList from '../components/IssuesList';
 class BikeSingle extends React.PureComponent {
   componentWillMount() {
     const { bike, fetchSingleBike, fetchBikeIssues, match } = this.props;
-    if (!bike.id) fetchSingleBike(match.params.id);
-
+    if (!bike.id) {
+      fetchSingleBike(match.params.id);
+    }
     fetchBikeIssues(match.params.id);
+  }
+
+  /**
+   * If there is a change to bike id passed
+   * as props then re-fetch the bike's issues
+   * @param prevProps
+   */
+  componentDidUpdate(prevProps) {
+    const { bike, fetchBikeIssues } = this.props;
+    if (bike.id !== prevProps.bike.id) {
+      console.log(bike);
+      console.log('Prev props: ', prevProps);
+      fetchBikeIssues(bike.id);
+    }
   }
 
   render() {
