@@ -47,7 +47,7 @@ class BikeSingle extends React.PureComponent {
               <SInfoText>{bike.battery}%</SInfoText>
             </SInfoLabelAndText>
 
-            {bike.issues.length > 0 && (
+            {bike.issues && bike.issues.length > 0 && (
               <div style={{ margin: '16px' }}>
                 <h2 style={{ textAlign: 'center' }}>Issues</h2>
                 <IssuesList issues={bike.issues} selectIssue={() => {}} />

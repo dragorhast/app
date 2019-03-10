@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { SListItem } from '../styles/components/SidePanelSections';
 import { BikePropTypes } from '../shared/redux/ducks/bikeSingle';
 
-// TODO set all colours from theme
 const SStatus = styled.span`
   color: ${props => {
     switch (props.status) {
