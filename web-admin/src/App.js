@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
@@ -66,6 +66,7 @@ class App extends Component {
                   {firebaseId && <Route path="/" component={LoggedInNavBar} />}
                   {!firebaseId && <Route exact path="/login" component={Login} />}
                   <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
+                  <Route exact path="/" render={() => <Redirect from="/" to="/bikes" />} />
                   <SmallScreenRoute
                     path="/bikes"
                     Component={BikesSide}
