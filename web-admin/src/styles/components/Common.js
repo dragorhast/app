@@ -24,13 +24,21 @@ export const S2x50PercGrid = styled.div`
 
 export const SButton = styled.button`
   border-radius: 8px;
-  border: 2px solid lavender;
+  border: 2px solid hsl(0, 0%, 80%);
   padding: 8px 16px;
   font-size: 24px;
 
+  ${props =>
+    props.primary &&
+    `
+  background-color: ${props.theme.primary};
+  color: white;
+  border: none;
+  
   :hover {
-    background-color: lavender;
-  }
+    opacity: 0.6;
+   }
+  `}
 
   a {
     text-decoration: none;

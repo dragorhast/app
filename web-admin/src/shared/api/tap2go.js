@@ -224,6 +224,11 @@ export const apiIssuesFetch = async authToken => {
   return result.data.data.issues;
 };
 
+export const apiIssueFetchSingle = async (authToken, issueId) => {
+  const result = await axiosBaseUrl.get(`/issues/${issueId}`, getConfig(authToken));
+  return result.data.data.issue;
+};
+
 /**
  * Gets all pickup points - at some point will
  * be in order of closes to current location and

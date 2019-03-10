@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
 import CONFIG from '../shared/constants/config';
 import withBikes, { BikesProps } from '../shared/redux/containers/BikesContainer';
@@ -12,12 +11,8 @@ import {
   SInfoLabelAndText,
   SInfoLabelSmaller,
   SInfoText,
+  SLittleMap,
 } from '../styles/components/InfoSections';
-
-const SLittleMap = styled.div`
-  width: 240px;
-  height: 240px;
-`;
 
 class BikeSingle extends React.PureComponent {
   componentWillMount() {

@@ -11,7 +11,7 @@ import './styles/App.css';
 import Theme from './styles/styledComponentTheme';
 
 // import Navbar from './components/Navbar';
-// import LoggedInNavBar from './components/LoggedInNavBar';
+import LoggedInNavBar from './components/LoggedInNavBar';
 
 import BikesSide from './screens/SideScreens/Bikes';
 import BikeMap from './screens/BikesMap';
@@ -63,7 +63,7 @@ class App extends Component {
             <PersistGate loading={<h2>Loading</h2>} persistor={persistor}>
               <Router>
                 <div className="route">
-                  {/* {firebaseId && <Route path="/" component={LoggedInNavBar} />} */}
+                  {firebaseId && <Route path="/" component={LoggedInNavBar} />}
                   {!firebaseId && <Route exact path="/login" component={Login} />}
                   <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
                   <SmallScreenRoute
@@ -118,7 +118,7 @@ class App extends Component {
                     Component={IssuesSide}
                     loggedIn={!!firebaseId}
                     path="/issues"
-                    reroutePath="/issues"
+                    reroutePath="/issues/single/1"
                   />
                   <BigScreenRoute
                     path="/issues/single/:id"

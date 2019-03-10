@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { IssueSinglePropTypes, issuesFetch, setSingleIssueDisplay } from '../ducks/issues';
+import { IssueSinglePropTypes, issuesFetch, issueFetchSingle, setSingleIssueDisplay } from '../ducks/issues';
 
 export const IssuesProps = {
   locale: PropTypes.string.isRequired,
@@ -11,18 +11,25 @@ export const IssuesProps = {
     })
   ).isRequired,
   fetchIssues: PropTypes.func.isRequired,
+  issue: PropTypes.shape({
+    ...IssueSinglePropTypes,
+  }).isRequired,
+  fetchSingleIssue: PropTypes.func.isRequired,
+  setSingleIssueDisplay: PropTypes.func.isRequired,
 };
 
 export default function withIssues(WrappedComponent) {
   class IssuesContainer extends React.PureComponent {
     render() {
-      const { locale, issues, fetchIssues, setSingleIssueDisplay, ...restProps } = this.props;
+      const { locale, issues, fetchIssues, issue, fetchSingleIssue, setSingleIssueDisplay, ...restProps } = this.props;
 
       return (
         <WrappedComponent
           locale={locale}
           issues={issues}
           fetchIssues={fetchIssues}
+          issue={issue}
+          fetchSingleIssue={fetchSingleIssue}
           setSingleIssueDisplay={setSingleIssueDisplay}
           {...restProps}
         />
@@ -36,10 +43,12 @@ export default function withIssues(WrappedComponent) {
   const mapStateToProps = state => ({
     locale: state.locale.country,
     issues: state.issues.issuesList,
+    issue: state.issues.issueSingle,
   });
 
   const mapDispatchToProps = {
     fetchIssues: issuesFetch,
+    fetchSingleIssue: issueFetchSingle,
     setSingleIssueDisplay,
   };
 
