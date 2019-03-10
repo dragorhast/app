@@ -14,7 +14,7 @@ class Issues extends React.PureComponent {
   selectIssue = async issue => {
     const { setSingleIssueDisplay, history } = this.props;
     await setSingleIssueDisplay({ ...issue });
-    history.push(`issues/single/${issue.id}`);
+    history.push(`/issues/single/${issue.id}`);
   };
 
   render() {
