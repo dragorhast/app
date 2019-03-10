@@ -32,8 +32,6 @@ class BikeSingle extends React.PureComponent {
   componentDidUpdate(prevProps) {
     const { bike, fetchBikeIssues } = this.props;
     if (bike.id !== prevProps.bike.id) {
-      console.log(bike);
-      console.log('Prev props: ', prevProps);
       fetchBikeIssues(bike.id);
     }
   }

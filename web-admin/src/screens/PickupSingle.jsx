@@ -16,14 +16,26 @@ const S50Grid = styled.div`
 
 class PickupSingle extends React.PureComponent {
   componentWillMount() {
-    const { pickup, fetchSinglePickup, match, fetchPickupBikes, fetchPickupReservations } = this.props;
+    const { pickup, fetchSinglePickup, fetchPickupBikes, fetchPickupReservations, match } = this.props;
     const pickupId = match.params.id;
-    if (!pickup.pickupId) {
-      fetchSinglePickup(pickupId);
-    }
+    if (!pickup.pickupId) fetchSinglePickup(pickupId);
 
-    fetchPickupBikes(pickupId);
-    fetchPickupReservations(pickupId);
+    fetchPickupBikes(pickup.pickupId);
+    fetchPickupReservations(pickup.pickupId);
+  }
+
+  /**
+   * If there is a change in the pickupId
+   * then  fetch the bikes + reservations
+   * for the new pickup point
+   * @param prevProps
+   */
+  componentDidUpdate(prevProps) {
+    const { pickup, fetchPickupBikes, fetchPickupReservations } = this.props;
+    if (pickup.pickupId !== prevProps.pickup.pickupId) {
+      fetchPickupBikes(pickup.pickupId);
+      fetchPickupReservations(pickup.pickupId);
+    }
   }
 
   render() {
