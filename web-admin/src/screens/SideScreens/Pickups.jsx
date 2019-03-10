@@ -6,7 +6,7 @@ import ControlArrows from '../../components/ControlArrows';
 import PickupListItem from '../../components/PickupListItem';
 import { SSideComponent, SControlBar } from '../../styles/components/SidePanelSections';
 import MapToListTabs from '../../components/MapToListTabs';
-import { withPickupFilter, PickupFilterProps } from '../../shared/redux/containers/Filters/PickupFilters';
+import { withPickupFilter, PickupFilterProps } from '../../shared/redux/containers/Filters/PickupsFilters';
 
 class Pickups extends React.PureComponent {
   componentWillMount() {
@@ -36,13 +36,13 @@ class Pickups extends React.PureComponent {
         <SControlBar>
           <ControlArrows
             label="Name"
-            onUpPress={() => setPickupNameOrderAsc(true)}
-            onDownPress={() => setPickupNameOrderAsc(false)}
+            onUpPress={() => setPickupNameOrderAsc(false)}
+            onDownPress={() => setPickupNameOrderAsc(true)}
           />
           <ControlArrows
             label="Status"
-            onUpPress={() => setPickupStatusOrderAsc(true)}
-            onDownPress={() => setPickupStatusOrderAsc(false)}
+            onUpPress={() => setPickupStatusOrderAsc(false)}
+            onDownPress={() => setPickupStatusOrderAsc(true)}
           />
         </SControlBar>
         {pickups &&

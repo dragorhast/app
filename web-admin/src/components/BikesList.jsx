@@ -14,13 +14,13 @@ class BikesList extends React.PureComponent {
         <SControlBar>
           <ControlArrows
             label="Location"
-            onUpPress={() => setBikesLocationOrderAsc(true)}
-            onDownPress={() => setBikesLocationOrderAsc(false)}
+            onUpPress={() => setBikesLocationOrderAsc(false)}
+            onDownPress={() => setBikesLocationOrderAsc(true)}
           />
           <ControlArrows
             label="Status"
-            onUpPress={() => setBikesStatusFilterAsc(true)}
-            onDownPress={() => setBikesStatusFilterAsc(false)}
+            onUpPress={() => setBikesStatusFilterAsc(false)}
+            onDownPress={() => setBikesStatusFilterAsc(true)}
           />
         </SControlBar>
         {bikes && bikes.map(bike => <BikeListItem key={bike.id} bike={bike} selectBike={() => selectBike(bike)} />)}
