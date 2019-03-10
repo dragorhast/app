@@ -6,7 +6,7 @@ import ControlArrows from '../../components/ControlArrows';
 import PickupListItem from '../../components/PickupListItem';
 import { SSideComponent, SControlBar } from '../../styles/components/SidePanelSections';
 import MapToListTabs from '../../components/MapToListTabs';
-import { withPickupFilter, PickupFilterProps } from '../../shared/redux/containers/Filters/PickupsFilters';
+import { withPickupsFilters, PickupsFiltersProps } from '../../shared/redux/containers/Filters/PickupsFilters';
 
 class Pickups extends React.PureComponent {
   componentWillMount() {
@@ -57,7 +57,7 @@ class Pickups extends React.PureComponent {
 
 Pickups.propTypes = {
   ...PickupProps,
-  ...PickupFilterProps,
+  ...PickupsFiltersProps,
   smallScreen: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -66,5 +66,5 @@ Pickups.propTypes = {
 
 export default compose(
   withPickups,
-  withPickupFilter
+  withPickupsFilters
 )(Pickups);

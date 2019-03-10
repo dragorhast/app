@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setIssuesStatusOrderAsc, setIssuesTypeOrderAsc, setIssuesTimeOrderAsc } from '../../ducks/issues';
 
-export const IssuesFilterProps = {
+export const IssuesFiltersProps = {
   setIssuesStatusOrderAsc: PropTypes.func,
   setIssuesTypeOrderAsc: PropTypes.func,
   setIssuesTimeOrderAsc: PropTypes.func,
 };
 
-export const withIssuesFilter = WrappedComponent => {
-  class IssuesFilter extends React.PureComponent {
+export const withIssuesFilters = WrappedComponent => {
+  class IssuesFilters extends React.PureComponent {
     render() {
       const { setIssuesStatusOrderAsc, setIssuesTypeOrderAsc, setIssuesTimeOrderAsc, ...restProps } = this.props;
 
@@ -25,8 +25,8 @@ export const withIssuesFilter = WrappedComponent => {
     }
   }
 
-  IssuesFilter.propTypes = {
-    ...IssuesFilterProps,
+  IssuesFilters.propTypes = {
+    ...IssuesFiltersProps,
   };
 
   const mapDispatchToProps = {
@@ -38,5 +38,5 @@ export const withIssuesFilter = WrappedComponent => {
   return connect(
     null,
     mapDispatchToProps
-  )(IssuesFilter);
+  )(IssuesFilters);
 };

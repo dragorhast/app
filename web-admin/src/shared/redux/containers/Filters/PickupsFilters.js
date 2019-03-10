@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setPickupNameOrderAsc, setPickupStatusOrderAsc } from '../../ducks/pickups';
 
-export const PickupFilterProps = {
+export const PickupsFiltersProps = {
   setPickupNameOrderAsc: PropTypes.func,
   setPickupStatusOrderAsc: PropTypes.func,
 };
 
-export const withPickupFilter = WrappedComponent => {
-  class PickupFilter extends React.PureComponent {
+export const withPickupsFilters = WrappedComponent => {
+  class PickupsFilters extends React.PureComponent {
     render() {
       const { setPickupNameOrderAsc, setPickupStatusOrderAsc, ...restProps } = this.props;
 
@@ -23,8 +23,8 @@ export const withPickupFilter = WrappedComponent => {
     }
   }
 
-  PickupFilter.propTypes = {
-    ...PickupFilterProps,
+  PickupsFilters.propTypes = {
+    ...PickupsFiltersProps,
   };
 
   const mapDispatchToProps = {
@@ -35,5 +35,5 @@ export const withPickupFilter = WrappedComponent => {
   return connect(
     null,
     mapDispatchToProps
-  )(PickupFilter);
+  )(PickupsFilters);
 };

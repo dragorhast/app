@@ -5,7 +5,7 @@ import ControlArrows from './ControlArrows';
 import { IssueSinglePropTypes } from '../shared/redux/ducks/issues';
 import { SListItem3Columns } from '../styles/components/SidePanelSections';
 import IssueListItem from './IssueListItem';
-import { withIssuesFilter, IssuesFilterProps } from '../shared/redux/containers/Filters/IssuesFilters';
+import { withIssuesFilters, IssuesFiltersProps } from '../shared/redux/containers/Filters/IssuesFilters';
 
 // Similar to common SControlBar but with 3 columns
 const SControlBar3 = styled(SListItem3Columns)`
@@ -41,7 +41,7 @@ class IssuesList extends React.PureComponent {
 }
 
 IssuesList.propTypes = {
-  ...IssuesFilterProps,
+  ...IssuesFiltersProps,
   issues: PropTypes.arrayOf(
     PropTypes.shape({
       ...IssueSinglePropTypes,
@@ -50,4 +50,4 @@ IssuesList.propTypes = {
   selectIssue: PropTypes.func.isRequired,
 };
 
-export default withIssuesFilter(IssuesList);
+export default withIssuesFilters(IssuesList);

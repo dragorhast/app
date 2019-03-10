@@ -4,7 +4,7 @@ import { SControlBar } from '../styles/components/SidePanelSections';
 import BikeListItem from './BikeListItem';
 import ControlArrows from './ControlArrows';
 import { BikePropTypes } from '../shared/redux/ducks/bikes';
-import { withBikeFilter, BikeFilterProps } from '../shared/redux/containers/Filters/BikesFilters';
+import { withBikesFilters, BikesFiltersProps } from '../shared/redux/containers/Filters/BikesFilters';
 
 class BikesList extends React.PureComponent {
   render() {
@@ -31,7 +31,7 @@ class BikesList extends React.PureComponent {
 }
 
 BikesList.propTypes = {
-  ...BikeFilterProps,
+  ...BikesFiltersProps,
   bikes: PropTypes.arrayOf(
     PropTypes.shape({
       ...BikePropTypes,
@@ -41,4 +41,4 @@ BikesList.propTypes = {
 };
 
 // TODO create + wrap in with bike controls
-export default withBikeFilter(BikesList);
+export default withBikesFilters(BikesList);

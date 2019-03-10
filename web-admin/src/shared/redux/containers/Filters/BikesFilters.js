@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setBikesLocationOrderAsc, setBikesStatusFilterAsc } from '../../ducks/bikes';
 
-export const BikeFilterProps = {
+export const BikesFiltersProps = {
   setBikesLocationOrderAsc: PropTypes.func,
   setBikesStatusFilterAsc: PropTypes.func,
 };
 
-export const withBikeFilter = WrappedComponent => {
-  class BikeFilter extends React.PureComponent {
+export const withBikesFilters = WrappedComponent => {
+  class BikesFilters extends React.PureComponent {
     render() {
       const { setBikesLocationOrderAsc, setBikesStatusFilterAsc, ...restProps } = this.props;
 
@@ -23,8 +23,8 @@ export const withBikeFilter = WrappedComponent => {
     }
   }
 
-  BikeFilter.propTypes = {
-    ...BikeFilterProps,
+  BikesFilters.propTypes = {
+    ...BikesFiltersProps,
   };
 
   const mapDispatchToProps = {
@@ -35,5 +35,5 @@ export const withBikeFilter = WrappedComponent => {
   return connect(
     null,
     mapDispatchToProps
-  )(BikeFilter);
+  )(BikesFilters);
 };
