@@ -19,7 +19,7 @@ export const IssueSinglePropTypes = {
 const INITIAL_STATE = {
   statusFilter: 'asc',
   typeFilter: 'asc',
-  timeFilter: 'asc',
+  timeFilter: true,
   issuesList: [],
   issueSingle: {
     id: '',
@@ -78,7 +78,7 @@ export const setIssuesTypeOrderAsc = boolean => ({
 export const setIssuesTimeOrderAsc = boolean => ({
   type: ISSUES_FILTER_SET,
   payload: {
-    timeFilter: boolean ? 'asc' : 'desc',
+    timeFilter: boolean,
   },
 });
 
@@ -153,8 +153,19 @@ export const issueReport = ({ bikeId, description }) => async dispatch => {
 };
 
 // Selectors
-export const getIssuesWithFilter = (issues, statusFilter, typeFilter, timeFilter) =>
-  _.orderBy(issues, ['status', 'type', 'datetime'], [statusFilter, typeFilter, timeFilter]);
+// TODO implement this properly!! Can't get array.sort to work :-(
+const sortByDatetime = (array, asc) => (asc ? array : array);
+/**
+ * Makes all date times a date object then orders based on filters
+ * @param issues
+ * @param statusFilter
+ * @param typeFilter
+ * @param timeFilter
+ * @returns {*}
+ */
+export const getIssuesWithFilter = (issues, statusFilter, typeFilter, timeFilter) => {
+  return _.orderBy(sortByDatetime(issues, timeFilter), ['status', 'type'], [statusFilter, typeFilter]);
+};
 
 // ****** Helper Functions ***** //
 export const getRawIssuesDataReady = issuesRaw => issuesRaw.map(issue => getSingleRawIssueDataReady(issue));

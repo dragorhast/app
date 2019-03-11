@@ -59,16 +59,19 @@ class BikeMap extends React.PureComponent {
         <div style={{ flex: 1 }}>
           <Map google={google} zoom={15} initialCenter={mapCenter} onClick={this.onMapClick}>
             {bikes &&
-              bikes.map(bike => (
-                <Marker
-                  icon="/bike-icon-fa.png"
-                  key={bike.id}
-                  id={bike.id}
-                  bike={bike}
-                  position={{ lat: bike.coordinates[1], lng: bike.coordinates[0] }}
-                  onClick={this.onMarkerClick}
-                />
-              ))}
+              bikes.map(
+                bike =>
+                  bike.coordinates !== 'IN USE' && (
+                    <Marker
+                      icon="/bike-icon-fa.png"
+                      key={bike.id}
+                      id={bike.id}
+                      bike={bike}
+                      position={{ lat: bike.coordinates[1], lng: bike.coordinates[0] }}
+                      onClick={this.onMarkerClick}
+                    />
+                  )
+              )}
             <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
               <div>
                 <h3>{selectedPlace.bike && selectedPlace.bike.id}</h3>

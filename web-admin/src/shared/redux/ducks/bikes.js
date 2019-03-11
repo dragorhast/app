@@ -120,11 +120,12 @@ export const getRawBikeDataReady = bikesRaw => {
   return bikesRaw.map(bike => {
     // No current_location if rented
     const bikeRented = !bike.current_location;
+    // const bikeRented = bike.identifier === 'f7fcc1';
     return {
       id: bike.identifier,
       /* Pickup name or lat, lng as a string */
       locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
-      coordinates: bikeRented ? null : bike.current_location.geometry.coordinates,
+      coordinates: bikeRented ? 'IN USE' : bike.current_location.geometry.coordinates,
       status: bikeStatusFromString(bike.status),
       battery: bike.battery,
     };
