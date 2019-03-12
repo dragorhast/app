@@ -6,6 +6,7 @@
 }
 
 .grid-layout {
+    height: 90%; /* Fixes bug with IssuesSingle taking full page */
     flex: 1; /* 100% height - nav + footer's set height */
     display: grid;
     grid-template-columns: 100%;
