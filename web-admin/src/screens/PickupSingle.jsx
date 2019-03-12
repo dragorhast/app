@@ -45,12 +45,25 @@ class PickupSingle extends React.PureComponent {
         <SSingleHeading>{pickup.name} Details</SSingleHeading>
         <S50Grid>
           <SInfoLabelAndText>
-            <SInfoText>Bikes at Location</SInfoText>
+            <SInfoText primary>Bikes at Location</SInfoText>
             <SInfoText>{pickupPointBikes.length}</SInfoText>
           </SInfoLabelAndText>
-          <SInfoText>Bikes Available</SInfoText>
-          <SInfoText>Bikes with Issues</SInfoText>
-          <SInfoText>Bikes Reserved</SInfoText>
+
+          <SInfoLabelAndText>
+            <SInfoText primary>Bikes Available</SInfoText>
+            <SInfoText>69</SInfoText>
+          </SInfoLabelAndText>
+
+          <SInfoLabelAndText>
+            <SInfoText primary>Bikes with Issues</SInfoText>
+            <SInfoText>69</SInfoText>
+          </SInfoLabelAndText>
+
+          <SInfoLabelAndText>
+            <SInfoText primary>Bikes Reserved</SInfoText>
+            <SInfoText>69</SInfoText>
+          </SInfoLabelAndText>
+
           <div>
             <h2 style={{ textAlign: 'center' }}>Bikes</h2>
             <BikesList bikes={pickupPointBikes} selectBike={() => {}} />

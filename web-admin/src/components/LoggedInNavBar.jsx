@@ -212,6 +212,12 @@ class LoggedInNavBar extends React.PureComponent {
                 <Link to="/reports">
                   <SNavSelection selected={location.pathname.match(/\/reports/g)}>Reports</SNavSelection>
                 </Link>
+
+                <a to="#">
+                  <SNavSelection onClick={this.initiateLogOut} styl={{ justifySelf: 'flex-end' }}>
+                    Sign Out
+                  </SNavSelection>
+                </a>
               </SDropDownMenu>
             </div>
           )

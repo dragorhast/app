@@ -23,10 +23,12 @@ export const SInfoRowToColumn = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
 
   @media screen and (max-width: ${props => props.breakpoint || `${MID_RANGE_BREAK_POINT}px`}) {
     flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -39,11 +41,12 @@ export const SInfo = styled.div`
 
 export const SInfoWith2ColumnsForLabelAndText = styled.div`
   display: grid;
-  grid-template-columns: 176px 1fr;
+  grid-template-columns: 192px 1fr;
   align-items: center; // puts in  middle of row
   grid-column-gap: 8px;
   grid-row-gap: 16px;
   max-width: 640px;
+  margin: 16px 0;
 `;
 
 export const SInfoLabelAndText = styled.div`

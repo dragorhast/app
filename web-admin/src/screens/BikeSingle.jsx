@@ -7,9 +7,7 @@ import {
   SSingleScreen,
   SSingleHeading,
   SInfoRowToColumn,
-  SInfo,
-  SInfoLabelAndText,
-  SInfoLabelSmaller,
+  SInfoWith2ColumnsForLabelAndText,
   SInfoText,
   SLittleMap,
 } from '../styles/components/InfoSections';
@@ -42,31 +40,26 @@ class BikeSingle extends React.PureComponent {
       <SSingleScreen>
         <SSingleHeading>Bike Details</SSingleHeading>
         <SInfoRowToColumn>
-          <SInfo>
-            <SInfoLabelAndText>
-              <SInfoLabelSmaller>Identifier</SInfoLabelSmaller>
-              <SInfoText>{bike.id}</SInfoText>
-            </SInfoLabelAndText>
-            <SInfoLabelAndText>
-              <SInfoLabelSmaller>Location</SInfoLabelSmaller>
-              <SInfoText>{bike.locationName}</SInfoText>
-            </SInfoLabelAndText>
-            <SInfoLabelAndText>
-              <SInfoLabelSmaller>Status</SInfoLabelSmaller>
-              <SInfoText>{bike.status}</SInfoText>
-            </SInfoLabelAndText>
-            <SInfoLabelAndText>
-              <SInfoLabelSmaller>Battery</SInfoLabelSmaller>
-              <SInfoText>{bike.battery}%</SInfoText>
-            </SInfoLabelAndText>
+          <SInfoWith2ColumnsForLabelAndText>
+            <SInfoText primary>Identifier</SInfoText>
+            <SInfoText>{bike.id}</SInfoText>
 
-            {bike.issues && bike.issues.length > 0 && (
-              <div style={{ margin: '16px' }}>
-                <h2 style={{ textAlign: 'center' }}>Issues</h2>
-                <IssuesList issues={bike.issues} selectIssue={() => {}} />
-              </div>
-            )}
-          </SInfo>
+            <SInfoText primary>Location</SInfoText>
+            <SInfoText>{bike.locationName}</SInfoText>
+
+            <SInfoText primary>Status</SInfoText>
+            <SInfoText>{bike.status}</SInfoText>
+
+            <SInfoText primary>Battery</SInfoText>
+            <SInfoText>{bike.battery}%</SInfoText>
+          </SInfoWith2ColumnsForLabelAndText>
+
+          {bike.issues && bike.issues.length > 0 && (
+            <div style={{ margin: '16px' }}>
+              <h2 style={{ textAlign: 'center' }}>Issues</h2>
+              <IssuesList issues={bike.issues} selectIssue={() => {}} />
+            </div>
+          )}
           <SLittleMap>
             <Map
               style={{ width: '240px', height: '240px' }}

@@ -23,13 +23,13 @@ class ReservationSingle extends React.PureComponent {
       <SSingleScreen>
         <SSingleHeading>Reservation</SSingleHeading>
         <SInfoWith2ColumnsForLabelAndText>
-          <SInfoText>User ID:</SInfoText>
+          <SInfoText primary>User ID</SInfoText>
           <SInfoText>{reserveDisplay.reservationId}</SInfoText>
 
-          <SInfoText>Rental Time:</SInfoText>
+          <SInfoText primary>Rental Time</SInfoText>
           <SInfoText>{prettyDateTime(reserveDisplay.datetime)}</SInfoText>
 
-          <SInfoText>Status:</SInfoText>
+          <SInfoText primary>Status</SInfoText>
           {/* TODO add status to api */}
           <SInfoText>Status:</SInfoText>
         </SInfoWith2ColumnsForLabelAndText>
