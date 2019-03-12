@@ -27,6 +27,7 @@ const SInfo = styled(SInfoWith2ColumnsForLabelAndText)`
 
 const SMap = styled(SLittleMap)`
   grid-area: map;
+  display: ${props => (props.visible ? 'block' : 'none')};
   justify-self: center;
 `;
 
@@ -122,7 +123,7 @@ class IssueSingle extends React.PureComponent {
             <SInfoText>{issue.description}</SInfoText>
           </SInfo>
 
-          <SMap>
+          <SMap visible={!!issue.bikeId}>
             {issue.bikeId && (
               <Map
                 style={{ width: '240px', height: '240px' }}
