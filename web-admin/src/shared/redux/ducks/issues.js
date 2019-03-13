@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { setStatus } from './status';
-import { apiIssueCreate, apiIssuesFetch, apiIssueFetchSingle } from '../../api/tap2go';
+import { apiIssueCreate, apiIssuesFetch, apiIssueFetchSingle, apiIssueUpdate } from '../../api/tap2go';
 import { Firebase } from '../../constants/firebase';
 
 // Prop Types
 export const IssueSinglePropTypes = {
-  id: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   type: PropTypes.string,
   bikeId: PropTypes.string,
-  userId: PropTypes.number,
+  userId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   status: PropTypes.string,
   datetime: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
   desc: PropTypes.string,
@@ -140,7 +140,6 @@ export const issueReport = ({ bikeId, description }) => async dispatch => {
 
     const authToken = await Firebase.auth().currentUser.getIdToken();
 
-    console.log('Bike id: ', bikeId, ' description: ', description);
     const data = bikeId ? { bike_identifier: bikeId, description } : { description };
 
     await apiIssueCreate(authToken, data);
@@ -149,6 +148,30 @@ export const issueReport = ({ bikeId, description }) => async dispatch => {
   } catch (e) {
     dispatch(setStatus('error', e.message));
     return Promise.resolve();
+  }
+};
+
+/**
+ * Updates an  issues status
+ *
+ * Message is optional
+ *
+ * @param issueId
+ * @param status
+ * @param message
+ * @returns {Function}
+ */
+export const issueUpdateStatus = (issueId, status, message) => async dispatch => {
+  try {
+    dispatch(setStatus('loading', true));
+
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+
+    await apiIssueUpdate(authToken, issueId, status, message);
+  } catch (e) {
+    console.error(e);
+    dispatch(setStatus('error', e.message));
+    throw e;
   }
 };
 

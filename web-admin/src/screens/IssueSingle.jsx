@@ -11,7 +11,7 @@ import {
   SInfoText,
   SLittleMap,
 } from '../styles/components/InfoSections';
-import { SButton } from '../styles/components/Common';
+import { SButton, SSuccessSpan, SErrorSpan } from '../styles/components/Common';
 import withIssue, { IssuesProps } from '../shared/redux/containers/IssuesContainer';
 import { prettyDateTime } from '../shared/util';
 
@@ -79,25 +79,44 @@ const statusOptions = [
 
 class IssueSingle extends React.PureComponent {
   state = {
-    selectedUpdateIssueOption: 'Open',
-    updateIssueMessage: '',
+    updateStatus: 'Open',
+    updateMessage: '',
+    updateReturnSuccess: '',
+    updateReturnError: '',
   };
 
   componentWillMount() {
     const { issue, fetchSingleIssue, match } = this.props;
     if (!issue.id) fetchSingleIssue(match.params.id);
     this.selectOption = this.selectOption.bind(this);
+    this.submitStatusChange = this.submitStatusChange.bind(this);
   }
 
   selectOption = option => {
-    const { selectedUpdateIssueOption } = this.state;
-    console.log('Before Selection: ', selectedUpdateIssueOption);
-    this.setState({ selectedUpdateIssueOption: option.value });
+    this.setState({ updateStatus: option.value });
   };
+
+  /**
+   * Updates the issue status and updates the
+   * statusChangeReturnMessage accordingly
+   * @returns {Promise<void>}
+   */
+  async submitStatusChange() {
+    const { updateStatus, updateMessage } = this.state;
+    const { updateIssueStatus, issue } = this.props;
+    // Resets status
+    await this.setState({ updateReturnSuccess: '', updateReturnError: '' });
+    try {
+      await updateIssueStatus(issue.id, updateStatus, updateMessage);
+      this.setState({ updateReturnSuccess: `Successfully changed status to ${updateStatus}` });
+    } catch (e) {
+      this.setState({ updateReturnError: `Error: ${e.message}` });
+    }
+  }
 
   render() {
     const { issue, google } = this.props;
-    const { updateIssueMessage } = this.state;
+    const { updateMessage, updateReturnSuccess, updateReturnError } = this.state;
 
     return (
       <SSingleScreen>
@@ -141,6 +160,8 @@ class IssueSingle extends React.PureComponent {
           </SMap>
 
           <SStatusArea>
+            {updateReturnSuccess && <SSuccessSpan>{updateReturnSuccess}</SSuccessSpan>}
+            {updateReturnError && <SErrorSpan>{updateReturnError}</SErrorSpan>}
             <SInfoText primary>Change Status</SInfoText>
             <div style={{ width: '100%', margin: '16px 0' }}>
               <Select defaultValue={statusOptions[0]} options={statusOptions} onChange={this.selectOption} />
@@ -148,11 +169,13 @@ class IssueSingle extends React.PureComponent {
 
             <STextArea
               placeholder="Information about update"
-              value={updateIssueMessage}
-              onChange={e => this.setState({ updateIssueMessage: e.target.value })}
+              value={updateMessage}
+              onChange={e => this.setState({ updateMessage: e.target.value })}
             />
 
-            <SButton primary>Update</SButton>
+            <SButton primary onClick={this.submitStatusChange}>
+              Update Status
+            </SButton>
           </SStatusArea>
         </SGrid>
       </SSingleScreen>

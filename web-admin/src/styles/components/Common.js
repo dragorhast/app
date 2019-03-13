@@ -45,3 +45,11 @@ export const SButton = styled.button`
     color: inherit;
   }
 `;
+
+export const SSuccessSpan = styled.span`
+  color: ${props => props.theme.success};
+`;
+
+export const SErrorSpan = styled.span`
+  color: ${props => props.theme.error};
+`;

@@ -7,6 +7,7 @@ import {
   issueFetchSingle,
   setSingleIssueDisplay,
   getIssuesWithFilter,
+  issueUpdateStatus,
 } from '../ducks/issues';
 
 export const IssuesProps = {
@@ -22,12 +23,22 @@ export const IssuesProps = {
   }).isRequired,
   fetchSingleIssue: PropTypes.func.isRequired,
   setSingleIssueDisplay: PropTypes.func.isRequired,
+  updateIssueStatus: PropTypes.func.isRequired,
 };
 
 export default function withIssues(WrappedComponent) {
   class IssuesContainer extends React.PureComponent {
     render() {
-      const { locale, issues, fetchIssues, issue, fetchSingleIssue, setSingleIssueDisplay, ...restProps } = this.props;
+      const {
+        locale,
+        issues,
+        fetchIssues,
+        issue,
+        fetchSingleIssue,
+        setSingleIssueDisplay,
+        updateIssueStatus,
+        ...restProps
+      } = this.props;
 
       return (
         <WrappedComponent
@@ -37,6 +48,7 @@ export default function withIssues(WrappedComponent) {
           issue={issue}
           fetchSingleIssue={fetchSingleIssue}
           setSingleIssueDisplay={setSingleIssueDisplay}
+          updateIssueStatus={updateIssueStatus}
           {...restProps}
         />
       );
@@ -55,6 +67,7 @@ export default function withIssues(WrappedComponent) {
   const mapDispatchToProps = {
     fetchIssues: issuesFetch,
     fetchSingleIssue: issueFetchSingle,
+    updateIssueStatus: issueUpdateStatus,
     setSingleIssueDisplay,
   };
 
