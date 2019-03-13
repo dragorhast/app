@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { bikesFetch, BikePropTypes } from '../ducks/bikes';
-import { setBike, bikeSingleFetch } from '../ducks/bikeSingle';
+import { bikesFetch, BikePropTypes, getBikesWithFilter } from '../ducks/bikes';
+import { setBike, bikeSingleFetch, bikeSingleFetchIssues } from '../ducks/bikeSingle';
 
 export const BikesProps = {
   locale: PropTypes.string.isRequired,
@@ -18,6 +18,7 @@ export const BikesProps = {
   loading: PropTypes.bool.isRequired,
   fetchBikes: PropTypes.func.isRequired,
   fetchSingleBike: PropTypes.func.isRequired,
+  fetchBikeIssues: PropTypes.func.isRequired,
 };
 
 export default function withBikes(WrappedComponent) {
@@ -31,6 +32,7 @@ export default function withBikes(WrappedComponent) {
         bike,
         fetchBikes,
         fetchSingleBike,
+        fetchBikeIssues,
         setSingleReservationDisplay,
         ...restProps
       } = this.props;
@@ -42,6 +44,7 @@ export default function withBikes(WrappedComponent) {
           bike={bike}
           fetchBikes={fetchBikes}
           fetchSingleBike={fetchSingleBike}
+          fetchBikeIssues={fetchBikeIssues}
           setSingleBikeDisplay={setSingleReservationDisplay}
           {...restProps} // passes any others through
         />
@@ -53,17 +56,18 @@ export default function withBikes(WrappedComponent) {
     ...BikesProps,
   };
 
-  const mapStateToProps = state => ({
-    locale: state.locale.country,
-    loading: state.bikes.loading,
-    bikes: state.bikes.bikes,
-    bike: state.bikeSingle,
+  const mapStateToProps = ({ locale, bikes, bikeSingle }) => ({
+    locale: locale.country,
+    loading: bikes.loading,
+    bikes: getBikesWithFilter(bikes.bikes, bikes.locationFilter, bikes.statusFilter),
+    bike: bikeSingle,
   });
 
   const mapDispatchToProp = {
     fetchBikes: bikesFetch,
     setSingleReservationDisplay: setBike,
     fetchSingleBike: bikeSingleFetch,
+    fetchBikeIssues: bikeSingleFetchIssues,
   };
 
   return connect(

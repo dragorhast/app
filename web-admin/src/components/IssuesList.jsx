@@ -9,7 +9,7 @@ import { withIssuesFilters, IssuesFiltersProps } from '../shared/redux/container
 
 // Similar to common SControlBar but with 3 columns
 const SControlBar3 = styled(SListItem3Columns)`
-  height: 48px;
+  height: 64px;
 `;
 
 class IssuesList extends React.PureComponent {

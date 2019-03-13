@@ -10,6 +10,7 @@ import ReservationDisplayReducer from './reservationDisplay';
 import PaymentReducer from './payment';
 import BikesReducer from './bikes';
 import BikeSingleReducer from './bikeSingle';
+import IssuesReducer from './issues';
 
 export default combineReducers({
   locale: LocaleReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
   payment: PaymentReducer,
   bikes: BikesReducer,
   bikeSingle: BikeSingleReducer,
+  issues: IssuesReducer,
 });

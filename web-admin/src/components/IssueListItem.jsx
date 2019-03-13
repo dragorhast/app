@@ -21,7 +21,7 @@ const IssueListItem = ({ issue, selectIssues }) => (
   <SListItem3Columns onClick={() => selectIssues(issue)}>
     <SStatus status={issue.status}>{issue.status}</SStatus>
     <span>{issue.type}</span>
-    <span>{prettyDateTime(issue.datetime)}</span>
+    <span style={{ textAlign: 'center' }}>{prettyDateTime(issue.datetime)}</span>
   </SListItem3Columns>
 );
 

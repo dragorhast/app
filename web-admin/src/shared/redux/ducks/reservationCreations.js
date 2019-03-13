@@ -104,10 +104,10 @@ export const reservationMake = reserveNow => async (dispatch, getState) => {
     await dispatch(
       setSingleReservationDisplay({
         reservationId: reservation.id,
-        datetime: reservation.reserved_for,
         pickupName: reservation.pickup.properties.name,
         pickupId: reservation.pickup.properties.id,
         pickupLocation: reservation.pickup.properties.center,
+        datetime: reservation.reserved_for,
       })
     );
     dispatch(setStatus('success', 'Reservation created!'));

@@ -8,7 +8,7 @@ import { prettyDateTime } from '../shared/util';
 const ReservationListItem = ({ reservation, selectReservation }) => (
   <SListItem onClick={() => selectReservation(reservation)}>
     <span>{reservation.pickupName}</span>
-    <span>{prettyDateTime(reservation.datetime)}</span>
+    <span style={{ textAlign: 'center' }}>{prettyDateTime(reservation.datetime)}</span>
   </SListItem>
 );
 

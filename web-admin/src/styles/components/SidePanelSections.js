@@ -27,7 +27,7 @@ export const SListItem = styled.div`
 `;
 
 export const SControlBar = styled(SListItem)`
-  height: 48px;
+  height: 64px;
 `;
 
 export const SListItem3Columns = styled.div`
@@ -39,7 +39,7 @@ export const SListItem3Columns = styled.div`
   align-items: center;
   // height + width
   width: 100%;
-  height: 48px;
+  height: 64px;
 
   padding: 8px;
   box-sizing: border-box;

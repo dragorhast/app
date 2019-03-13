@@ -212,6 +212,24 @@ export const apiIssueCreate = async (authToken, data) => {
 };
 
 /**
+ * Fetches all OPEN issues
+ *
+ * Must be admin to access
+ *
+ * @param authToken
+ * @returns {Promise<*>}
+ */
+export const apiIssuesFetch = async authToken => {
+  const result = await axiosBaseUrl.get('/issues', getConfig(authToken));
+  return result.data.data.issues;
+};
+
+export const apiIssueFetchSingle = async (authToken, issueId) => {
+  const result = await axiosBaseUrl.get(`/issues/${issueId}`, getConfig(authToken));
+  return result.data.data.issue;
+};
+
+/**
  * Gets all pickup points - at some point will
  * be in order of closes to current location and
  * within the range
@@ -243,8 +261,13 @@ export const apiPickupFetchSingle = async (authToken, id) => {
 };
 
 export const apiPickupFetchBikes = async (authToken, pickupId) => {
-  const result = await axiosBaseUrl.get(`/pickups/${pickupId}/bikes`);
+  const result = await axiosBaseUrl.get(`/pickups/${pickupId}/bikes`, getConfig(authToken));
   return result.data.data.bikes;
+};
+
+export const apiPickupFetchReservations = async (authToken, pickupId) => {
+  const result = await axiosBaseUrl.get(`/pickups/${pickupId}/reservations`, getConfig(authToken));
+  return result.data.data.reservations;
 };
 
 /**
@@ -315,10 +338,22 @@ export const apiReservationsAdminFetch = async authToken => {
 };
 
 /**
+ * Api end point to fetch data for a single reservation
+ * @param authToken
+ * @param reservationId
+ * @returns {Promise<void>}
+ */
+export const apiReservationSingleFetch = async (authToken, reservationId) => {
+  const result = await axiosBaseUrl.get(`/reservations/${reservationId}`, getConfig(authToken));
+  return result.data.data.reservation;
+};
+
+/**
  * Api end point to fetch all of the bikes on the system
  * @returns {Promise<*>}
  */
 export const apiBikesFetch = async authToken => {
+  // console.log(authToken);
   const result = await axiosBaseUrl.get('/bikes', getConfig(authToken));
   return result.data.data.bikes;
 };
@@ -334,4 +369,16 @@ export const apiBikesFetch = async authToken => {
 export const apiBikeSingleFetch = async (authToken, bikeId) => {
   const result = await axiosBaseUrl.get(`/bikes/${bikeId}`, getConfig(authToken));
   return result.data.data.bike;
+};
+
+/**
+ * Ends point to get all of the issues associated with
+ * a bike
+ * @param authToken
+ * @param bikeId
+ * @returns {Promise<void>}
+ */
+export const apiBikeSingleFetchIssues = async (authToken, bikeId) => {
+  const result = await axiosBaseUrl.get(`/bikes/${bikeId}/issues`, getConfig(authToken));
+  return result.data.data.issues;
 };

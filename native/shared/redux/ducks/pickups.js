@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { PickupPropTypes as PickupPropTypesCopy } from './pickupSingle';
 import { setStatus } from './status';
 import { apiPickupPointsFetch } from '../../api/tap2go';
@@ -5,10 +6,13 @@ import { pickupStateFromBikeCount } from '../../util';
 // Actions
 const PICKUPS_LOADING = 'PICKUPS_LOADING';
 const PICKUPS_SET = 'PICKUPS_SET';
+const PICKUPS_FILTER_SET = 'PICKUPS_FILTER_SET';
 
 // Initial state
 const INITIAL_STATE = {
   loading: false,
+  nameFilter: 'asc', // ascending
+  statusFilter: 'asc',
   pickups: [],
 };
 // Prop Types
@@ -25,8 +29,14 @@ export default function pickupsReducer(state = INITIAL_STATE, { type, payload })
       };
     case PICKUPS_SET:
       return {
+        ...state,
         loading: false,
         pickups: payload,
+      };
+    case PICKUPS_FILTER_SET:
+      return {
+        ...state,
+        ...payload,
       };
     default:
       return state;
@@ -34,6 +44,19 @@ export default function pickupsReducer(state = INITIAL_STATE, { type, payload })
 }
 
 // Action creators
+export const setPickupNameOrderAsc = boolean => ({
+  type: PICKUPS_FILTER_SET,
+  payload: {
+    nameFilter: boolean ? 'asc' : 'desc',
+  },
+});
+
+export const setPickupStatusOrderAsc = boolean => ({
+  type: PICKUPS_FILTER_SET,
+  payload: {
+    statusFilter: boolean ? 'asc' : 'desc',
+  },
+});
 /**
  * Sets the loading status
  *
@@ -87,12 +110,6 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
   }
 };
 
-// Selectors - sort by distance
-/*
-Steps to make selector
-- Add field + asc / desc filter to this store
-- add non memoized selector to get the pickups
-- add memoized selector to sort based on filters
-- call that one in mapStateToProps
- */
-export const sortPickups = () => {};
+// Selectors
+export const getPickupsWithFilters = (pickups, nameFilter, statusFilter) =>
+  _.orderBy(pickups, ['name', 'status'], [nameFilter, statusFilter]);

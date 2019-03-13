@@ -1,6 +1,7 @@
 // In here find a way to route to the first available reservation if none are selected
 import React from 'react';
 import PropTypes from 'prop-types';
+import Capitalize from 'capitalize';
 // import styled from 'styled-components';
 import {
   SSingleScreen,
@@ -23,15 +24,17 @@ class ReservationSingle extends React.PureComponent {
       <SSingleScreen>
         <SSingleHeading>Reservation</SSingleHeading>
         <SInfoWith2ColumnsForLabelAndText>
-          <SInfoText primary>User ID</SInfoText>
-          <SInfoText>{reserveDisplay.reservationId}</SInfoText>
+          <SInfoText primary>Pickup Point</SInfoText>
+          <SInfoText>{reserveDisplay.pickupName}</SInfoText>
 
           <SInfoText primary>Rental Time</SInfoText>
           <SInfoText>{prettyDateTime(reserveDisplay.datetime)}</SInfoText>
 
+          <SInfoText primary>User ID</SInfoText>
+          <SInfoText>{reserveDisplay.reservationId}</SInfoText>
+
           <SInfoText primary>Status</SInfoText>
-          {/* TODO add status to api */}
-          <SInfoText>Status:</SInfoText>
+          <SInfoText>{Capitalize(reserveDisplay.status || 'status not available')}</SInfoText>
         </SInfoWith2ColumnsForLabelAndText>
       </SSingleScreen>
     );

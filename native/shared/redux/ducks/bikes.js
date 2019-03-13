@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { apiBikesFetch } from '../../api/tap2go';
 import { BikePropTypes as BikePropTypesCopy } from './bikeSingle';
 import { Firebase } from '../../constants/firebase';
@@ -6,10 +7,13 @@ import { pickupPointOrPrettyPrintCoords, bikeStatusFromString } from '../../util
 // Actions
 const BIKES_LOADING = 'BIKES_LOADING';
 const BIKES_SET = 'BIKES_SET';
+const BIKES_FILTER_SET = 'BIKES_FILTER_SET';
 
 // Initial State
 const INITIAL_STATE = {
   loading: false,
+  locationFilter: 'asc', // sorts ascending
+  statusFilter: 'asc', // sorts ascending
   bikes: [],
 };
 // Prop Types
@@ -26,8 +30,14 @@ export default function bikesReducer(state = INITIAL_STATE, { type, payload }) {
       };
     case BIKES_SET:
       return {
+        ...state,
         loading: false,
         bikes: payload,
+      };
+    case BIKES_FILTER_SET:
+      return {
+        ...state,
+        ...payload,
       };
     default:
       return state;
@@ -35,6 +45,20 @@ export default function bikesReducer(state = INITIAL_STATE, { type, payload }) {
 }
 
 // Action Creators
+export const setBikesLocationOrderAsc = boolean => ({
+  type: BIKES_FILTER_SET,
+  payload: {
+    locationFilter: boolean ? 'asc' : 'desc',
+  },
+});
+
+export const setBikesStatusFilterAsc = boolean => ({
+  type: BIKES_FILTER_SET,
+  payload: {
+    statusFilter: boolean ? 'asc' : 'desc',
+  },
+});
+
 const loadingBikes = (loading = true) => ({ type: BIKES_LOADING, payload: loading });
 
 /**
@@ -79,18 +103,29 @@ export const bikesFetch = () => async dispatch => {
 };
 
 // Selectors
-// TODO add selectors for sorting the list of bikes
+/**
+ * Uses lodash to order the bikes by locationName + status
+ *
+ * true in the second [] = ascending. false = descending
+ * @param bikes
+ * @param locationFilter
+ * @param statusFilter
+ * @returns {*}
+ */
+export const getBikesWithFilter = (bikes, locationFilter, statusFilter) =>
+  _.orderBy(bikes, ['locationName', 'status'], [locationFilter, statusFilter]);
 
-// Helper functions
+// ******* Helper functions ******* //
 export const getRawBikeDataReady = bikesRaw => {
   return bikesRaw.map(bike => {
     // No current_location if rented
     const bikeRented = !bike.current_location;
+    // const bikeRented = bike.identifier === 'f7fcc1';
     return {
       id: bike.identifier,
       /* Pickup name or lat, lng as a string */
       locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
-      coordinates: bikeRented ? null : bike.current_location.geometry.coordinates,
+      coordinates: bikeRented ? 'IN USE' : bike.current_location.geometry.coordinates,
       status: bikeStatusFromString(bike.status),
       battery: bike.battery,
     };

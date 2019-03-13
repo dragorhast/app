@@ -8,9 +8,11 @@ import { connect } from 'react-redux';
 import {
   reservationCancel,
   reservationsFetch,
+  reservationSingleFetch,
   setSingleReservationDisplay,
   ReservationDisplayPropTypes,
   ReservationDisplaySingleProps,
+  getReservationsWithFilter,
 } from '../ducks/reservationDisplay';
 
 export const ReservationDisplayProps = {
@@ -25,6 +27,7 @@ export const ReservationDisplayProps = {
   ),
   cancelReservation: PropTypes.func.isRequired,
   fetchReservations: PropTypes.func.isRequired,
+  fetchSingleReservation: PropTypes.func.isRequired,
   setSingleReservationDisplay: PropTypes.func.isRequired,
 };
 
@@ -37,6 +40,7 @@ export default function withReservationDisplay(WrappedComponent) {
         reservations,
         cancelReservation,
         fetchReservations,
+        fetchSingleReservation,
         setSingleReservationDisplay,
         ...restProps
       } = this.props;
@@ -47,6 +51,7 @@ export default function withReservationDisplay(WrappedComponent) {
           reservations={reservations}
           cancelReservation={cancelReservation}
           fetchReservations={fetchReservations}
+          fetchSingleReservation={fetchSingleReservation}
           setSingleReservationDisplay={setSingleReservationDisplay}
           {...restProps} // passes any other through
         />
@@ -58,15 +63,20 @@ export default function withReservationDisplay(WrappedComponent) {
     ...ReservationDisplayProps,
   };
 
-  const mapStateToProps = state => ({
-    locale: state.locale.country,
-    reserveDisplay: state.reserveDisplay,
-    reservations: state.reserveDisplay.list,
+  const mapStateToProps = ({ locale, reserveDisplay }) => ({
+    locale: locale.country,
+    reserveDisplay,
+    reservations: getReservationsWithFilter(
+      reserveDisplay.list,
+      reserveDisplay.pickupNameFilter,
+      reserveDisplay.timeFilter
+    ),
   });
 
   const mapDispatchToProp = {
     cancelReservation: reservationCancel,
     fetchReservations: reservationsFetch,
+    fetchSingleReservation: reservationSingleFetch,
     setSingleReservationDisplay,
   };
 
