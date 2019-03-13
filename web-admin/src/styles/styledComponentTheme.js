@@ -2,6 +2,6 @@ export default {
   primary: 'green',
   success: 'green',
   warning: 'yellow',
-  danger: 'red',
+  danger: '#BD3D3A',
   error: 'red',
 };

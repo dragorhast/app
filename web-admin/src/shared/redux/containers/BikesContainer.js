@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { bikesFetch, BikePropTypes, getBikesWithFilter } from '../ducks/bikes';
-import { setBike, bikeSingleFetch, bikeSingleFetchIssues } from '../ducks/bikeSingle';
+import { setBike, bikeSingleFetch, bikeSingleFetchIssues, bikeTakeInOutCirc } from '../ducks/bikeSingle';
 
 export const BikesProps = {
   locale: PropTypes.string.isRequired,
@@ -19,6 +19,7 @@ export const BikesProps = {
   fetchBikes: PropTypes.func.isRequired,
   fetchSingleBike: PropTypes.func.isRequired,
   fetchBikeIssues: PropTypes.func.isRequired,
+  putBikeInCirculation: PropTypes.func.isRequired,
 };
 
 export default function withBikes(WrappedComponent) {
@@ -34,6 +35,7 @@ export default function withBikes(WrappedComponent) {
         fetchSingleBike,
         fetchBikeIssues,
         setSingleReservationDisplay,
+        putBikeInCirculation,
         ...restProps
       } = this.props;
       return (
@@ -46,6 +48,7 @@ export default function withBikes(WrappedComponent) {
           fetchSingleBike={fetchSingleBike}
           fetchBikeIssues={fetchBikeIssues}
           setSingleBikeDisplay={setSingleReservationDisplay}
+          putBikeInCirculation={putBikeInCirculation}
           {...restProps} // passes any others through
         />
       );
@@ -68,6 +71,7 @@ export default function withBikes(WrappedComponent) {
     setSingleReservationDisplay: setBike,
     fetchSingleBike: bikeSingleFetch,
     fetchBikeIssues: bikeSingleFetchIssues,
+    putBikeInCirculation: bikeTakeInOutCirc,
   };
 
   return connect(

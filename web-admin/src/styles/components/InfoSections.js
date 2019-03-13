@@ -19,19 +19,6 @@ export const SSingleHeading = styled.h1`
   text-align: center;
 `;
 
-export const SInfoRowToColumn = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  @media screen and (max-width: ${props => props.breakpoint || `${MID_RANGE_BREAK_POINT}px`}) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
 export const SInfo = styled.div`
   display: flex;
   flex-direction: column;

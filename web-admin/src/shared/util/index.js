@@ -91,7 +91,7 @@ export const bikeStatusFromString = status => {
     case 'needs_serviced':
       return 'Needs Serviced';
     case 'out_of_circulation':
-      return 'Out Of Circ';
+      return 'Out of Circ';
     default:
       throw new Error('Status unknown');
   }
