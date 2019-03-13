@@ -3,4 +3,5 @@ export default {
   success: 'green',
   warning: 'yellow',
   danger: 'red',
+  error: 'red',
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setIssuesStatusOrderAsc, setIssuesTypeOrderAsc, setIssuesTimeOrderAsc } from '../../ducks/issues';
+import { setIssuesFilterStatusAsc, setIssuesFilterTypeAsc, setIssuesFilterTimeAsc } from '../../ducks/issues';
 
 export const IssuesFiltersProps = {
   setIssuesStatusOrderAsc: PropTypes.func,
@@ -30,9 +30,9 @@ export const withIssuesFilters = WrappedComponent => {
   };
 
   const mapDispatchToProps = {
-    setIssuesStatusOrderAsc,
-    setIssuesTypeOrderAsc,
-    setIssuesTimeOrderAsc,
+    setIssuesStatusOrderAsc: setIssuesFilterStatusAsc,
+    setIssuesTypeOrderAsc: setIssuesFilterTypeAsc,
+    setIssuesTimeOrderAsc: setIssuesFilterTimeAsc,
   };
 
   return connect(

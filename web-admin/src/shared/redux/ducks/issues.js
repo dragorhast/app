@@ -61,21 +61,21 @@ export default function issueReducer(state = INITIAL_STATE, { type, payload }) {
 }
 
 // Action Creators
-export const setIssuesStatusOrderAsc = boolean => ({
+export const setIssuesFilterStatusAsc = boolean => ({
   type: ISSUES_FILTER_SET,
   payload: {
     statusFilter: boolean ? 'asc' : 'desc',
   },
 });
 
-export const setIssuesTypeOrderAsc = boolean => ({
+export const setIssuesFilterTypeAsc = boolean => ({
   type: ISSUES_FILTER_SET,
   payload: {
     typeFilter: boolean ? 'asc' : 'desc',
   },
 });
 
-export const setIssuesTimeOrderAsc = boolean => ({
+export const setIssuesFilterTimeAsc = boolean => ({
   type: ISSUES_FILTER_SET,
   payload: {
     timeFilter: boolean,
@@ -175,7 +175,20 @@ export const getSingleRawIssueDataReady = issue => ({
   type: issue.bike_identifier ? 'Bike' : 'App',
   bikeId: issue.bike_identifier || '',
   userId: issue.user_id,
-  status: 'Open', // TODO change api as only ever open
+  status: getPrettyStringIssue(issue.status),
   datetime: issue.time,
   description: issue.description,
 });
+
+const getPrettyStringIssue = status => {
+  switch (status) {
+    case 'open':
+      return 'Open';
+    case 'in_review':
+      return 'Review';
+    case 'closed':
+      return 'Closed';
+    default:
+      return 'No Status';
+  }
+};

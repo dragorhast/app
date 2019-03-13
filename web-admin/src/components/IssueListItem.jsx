@@ -9,10 +9,13 @@ const SStatus = styled.span`
   color: ${props => {
     switch (props.status) {
       case 'Open':
+        return props.theme.error;
+      case 'Review':
+        return props.theme.warning;
+      case 'Closed':
         return props.theme.success;
-
       default:
-        return '';
+        return props.theme.error;
     }
   }};
 `;
