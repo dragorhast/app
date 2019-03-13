@@ -8,6 +8,7 @@ import {
   setSingleIssueDisplay,
   getIssuesWithFilter,
   issueUpdateStatus,
+  issueFetchBikeLocation,
 } from '../ducks/issues';
 
 export const IssuesProps = {
@@ -24,6 +25,7 @@ export const IssuesProps = {
   fetchSingleIssue: PropTypes.func.isRequired,
   setSingleIssueDisplay: PropTypes.func.isRequired,
   updateIssueStatus: PropTypes.func.isRequired,
+  fetchIssueBikeLocation: PropTypes.func.isRequired,
 };
 
 export default function withIssues(WrappedComponent) {
@@ -37,6 +39,7 @@ export default function withIssues(WrappedComponent) {
         fetchSingleIssue,
         setSingleIssueDisplay,
         updateIssueStatus,
+        fetchIssueBikeLocation,
         ...restProps
       } = this.props;
 
@@ -49,6 +52,7 @@ export default function withIssues(WrappedComponent) {
           fetchSingleIssue={fetchSingleIssue}
           setSingleIssueDisplay={setSingleIssueDisplay}
           updateIssueStatus={updateIssueStatus}
+          fetchIssueBikeLocation={fetchIssueBikeLocation}
           {...restProps}
         />
       );
@@ -69,6 +73,7 @@ export default function withIssues(WrappedComponent) {
     fetchSingleIssue: issueFetchSingle,
     updateIssueStatus: issueUpdateStatus,
     setSingleIssueDisplay,
+    fetchIssueBikeLocation: issueFetchBikeLocation,
   };
 
   return connect(

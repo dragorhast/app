@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { setStatus } from './status';
-import { apiIssueCreate, apiIssuesFetch, apiIssueFetchSingle, apiIssueUpdate } from '../../api/tap2go';
+import {
+  apiIssueCreate,
+  apiIssuesFetch,
+  apiIssueFetchSingle,
+  apiIssueUpdate,
+  apiBikeSingleFetch,
+} from '../../api/tap2go';
 import { Firebase } from '../../constants/firebase';
 
 // Prop Types
@@ -13,6 +19,7 @@ export const IssueSinglePropTypes = {
   status: PropTypes.string,
   datetime: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
   desc: PropTypes.string,
+  bikeLocation: PropTypes.arrayOf(PropTypes.number),
 };
 
 // Initial State
@@ -29,6 +36,7 @@ const INITIAL_STATE = {
     status: '',
     datetime: null,
     desc: '',
+    bikeLocation: null,
   },
 };
 
@@ -36,6 +44,7 @@ const INITIAL_STATE = {
 const ISSUES_SET_LIST = 'ISSUES_SET_LIST';
 const ISSUES_SET_SINGLE = 'ISSUES_SET_SINGLE';
 const ISSUES_FILTER_SET = 'ISSUES_FILTER_SET';
+const ISSUE_SET_BIKE_LOCATION = 'ISSUE_SET_BIKE_LOCATION';
 
 // Reducer
 export default function issueReducer(state = INITIAL_STATE, { type, payload }) {
@@ -54,6 +63,14 @@ export default function issueReducer(state = INITIAL_STATE, { type, payload }) {
       return {
         ...state,
         ...payload,
+      };
+    case ISSUE_SET_BIKE_LOCATION:
+      return {
+        ...state,
+        issueSingle: {
+          ...state.issueSingle,
+          bikeLocation: payload,
+        },
       };
     default:
       return state;
@@ -90,6 +107,11 @@ const setIssueList = issues => ({
 export const setSingleIssueDisplay = ({ id, type, bikeId, userId, status, datetime, description }) => ({
   type: ISSUES_SET_SINGLE,
   payload: { id, type, bikeId, userId, status, datetime, description },
+});
+
+const setSingleIssueBikeLocation = bikeLocation => ({
+  type: ISSUE_SET_BIKE_LOCATION,
+  payload: bikeLocation,
 });
 
 // Thunks
@@ -175,6 +197,27 @@ export const issueUpdateStatus = (issueId, status, message) => async dispatch =>
   }
 };
 
+/**
+ * Gets the location of a bike that has an issue
+ *
+ * @param bikeIdentifier
+ * @returns {Function}
+ */
+export const issueFetchBikeLocation = bikeIdentifier => async dispatch => {
+  try {
+    dispatch(setStatus('loading', true));
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+
+    const bike = await apiBikeSingleFetch(authToken, bikeIdentifier);
+
+    await dispatch(setSingleIssueBikeLocation(bike.current_location.geometry.coordinates));
+    return dispatch(setStatus('loading', false));
+  } catch (e) {
+    dispatch(setStatus('error', e.message));
+    throw e;
+  }
+};
+
 // Selectors
 // TODO implement this properly!! Can't get array.sort to work :-(
 const sortByDatetime = (array, asc) => (asc ? array : array);
@@ -201,6 +244,7 @@ export const getSingleRawIssueDataReady = issue => ({
   status: getPrettyStringIssue(issue.status),
   datetime: issue.time,
   description: issue.description,
+  bikeLocation: null, // this is always set elsewhere
 });
 
 const getPrettyStringIssue = status => {

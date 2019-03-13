@@ -72,9 +72,9 @@ const STextArea = styled.textarea`
 `;
 
 const statusOptions = [
-  { value: 'Open', label: 'Open' },
-  { value: 'Review', label: 'Review' },
-  { value: 'Closed', label: 'Closed' },
+  { value: 'open', label: 'Open' },
+  { value: 'review', label: 'Review' },
+  { value: 'close', label: 'Close' },
 ];
 
 class IssueSingle extends React.PureComponent {
@@ -90,6 +90,21 @@ class IssueSingle extends React.PureComponent {
     if (!issue.id) fetchSingleIssue(match.params.id);
     this.selectOption = this.selectOption.bind(this);
     this.submitStatusChange = this.submitStatusChange.bind(this);
+  }
+
+  /**
+   * If the new issue is of type bike then
+   * fetch the location of the bike associated
+   * with the issue
+   *
+   * @param prevProps
+   */
+  componentDidUpdate(prevProps) {
+    const { issue, fetchIssueBikeLocation } = this.props;
+
+    if (issue.bikeId && prevProps.issue.id !== issue.id) {
+      fetchIssueBikeLocation(issue.bikeId);
+    }
   }
 
   selectOption = option => {
@@ -143,7 +158,7 @@ class IssueSingle extends React.PureComponent {
           </SInfo>
 
           <SMap visible={!!issue.bikeId}>
-            {issue.bikeId && (
+            {issue.bikeLocation && (
               <Map
                 style={{ width: '240px', height: '240px' }}
                 google={google}
@@ -151,10 +166,13 @@ class IssueSingle extends React.PureComponent {
                 zoomControl={false}
                 mapTypeControl={false}
                 fullscreenControl={false}
-                initialCenter={{ lat: '55.9520111', lng: '-3.2091049' }}
-                center={{ lat: '55.9520111', lng: '-3.2091049' }}
+                initialCenter={{ lat: issue.bikeLocation[1], lng: issue.bikeLocation[0] }}
+                center={{ lat: issue.bikeLocation[1], lng: issue.bikeLocation[0] }}
               >
-                <Marker icon="/bike-icon-fa.png" position={{ lat: '55.9520111', lng: '-3.2091049' }} />
+                <Marker
+                  icon="/bike-icon-fa.png"
+                  position={{ lat: issue.bikeLocation[1], lng: issue.bikeLocation[0] }}
+                />
               </Map>
             )}
           </SMap>
