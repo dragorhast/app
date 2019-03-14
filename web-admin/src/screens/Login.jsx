@@ -1,31 +1,46 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SButton, SCenteredScreen } from '../styles/components/Common';
+import { Logo, SButton } from '../styles/components/Common';
 import withLogin, { LoginAndOutProps } from '../shared/redux/containers/LoginAndOutContainer';
+import { LogoGraphic } from '../components/LogoGraphic';
 
-const SFormBlock = styled.div`
-  width: 240px;
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-height: inherit;
+`;
+
+const LoginBlock = styled.div`
+  width: 400px;
   display: flex;
   flex-direction: column;
-  margin: 8px;
+  position: relative;
+  margin: 6em;
+  ${props => `color: ${props.theme.font};`}
 `;
 
-const SFormInput = styled.input`
-  width: 100%;
-  height: 48px;
-  font-size: 20px;
-  border-radius: 8px;
-  border: 2px solid lavender;
-  padding: 0 8px;
+const LoginInput = styled.input`
+  font-size: 1.2em;
+  font-weight: 500;
+  padding: 0.3em 0.5em;
+  color: inherit;
+  margin-bottom: 0.8em;
+  ${props => `border: 1px solid ${props.theme.outlineColor};`}
 `;
 
-const SFormLabel = styled.label`
-  font-size: 14px;
-  margin: 8px 0;
+const LoginInputLabel = styled.label`
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 0.1em;
 `;
 
-const SErrorText = styled.h3`
+const Errors = styled.h4`
   color: red; // TODO change to theme danger
+  position: absolute;
+  margin: 0;
+  top: 105%;
 `;
 
 class Login extends React.PureComponent {
@@ -35,15 +50,22 @@ class Login extends React.PureComponent {
     errors: null,
   };
 
-  handleTextInput = (field, value) => {
-    this.setState({ [field]: value });
-  };
+  componentDidMount() {
+    document.addEventListener('keypress', this.enterHandler);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keypress', this.enterHandler);
+  }
 
   initiateLogin = async () => {
     const { login, history } = this.props;
     const { email, password } = this.state;
     try {
-      await login({ email, password });
+      await login({
+        email,
+        password,
+      });
       history.push('bikes');
     } catch (e) {
       console.log(e);
@@ -51,27 +73,41 @@ class Login extends React.PureComponent {
     }
   };
 
+  handleTextInput = (field, value) => {
+    this.setState({ [field]: value });
+  };
+
+  enterHandler = event => {
+    if (event.key === 'Enter') this.initiateLogin();
+  };
+
   render() {
     const { email, password, errors } = this.state;
+
     return (
-      <SCenteredScreen>
-        {errors && <SErrorText>errors</SErrorText>}
-        <SFormBlock>
-          <SFormLabel>Email</SFormLabel>
-          <SFormInput value={email} onChange={e => this.handleTextInput('email', e.target.value)} />
-        </SFormBlock>
-        <SFormBlock>
-          <SFormLabel>Password</SFormLabel>
-          <SFormInput
+      <LoginContainer>
+        <LogoGraphic />
+        <LoginBlock>
+          <h1 style={{ fontSize: '3em', margin: 0 }}>
+            <Logo />
+            &nbsp;Admin
+          </h1>
+          <p>
+            Welcome to the <Logo /> admin interface. If you are a user, please&nbsp;
+            <a href="https://www.tap2go.co.uk">download the app</a>. Otherwise, please login below.
+          </p>
+          <LoginInputLabel>Email</LoginInputLabel>
+          <LoginInput value={email} onChange={e => this.handleTextInput('email', e.target.value)} />
+          <LoginInputLabel>Password</LoginInputLabel>
+          <LoginInput
             value={password}
             onChange={e => this.handleTextInput('password', e.target.value)}
             type="password"
           />
-        </SFormBlock>
-        <div style={{ margin: '8px' }}>
           <SButton onClick={this.initiateLogin}>Log In</SButton>
-        </div>
-      </SCenteredScreen>
+          {errors ? <Errors>{errors}</Errors> : null}
+        </LoginBlock>
+      </LoginContainer>
     );
   }
 }

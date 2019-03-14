@@ -1,16 +1,18 @@
+#root {
+    min-height: inherit;
+}
+
 .route {
-    display: flex;
-    flex-direction: column;
-    font-size: 20px;
-    height: 100vh;
+    font-size: 1em;
+    min-height: inherit;
 }
 
 .grid-layout {
-    height: 90%; /* Fixes bug with IssuesSingle taking full page */
     flex: 1; /* 100% height - nav + footer's set height */
     display: grid;
     grid-template-columns: 100%;
 }
+
 @media screen and (min-width: 549px) {
     .grid-layout {
         display: grid;

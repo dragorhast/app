@@ -23,7 +23,7 @@
         "extensions": [
           ".js",
           ".jsx"
-        ],returnedInfo
+        ]
       }
     ],
     "no-param-reassign": "off",
