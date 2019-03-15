@@ -32,7 +32,6 @@ class Login extends React.PureComponent {
   state = {
     email: '',
     password: '',
-    errors: null,
   };
 
   handleTextInput = (field, value) => {
@@ -43,19 +42,20 @@ class Login extends React.PureComponent {
     const { login, history } = this.props;
     const { email, password } = this.state;
     try {
-      await login({ email, password });
+      await login({ email, password, adminCheck: true });
       history.push('bikes');
     } catch (e) {
-      console.log(e);
-      this.setState({ errors: e.message });
+      console.log(e.message);
+      return Promise.resolve();
     }
   };
 
   render() {
-    const { email, password, errors } = this.state;
+    const { email, password } = this.state;
+    const { user } = this.props;
     return (
       <SCenteredScreen>
-        {errors && <SErrorText>errors</SErrorText>}
+        {user.error && <SErrorText>Errors: {user.error}</SErrorText>}
         <SFormBlock>
           <SFormLabel>Email</SFormLabel>
           <SFormInput value={email} onChange={e => this.handleTextInput('email', e.target.value)} />

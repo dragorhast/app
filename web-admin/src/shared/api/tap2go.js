@@ -40,7 +40,6 @@ const checkJSendStatus = response => {
 };
 
 axiosBaseUrl.interceptors.request.use(request => {
-  console.log(request);
   return request;
 });
 
