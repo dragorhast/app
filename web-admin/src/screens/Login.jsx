@@ -10,6 +10,10 @@ const LoginContainer = styled.div`
   justify-content: center;
   align-items: center;
   min-height: inherit;
+
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
 `;
 
 const LoginBlock = styled.div`
@@ -101,7 +105,7 @@ class Login extends React.PureComponent {
             type="password"
           />
           <SButton onClick={this.initiateLogin}>Log In</SButton>
-          {errors ? <Errors>{errors}</Errors> : null}
+          {user.error ? <Errors>{user.error}</Errors> : null}
         </LoginBlock>
       </LoginContainer>
     );

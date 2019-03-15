@@ -7,6 +7,13 @@ import withBikes, { BikesProps } from '../shared/redux/containers/BikesContainer
 import { SSingleScreen, SInfoTable } from '../styles/components/InfoSections';
 import IssuesList from '../components/IssuesList';
 import { BikeIdentifier } from '../components/BikeIdentifier';
+import { SButton } from '../styles/components/Common';
+
+const SCirculationButton = styled(SButton)`
+  grid-area: button;
+  max-height: 80px;
+  max-width: 160px;
+`;
 
 class BikeSingle extends React.PureComponent {
   componentWillMount() {
@@ -35,20 +42,20 @@ class BikeSingle extends React.PureComponent {
       // Can be put in to circulation
       case 'Out of Circ':
         return (
-          <SCircButton primary onClick={() => putBikeInCirculation(bike.id, true)}>
+          <SCirculationButton primary onClick={() => putBikeInCirculation(bike.id, true)}>
             Put in to Circulation
-          </SCircButton>
+          </SCirculationButton>
         );
       // Can be taken out of circulation
       case 'Available' || 'Broken' || 'Needs Serviced':
         return (
-          <SCircButton danger onClick={() => putBikeInCirculation(bike.id, false)}>
+          <SCirculationButton danger onClick={() => putBikeInCirculation(bike.id, false)}>
             Take out of Circulation
-          </SCircButton>
+          </SCirculationButton>
         );
       case 'Rented':
       default:
-        return <SCircButton disabled>Put in to Circulation</SCircButton>;
+        return <SCirculationButton disabled>Put in to Circulation</SCirculationButton>;
     }
   };
 
