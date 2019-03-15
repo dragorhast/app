@@ -17,11 +17,14 @@ export const LoginAndOutProps = {
   locale: PropTypes.string.isRequired,
   login: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    error: PropTypes.string,
+  }),
 };
 
 export default function withLogin(WrappedComponent) {
-  const LoginAndOutContainer = ({ locale, login, logout, ...restProps }) => (
-    <WrappedComponent locale={locale} login={login} logout={logout} {...restProps} />
+  const LoginAndOutContainer = ({ locale, login, logout, user, ...restProps }) => (
+    <WrappedComponent locale={locale} login={login} logout={logout} user={user} {...restProps} />
   );
 
   LoginAndOutContainer.propTypes = {
@@ -30,6 +33,7 @@ export default function withLogin(WrappedComponent) {
 
   const mapStateToProps = state => ({
     locale: state.locale.country,
+    user: state.user,
   });
 
   const mapDispatchToProp = {
