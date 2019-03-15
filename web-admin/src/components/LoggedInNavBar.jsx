@@ -14,7 +14,7 @@ const STabBarFullScreen = styled.div`
   display: flex;
   flex-direction: row;
   background-color: white;
-  box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.2);
   z-index: 10;
   a {
     flex: 1;

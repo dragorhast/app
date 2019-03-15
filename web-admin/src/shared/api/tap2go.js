@@ -392,3 +392,13 @@ export const apiBikeSingleFetchIssues = async (authToken, bikeId) => {
   const result = await axiosBaseUrl.get(`/bikes/${bikeId}/issues`, getConfig(authToken));
   return result.data.data.issues;
 };
+
+export const apiCurrentReport = async authToken => {
+  const result = await axiosBaseUrl.get(`/report/current`, getConfig(authToken));
+  return result.data.data;
+};
+
+export const apiHistoricalReport = async authToken => {
+  const result = await axiosBaseUrl.get(`/report/daily`, getConfig(authToken));
+  return result.data.data;
+};

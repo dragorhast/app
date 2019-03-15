@@ -9,6 +9,7 @@ import { PHONE_BREAK_POINT } from '../styles/constants';
  * class will render the component props on a phone screen
  * but re-route on a larger screen
  */
+
 const SmallScreenRoute = ({ path, Component, reroutePath, loggedIn }) => (
   <Route
     exact

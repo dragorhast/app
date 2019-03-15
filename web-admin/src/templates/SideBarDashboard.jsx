@@ -13,7 +13,7 @@ import { PHONE_BREAK_POINT } from '../styles/constants';
  * on large screens but not on small ones
  */
 
-const BigScreenRoute = ({ path, Screen, SidePanel, loggedIn }) => (
+const SideBarDashboard = ({ path, Screen, SidePanel, loggedIn }) => (
   <Route
     exact
     path={path}
@@ -34,11 +34,11 @@ const BigScreenRoute = ({ path, Screen, SidePanel, loggedIn }) => (
   />
 );
 
-BigScreenRoute.propTypes = {
+SideBarDashboard.propTypes = {
   path: PropTypes.string.isRequired,
   Screen: PropTypes.func.isRequired,
   SidePanel: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
 };
 
-export default BigScreenRoute;
+export default SideBarDashboard;

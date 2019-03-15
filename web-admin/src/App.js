@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import { store, persistor } from './shared/redux/store';
+import { persistor, store } from './shared/redux/store';
 import { Firebase } from './shared/constants/firebase';
 import './styles/App.css';
-
 // Theming
 import Theme from './styles/styledComponentTheme';
-
 // import Navbar from './components/Navbar';
 import LoggedInNavBar from './components/LoggedInNavBar';
 
@@ -29,12 +27,16 @@ import IssuesSide from './screens/SideScreens/Issues';
 import IssueSingle from './screens/IssueSingle';
 
 import SmallScreenRoute from './templates/SmallScreenRoute';
-import BigScreenRoute from './templates/BigScreenRoute';
+import SideBarDashboard from './templates/SideBarDashboard';
 import MustBeLoggedIn from './screens/MustbeLoggedIn';
 import Login from './screens/Login';
+import ReportsView from './screens/ReportsView';
 
 class App extends Component {
-  state = { firebaseId: undefined, loaded: false };
+  state = {
+    firebaseId: undefined,
+    loaded: false,
+  };
 
   /**
    * When the App component mounts, we listen for any authentication
@@ -65,7 +67,7 @@ class App extends Component {
                 <div className="route">
                   {firebaseId && <Route path="/" component={LoggedInNavBar} />}
                   {!firebaseId && <Route exact path="/login" component={Login} />}
-                  <BigScreenRoute path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
+                  <SideBarDashboard path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
                   <Route exact path="/" render={() => <Redirect from="/" to="/bikes" />} />
                   <SmallScreenRoute
                     path="/bikes"
@@ -73,7 +75,7 @@ class App extends Component {
                     reroutePath="/bikes/map"
                     loggedIn={!!firebaseId}
                   />
-                  <BigScreenRoute
+                  <SideBarDashboard
                     path="/bikes/single/:id"
                     Screen={BikeSingle}
                     SidePanel={BikesSide}
@@ -85,13 +87,13 @@ class App extends Component {
                     reroutePath="/pickups/map"
                     loggedIn={!!firebaseId}
                   />
-                  <BigScreenRoute
+                  <SideBarDashboard
                     path="/pickups/map"
                     Screen={PickupsMap}
                     SidePanel={PickupsSide}
                     loggedIn={!!firebaseId}
                   />
-                  <BigScreenRoute
+                  <SideBarDashboard
                     path="/pickups/single/:id"
                     Screen={PickupSingle}
                     SidePanel={PickupsSide}
@@ -103,13 +105,13 @@ class App extends Component {
                     loggedIn={!!firebaseId}
                     reroutePath="/reservations/home"
                   />
-                  <BigScreenRoute
+                  <SideBarDashboard
                     path="/reservations/home"
                     Screen={ReservationsHome}
                     SidePanel={ReservationsSide}
                     loggedIn={!!firebaseId}
                   />
-                  <BigScreenRoute
+                  <SideBarDashboard
                     path="/reservations/single/:id"
                     Screen={ReservationSingle}
                     SidePanel={ReservationsSide}
@@ -121,12 +123,13 @@ class App extends Component {
                     path="/issues"
                     reroutePath="/issues/single/1"
                   />
-                  <BigScreenRoute
+                  <SideBarDashboard
                     path="/issues/single/:id"
                     Screen={IssueSingle}
                     SidePanel={IssuesSide}
                     loggedIn={!!firebaseId}
                   />
+                  <Route path="/reports" component={ReportsView} />
                   <Route exact path="/not-authorized" component={MustBeLoggedIn} />
                 </div>
               </Router>
@@ -137,4 +140,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;
