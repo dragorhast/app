@@ -62,7 +62,7 @@ export default function reservationDisplayReducer(state = INITIAL_STATE, { type,
         pickupName: payload.pickupName,
         pickupLocation: payload.pickupLocation,
         datetime: payload.datetime,
-        status: payload.statusm,
+        status: payload.status,
       };
     case RESERVATION_DISPLAY_SET_FIELD:
       return {
