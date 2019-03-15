@@ -18,6 +18,23 @@ const axiosBaseUrl = axios.create({
   baseURL: CONSTANTS.apiBaseURL,
 });
 
+// ***** NTERCEPTORS ****** //
+axiosBaseUrl.interceptors.request.use(request => {
+  console.log('Request: ', request);
+  return request;
+});
+
+axiosBaseUrl.interceptors.response.use(
+  response => {
+    // console.log('Response:', response);
+    return checkJSendStatus(response);
+  },
+  error => {
+    // console.log(JSON.parse(JSON.stringify(error)));
+    return Promise.reject(error);
+  }
+);
+
 /**
  * Decides what to return based on JSend status
  *
@@ -38,21 +55,6 @@ const checkJSendStatus = response => {
       return response;
   }
 };
-
-axiosBaseUrl.interceptors.request.use(request => {
-  return request;
-});
-
-axiosBaseUrl.interceptors.response.use(
-  response => {
-    // console.log('Response:', response);
-    return checkJSendStatus(response);
-  },
-  error => {
-    // console.log(JSON.parse(JSON.stringify(error)));
-    return Promise.reject(error);
-  }
-);
 
 /* ******** API ENDPOINTS ******** */
 
@@ -105,18 +107,27 @@ export const apiUserDelete = authToken => axiosBaseUrl.delete('/users/me', getCo
  */
 export const apiUserSetPaymentDetails = async (authToken, stripeToken) => {
   const dbId = Firebase.auth().currentUser.photoURL;
-  try {
-    await axiosBaseUrl.put(
-      `/users/${dbId}/payment`,
-      {
-        token: stripeToken,
-      },
-      getConfig(authToken)
-    );
-    return null;
-  } catch (e) {
-    throw e;
-  }
+  return axiosBaseUrl.put(
+    `/users/${dbId}/payment`,
+    {
+      token: stripeToken,
+    },
+    getConfig(authToken)
+  );
+};
+
+/**
+ * Checks if the current user is able to make payments
+ *
+ * @param authToken
+ * @returns boolean
+ */
+export const apiUserAbleToMakePayment = async authToken => {
+  const dbId = Firebase.auth().currentUser.photoURL;
+  const result = await axiosBaseUrl.get(`/users/${dbId}/payment`, getConfig(authToken));
+  if (result.status === 200) return true;
+  if (result.status === 204) return false;
+  throw new Error(`Unhandled status code: ${result.status}`);
 };
 
 /**

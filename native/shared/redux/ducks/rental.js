@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
-import { apiRentalStartId, apiRentalFetchCurrent, apiRentalEndCurrent } from '../../api/tap2go';
+import {
+  apiRentalStartId,
+  apiRentalFetchCurrent,
+  apiRentalEndCurrent,
+  apiUserAbleToMakePayment,
+} from '../../api/tap2go';
 
 // Actions
 const RENTAL_SET_ALL = 'RENTAL_SET_ALL';
@@ -102,6 +107,7 @@ export const rentalFetchInfo = () => async dispatch => {
   try {
     // Fetching doesn't trigger Loading
     const authToken = await Firebase.auth().currentUser.getIdToken();
+
     const rental = await apiRentalFetchCurrent(authToken);
 
     return dispatch(

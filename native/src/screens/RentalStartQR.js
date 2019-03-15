@@ -6,6 +6,8 @@ import { Screen } from '../styles';
 import QRScanner from '../components/QRScanner';
 import ROUTES from '../routes';
 import withStartRental, { RentalStartProps } from '../../shared/redux/containers/RentalStartContainer';
+import { Firebase } from '../../shared/constants/firebase';
+import { apiUserAbleToMakePayment } from '../../shared/api/tap2go';
 
 const SQrScanner = styled.View`
   flex-direction: row;
@@ -22,16 +24,20 @@ class RentalStartQR extends React.Component {
   sendBikeIdToServer = async bikeId => {
     const { startRental } = this.props;
     try {
-      await startRental(bikeId);
-      Actions[ROUTES.RentalInfoNew]();
-    } catch (e) {
-      if (e.message === 'NO PAYMENT METHOD') {
+      const authToken = await Firebase.auth().currentUser.getIdToken();
+      const ableToPay = await apiUserAbleToMakePayment(authToken);
+
+      if (ableToPay) {
+        await startRental(bikeId);
+        Actions[ROUTES.RentalInfoNew]();
+      } else {
         Actions.replace(ROUTES.PaymentRequired, {
           callbackOnSuccessfulPaymentUpload: () => Actions.replace(ROUTES.RentalStart),
         });
-        return;
       }
-      // Actions.push(ROUTES.RentalStart);
+    } catch (e) {
+      console.log(e);
+      return Promise.resolve();
     }
   };
 

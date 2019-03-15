@@ -54,18 +54,20 @@ export const editSectionPayments = keyValuePair => ({
 
 // Thunks
 
-// TODO decide if getState or passing as an argument is better
 export const paymentSetDetails = ({ cardNumber, month, year, cvc }) => async dispatch => {
   try {
     dispatch(setStatus('loading'));
     const authToken = await Firebase.auth().currentUser.getIdToken();
+    console.log('Auth Token: ', authToken);
     const token = await stripeGetToken({
       number: cardNumber,
       exp_month: month,
       exp_year: year,
       cvc,
     });
-    await apiUserSetPaymentDetails(authToken, token);
+
+    console.log('Stripes Customer Token: ', token);
+    await apiUserSetPaymentDetails(authToken, token.id);
     dispatch(setStatus('success', 'Successfully updated payment details!'));
   } catch (e) {
     setStatus('error', e.message);
