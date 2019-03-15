@@ -7,7 +7,7 @@ import platformTheme from './native-base-theme/variables/platform';
 
 import { store, persistor } from './shared/redux/store';
 
-import MyRoute from './src';
+import MyRoutes from './src';
 import LoadingScreen from './src/screens/LoadingScreen';
 
 export default class App extends React.Component {
@@ -17,7 +17,7 @@ export default class App extends React.Component {
         <PersistGate loading={<LoadingScreen />} persistor={persistor}>
           <StyleProvider style={getTheme(platformTheme)}>
             <Root>
-              <MyRoute />
+              <MyRoutes />
             </Root>
           </StyleProvider>
         </PersistGate>

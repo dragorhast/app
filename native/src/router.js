@@ -20,9 +20,9 @@ import ProfileScreen from './screens/ProfileScreen';
 import PaymentRequired from './screens/PaymentRequired';
 
 // FOR TESTING VISUAL
-import TestScreen from './screens/test-screen';
+// import TestScreen from './screens/test-screen';
 
-const VisualInspection = TestScreen;
+// const VisualInspection = TestScreen;
 
 // const MyRouter = ({ firebaseId }) => ();
 
@@ -69,7 +69,7 @@ class MyRouter extends React.PureComponent {
       </Router>
     );
 
-    // ****** FOR TESTING ****** //
+    // ****** FOR TESTING A SCREEN ****** //
 
     // return (
     //   <Router>
