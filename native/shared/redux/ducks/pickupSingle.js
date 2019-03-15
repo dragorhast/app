@@ -27,10 +27,7 @@ const INITIAL_STATE = {
 export const PickupPropTypes = {
   pickupId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  coordinates: PropTypes.shape({
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-  }).isRequired,
+  coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
   distance: PropTypes.number,
   status: PropTypes.string,
 };
