@@ -87,7 +87,9 @@ class PickupPoints extends React.Component {
               </MapView>
               {/* TODO make the transition where this enters nicer */}
               {/* TODO add a button to close the pop up */}
-              {mapBottomPointVisible && <PickupPoint point={mapBottomPoint} />}
+              {mapBottomPointVisible && (
+                <PickupPoint point={mapBottomPoint} openReservation={this._moveToReservationCreate} />
+              )}
             </View>
           </Tab>
         </Tabs>
