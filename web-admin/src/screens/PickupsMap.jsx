@@ -1,10 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { GoogleApiWrapper, Map, Marker, InfoWindow } from 'google-maps-react';
+import { GoogleApiWrapper, Map, InfoWindow, Polygon } from 'google-maps-react';
 import withPickup, { PickupProps } from '../shared/redux/containers/PickupPointsContainer';
 import CONFIG from '../shared/constants/config';
 import { mapCenter } from '../styles/constants';
 import MapToListTabs from '../components/MapToListTabs';
+import mapStyle from '../assets/maps-style';
+
+/**
+ * A quick function to create a (seemingly) random
+ * but deterministic hue for a given pickup.
+ */
+function pickupColor(pickup) {
+  const hue = (pickup.pickupId + 43517) ** 3 % 256;
+  return `hsl(${hue}, 100%, 70%)`;
+}
 
 class PickupsMap extends React.PureComponent {
   state = {
@@ -23,17 +33,15 @@ class PickupsMap extends React.PureComponent {
   /**
    * Sets the state so that the InfoWindow
    * knows which marker to associate with
-   * then makes the InfoWindow visible
-   *
-   * @param props
-   * @param marker
+   * then makes the InfoWindow visible.
    */
-  onMarkerClick = (props, marker) =>
+  onMarkerClick = (props, marker) => {
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true,
     });
+  };
 
   /**
    * Closes the info window
@@ -53,22 +61,30 @@ class PickupsMap extends React.PureComponent {
     const { smallScreen, google, pickups } = this.props;
     const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
 
+    console.log(pickups);
+    console.log(pickups.map(pickup => pickup.coordinates));
+
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
         {smallScreen && <MapToListTabs mapView linkToList="/pickups" />}
-        <div style={{ flex: 1 }}>
-          <Map google={google} zoom={15} initialCenter={mapCenter} onClick={this.onMapClick}>
+        <div style={{ flex: 1, position: 'relative' }}>
+          <Map google={google} zoom={15} styles={mapStyle} initialCenter={mapCenter} onClick={this.onMapClick}>
             {pickups &&
-              pickups.map(pickup => (
-                <Marker
-                  icon="/pickup-point-icon-fa.png"
-                  key={pickup.pickupId}
-                  id={pickup.pickupId}
-                  name={pickup.name}
-                  position={{ lat: pickup.coordinates.latitude, lng: pickup.coordinates.longitude }}
-                  onClick={this.onMarkerClick}
-                />
-              ))}
+              pickups.map(pickup => {
+                const color = pickupColor(pickup);
+                return (
+                  <Polygon
+                    key={pickup.pickupId}
+                    paths={pickup.coordinates}
+                    strokeColor={color}
+                    strokeOpacity={1}
+                    strokeWeight={1}
+                    fillColor={color}
+                    fillOpacity={0.15}
+                    onClick={this.onMarkerClick}
+                  />
+                );
+              })}
             <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
               <div>
                 <h3>{selectedPlace.name}</h3>

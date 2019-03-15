@@ -1,0 +1,14 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2061.69 2061.69">
+  <defs>
+    <clipPath id="clip-path">
+      <path class="cls-1" style="fill:none" d="M1955.21,88H105.05C48.52,88,2.26,134.25,2.26,190.79V1969l169.6-169.6L346.6,1969l169.6-169.6L685.8,1969l169.59-169.6L1030.13,1969l169.6-169.6,169.6,169.6,174.74-169.6L1713.66,1969l169.6-169.6L2058,1969V190.79C2058,134.25,2011.75,88,1955.21,88Z"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="1030.13" y1="1730" x2="1030.13" y2="-151" gradientTransform="matrix(1, 0, 0, -1, 0, 1818)" gradientUnits="userSpaceOnUse">
+      <stop id="stop-1" offset="0" stop-color="#85ceff"/>
+      <stop id="stop-2" offset="1" stop-color="#f8b3ff"/>
+    </linearGradient>
+  </defs>
+  <g style="clip-path: url(#clip-path)">
+    <path style="fill: url(#linear-gradient)" d="M1955.21,88H105.05C48.52,88,2.26,134.25,2.26,190.79V1969H2058V190.79C2058,134.25,2011.75,88,1955.21,88Z"/>
+  </g>
+</svg>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { SListItem } from '../styles/components/SidePanelSections';
 import { PickupPropTypes } from '../shared/redux/ducks/pickups';
+import { ReactComponent as PickupIcon } from '../assets/pickup.svg';
 
 const SStatus = styled.span`
   color: ${props => {
@@ -21,8 +22,16 @@ const SStatus = styled.span`
 
 const PickupListItem = ({ pickup, selectPickup }) => (
   <SListItem onClick={() => selectPickup(pickup)}>
-    <span>{pickup.name}</span>
-    <SStatus status={pickup.status}>{pickup.status}</SStatus>
+    <PickupIcon style={{ height: '1.5em', marginRight: '1em' }} />
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontWeight: 'bold' }}>{pickup.name}</span>
+      <span style={{ color: '#aaa', fontSize: '0.8em' }}>
+        {pickup.coordinates[0].lng.toFixed(2)}, {pickup.coordinates[0].lat.toFixed(2)}
+      </span>
+    </div>
+    <SStatus style={{ marginLeft: 'auto' }} status={pickup.status}>
+      {pickup.status}
+    </SStatus>
   </SListItem>
 );
 

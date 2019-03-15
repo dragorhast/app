@@ -7,6 +7,7 @@ import PickupListItem from '../../components/PickupListItem';
 import { SSideComponent, SControlBar } from '../../styles/components/SidePanelSections';
 import MapToListTabs from '../../components/MapToListTabs';
 import { withPickupsFilters, PickupsFiltersProps } from '../../shared/redux/containers/Filters/PickupsFilters';
+import { SList } from '../../styles/components/Common';
 
 class Pickups extends React.PureComponent {
   componentWillMount() {
@@ -32,24 +33,26 @@ class Pickups extends React.PureComponent {
 
     return (
       <SSideComponent>
-        {smallScreen && <MapToListTabs listView linkToMap="/pickups/map" />}
-        <SControlBar>
-          <ControlArrows
-            label="Name"
-            onUpPress={() => setPickupNameOrderAsc(false)}
-            onDownPress={() => setPickupNameOrderAsc(true)}
-          />
-          <ControlArrows
-            label="Status"
-            onUpPress={() => setPickupStatusOrderAsc(false)}
-            onDownPress={() => setPickupStatusOrderAsc(true)}
-          />
-        </SControlBar>
-        {pickups &&
-          pickups.map(pickup => (
-            <PickupListItem key={pickup.pickupId} pickup={pickup} selectPickup={this.selectPickup} />
-          ))}
-        {pickups.length === 0 && <h3 style={{ textAlign: 'center', fontStyle: 'italic' }}>No Pickups</h3>}
+        <SList>
+          {smallScreen && <MapToListTabs listView linkToMap="/pickups/map" />}
+          <SControlBar>
+            <ControlArrows
+              label="Name"
+              onUpPress={() => setPickupNameOrderAsc(false)}
+              onDownPress={() => setPickupNameOrderAsc(true)}
+            />
+            <ControlArrows
+              label="Status"
+              onUpPress={() => setPickupStatusOrderAsc(false)}
+              onDownPress={() => setPickupStatusOrderAsc(true)}
+            />
+          </SControlBar>
+          {pickups &&
+            pickups.map(pickup => (
+              <PickupListItem key={pickup.pickupId} pickup={pickup} selectPickup={this.selectPickup} />
+            ))}
+          {pickups.length === 0 && <h3 style={{ textAlign: 'center', fontStyle: 'italic' }}>No Pickups</h3>}
+        </SList>
       </SSideComponent>
     );
   }

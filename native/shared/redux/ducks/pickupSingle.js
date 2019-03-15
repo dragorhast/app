@@ -78,12 +78,17 @@ export const pickupSingleFetch = pickupId => async dispatch => {
 
     const authToken = await Firebase.auth().currentUser.getIdToken();
     const pickup = await apiPickupFetchSingle(authToken, pickupId);
+    const coordinates = [];
+    console.log('coordinates: ', pickup.geometry.coordinates);
+    pickup.geometry.coordinates[0].forEach(([x, y]) => {
+      pickup.coordinates.push({ lat: x, long: y });
+    });
 
     await dispatch(
       setPickup({
         pickupId: pickup.properties.id,
         name: pickup.properties.name,
-        coordinates: pickup.properties.center,
+        coordinates,
         distance: pickup.properties.distance,
         status: pickupStateFromBikeCount(pickup.properties.bikes || []),
       })

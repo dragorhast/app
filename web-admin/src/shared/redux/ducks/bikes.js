@@ -118,14 +118,17 @@ export const getBikesWithFilter = (bikes, locationFilter, statusFilter) =>
 // ******* Helper functions ******* //
 export const getRawBikeDataReady = bikesRaw => {
   return bikesRaw.map(bike => {
-    // No current_location if rented
-    const bikeRented = !bike.current_location;
-    // const bikeRented = bike.identifier === 'f7fcc1';
+    const locationName = !bike.connected
+      ? 'Unknown Location'
+      : bike.rented
+      ? 'In Use'
+      : pickupPointOrPrettyPrintCoords(bike.current_location);
+
     return {
       id: bike.identifier,
       /* Pickup name or lat, lng as a string */
-      locationName: bikeRented ? 'IN USE' : pickupPointOrPrettyPrintCoords(bike.current_location),
-      coordinates: bikeRented ? 'IN USE' : bike.current_location.geometry.coordinates,
+      locationName,
+      coordinates: !bike.connected ? 'Unknown' : bike.rented ? 'In Use' : bike.current_location.geometry.coordinates,
       status: bikeStatusFromString(bike.status),
       battery: bike.battery,
     };
