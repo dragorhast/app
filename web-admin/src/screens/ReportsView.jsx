@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { VictoryChart, VictoryLine } from 'victory';
+import { VictoryChart, VictoryLine, VictoryArea } from 'victory';
+import { VictoryPolarAxis } from 'victory-polar-axis';
 import CountUp from 'react-countup';
 import { apiCurrentReport, apiHistoricalReport } from '../shared/api/tap2go';
 import { Firebase } from '../shared/constants/firebase';
@@ -63,10 +64,9 @@ const FigureCard = styled.figure`
     font-weight: bold;
     background-color: #fdcd11;
     border-top: 5px solid rgba(0, 0, 0, 0.3);
-    margin: -1.5em;
+    margin: -1.5em -1.5em 0 -1.5em;
     padding: 0.5em;
-    position: absolute;
-    width: 100%;
+    font-family: Poppins, sans-serif;
     box-sizing: border-box;
   }
 `;
@@ -143,6 +143,17 @@ class ReportsView extends React.PureComponent {
       'revenue',
     ]);
 
+    let dayDistance = { Sunday: 0, Monday: 0, Tuesday: 0, Wednesday: 0, Thursday: 0, Friday: 0, Saturday: 0 };
+    distanceTravelled.forEach(({ x, y }) => {
+      const date = new Date(x);
+      const day = Object.keys(dayDistance)[date.getDay()];
+      dayDistance[day] += y;
+    });
+
+    dayDistance = Object.entries(dayDistance).map(([day, meters]) => {
+      return { x: day, y: meters };
+    });
+
     return (
       <ReportsLayout>
         <ReportSection style={{ gridArea: '1 / 2 / 2 / 6' }} color="#fdcd11">
@@ -208,6 +219,13 @@ class ReportsView extends React.PureComponent {
           <header>Revenue</header>
           <VictoryChart theme={ChartsStyle}>
             <VictoryLine interpolation="natural" data={revenue} />
+          </VictoryChart>
+        </GraphCard>
+        <GraphCard style={{ gridArea: '4 / 4 / 5 / 6' }}>
+          <header>Distance Travelled By Day</header>
+          <VictoryChart polar theme={ChartsStyle}>
+            <VictoryArea data={dayDistance} />
+            <VictoryPolarAxis />
           </VictoryChart>
         </GraphCard>
       </ReportsLayout>
