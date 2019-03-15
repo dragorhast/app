@@ -7,44 +7,32 @@ import Media from 'react-media';
 import { PHONE_BREAK_POINT } from '../styles/constants';
 import COLORS from '../styles/styledComponentTheme';
 import withSignOut from '../shared/redux/containers/LoginAndOutContainer';
+import { Logo } from '../styles/components/Common';
 
 // ****** NAV BAR ON LAPTOP ****** //
 const STabBarFullScreen = styled.div`
-  position: sticky;
-  top: 0; /* Distance from top to stick to*/
-  background-color: white; // TODO change to primary
   display: flex;
-  overflow: scroll; // TODO change to burger
   flex-direction: row;
-  align-items: center;
-  width: 100%;
-  height: 64px !important;
-  border-bottom: 1px solid grey;
+  background-color: white;
+  box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.5);
+  z-index: 10;
   a {
-    text-decoration: none;
-    color: grey;
     flex: 1;
-    height: 100%;
-
-    :hover {
-      cursor: pointer;
-    }
+    text-decoration: none;
+    color: inherit;
   }
+  ${props => `color: ${props.theme.font}`};
 `;
 
-const SNavSelection = styled.div`
-  flex: 1;
-  padding: 16px 8px;
-  text-align: center;
+const NavElement = styled.div`
   box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%
-    ${props =>
-      props.selected &&
-      `
-  color: ${props.theme.primary};
+  padding: 1em 0;
+  height: 100%;
+  text-align: center;
+  ${props =>
+    props.selected &&
+    `
+  font-weight: bold;
   border-bottom: 2px solid ${props.theme.primary};
 `};
 `;
@@ -60,7 +48,6 @@ const SNavBarPhoneScreen = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 48px !important;
   border-bottom: 1px solid grey;
   padding: 8px 16px;
 `;
@@ -158,28 +145,28 @@ class LoggedInNavBar extends React.PureComponent {
         {bigScreen =>
           bigScreen ? (
             <STabBarFullScreen>
-              <SNavSelection style={{ minWidth: '80px' }}>Tap 2 Go</SNavSelection>
+              <NavElement style={{ flex: 1 }}>
+                <Logo />
+                &nbsp;Admin
+              </NavElement>
               {/* TODO remove code duplications */}
               <Link to="/bikes">
-                <SNavSelection selected={location.pathname.match(/\/bikes/g)}>Bike</SNavSelection>
+                <NavElement selected={location.pathname.match(/\/bikes/g)}>Bike</NavElement>
               </Link>
               <Link to="/pickups">
-                <SNavSelection selected={location.pathname.match(/\/pickup/g)}>Pickup Points</SNavSelection>
+                <NavElement selected={location.pathname.match(/\/pickup/g)}>Pickup Points</NavElement>
               </Link>
               <Link to="/issues">
-                <SNavSelection selected={location.pathname.match(/\/issue/g)}>Issues</SNavSelection>
+                <NavElement selected={location.pathname.match(/\/issue/g)}>Issues</NavElement>
               </Link>
               <Link to="/reservations">
-                <SNavSelection selected={location.pathname.match(/\/reservations/g)}>Reservations</SNavSelection>
+                <NavElement selected={location.pathname.match(/\/reservations/g)}>Reservations</NavElement>
               </Link>
               <Link to="/reports">
-                <SNavSelection selected={location.pathname.match(/\/reports/g)}>Reports</SNavSelection>
+                <NavElement selected={location.pathname.match(/\/reports/g)}>Reports</NavElement>
               </Link>
-
-              <a to="#">
-                <SNavSelection onClick={this.initiateLogOut} styl={{ justifySelf: 'flex-end' }}>
-                  Sign Out
-                </SNavSelection>
+              <a style={{ cursor: 'pointer' }}>
+                <NavElement onClick={this.initiateLogOut}>Sign Out</NavElement>
               </a>
             </STabBarFullScreen>
           ) : (
@@ -198,25 +185,25 @@ class LoggedInNavBar extends React.PureComponent {
               <SOverlay open={navBarOpen} />
               <SDropDownMenu open={navBarOpen}>
                 <Link to="/bikes">
-                  <SNavSelection selected={location.pathname.match(/\/bikes/g)}>Bikes</SNavSelection>
+                  <NavElement selected={location.pathname.match(/\/bikes/g)}>Bikes</NavElement>
                 </Link>
                 <Link to="/pickups">
-                  <SNavSelection selected={location.pathname.match(/\/pickup/g)}>Pickup Points</SNavSelection>
+                  <NavElement selected={location.pathname.match(/\/pickup/g)}>Pickup Points</NavElement>
                 </Link>
                 <Link to="/issues">
-                  <SNavSelection selected={location.pathname.match(/\/issue/g)}>Issues</SNavSelection>
+                  <NavElement selected={location.pathname.match(/\/issue/g)}>Issues</NavElement>
                 </Link>
                 <Link to="/reservations">
-                  <SNavSelection selected={location.pathname.match(/\/reservations/g)}>Reservations</SNavSelection>
+                  <NavElement selected={location.pathname.match(/\/reservations/g)}>Reservations</NavElement>
                 </Link>
                 <Link to="/reports">
-                  <SNavSelection selected={location.pathname.match(/\/reports/g)}>Reports</SNavSelection>
+                  <NavElement selected={location.pathname.match(/\/reports/g)}>Reports</NavElement>
                 </Link>
 
                 <a to="#">
-                  <SNavSelection onClick={this.initiateLogOut} styl={{ justifySelf: 'flex-end' }}>
+                  <NavElement onClick={this.initiateLogOut} styl={{ justifySelf: 'flex-end' }}>
                     Sign Out
-                  </SNavSelection>
+                  </NavElement>
                 </a>
               </SDropDownMenu>
             </div>

@@ -4,7 +4,7 @@ export default {
   warning: 'yellow',
   danger: 'red',
   error: 'red',
-  font: '#242646',
+  font: '#1c1d36',
   stop1: '#85CEFF',
   stop2: '#F8B3FF',
   uiAccent: '#106bfc',

@@ -67,3 +67,9 @@ export const Logo = styled.span`
     content: 'tap2go';
   }
 `;
+
+export const SList = styled.div`
+  width: 100%;
+  height: 100%;
+  ${props => `color: ${props.theme.font};`}
+`;

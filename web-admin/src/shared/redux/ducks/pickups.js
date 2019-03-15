@@ -92,11 +92,16 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
     // Gets our required from GeoJson structure - distance might be undefined
     // let allDistances = true;
     const pickups = pickupsRaw.map(pickup => {
+      const coordinates = [];
+      pickup.geometry.coordinates[0].forEach(([x, y]) => {
+        coordinates.push({ lat: y, lng: x });
+      });
+
       // if (!pickup.properties.distance) allDistances = false;
       return {
         pickupId: pickup.properties.id,
         name: pickup.properties.name,
-        coordinates: pickup.properties.center,
+        coordinates,
         distance: pickup.properties.distance,
         status: pickupStateFromBikeCount(pickup.properties.bikes || []),
       };

@@ -27,10 +27,12 @@ const INITIAL_STATE = {
 export const PickupPropTypes = {
   pickupId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  coordinates: PropTypes.shape({
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-  }).isRequired,
+  coordinates: PropTypes.arrayOf(
+    PropTypes.shape({
+      lat: PropTypes.number,
+      long: PropTypes.number,
+    })
+  ).isRequired,
   distance: PropTypes.number,
   status: PropTypes.string,
 };
@@ -81,12 +83,16 @@ export const pickupSingleFetch = pickupId => async dispatch => {
 
     const authToken = await Firebase.auth().currentUser.getIdToken();
     const pickup = await apiPickupFetchSingle(authToken, pickupId);
+    const coordinates = [];
+    pickup.geometry.coordinates[0].forEach(([x, y]) => {
+      coordinates.push({ lat: 10, lng: 10 });
+    });
 
     await dispatch(
       setPickup({
         pickupId: pickup.properties.id,
         name: pickup.properties.name,
-        coordinates: pickup.properties.center,
+        coordinates,
         distance: pickup.properties.distance,
         status: pickupStateFromBikeCount(pickup.properties.bikes || []),
       })

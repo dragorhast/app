@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { SListItem } from '../styles/components/SidePanelSections';
 import { BikePropTypes } from '../shared/redux/ducks/bikeSingle';
+import { ReactComponent as BikeIcon } from '../assets/bicycle.svg';
 
 const SStatus = styled.span`
   color: ${props => {
@@ -15,12 +16,15 @@ const SStatus = styled.span`
   }};
 `;
 const BikeListItem = ({ bike, selectBike }) => (
-  <SListItem onClick={() => selectBike(bike)}>
+  <SListItem style={{ cursor: 'pointer' }} onClick={() => selectBike(bike)}>
+    <BikeIcon style={{ height: '3em', width: '2em', marginRight: '1em' }} />
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <span>{bike.id}</span>
-      <span>{bike.locationName}</span>
+      <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontWeight: 'bold' }}>{bike.id}</span>
+      <span style={{ color: '#aaa', fontSize: '0.8em' }}>{bike.locationName}</span>
     </div>
-    <SStatus status={bike.status}> {bike.status}</SStatus>
+    <SStatus style={{ marginLeft: 'auto' }} status={bike.status}>
+      {bike.status}
+    </SStatus>
   </SListItem>
 );
 

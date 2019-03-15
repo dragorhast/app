@@ -23,7 +23,7 @@ const INITIAL_STATE = {
 export const BikePropTypes = {
   id: PropTypes.string.isRequired,
   locationName: PropTypes.string.isRequired,
-  coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+  coordinates: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number).isRequired, PropTypes.string.isRequired]),
   status: PropTypes.string.isRequired,
   battery: PropTypes.number.isRequired,
   issues: PropTypes.arrayOf(
@@ -77,7 +77,7 @@ export const bikeSingleFetch = bikeId => async dispatch => {
     const authToken = await Firebase.auth().currentUser.getIdToken();
     const bike = await apiBikeSingleFetch(authToken, bikeId);
 
-    const bikeRented = !bike.current_location;
+    const bikeRented = bike.rented;
 
     await dispatch(
       setBike({

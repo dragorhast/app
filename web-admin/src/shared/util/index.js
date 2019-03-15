@@ -86,14 +86,17 @@ export const pickupPointOrPrettyPrintCoords = location =>
  */
 export const bikeStatusFromString = status => {
   switch (status) {
-    case 'available' || 'broken' || 'rented':
+    case 'available':
+    case 'broken':
+    case 'rented':
+    case 'disconnected':
       return Capitalize(status);
     case 'needs_serviced':
       return 'Needs Serviced';
     case 'out_of_circulation':
       return 'Out Of Circ';
     default:
-      throw new Error('Status unknown');
+      throw new Error(`Status unknown: ${status}`);
   }
 };
 

@@ -5,6 +5,7 @@ import MapToListTabs from '../components/MapToListTabs';
 import CONFIG from '../shared/constants/config';
 import { mapCenter } from '../styles/constants';
 import withBikes, { BikesProps } from '../shared/redux/containers/BikesContainer';
+import mapStyle from '../assets/maps-style';
 
 class BikeMap extends React.PureComponent {
   state = {
@@ -54,16 +55,26 @@ class BikeMap extends React.PureComponent {
     const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
         {smallScreen && <MapToListTabs mapView linkToList="/bikes" />}
-        <div style={{ flex: 1 }}>
-          <Map google={google} zoom={15} initialCenter={mapCenter} onClick={this.onMapClick}>
+        <div style={{ flex: 1, position: 'relative' }}>
+          <Map
+            style={{ height: '100%', width: '100%' }}
+            styles={mapStyle}
+            google={google}
+            zoom={15}
+            initialCenter={mapCenter}
+            onClick={this.onMapClick}
+          >
             {bikes &&
               bikes.map(
                 bike =>
                   bike.coordinates !== 'IN USE' && (
                     <Marker
-                      icon="/bike-icon-fa.png"
+                      icon={{
+                        url: '/bike marker@0.5x.png',
+                        scaledSize: new google.maps.Size(/* preserving the aspect ratio */ 3.2, 4.34, 'em', 'em'),
+                      }}
                       key={bike.id}
                       id={bike.id}
                       bike={bike}

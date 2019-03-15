@@ -4,13 +4,14 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-y: scroll;
-  min-height: 100vh;
-  min-width: 100vw;
 }
 
 code {
-  font-family: 'Source Sans Pro', sans-serif, monospace;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+#printJS {
+  display: none;
 }
 
 a, :visited {

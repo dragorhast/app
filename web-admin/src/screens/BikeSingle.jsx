@@ -3,15 +3,9 @@ import PropTypes from 'prop-types';
 import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
 import CONFIG from '../shared/constants/config';
 import withBikes, { BikesProps } from '../shared/redux/containers/BikesContainer';
-import {
-  SSingleScreen,
-  SSingleHeading,
-  SInfoRowToColumn,
-  SInfoWith2ColumnsForLabelAndText,
-  SInfoText,
-  SLittleMap,
-} from '../styles/components/InfoSections';
+import { SSingleScreen, SInfoTable } from '../styles/components/InfoSections';
 import IssuesList from '../components/IssuesList';
+import { BikeIdentifier } from '../components/BikeIdentifier';
 
 class BikeSingle extends React.PureComponent {
   componentWillMount() {
@@ -38,31 +32,32 @@ class BikeSingle extends React.PureComponent {
     const { bike, google } = this.props;
     return (
       <SSingleScreen>
-        <SSingleHeading>Bike Details</SSingleHeading>
-        <SInfoRowToColumn>
-          <SInfoWith2ColumnsForLabelAndText>
-            <SInfoText primary>Identifier</SInfoText>
-            <SInfoText>{bike.id}</SInfoText>
-
-            <SInfoText primary>Location</SInfoText>
-            <SInfoText>{bike.locationName}</SInfoText>
-
-            <SInfoText primary>Status</SInfoText>
-            <SInfoText>{bike.status}</SInfoText>
-
-            <SInfoText primary>Battery</SInfoText>
-            <SInfoText>{bike.battery}%</SInfoText>
-          </SInfoWith2ColumnsForLabelAndText>
-
-          {bike.issues && bike.issues.length > 0 && (
-            <div style={{ margin: '16px' }}>
-              <h2 style={{ textAlign: 'center' }}>Issues</h2>
-              <IssuesList issues={bike.issues} selectIssue={() => {}} />
+        <section style={{ display: 'flex', flexDirection: 'row' }}>
+          <div>
+            <BikeIdentifier style={{ marginBottom: '1em' }} identifier={bike.id} />
+            <div
+              style={{
+                padding: '0.4em 0.6em',
+              }}
+            >
+              <SInfoTable>
+                <tr>
+                  <td>Location</td>
+                  <td>{bike.locationName}</td>
+                </tr>
+                <tr>
+                  <td>Status</td>
+                  <td>{bike.status}</td>
+                </tr>
+                <tr>
+                  <td>Battery</td>
+                  <td>{bike.battery}%</td>
+                </tr>
+              </SInfoTable>
             </div>
-          )}
-          <SLittleMap>
+          </div>
+          <div style={{ flex: 1, position: 'relative', marginLeft: '2em', width: '250px' }}>
             <Map
-              style={{ width: '240px', height: '240px' }}
               google={google}
               zoom={17}
               zoomControl={false}
@@ -71,10 +66,20 @@ class BikeSingle extends React.PureComponent {
               initialCenter={{ lat: bike.coordinates[1], lng: bike.coordinates[0] }}
               center={{ lat: bike.coordinates[1], lng: bike.coordinates[0] }}
             >
-              <Marker icon="/bike-icon-fa.png" position={{ lat: bike.coordinates[1], lng: bike.coordinates[0] }} />
+              <Marker
+                icon={{
+                  url: '/bike marker@0.5x.png',
+                  scaledSize: new google.maps.Size(/* preserving the aspect ratio */ 3.2, 4.34, 'em', 'em'),
+                }}
+                position={{ lat: bike.coordinates[1], lng: bike.coordinates[0] }}
+              />
             </Map>
-          </SLittleMap>
-        </SInfoRowToColumn>
+          </div>
+        </section>
+        <div style={{ margin: '16px' }}>
+          <h2 style={{ textAlign: 'center' }}>Issues</h2>
+          <IssuesList issues={bike.issues} selectIssue={() => {}} />
+        </div>
       </SSingleScreen>
     );
   }
