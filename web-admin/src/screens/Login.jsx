@@ -51,11 +51,11 @@ class Login extends React.PureComponent {
   };
 
   componentDidMount() {
-    document.addEventListener('keypress', this.enterHandler);
+    document.addEventListener('keydown', this.enterHandler);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keypress', this.enterHandler);
+    document.removeEventListener('keydown', this.enterHandler);
   }
 
   initiateLogin = async () => {

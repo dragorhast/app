@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const SSideComponent = styled.div`
-  height: calc(100vh - 64px); // height of top bar
   border-right: 1px solid lightgrey;
   display: flex;
   flex-direction: column;
@@ -9,25 +8,22 @@ export const SSideComponent = styled.div`
 `;
 
 export const SListItem = styled.div`
-  // grid
-  display: grid;
-  grid-template-columns: 47.5% 47.5%;
-  grid-column-gap: 5%;
-
-  justify-items: start;
-  align-items: flex-end;
-
-  // height + width
-  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   // in from size
-  padding: 8px 16px;
+  padding: 0.5em 1em;
   box-sizing: border-box;
+  border-bottom: 1px solid lavender;
   // border
-  border: 1px solid lavender;
+  margin: 0.5em;
 `;
 
 export const SControlBar = styled(SListItem)`
   height: 64px;
+  div {
+    flex: 1;
+  }
 `;
 
 export const SListItem3Columns = styled.div`

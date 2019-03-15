@@ -10,6 +10,7 @@ import {
   SInfoWith2ColumnsForLabelAndText,
   SInfoText,
   SLittleMap,
+  SInfoTable,
 } from '../styles/components/InfoSections';
 import { SButton, SSuccessSpan, SErrorSpan } from '../styles/components/Common';
 import withIssue, { IssuesProps } from '../shared/redux/containers/IssuesContainer';
@@ -31,7 +32,7 @@ const SMap = styled(SLittleMap)`
   justify-self: center;
 `;
 
-const SStatusArea = styled.div`
+const SStatusArea = styled.section`
   grid-area: status;
   justify-self: center;
 
@@ -135,67 +136,72 @@ class IssueSingle extends React.PureComponent {
 
     return (
       <SSingleScreen>
-        <SGrid>
-          <SHeader>Issue Details</SHeader>
-          <SInfo>
-            <SInfoText primary>Type</SInfoText>
-            <SInfoText>{issue.type}</SInfoText>
+        <SMap visible={!!issue.bikeId}>
+          {issue.bikeLocation && (
+            <Map
+              google={google}
+              zoom={17}
+              zoomControl={false}
+              mapTypeControl={false}
+              fullscreenControl={false}
+              initialCenter={{ lat: issue.bikeLocation[1], lng: issue.bikeLocation[0] }}
+              center={{ lat: issue.bikeLocation[1], lng: issue.bikeLocation[0] }}
+            >
+              <Marker
+                icon={{
+                  url: '/bike marker@0.5x.png',
+                  scaledSize: new google.maps.Size(/* preserving the aspect ratio */ 3.2, 4.34, 'em', 'em'),
+                }}
+                position={{ lat: issue.bikeLocation[1], lng: issue.bikeLocation[0] }}
+              />
+            </Map>
+          )}
+        </SMap>
+        <SInfoTable>
+          <tr>
+            <td>Type</td>
+            <td>{issue.type}</td>
+          </tr>
+          {issue.bikeId && (
+            <tr>
+              <td>Bike Id</td>
+              <td>{issue.bikeId}</td>
+            </tr>
+          )}
+          <tr>
+            <td>User Id</td>
+            <td>{issue.userId}</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>{issue.status}</td>
+          </tr>
+          <tr>
+            <td>Time</td>
+            <td>{prettyDateTime(issue.datetime)}</td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td>{issue.description}</td>
+          </tr>
+        </SInfoTable>
+        <SStatusArea>
+          {updateReturnSuccess && <SSuccessSpan>{updateReturnSuccess}</SSuccessSpan>}
+          {updateReturnError && <SErrorSpan>{updateReturnError}</SErrorSpan>}
+          <h3 style={{ fontWeight: 'bold' }}>Update Status</h3>
+          <div style={{ width: '100%', margin: '0' }}>
+            <Select defaultValue={statusOptions[0]} options={statusOptions} onChange={this.selectOption} />
+          </div>
 
-            {issue.bikeId && <SInfoText primary>Bike Id</SInfoText>}
-            {issue.bikeId && <SInfoText>{issue.bikeId}</SInfoText>}
-
-            <SInfoText primary>User Id</SInfoText>
-            <SInfoText>{issue.userId}</SInfoText>
-
-            <SInfoText primary>Status</SInfoText>
-            <SInfoText>{issue.status}</SInfoText>
-
-            <SInfoText primary>Time</SInfoText>
-            <SInfoText>{prettyDateTime(issue.datetime)}</SInfoText>
-
-            <SInfoText primary>Description</SInfoText>
-            <SInfoText>{issue.description}</SInfoText>
-          </SInfo>
-
-          <SMap visible={!!issue.bikeId}>
-            {issue.bikeLocation && (
-              <Map
-                style={{ width: '240px', height: '240px' }}
-                google={google}
-                zoom={17}
-                zoomControl={false}
-                mapTypeControl={false}
-                fullscreenControl={false}
-                initialCenter={{ lat: issue.bikeLocation[1], lng: issue.bikeLocation[0] }}
-                center={{ lat: issue.bikeLocation[1], lng: issue.bikeLocation[0] }}
-              >
-                <Marker
-                  icon="/bike-icon-fa.png"
-                  position={{ lat: issue.bikeLocation[1], lng: issue.bikeLocation[0] }}
-                />
-              </Map>
-            )}
-          </SMap>
-
-          <SStatusArea>
-            {updateReturnSuccess && <SSuccessSpan>{updateReturnSuccess}</SSuccessSpan>}
-            {updateReturnError && <SErrorSpan>{updateReturnError}</SErrorSpan>}
-            <SInfoText primary>Change Status</SInfoText>
-            <div style={{ width: '100%', margin: '16px 0' }}>
-              <Select defaultValue={statusOptions[0]} options={statusOptions} onChange={this.selectOption} />
-            </div>
-
-            <STextArea
-              placeholder="Information about update"
-              value={updateMessage}
-              onChange={e => this.setState({ updateMessage: e.target.value })}
-            />
-
-            <SButton primary onClick={this.submitStatusChange}>
-              Update Status
-            </SButton>
-          </SStatusArea>
-        </SGrid>
+          <STextArea
+            placeholder="Information about update"
+            value={updateMessage}
+            onChange={e => this.setState({ updateMessage: e.target.value })}
+          />
+          <SButton primary onClick={this.submitStatusChange}>
+            Submit
+          </SButton>
+        </SStatusArea>
       </SSingleScreen>
     );
   }
