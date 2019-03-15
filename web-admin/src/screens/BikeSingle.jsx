@@ -66,19 +66,19 @@ class BikeSingle extends React.PureComponent {
   }
 
   decideButton = status => {
-    const { putBikeInCirculation } = this.props;
+    const { putBikeInCirculation, bike } = this.props;
     switch (status) {
       // Can be put in to circulation
       case 'Out of Circ':
         return (
-          <SCircButton primary onClick={() => putBikeInCirculation(true)}>
+          <SCircButton primary onClick={() => putBikeInCirculation(bike.id, true)}>
             Put in to Circulation
           </SCircButton>
         );
       // Can be taken out of circulation
       case 'Available' || 'Broken' || 'Needs Serviced':
         return (
-          <SCircButton danger onClick={() => putBikeInCirculation(false)}>
+          <SCircButton danger onClick={() => putBikeInCirculation(bike.id, false)}>
             Take out of Circulation
           </SCircButton>
         );
