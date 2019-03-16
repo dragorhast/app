@@ -23,10 +23,16 @@ export const S2x50PercGrid = styled.div`
 `;
 
 export const SButton = styled.button`
-  border-radius: 8px;
-  border: 2px solid hsl(0, 0%, 80%);
-  padding: 8px 16px;
-  font-size: 24px;
+  width: max-content;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: inherit;
+  padding: 0.4em 0.8em;
+  cursor: pointer;
+  &:hover {
+    background-color: #e9e9e9};
+  }
+  ${props => `border: 1px solid ${props.theme.outlineColor};`}
 
   :hover {
     opacity: 0.6;
@@ -80,4 +86,18 @@ export const SSuccessSpan = styled.span`
 
 export const SErrorSpan = styled.span`
   color: ${props => props.theme.error};
+`;
+
+export const Logo = styled.span`
+  font-family: Poppins, sans-serif;
+  font-weight: bold;
+  &:after {
+    content: 'tap2go';
+  }
+`;
+
+export const SList = styled.div`
+  width: 100%;
+  height: 100%;
+  ${props => `color: ${props.theme.font};`}
 `;

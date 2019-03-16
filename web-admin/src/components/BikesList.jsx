@@ -5,12 +5,13 @@ import BikeListItem from './BikeListItem';
 import ControlArrows from './ControlArrows';
 import { BikePropTypes } from '../shared/redux/ducks/bikes';
 import { withBikesFilters, BikesFiltersProps } from '../shared/redux/containers/Filters/BikesFilters';
+import { SList } from '../styles/components/Common';
 
 class BikesList extends React.PureComponent {
   render() {
     const { bikes, selectBike, setBikesLocationOrderAsc, setBikesStatusFilterAsc } = this.props;
     return (
-      <div style={{ width: '100%', height: '100%' }}>
+      <SList>
         <SControlBar>
           <ControlArrows
             label="Location"
@@ -25,7 +26,7 @@ class BikesList extends React.PureComponent {
         </SControlBar>
         {bikes && bikes.map(bike => <BikeListItem key={bike.id} bike={bike} selectBike={() => selectBike(bike)} />)}
         {bikes.length === 0 && <h3 style={{ textAlign: 'center', fontStyle: 'italic' }}>No Bikes</h3>}
-      </div>
+      </SList>
     );
   }
 }

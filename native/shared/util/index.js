@@ -38,13 +38,14 @@ export const timeFromDate = date =>
  *
  * @param startTime
  * @param endTime
- * @returns hours and minutes been renting for in pretty format
+ * @returns String - hours and minutes been renting for in pretty format
  */
-export const hoursAndMinutesBetween2Times = (startTime, endTime) => {
-  const milliSecondsSoFar = endTime - new Date(startTime);
-  const hours = Math.floor(milliSecondsSoFar / (1000 * 60 * 60));
-  const minutes = Math.round((milliSecondsSoFar / 1000) % 60);
-  return hours ? `${hours} hrs ${minutes} mins` : `${minutes} mins`;
+export const hoursAndMinutesSinceNow = startTime => {
+  const milliSecondsDifference = Math.abs(new Date() - new Date(startTime));
+  const hours = Math.floor(milliSecondsDifference / (1000 * 60 * 60));
+  const minutes = Math.round((milliSecondsDifference / 1000) % 60);
+
+  return hours > 1 ? `${hours} hrs ${minutes} mins` : `${minutes} mins`;
 };
 
 export const minutesSinceTime = startTime => {

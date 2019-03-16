@@ -23,11 +23,12 @@
         "extensions": [
           ".js",
           ".jsx"
-        ],returnedInfo
+        ]
       }
     ],
     "no-param-reassign": "off",
     "no-shadow": "off",
+    "no-unused-vars": "off",
     "consistent-return": "off",
     "global-require": "off",
     "no-console": "off",

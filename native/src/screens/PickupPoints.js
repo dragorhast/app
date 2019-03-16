@@ -1,9 +1,11 @@
 import React from 'react';
 import { Location, Permissions, MapView } from 'expo';
-import { Content, Tabs, Tab, Icon, View } from 'native-base';
+import { Content, Tabs, Tab, View } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Screen } from '../styles';
 import PickupPoint from '../components/PickupPoint';
+// import PickupSVGIcon from '../components/PickupSVGIcon';
+import PickupSVG from '../../assets/pickup.svg';
 import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 import ROUTES from '../routes';
 
@@ -74,23 +76,20 @@ class PickupPoints extends React.Component {
                 {pickups &&
                   pickups.map(point => (
                     <MapView.Marker
-                      coordinate={point.coordinates}
+                      coordinate={{ latitude: point.coordinates[0], longitude: point.coordinates[1] }}
                       title={point.name}
                       key={point.name}
                       onPress={() => this.makePointVisible(point)}
                     >
-                      <Icon
-                        name="ios-bicycle"
-                        ios="ios-bicycle"
-                        android="md-bicycle"
-                        style={{ fontSize: 40, color: 'green' }}
-                      />
+                      <PickupSVG width={32} height={32} color="black" />
                     </MapView.Marker>
                   ))}
               </MapView>
               {/* TODO make the transition where this enters nicer */}
               {/* TODO add a button to close the pop up */}
-              {mapBottomPointVisible && <PickupPoint point={mapBottomPoint} />}
+              {mapBottomPointVisible && (
+                <PickupPoint point={mapBottomPoint} openReservation={this._moveToReservationCreate} />
+              )}
             </View>
           </Tab>
         </Tabs>

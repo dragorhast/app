@@ -12,6 +12,7 @@ import {
 const RENTAL_SET_ALL = 'RENTAL_SET_ALL';
 const RENTAL_UPDATE = 'RENTAL_UPDATE';
 const RENTAL_CLEAR = 'RENTAL_CLEAR';
+const RENTAL_SET_LOCKED = 'RENTAL_SET_LOCKED';
 
 // Initial State
 const INITIAL_STATE = {
@@ -20,6 +21,7 @@ const INITIAL_STATE = {
   costSoFar: null,
   withinPickUpPointGeo: null,
   ableToBeReturned: null,
+  bikeLocked: null,
 };
 
 // Prop Types
@@ -40,6 +42,11 @@ export default function rentalReducer(state = INITIAL_STATE, { type, payload }) 
     case RENTAL_UPDATE:
     case RENTAL_CLEAR:
       return INITIAL_STATE;
+    case RENTAL_SET_LOCKED:
+      return {
+        ...state,
+        bikeLocked: payload,
+      };
     default:
       return state;
   }
@@ -53,6 +60,11 @@ export const setAllRental = rental => ({
 export const updateRental = updateField => ({
   type: RENTAL_UPDATE,
   payload: updateField,
+});
+
+const setRentalLocked = locked => ({
+  type: RENTAL_SET_LOCKED,
+  payload: locked,
 });
 
 export const clearRental = () => ({ type: RENTAL_CLEAR });
@@ -155,6 +167,18 @@ export const rentalEnd = (cancel = false) => async dispatch => {
   }
 };
 
+export const bikeLock = lock => async (dispatch, getState) => {
+  try {
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+
+    const bike = apiBikeLock(authToken, getState().bikeId, lock);
+    return dispatch(setRentalLocked(bike.locked));
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+};
+
 // Selectors - put working out time here
 
 /**
@@ -164,3 +188,5 @@ export const rentalEnd = (cancel = false) => async dispatch => {
  * https://egghead.io/lessons/javascript-redux-colocating-selectors-with-reducers
  */
 export const getWithTimeRentalsBeenActive = () => {};
+
+// ****** Helper Functions ****** //

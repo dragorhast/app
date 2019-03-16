@@ -23,7 +23,7 @@ const INITIAL_STATE = {
 export const BikePropTypes = {
   id: PropTypes.string.isRequired,
   locationName: PropTypes.string.isRequired,
-  coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+  coordinates: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number).isRequired, PropTypes.string.isRequired]),
   status: PropTypes.string.isRequired,
   battery: PropTypes.number.isRequired,
   issues: PropTypes.arrayOf(

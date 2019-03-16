@@ -4,7 +4,7 @@ import { Button, H1, Text, View } from 'native-base';
 import styled from 'styled-components/native';
 import { Screen, BreakLine } from '../styles';
 import { ModalEndRentalBackRack, ModalEndRentalConfirm } from '../components/Modals';
-import { minutesSinceTime } from '../../shared/util';
+import { hoursAndMinutesSinceNow, minutesSinceTime } from '../../shared/util';
 import ROUTES from '../routes';
 import withCurrentRental, { RentalProps } from '../../shared/redux/containers/RentalInfoContainer';
 
@@ -120,7 +120,7 @@ class RentalInfo extends React.Component {
   };
 
   render() {
-    const { rentalInfo, getRentalInfo } = this.props;
+    const { rentalInfo, getRentalInfo, lockBike } = this.props;
     const { modal1PutBackInRack, modal2IsUserSure } = this.state;
 
     if (modal1PutBackInRack) {
@@ -155,7 +155,7 @@ class RentalInfo extends React.Component {
 
         {/* Time used so far */}
         <View padder>
-          <Text>HOURS (Selector)</Text>
+          <Text>{hoursAndMinutesSinceNow(rentalInfo.startTime)}</Text>
           <Text>Time used so far</Text>
         </View>
 
@@ -167,6 +167,16 @@ class RentalInfo extends React.Component {
           <Button danger large onPress={Actions[ROUTES.IssueReport]}>
             <Text>Report Issue</Text>
           </Button>
+
+          {rentalInfo.bikeLocked ? (
+            <Button secondary large onPress={() => lockBike(false)}>
+              <Text>Unlock Bike</Text>
+            </Button>
+          ) : (
+            <Button primary large onPress={() => lockBike(true)}>
+              <Text>Lock Bike</Text>
+            </Button>
+          )}
         </StyledButtonsView>
       </Screen>
     );

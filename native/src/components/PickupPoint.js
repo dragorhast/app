@@ -40,6 +40,7 @@ PickupPoint.propTypes = {
   }).isRequired,
   /* Function to start reservation. Doesn't use full container so only applying prop types of function */
   startReserveCreate: PropTypes.func.isRequired,
+  openReservation: PropTypes.func.isRequired,
 };
 
 export default withReservationCreation(PickupPoint);

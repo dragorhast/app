@@ -418,10 +418,24 @@ export const apiBikeUpdateStatus = async (authToken, bikeId, inCirc, locked) => 
     `/bikes/${bikeId}`,
     {
       in_circulation: inCirc,
-      locked,
+      locked: bikeLocked,
     },
     getConfig(authToken)
   );
+
+  return result.data.data.bike;
+};
+
+/**
+ * Locks or unlocks a bike based on true or false passed
+ *
+ * @param authToken
+ * @param bikeId
+ * @param locked
+ * @returns {Promise<BikesProps.bike|{}>}
+ */
+export const apiBikeLock = async (authToken, bikeId, locked) => {
+  const result = await axiosBaseUrl.patch(`bikes/${bikeId}`, { locked }, getConfig(authToken));
 
   return result.data.data.bike;
 };

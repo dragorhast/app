@@ -1,20 +1,24 @@
+#root {
+    min-height: 100vh;
+}
+
 .route {
+    min-height: inherit;
     display: flex;
     flex-direction: column;
-    font-size: 20px;
-    height: 100vh;
 }
 
 .grid-layout {
-    height: 90%; /* Fixes bug with IssuesSingle taking full page */
-    flex: 1; /* 100% height - nav + footer's set height */
+    flex: 1;
     display: grid;
     grid-template-columns: 100%;
+    grid-template-rows: 100%;
 }
+
 @media screen and (min-width: 549px) {
     .grid-layout {
         display: grid;
-        grid-template-columns: 40% 60%;
+        grid-template-columns: 300px 1fr;
     }
 }
 
@@ -22,7 +26,7 @@
 @media screen and (min-width: 849px) {
     .grid-layout {
         display: grid;
-        grid-template-columns: 25% 75%;
+        grid-template-columns: 400px 1fr;
     }
 }
 
