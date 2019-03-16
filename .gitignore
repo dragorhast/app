@@ -13,4 +13,5 @@ shared/constants/config.js
 
 native/node_modules/
 native/shared/constants/config.js
+native/.expo/packager-info.json
 
