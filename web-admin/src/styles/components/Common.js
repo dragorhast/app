@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const SCenteredScreen = styled.div`
   display: flex;
@@ -22,6 +23,22 @@ export const S2x50PercGrid = styled.div`
   width: 100%;
 `;
 
+const colorize = props => {
+  const color = props.primary ? props.theme.primary : props.color ? props.color : null;
+  return color
+    ? `
+      background-color: ${color};
+      color: white;
+      border: none;
+      
+      :hover {
+        opacity: 0.9;
+        background-color: ${darken(0.1, color)}
+      }
+  `
+    : '';
+};
+
 export const SButton = styled.button`
   width: max-content;
   font-weight: bold;
@@ -33,22 +50,19 @@ export const SButton = styled.button`
     background-color: #e9e9e9};
   }
   ${props => `border: 1px solid ${props.theme.outlineColor};`}
-
-  ${props =>
-    props.primary &&
-    `
-  background-color: ${props.theme.primary};
-  color: white;
-  border: none;
-  
-  :hover {
-    opacity: 0.6;
-   }
-  `}
-
+  ${colorize}
   a {
     text-decoration: none;
     color: inherit;
+  }
+`;
+
+export const SButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  ${SButton} {
+    margin: 0.5em;
   }
 `;
 
