@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
 import Media from 'react-media';
-import MustBeLoggedIn from '../screens/MustbeLoggedIn';
 import { PHONE_BREAK_POINT } from '../styles/constants';
 
 /**
@@ -10,23 +9,22 @@ import { PHONE_BREAK_POINT } from '../styles/constants';
  * but re-route on a larger screen
  */
 
-const SmallScreenRoute = ({ path, Component, reroutePath, loggedIn }) => (
-  <Route
-    exact
-    path={path}
-    render={routerProps =>
-      loggedIn ? (
+const SmallScreenRoute = ({ path, Component, reroutePath, loggedIn }) =>
+  loggedIn ? (
+    <Route
+      exact
+      path={path}
+      render={routerProps => (
         <Media query={{ maxWidth: PHONE_BREAK_POINT }}>
           {smallScreen =>
             smallScreen ? <Component {...routerProps} smallScreen /> : <Redirect from={path} to={reroutePath} />
           }
         </Media>
-      ) : (
-        <MustBeLoggedIn />
-      )
-    }
-  />
-);
+      )}
+    />
+  ) : (
+    <Redirect to="/" />
+  );
 
 SmallScreenRoute.propTypes = {
   path: PropTypes.string.isRequired,

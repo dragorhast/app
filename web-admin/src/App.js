@@ -28,7 +28,6 @@ import IssueSingle from './screens/IssueSingle';
 
 import SmallScreenRoute from './templates/SmallScreenRoute';
 import SideBarDashboard from './templates/SideBarDashboard';
-import MustBeLoggedIn from './screens/MustbeLoggedIn';
 import Login from './screens/Login';
 import ReportsView from './screens/ReportsView';
 
@@ -130,7 +129,6 @@ class App extends Component {
                     loggedIn={!!firebaseId}
                   />
                   <Route path="/reports" component={ReportsView} />
-                  <Route exact path="/not-authorized" component={MustBeLoggedIn} />
                 </div>
               </Router>
             </PersistGate>

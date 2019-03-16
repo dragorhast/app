@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import Media from 'react-media';
-import MustBeLoggedIn from '../screens/MustbeLoggedIn';
 import { PHONE_BREAK_POINT } from '../styles/constants';
 
 /**
@@ -13,12 +12,12 @@ import { PHONE_BREAK_POINT } from '../styles/constants';
  * on large screens but not on small ones
  */
 
-const SideBarDashboard = ({ path, Screen, SidePanel, loggedIn }) => (
-  <Route
-    exact
-    path={path}
-    render={routerProps =>
-      loggedIn ? (
+const SideBarDashboard = ({ path, Screen, SidePanel, loggedIn }) =>
+  loggedIn ? (
+    <Route
+      exact
+      path={path}
+      render={routerProps => (
         <Media query={{ minWidth: PHONE_BREAK_POINT }}>
           {bigScreen => (
             <div className="grid-layout">
@@ -27,12 +26,11 @@ const SideBarDashboard = ({ path, Screen, SidePanel, loggedIn }) => (
             </div>
           )}
         </Media>
-      ) : (
-        <MustBeLoggedIn />
-      )
-    }
-  />
-);
+      )}
+    />
+  ) : (
+    <Redirect to="/" />
+  );
 
 SideBarDashboard.propTypes = {
   path: PropTypes.string.isRequired,
