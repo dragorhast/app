@@ -120,7 +120,7 @@ class RentalInfo extends React.Component {
   };
 
   render() {
-    const { rentalInfo, getRentalInfo } = this.props;
+    const { rentalInfo, getRentalInfo, lockBike } = this.props;
     const { modal1PutBackInRack, modal2IsUserSure } = this.state;
 
     if (modal1PutBackInRack) {
@@ -167,6 +167,16 @@ class RentalInfo extends React.Component {
           <Button danger large onPress={Actions[ROUTES.IssueReport]}>
             <Text>Report Issue</Text>
           </Button>
+
+          {rentalInfo.bikeLocked ? (
+            <Button secondary large onPress={() => lockBike(false)}>
+              <Text>Unlock Bike</Text>
+            </Button>
+          ) : (
+            <Button primary large onPress={() => lockBike(true)}>
+              <Text>Lock Bike</Text>
+            </Button>
+          )}
         </StyledButtonsView>
       </Screen>
     );
