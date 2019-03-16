@@ -1,12 +1,7 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
 import { Firebase } from '../../constants/firebase';
-import {
-  apiRentalStartId,
-  apiRentalFetchCurrent,
-  apiRentalEndCurrent,
-  apiUserAbleToMakePayment,
-} from '../../api/tap2go';
+import { apiRentalStartId, apiRentalFetchCurrent, apiRentalEndCurrent, apiBikeLock } from '../../api/tap2go';
 
 // Actions
 const RENTAL_SET_ALL = 'RENTAL_SET_ALL';
@@ -119,8 +114,12 @@ export const rentalFetchInfo = () => async dispatch => {
   try {
     // Fetching doesn't trigger Loading
     const authToken = await Firebase.auth().currentUser.getIdToken();
-
+    if (!authToken) return Promise.resolve();
     const rental = await apiRentalFetchCurrent(authToken);
+
+    if (!rental) {
+      return dispatch(clearRental());
+    }
 
     return dispatch(
       setAllRental({
@@ -132,11 +131,6 @@ export const rentalFetchInfo = () => async dispatch => {
       })
     );
   } catch (e) {
-    // TODO handle better
-    if (e.message === 'NO RENTAL') {
-      await dispatch(clearRental());
-      return Promise.resolve();
-    }
     dispatch(setStatus('error', e.message));
     throw e;
   }
@@ -171,7 +165,8 @@ export const bikeLock = lock => async (dispatch, getState) => {
   try {
     const authToken = await Firebase.auth().currentUser.getIdToken();
 
-    const bike = apiBikeLock(authToken, getState().bikeId, lock);
+    const bike = await apiBikeLock(authToken, getState().rental.bikeId, lock);
+    console.log(bike);
     return dispatch(setRentalLocked(bike.locked));
   } catch (e) {
     console.log(e);

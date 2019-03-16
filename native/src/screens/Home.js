@@ -1,23 +1,50 @@
 import React from 'react';
-import { Button, Text } from 'native-base';
+import { compose } from 'redux';
+import { Button, Text, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Screen } from '../styles';
 import ROUTES from '../routes';
 import withCurrentRental, { RentalProps } from '../../shared/redux/containers/RentalInfoContainer';
+import withStatus, { StatusProps } from '../../shared/redux/containers/StatusContainer';
+import LoadingScreen from './LoadingScreen';
+import { delay } from '../../shared/util';
 
 class Home extends React.Component {
-  async componentDidMount() {
-    const { getRentalInfo } = this.props;
-    try {
-      getRentalInfo();
-    } catch (e) {
-      console.log(e);
-      return Promise.resolve();
+  async componentWillMount() {
+    this.checkForCurrentRental();
+    await this.checkForCurrentRental();
+  }
+
+  checkForCurrentRental() {
+    const { getRentalInfo, reduxLoading } = this.props;
+    if (!reduxLoading) {
+      try {
+        getRentalInfo();
+      } catch (e) {
+        console.log(e);
+        return Promise.resolve();
+      }
+    }
+  }
+
+  async showErrorOrSuccessMessage() {
+    const { reduxError, reduxSuccess, clearStatus } = this.props;
+    if (reduxError || reduxSuccess) {
+      Toast.show({
+        position: 'top',
+        duration: 5000,
+        buttonText: 'okay',
+        type: reduxError ? 'danger' : 'success',
+        text: reduxError || reduxSuccess,
+      });
+      await delay(5000);
+      clearStatus();
     }
   }
 
   render() {
-    const { rentalInfo } = this.props;
+    const { rentalInfo, reduxLoading } = this.props;
+    if (reduxLoading) return <LoadingScreen />;
     return (
       <Screen>
         {rentalInfo.bikeId ? (
@@ -46,6 +73,10 @@ class Home extends React.Component {
 
 Home.propTypes = {
   ...RentalProps,
+  ...StatusProps,
 };
 
-export default withCurrentRental(Home);
+export default compose(
+  withCurrentRental,
+  withStatus
+)(Home);

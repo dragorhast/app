@@ -9,25 +9,17 @@
  * - pass in Firebase user
  */
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Toast } from 'native-base';
 import { connect } from 'react-redux';
 import { Firebase } from '../shared/constants/firebase';
 import Router from './router';
 import Loading from './screens/LoadingScreen';
 
 class MyRoute extends React.PureComponent {
-  static propTypes = {
-    error: PropTypes.string,
-    success: PropTypes.string,
-    reduxLoading: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    error: null,
-    success: null,
-    reduxLoading: false,
-  };
+  // static propTypes = {
+  //   error: PropTypes.string,
+  //   success: PropTypes.string,
+  //   reduxLoading: PropTypes.bool,
+  // };
 
   state = { stateLoading: true, firebaseId: undefined };
 
@@ -49,29 +41,29 @@ class MyRoute extends React.PureComponent {
     });
   }
 
-  /**
-   * Calls Toast if error or success
-   * @param prevProps
-   */
-  componentDidUpdate(prevProps) {
-    const { error, success, reduxLoading } = this.props;
-    const { stateLoading } = this.state;
-
-    // Check if change
-    const errorChange = prevProps.error !== error;
-    const successChange = prevProps.success !== success;
-
-    if ((errorChange || successChange) && !reduxLoading && !stateLoading) {
-      console.log(errorChange ? error : success);
-      Toast.show({
-        position: 'top',
-        duration: 5000,
-        buttonText: 'okay',
-        type: errorChange ? 'danger' : 'success',
-        text: errorChange ? error : success,
-      });
-    }
-  }
+  // /**
+  //  * Calls Toast if error or success
+  //  * @param prevProps
+  //  */
+  // componentDidUpdate(prevProps) {
+  //   const { error, success, reduxLoading } = this.props;
+  //   const { stateLoading } = this.state;
+  //
+  //   // Check if change
+  //   const errorChange = prevProps.error !== error;
+  //   const successChange = prevProps.success !== success;
+  //
+  //   if ((errorChange || successChange) && !reduxLoading && !stateLoading) {
+  //     console.log(errorChange ? error : success);
+  //     Toast.show({
+  //       position: 'top',
+  //       duration: 5000,
+  //       buttonText: 'okay',
+  //       type: errorChange ? 'danger' : 'success',
+  //       text: errorChange ? error : success,
+  //     });
+  //   }
+  // }
 
   /**
    * Don't forget to stop listening for authentication state changes
@@ -83,18 +75,17 @@ class MyRoute extends React.PureComponent {
 
   render() {
     const { stateLoading, firebaseId } = this.state;
-    const { reduxLoading } = this.props;
 
-    if (stateLoading || reduxLoading) return <Loading />;
+    if (stateLoading) return <Loading />;
 
     return <Router firebaseId={firebaseId} />;
   }
 }
 
-const mapStateToProps = ({ status }) => ({
-  // reduxLoading: status.loading, // this causes too many full re-renders!
-  error: status.error, // TODO remove this from here
-  success: status.success, // TODO remove this from here
-});
+// const mapStateToProps = ({ status }) => ({
+//   // reduxLoading: status.loading, // this causes too many full re-renders!
+//   error: status.error, // TODO remove this from here
+//   success: status.success, // TODO remove this from here
+// });
 
-export default connect(mapStateToProps)(MyRoute);
+export default connect(null)(MyRoute);
