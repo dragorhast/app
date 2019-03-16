@@ -26,7 +26,7 @@ const STabBarFullScreen = styled.div`
 
 const NavElement = styled.div`
   box-sizing: border-box;
-  padding: 1em 0;
+  padding: 1.2em 0;
   height: 100%;
   text-align: center;
   ${props =>
@@ -111,6 +111,17 @@ const SDropDownMenu = styled.div`
 `;
 
 class LoggedInNavBar extends React.PureComponent {
+  static propTypes = {
+    /* Passed in from <Route> */
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
+    logout: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -120,10 +131,9 @@ class LoggedInNavBar extends React.PureComponent {
   }
 
   initiateLogOut = async () => {
-    const { logout, history } = this.props;
+    const { logout } = this.props;
     try {
       await logout();
-      history.replace('/login');
     } catch (e) {
       // Do nothing if error
       console.log(e);
@@ -140,18 +150,21 @@ class LoggedInNavBar extends React.PureComponent {
   render() {
     const { location } = this.props;
     const { navBarOpen } = this.state;
+
     return (
       <Media query={{ minWidth: PHONE_BREAK_POINT }}>
         {bigScreen =>
           bigScreen ? (
             <STabBarFullScreen>
-              <NavElement style={{ flex: 1 }}>
-                <Logo />
-                &nbsp;Admin
-              </NavElement>
+              <Link to="/">
+                <NavElement selected={location.pathname.match(/\/$/g)}>
+                  <Logo />
+                  &nbsp;Dashboard
+                </NavElement>
+              </Link>
               {/* TODO remove code duplications */}
               <Link to="/bikes">
-                <NavElement selected={location.pathname.match(/\/bikes/g)}>Bike</NavElement>
+                <NavElement selected={location.pathname.match(/\/bikes/g)}>Bikes</NavElement>
               </Link>
               <Link to="/pickups">
                 <NavElement selected={location.pathname.match(/\/pickup/g)}>Pickup Points</NavElement>
@@ -165,9 +178,9 @@ class LoggedInNavBar extends React.PureComponent {
               <Link to="/reports">
                 <NavElement selected={location.pathname.match(/\/reports/g)}>Reports</NavElement>
               </Link>
-              <a style={{ cursor: 'pointer' }}>
+              <Link to="#">
                 <NavElement onClick={this.initiateLogOut}>Sign Out</NavElement>
-              </a>
+              </Link>
             </STabBarFullScreen>
           ) : (
             <div>
@@ -199,12 +212,9 @@ class LoggedInNavBar extends React.PureComponent {
                 <Link to="/reports">
                   <NavElement selected={location.pathname.match(/\/reports/g)}>Reports</NavElement>
                 </Link>
-
-                <a to="#">
-                  <NavElement onClick={this.initiateLogOut} styl={{ justifySelf: 'flex-end' }}>
-                    Sign Out
-                  </NavElement>
-                </a>
+                <Link to="#">
+                  <NavElement onClick={this.initiateLogOut}>Sign Out</NavElement>
+                </Link>
               </SDropDownMenu>
             </div>
           )
@@ -213,16 +223,5 @@ class LoggedInNavBar extends React.PureComponent {
     );
   }
 }
-
-LoggedInNavBar.propTypes = {
-  /* Passed in from <Route> */
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-  logout: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
 
 export default withSignOut(LoggedInNavBar);

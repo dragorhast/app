@@ -30,6 +30,7 @@ import SmallScreenRoute from './templates/SmallScreenRoute';
 import SideBarDashboard from './templates/SideBarDashboard';
 import Login from './screens/Login';
 import ReportsView from './screens/ReportsView';
+import { DashboardView } from './screens/DashboardView';
 
 class App extends Component {
   state = {
@@ -65,9 +66,9 @@ class App extends Component {
               <Router>
                 <div className="route">
                   {firebaseId && <Route path="/" component={LoggedInNavBar} />}
-                  {!firebaseId && <Route exact path="/login" component={Login} />}
+                  {firebaseId && <Route exact path="/" component={DashboardView} />}
+                  {!firebaseId && <Route exact path="/" component={Login} />}
                   <SideBarDashboard path="/bikes/map" Screen={BikeMap} SidePanel={BikesSide} loggedIn={!!firebaseId} />
-                  <Route exact path="/" render={() => <Redirect from="/" to="/bikes" />} />
                   <SmallScreenRoute
                     path="/bikes"
                     Component={BikesSide}
