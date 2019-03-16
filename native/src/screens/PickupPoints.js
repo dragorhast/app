@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Location, Permissions, MapView } from 'expo';
 import { Content, Tabs, Tab, View } from 'native-base';
 import { Actions } from 'react-native-router-flux';
@@ -8,6 +9,12 @@ import PickupPoint from '../components/PickupPoint';
 import PickupSVG from '../../assets/pickup.svg';
 import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 import ROUTES from '../routes';
+
+const STest = styled.View`
+  width: 100%;
+  height: 48px;
+  background-color: red;
+`;
 
 class PickupPoints extends React.Component {
   static propTypes = {
@@ -76,12 +83,12 @@ class PickupPoints extends React.Component {
                 {pickups &&
                   pickups.map(point => (
                     <MapView.Marker
-                      coordinate={{ latitude: point.coordinates[0], longitude: point.coordinates[1] }}
+                      coordinate={{ latitude: point.centerCoordinates[1], longitude: point.centerCoordinates[0] }}
                       title={point.name}
                       key={point.name}
                       onPress={() => this.makePointVisible(point)}
                     >
-                      <PickupSVG width={32} height={32} color="black" />
+                      <PickupSVG width={32} height={32} color="blue" />
                     </MapView.Marker>
                   ))}
               </MapView>
