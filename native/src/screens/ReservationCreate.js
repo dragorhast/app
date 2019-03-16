@@ -10,6 +10,8 @@ import { prettyDateTime } from '../../shared/util';
 import withReservationCreation, {
   ReservationCreationProps,
 } from '../../shared/redux/containers/ReservationCreationContainer';
+import { Firebase } from '../../shared/constants/firebase';
+import { apiUserAbleToMakePayment } from '../../shared/api/tap2go';
 
 /**
  * Screen for setting the date + time of reservation
@@ -32,22 +34,28 @@ class ReservationCreate extends React.PureComponent {
     this._hideDateTimePicker();
   };
 
+  /**
+   * Checks user is able to pay + routes to add payment
+   * if isn't
+   */
   reserve = async () => {
     const { makeReservation } = this.props;
     const { changedDateAndTime } = this.state;
-
     const reserveNext30Minutes = !changedDateAndTime;
     try {
-      await makeReservation(reserveNext30Minutes);
-      Actions[ROUTES.ReservationDisplayWithBurger]();
-    } catch (e) {
-      if (e.message === 'NO PAYMENT METHOD') {
+      const authToken = await Firebase.auth().currentUser.getIdToken();
+      const ableToPay = await apiUserAbleToMakePayment(authToken);
+      if (ableToPay) {
+        await makeReservation(reserveNext30Minutes);
+        Actions[ROUTES.ReservationDisplayWithBurger]();
+      } else {
         Actions.replace(ROUTES.PaymentRequired, {
           callbackOnSuccessfulPaymentUpload: () => Actions.replace(ROUTES.ReservationCreation),
         });
-        return;
       }
-      Actions.replace(ROUTES.ReservationCreation); // makes it stay on page
+    } catch (e) {
+      console.log(e);
+      return Promise.resolve();
     }
   };
 

@@ -21,12 +21,17 @@ class RentalStartQR extends React.Component {
     bikeIdInput: '',
   };
 
+  /**
+   * Checks user is able to pay, if not routes to payment addition page
+   *
+   * @param bikeId
+   * @returns {Promise<void>}
+   */
   sendBikeIdToServer = async bikeId => {
     const { startRental } = this.props;
     try {
       const authToken = await Firebase.auth().currentUser.getIdToken();
       const ableToPay = await apiUserAbleToMakePayment(authToken);
-
       if (ableToPay) {
         await startRental(bikeId);
         Actions[ROUTES.RentalInfoNew]();
@@ -36,7 +41,6 @@ class RentalStartQR extends React.Component {
         });
       }
     } catch (e) {
-      console.log(e);
       return Promise.resolve();
     }
   };

@@ -96,18 +96,20 @@ export const userSignUp = formData => async dispatch => {
 
     const userFirebase = await firebaseSignUpEmail(email, password);
     const userDb = await apiSignUp(userFirebase.authToken, name, email);
+    console.log('userDb: ', userDb);
     await firebaseUpdateProfile({ id: userDb.dbId, name });
     dispatch(setUser(userFirebase.uid, userDb.dbId, email));
     // Stop loading
     return dispatch(setStatus('success', 'Welcome!'));
-  } catch (error) {
+  } catch (e) {
     if (Firebase.auth().currentUser) {
       // Attempts to delete
       Firebase.auth().currentUser.delete();
     }
+    console.log(e);
     // auto sets loading to false
-    dispatch(setStatus('error', error.message));
-    throw error;
+    dispatch(setStatus('error', e.message));
+    throw e;
   }
 };
 

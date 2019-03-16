@@ -65,7 +65,6 @@ export const setPickupStatusOrderAsc = boolean => ({
  * @returns {{payload: boolean, type: string}}
  */
 const setPickupsLoading = (loadingStatus = true) => ({ type: PICKUPS_LOADING, payload: loadingStatus });
-
 /**
  * Checks each pickup has the required input then sets in reducer
  *

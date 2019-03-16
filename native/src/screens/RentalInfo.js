@@ -149,7 +149,7 @@ class RentalInfo extends React.Component {
       <Screen>
         {/* Cost so far */}
         <View padder>
-          <H1>{`£${rentalInfo.costSoFar}`}</H1>
+          <H1>{`£${rentalInfo.costSoFar / 100}`}</H1>
           <Text>Cost so Far</Text>
         </View>
 

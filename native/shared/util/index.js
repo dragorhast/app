@@ -43,7 +43,7 @@ export const timeFromDate = date =>
 export const hoursAndMinutesSinceNow = startTime => {
   const milliSecondsDifference = Math.abs(new Date() - new Date(startTime));
   const hours = Math.floor(milliSecondsDifference / (1000 * 60 * 60));
-  const minutes = Math.round((milliSecondsDifference / 1000) % 60);
+  const minutes = Math.round((milliSecondsDifference / 1000 / 60) % 60);
 
   return hours > 1 ? `${hours} hrs ${minutes} mins` : `${minutes} mins`;
 };

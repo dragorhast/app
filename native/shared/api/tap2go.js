@@ -30,7 +30,7 @@ axiosBaseUrl.interceptors.response.use(
     return checkJSendStatus(response);
   },
   error => {
-    // console.log(JSON.parse(JSON.stringify(error)));
+    console.log(JSON.parse(JSON.stringify(error)));
     return Promise.reject(error);
   }
 );
@@ -156,23 +156,11 @@ export const apiRentalStartId = async (authToken, bikeId) => {
  */
 export const apiRentalFetchCurrent = async authToken => {
   const dbId = Firebase.auth().currentUser.photoURL;
-  try {
-    const result = await axiosBaseUrl.get(`/users/${dbId}/rentals/current`, getConfig(authToken));
-    // TEST - Sets current location
-    return result.data.data.rental;
-  } catch (e) {
-    // TODO find a better way to handle this as this couples to rental rentalFetchInfo()
-    if (
-      e.response &&
-      e.response.data &&
-      e.response.data.data &&
-      e.response.data.data.message &&
-      e.response.data.data.message === 'You have no current rental.'
-    ) {
-      throw new Error('NO RENTAL');
-    }
-    throw e;
-  }
+  const result = await axiosBaseUrl.get(`/users/${dbId}/rentals/current`, getConfig(authToken));
+  // TEST - Sets current location
+
+  // If doesn't currently have a rental will be no data
+  return result.data.data ? result.data.data.rental : null;
 };
 
 /**
