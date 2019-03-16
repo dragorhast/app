@@ -64,7 +64,7 @@ export const setPickupStatusOrderAsc = boolean => ({
  * @param loadingStatus
  * @returns {{payload: boolean, type: string}}
  */
-const loadingPickups = (loadingStatus = true) => ({ type: PICKUPS_LOADING, payload: loadingStatus });
+const setPickupsLoading = (loadingStatus = true) => ({ type: PICKUPS_LOADING, payload: loadingStatus });
 
 /**
  * Checks each pickup has the required input then sets in reducer
@@ -74,8 +74,8 @@ const loadingPickups = (loadingStatus = true) => ({ type: PICKUPS_LOADING, paylo
  */
 const setPickups = pickups => {
   const checkProperties = pickup => {
-    if (!pickup.name || !pickup.coordinates || !pickup.status)
-      throw new Error('Each pickup must have name, coordinates + status to set');
+    if (!pickup.name || !pickup.coordinates || !pickup.centerCoordinates || !pickup.status)
+      throw new Error('Each pickup must have name, coordinates, centerCoordinates + status to set');
   };
   pickups.forEach(pickup => checkProperties(pickup));
 
@@ -85,7 +85,7 @@ const setPickups = pickups => {
 // Async actions
 export const pickupPointsFetch = currentLocation => async dispatch => {
   try {
-    dispatch(loadingPickups(true));
+    dispatch(setPickupsLoading(true));
 
     const pickupsRaw = await apiPickupPointsFetch(currentLocation);
 
@@ -102,6 +102,7 @@ export const pickupPointsFetch = currentLocation => async dispatch => {
         pickupId: pickup.properties.id,
         name: pickup.properties.name,
         coordinates,
+        centerCoordinates: pickup.properties.center,
         distance: pickup.properties.distance,
         status: pickupStateFromBikeCount(pickup.properties.bikes || []),
       };

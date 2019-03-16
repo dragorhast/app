@@ -20,7 +20,7 @@ const axiosBaseUrl = axios.create({
 
 // ***** NTERCEPTORS ****** //
 axiosBaseUrl.interceptors.request.use(request => {
-  console.log('Request: ', request);
+  // console.log('Request: ', request);
   return request;
 });
 

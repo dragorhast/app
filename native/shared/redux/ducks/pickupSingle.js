@@ -27,12 +27,8 @@ const INITIAL_STATE = {
 export const PickupPropTypes = {
   pickupId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  coordinates: PropTypes.arrayOf(
-    PropTypes.shape({
-      lat: PropTypes.number,
-      long: PropTypes.number,
-    })
-  ).isRequired,
+  coordinates: PropTypes.arrayOf(PropTypes.shape({ lat: PropTypes.number, lng: PropTypes.number })).isRequired,
+  centerCoordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
   distance: PropTypes.number,
   status: PropTypes.string,
 };
@@ -60,12 +56,13 @@ export default function pickupSingleReducer(state = INITIAL_STATE, { type, paylo
   }
 }
 // Action Creators
-export const setPickup = ({ pickupId, name, coordinates, distance, status }) => ({
+export const setPickup = ({ pickupId, name, coordinates, centerCoordinates, distance, status }) => ({
   type: PICKUP_SINGLE_SET,
   payload: {
     pickupId,
     name,
     coordinates,
+    centerCoordinates,
     distance,
     status,
   },
@@ -93,6 +90,7 @@ export const pickupSingleFetch = pickupId => async dispatch => {
         pickupId: pickup.properties.id,
         name: pickup.properties.name,
         coordinates,
+        centerCoordinates: pickup.properties.center,
         distance: pickup.properties.distance,
         status: pickupStateFromBikeCount(pickup.properties.bikes || []),
       })

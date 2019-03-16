@@ -14,10 +14,7 @@ export const ReservationDisplaySingleProps = {
   reservationId: PropTypes.number,
   pickupId: PropTypes.number,
   pickupName: PropTypes.string,
-  pickupLocation: PropTypes.shape({
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-  }),
+  pickupLocation: PropTypes.arrayOf(PropTypes.number),
   datetime: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
   status: PropTypes.string,
 };

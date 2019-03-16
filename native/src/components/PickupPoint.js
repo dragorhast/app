@@ -28,7 +28,7 @@ const PickupPoint = ({ point, startReserveCreate, openReservation }) => (
         ios="ios-walk"
         anroid="md-walk"
         style={{ fontSize: 40, color: 'green' }}
-        onPress={() => goToLocation(point.coordinates)}
+        onPress={() => goToLocation(point.centerCoordinates)}
       />
     </StyledInline>
   </CardMediumShadow>
