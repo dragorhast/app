@@ -8,12 +8,15 @@ import ErrorMessages from '../../constants/errors';
 // Actions
 const USER_SET = 'USER_SET';
 const USER_RESET = 'USER_RESET';
+const USER_SET_FIELD = 'USER_SET_FIELD';
 
 // Initial State
 const INITIAL_STATE = {
   firebaseId: null,
   dbId: null, // id in database
   email: null,
+  userType: null,
+  error: null,
 };
 
 // Prop Types
@@ -21,6 +24,8 @@ export const userPropTypes = {
   firebaseId: PropTypes.string,
   dbId: PropTypes.string, // will be number but string in firebase as displayName
   email: PropTypes.string,
+  userType: PropTypes.string,
+  error: PropTypes.string,
 };
 
 // Reducer
@@ -31,25 +36,35 @@ export default function userReducer(state = INITIAL_STATE, { type, payload }) {
         firebaseId: payload.firebaseId,
         dbId: payload.dbId,
         email: payload.email,
+        userType: payload.userType,
+        error: null,
       };
     case USER_RESET:
       return INITIAL_STATE;
+    case USER_SET_FIELD:
+      return {
+        ...state,
+        ...payload,
+      };
     default:
       return state;
   }
 }
 
 // Action Creators
-export const setUser = (firebaseId, dbId, email) => ({
+export const setUser = (firebaseId, dbId, email, userType) => ({
   type: USER_SET,
   payload: {
     firebaseId,
     dbId,
     email,
+    userType,
   },
 });
 
 export const resetUser = () => ({ type: USER_RESET });
+
+const setUserField = keyValue => ({ type: USER_SET_FIELD, payload: keyValue });
 
 // Async Action calls
 
@@ -98,23 +113,35 @@ export const userSignUp = formData => async dispatch => {
 
 /**
  * Logs in the user through firebase and sets the reducer
+ *
+ * returns the user object
  * @type {{}}
  */
-export const userLogin = ({ email, password }) => async dispatch => {
+export const userLogin = ({ email, password, adminCheck } = false) => async dispatch => {
   try {
     // Loading
     dispatch(setStatus('loading', true));
 
     // Login
     const user = await firebaseLoginEmail(email, password);
+    const tokenResult = await Firebase.auth().currentUser.getIdTokenResult();
+    const userType = tokenResult.claims.user_type;
+
+    if (adminCheck) {
+      if (userType !== 'manager' && userType !== 'operator') {
+        await Firebase.auth().signOut();
+        throw new Error('Must be an admin to access');
+      }
+    }
 
     // Set database if (this will likely not be obvious)
     const dbId = user.photoURL;
 
-    dispatch(setUser(user.uid, dbId, email));
+    await dispatch(setUser(user.uid, dbId, email, userType));
     return dispatch(setStatus('success', 'Logged in baby!'));
   } catch (error) {
     dispatch(setStatus('error', error.message));
+    dispatch(setUserField({ error: error.message }));
     throw error;
   }
 };

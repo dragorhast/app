@@ -14,8 +14,12 @@ export const ReservationDisplaySingleProps = {
   reservationId: PropTypes.number,
   pickupId: PropTypes.number,
   pickupName: PropTypes.string,
-  pickupLocation: PropTypes.arrayOf(PropTypes.number),
+  pickupLocation: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }),
   datetime: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+  status: PropTypes.string,
 };
 
 // Each entry in the list is the same as one single
@@ -45,6 +49,7 @@ const INITIAL_STATE = {
   pickupName: null,
   pickupLocation: null,
   datetime: null,
+  status: null,
 };
 // Reducer
 export default function reservationDisplayReducer(state = INITIAL_STATE, { type, payload }) {
@@ -57,6 +62,7 @@ export default function reservationDisplayReducer(state = INITIAL_STATE, { type,
         pickupName: payload.pickupName,
         pickupLocation: payload.pickupLocation,
         datetime: payload.datetime,
+        status: payload.status,
       };
     case RESERVATION_DISPLAY_SET_FIELD:
       return {
@@ -94,7 +100,14 @@ export const setReservationTimeOrderAsc = boolean => ({
   },
 });
 
-export const setSingleReservationDisplay = ({ reservationId, pickupId, pickupName, pickupLocation, datetime }) => ({
+export const setSingleReservationDisplay = ({
+  reservationId,
+  pickupId,
+  pickupName,
+  pickupLocation,
+  datetime,
+  status,
+}) => ({
   type: RESERVATION_DISPLAY_SET_SINGLE,
   payload: {
     reservationId,
@@ -102,6 +115,7 @@ export const setSingleReservationDisplay = ({ reservationId, pickupId, pickupNam
     pickupName,
     pickupLocation,
     datetime,
+    status,
   },
 });
 
@@ -172,9 +186,10 @@ export const reservationSingleFetch = reservationId => async dispatch => {
       setSingleReservationDisplay({
         reservationId: res.id,
         pickupId: res.pickup_id,
-        pickupName: res.pickup.properties.id,
+        pickupName: res.pickup.properties.name,
         pickupLocation: res.pickup.properties.center,
         datetime: res.reserved_for,
+        status: res.status,
       })
     );
   } catch (e) {
@@ -201,4 +216,5 @@ export const getRawReservationsDataReady = reservationsRaw =>
     pickupName: reservation.pickup.properties.name,
     pickupId: reservation.pickup_id,
     pickupLocation: reservation.pickup.properties.center,
+    status: reservation.status,
   }));

@@ -18,8 +18,6 @@ const axiosBaseUrl = axios.create({
   baseURL: CONSTANTS.apiBaseURL,
 });
 
-// Console.log Response + Requests
-
 /**
  * Decides what to return based on JSend status
  *
@@ -230,6 +228,17 @@ export const apiIssueFetchSingle = async (authToken, issueId) => {
 };
 
 /**
+ * Updates the status of an issue with an optional message
+ *
+ */
+export const apiIssueUpdate = async (authToken, issueId, status, message) => {
+  console.log(authToken, issueId, status, message);
+  const data = message ? { status, message } : { status };
+  const result = await axiosBaseUrl.patch(`/issues/${issueId}`, data, getConfig(authToken));
+  return result.data.data.issue;
+};
+
+/**
  * Gets all pickup points - at some point will
  * be in order of closes to current location and
  * within the range
@@ -381,4 +390,27 @@ export const apiBikeSingleFetch = async (authToken, bikeId) => {
 export const apiBikeSingleFetchIssues = async (authToken, bikeId) => {
   const result = await axiosBaseUrl.get(`/bikes/${bikeId}/issues`, getConfig(authToken));
   return result.data.data.issues;
+};
+
+/**
+ * Used to change the status of a bike to in/out of circulation
+ * and locked/unlocked
+ *
+ * @param authToken
+ * @param bikeId
+ * @param inCirc
+ * @param locked
+ * @returns {Promise<BikeListItem.propTypes.bike|{}|BikesProps.bike>}
+ */
+export const apiBikeUpdateStatus = async (authToken, bikeId, inCirc, locked) => {
+  const result = await axiosBaseUrl.patch(
+    `/bikes/${bikeId}`,
+    {
+      in_circulation: inCirc,
+      locked,
+    },
+    getConfig(authToken)
+  );
+
+  return result.data.data.bike;
 };
