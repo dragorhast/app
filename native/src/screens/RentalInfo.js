@@ -4,7 +4,7 @@ import { Button, H1, Text, View } from 'native-base';
 import styled from 'styled-components/native';
 import { Screen, BreakLine } from '../styles';
 import { ModalEndRentalBackRack, ModalEndRentalConfirm } from '../components/Modals';
-import { minutesSinceTime } from '../../shared/util';
+import { hoursAndMinutesSinceNow, minutesSinceTime } from '../../shared/util';
 import ROUTES from '../routes';
 import withCurrentRental, { RentalProps } from '../../shared/redux/containers/RentalInfoContainer';
 
@@ -155,7 +155,7 @@ class RentalInfo extends React.Component {
 
         {/* Time used so far */}
         <View padder>
-          <Text>HOURS (Selector)</Text>
+          <Text>{hoursAndMinutesSinceNow(rentalInfo.startTime)}</Text>
           <Text>Time used so far</Text>
         </View>
 
