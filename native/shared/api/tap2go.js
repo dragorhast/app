@@ -96,7 +96,10 @@ export const apiSignUp = async (authToken, name, email) => {
 };
 
 // no need async / await, just through the error
-export const apiUserDelete = authToken => axiosBaseUrl.delete('/users/me', getConfig(authToken));
+export const apiUserDelete = async authToken => {
+  const dbId = Firebase.auth().currentUser.photoURL;
+  return axiosBaseUrl.delete(`/users/${dbId}`, getConfig(authToken));
+};
 
 /**
  * Sets or updates a user's payment details
