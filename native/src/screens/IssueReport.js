@@ -85,7 +85,7 @@ class IssueReport extends React.Component {
 
     return (
       <Screen>
-        <CardMediumShadow style={{ width: '90%' }}>
+        <CardMediumShadow>
           <StyledInline>
             <H3>Is the issue with a bike?</H3>
             <CheckBox checked={issueWithBike} onPress={() => this.setState({ issueWithBike: !issueWithBike })} />

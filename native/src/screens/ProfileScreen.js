@@ -47,7 +47,7 @@ class ProfileScreen extends React.PureComponent {
     return (
       <Screen>
         {/* Payment Details */}
-        <CardMediumShadow padding={16} style={{ width: '80%', alignItems: 'center' }}>
+        <CardMediumShadow padding={16} style={{ alignItems: 'center' }}>
           <H3>Payment Details</H3>
 
           <Spacer />
@@ -56,13 +56,13 @@ class ProfileScreen extends React.PureComponent {
           {/* </View> */}
 
           <Spacer />
-
-          <Button onPress={this.update}>
-            <Text>Update</Text>
-          </Button>
         </CardMediumShadow>
 
-        <Button danger onPress={this.deleteAccountAlert}>
+        <Button halfWid onPress={this.update}>
+          <Text>Update</Text>
+        </Button>
+
+        <Button halfWid danger onPress={this.deleteAccountAlert}>
           <Text>Delete Account</Text>
         </Button>
       </Screen>

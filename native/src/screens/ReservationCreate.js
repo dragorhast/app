@@ -1,7 +1,7 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { H2, Button, Text, View } from 'native-base';
+import { H2, H3, Button, Text, View } from 'native-base';
 import { Screen, CardMediumShadow } from '../styles';
 import ROUTES from '../routes';
 import Loading from './LoadingScreen';
@@ -67,37 +67,33 @@ class ReservationCreate extends React.PureComponent {
 
     return (
       <Screen>
-        <CardMediumShadow style={{ height: '90%', width: '90%' }}>
+        <CardMediumShadow padding={32}>
           {/* Pickup Point + Date text */}
-          <View style={{ height: 128, justifyContent: 'space-between' }}>
+          <View style={{ justifyContent: 'space-between' }}>
             <Text>Selected</Text>
             <H2>{reserveCreate.pickupName}</H2>
             <Text>Date + Time</Text>
             {changedDateAndTime ? <H2>{prettyDateTime(reserveCreate.datetime)}</H2> : <H2>Next 30 minutes</H2>}
-          </View>
+            <View style={{ height: 48, marginVertical: 16 }}>
+              <Button light halfWid onPress={this._showDateTimePicker}>
+                <Text>Change Time</Text>
+              </Button>
+            </View>
 
-          <Spacer />
-
-          {/* Buttons */}
-          <View style={{ flex: 1, width: '80%', justifyContent: 'flex-start', alignSelf: 'center' }}>
-            <Button light onPress={this._showDateTimePicker}>
-              <Text>Change reservation time</Text>
-            </Button>
-
-            <Spacer />
-
-            <Text italic>
-              {`We will ensure that there are enough bikes at the pickup point for the time you reserve.
-
-Then you can just pick up any bike once you get there!`}
-            </Text>
-
-            {/* TODO add check that only shows 30 min button if bikes available at location */}
-            <Button primary large onPress={this.reserve}>
-              <Text>Confirm</Text>
-            </Button>
+            <View style={{ height: 80, justifyContent: 'space-between', marginVertical: 16 }}>
+              <H3 style={{ fontStyle: 'italic', textAlign: 'center' }}>
+                Scan any bike at the station up to 30 minutes before to claim your reservation
+              </H3>
+              <Spacer size={8} />
+              <Text center>We'll make sure there's a bike there for you and no one else can take it! ;)</Text>
+            </View>
           </View>
         </CardMediumShadow>
+
+        {/* TODO add check that only shows 30 min button if bikes available at location */}
+        <Button primary onPress={this.reserve} style={{ marginVertical: 32 }}>
+          <Text>Confirm</Text>
+        </Button>
         <DateTimePicker
           isVisible={isDatePickerVisible}
           onConfirm={this._handleDatePicked}

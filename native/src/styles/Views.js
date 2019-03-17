@@ -59,7 +59,7 @@ export const Card = styled.View`
 export const CardMediumShadow = styled(Card)`
   box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.1);
   margin: 8px;
-  width: 60%;
+  width: 90%;
   ${props => (props.padding ? `padding: ${props.padding}px` : '')};
 `;
 

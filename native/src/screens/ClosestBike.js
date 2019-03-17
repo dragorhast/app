@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { Icon } from 'native-base';
 import BikeSVG from '../../assets/bicycle.svg';
 import withBikeContainer, { BikeProps } from '../../shared/redux/containers/BikeContainer';
-import { Screen } from '../styles';
+import { Screen, CardMediumShadow } from '../styles';
 import { goToLocation } from '../../shared/util/geo-location';
 import THEME from '../styles/styledComponentTheme';
 
@@ -26,6 +26,7 @@ const SInfoBlock = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  width: 60%;
 `;
 
 class ClosestBike extends React.Component {
@@ -33,22 +34,24 @@ class ClosestBike extends React.Component {
     const { bike } = this.props;
     return (
       <Screen>
-        <BikeSVG width={256} height={160} color={THEME.primary} />
-        <SId>{bike.id}</SId>
-        <SInfoBlock>
-          <SText>
-            {bike.distance} miles {'\n'}
-            <SLink onPress={() => goToLocation(bike.coordinates)}>Directions</SLink>
-          </SText>
+        <CardMediumShadow style={{ alignItems: 'center' }}>
+          <BikeSVG width={208} height={144} color={THEME.primary} />
+          <SId>{bike.id}</SId>
+          <SInfoBlock>
+            <SText>
+              {bike.distance} miles {'\n'}
+              <SLink onPress={() => goToLocation(bike.coordinates)}>Directions</SLink>
+            </SText>
 
-          <Icon
-            name="ios-walk"
-            ios="ios-walk"
-            anroid="md-walk"
-            style={{ fontSize: 64, color: THEME.stop1 }}
-            onPress={() => goToLocation(bike.coordinates)}
-          />
-        </SInfoBlock>
+            <Icon
+              name="ios-walk"
+              ios="ios-walk"
+              anroid="md-walk"
+              style={{ fontSize: 64, color: THEME.stop1 }}
+              onPress={() => goToLocation(bike.coordinates)}
+            />
+          </SInfoBlock>
+        </CardMediumShadow>
       </Screen>
     );
   }

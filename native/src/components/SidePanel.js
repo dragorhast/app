@@ -27,6 +27,7 @@ const SidePanel = ({ logout, navigation }) => (
 
       <View style={{ height: 160, justifyContent: 'space-evenly' }}>
         <H3 onPress={() => onRouteSelected(ROUTES.Home, navigation)}>Home</H3>
+        <H3 onPress={() => onRouteSelected(ROUTES.ReservationsUpcoming, navigation)}>Reservations</H3>
         <H3 onPress={() => onRouteSelected(ROUTES.Profile, navigation)}>Profile</H3>
         <H3 onPress={() => onRouteSelected(ROUTES.IssueReport, navigation)}>Issue</H3>
         <H3>About</H3>

@@ -149,7 +149,7 @@ class RentalInfo extends React.Component {
     return (
       <Screen>
         {/* Cost so far */}
-        <CardMediumShadow style={{ width: '90%' }}>
+        <CardMediumShadow>
           <View padder>
             <H1>{`£${rentalInfo.costSoFar / 100}`}</H1>
             <Text>Cost so Far</Text>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Button, Text, View } from 'native-base';
-import { Screen, Spacer } from '../styles';
+import { Screen, Spacer, CardMediumShadow } from '../styles';
 import PaymentDetailsForm from '../components/PaymentDetailsForm';
 import ROUTES from '../routes';
 import withPaymentDetails, { PaymentProps } from '../../shared/redux/containers/PaymentContainer';
@@ -24,7 +24,7 @@ class PaymentRequired extends React.PureComponent {
     const { paymentDetails, editSectionPayments } = this.props;
     return (
       <Screen>
-        <View style={{ width: '80%', alignItems: 'center' }}>
+        <CardMediumShadow style={{ alignItems: 'center' }} padding={32}>
           <Text>
             You won't be charged until you return the bike at the end of your rental but we need your details to make
             sure everything is okay!
@@ -33,11 +33,9 @@ class PaymentRequired extends React.PureComponent {
           <Spacer />
 
           <PaymentDetailsForm paymentDetails={paymentDetails} onChangeText={editSectionPayments} />
-        </View>
+        </CardMediumShadow>
 
-        <Spacer />
-
-        <Button onPress={this.update}>
+        <Button halfWid onPress={this.update}>
           <Text>Continue</Text>
         </Button>
       </Screen>

@@ -19,6 +19,10 @@ export default (variables /* : * */ = variable) => {
     '.link': {
       color: variables.linkColor,
     },
+
+    '.center': {
+      textAlign: 'center',
+    },
   };
 
   return textTheme;

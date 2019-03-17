@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { H2, Text, View, Button, Icon } from 'native-base';
+import { H2, Text, View, Button, Icon, H3 } from 'native-base';
 import { Screen, CardMediumShadow, StyledInline } from '../styles';
 import Spacer from '../components/Spacer';
 import ROUTES from '../routes';
@@ -44,9 +44,9 @@ class ReservationDisplay extends React.PureComponent {
 
     return (
       <Screen>
-        <CardMediumShadow style={{ height: '60%', width: '90%' }}>
+        <CardMediumShadow>
           {/* Top Text about the reservation */}
-          <View style={{ height: 128, justifyContent: 'space-between' }}>
+          <View style={{ height: 128, justifyContent: 'space-between', marginBottom: 16 }}>
             <Text>Pickup Point</Text>
             {/* TODO add clickable link to directions */}
             <StyledInline onPress={() => console.log('Would change page')}>
@@ -65,18 +65,26 @@ class ReservationDisplay extends React.PureComponent {
             </H2>
           </View>
 
-          <Spacer />
-          {/* Buttons */}
-          <View style={{ flex: 1, width: '80%', alignSelf: 'center' }}>
-            {/* TODO only display when current location is inside coordinates */}
-            <Button large primary onPress={this.loadUnlockBikeScreen}>
-              <Text>Unlock A Bike</Text>
-            </Button>
-            <Button large danger bordered onPress={this.cancelReservationAlert}>
-              <Text>Cancel Reservation</Text>
-            </Button>
+          <View style={{ height: 128, justifyContent: 'space-between', marginVertical: 16 }}>
+            <H3 style={{ fontStyle: 'italic', textAlign: 'center' }}>
+              Scan any bike at the station up to 30 minutes before to claim your reservation
+            </H3>
+            <Spacer size={8} />
+            <Text center>We'll make sure there's a bike there for you and no one else can take it! ;)</Text>
           </View>
         </CardMediumShadow>
+
+        <Spacer />
+        {/* Buttons */}
+        <View style={{ width: '60%', alignSelf: 'center' }}>
+          {/* TODO only display when current location is inside coordinates */}
+          <Button primary onPress={this.loadUnlockBikeScreen}>
+            <Text>Claim Reservation</Text>
+          </Button>
+          <Button danger onPress={this.cancelReservationAlert}>
+            <Text>Cancel Reservation</Text>
+          </Button>
+        </View>
       </Screen>
     );
   }

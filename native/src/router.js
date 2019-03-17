@@ -71,7 +71,7 @@ class MyRouter extends React.PureComponent {
           </Drawer>
           <Scene key={ROUTES.RentalStart} component={RentalStartQR} back />
           <Scene key={ROUTES.PickupPoints} component={PickupPoints} title="Pickup Points" back />
-          <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} back />
+          <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} title="Confirm Rental" back />
           <Scene key={ROUTES.ClosestBike} component={ClosestBike} title="Closest Bike" back />
           <Scene key={ROUTES.PaymentRequired} component={PaymentRequired} title="Payment Required" back />
           <Scene key={ROUTES.MapWithBikes} component={MapBikeAndPickups} title="Bikes + Pickups" back />

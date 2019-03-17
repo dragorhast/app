@@ -7,7 +7,7 @@ import { PickupPropTypes } from '../../shared/redux/ducks/pickups';
 import withReservationCreation from '../../shared/redux/containers/ReservationCreationContainer';
 
 const PickupPoint = ({ point, startReserveCreate, openReservation }) => (
-  <CardMediumShadow style={{ width: '90%' }}>
+  <CardMediumShadow>
     <StyledInline>
       <H3>{point.name}</H3>
       <Text>{point.distance} Miles</Text>

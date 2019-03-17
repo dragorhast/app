@@ -8,7 +8,7 @@ import { goToLocation } from '../../shared/util/geo-location';
 import { ReservationDisplaySingle } from '../../shared/redux/ducks/reservationDisplay';
 
 const ReservationCard = ({ cancelReservation, reservation, viewFullReservation }) => (
-  <CardMediumShadow style={{ width: '90%' }} padding={8}>
+  <CardMediumShadow padding={8}>
     <TouchableOpacity onPress={() => viewFullReservation(reservation)}>
       <StyledInline>
         <Text>{prettyDateTime(reservation.datetime)}</Text>
