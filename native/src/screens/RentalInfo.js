@@ -6,7 +6,7 @@ import { Screen, BreakLine } from '../styles';
 import { ModalEndRentalBackRack, ModalEndRentalConfirm } from '../components/Modals';
 import { hoursAndMinutesSinceNow, minutesSinceTime } from '../../shared/util';
 import ROUTES from '../routes';
-import withCurrentRental, { RentalProps } from '../../shared/redux/containers/RentalInfoContainer';
+import withHomeAndRental, { RentalProps } from '../../shared/redux/containers/HomeAndRentalContainer';
 
 const StyledButtonsView = styled.View`
   flex-direction: column;
@@ -187,4 +187,4 @@ RentalInfo.propTypes = {
   ...RentalProps,
 };
 
-export default withCurrentRental(RentalInfo);
+export default withHomeAndRental(RentalInfo);

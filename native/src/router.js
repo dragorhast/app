@@ -18,13 +18,12 @@ import ReservationDisplay from './screens/ReservationDisplay';
 import ReservationsUpcoming from './screens/ReservationsUpcoming';
 import ProfileScreen from './screens/ProfileScreen';
 import PaymentRequired from './screens/PaymentRequired';
+import ClosestBike from './screens/ClosestBike';
 
 // FOR TESTING VISUAL
-// import TestScreen from './screens/test-screen';
+import TestScreen from './screens/test-screen';
 
-// const VisualInspection = TestScreen;
-
-// const MyRouter = ({ firebaseId }) => ();
+const VisualInspection = ClosestBike;
 
 class MyRouter extends React.PureComponent {
   render() {
@@ -64,6 +63,7 @@ class MyRouter extends React.PureComponent {
           <Scene key={ROUTES.RentalStart} component={RentalStartQR} back />
           <Scene key={ROUTES.PickupPoints} component={PickupPoints} back />
           <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} back />
+          <Scene key={ROUTES.ClosestBike} component={ClosestBike} back />
           <Scene key={ROUTES.PaymentRequired} component={PaymentRequired} title="Payment Required" back />
         </Scene>
       </Router>
