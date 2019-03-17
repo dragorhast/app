@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
-import { Button, H2, H3, Text, View } from 'native-base';
-import { StyledModal } from '../../styles';
+import { Actions } from 'react-native-router-flux';
+import { Button, H1, H2, Text, View } from 'native-base';
+import { StyledModal, SSVG, SHeadingLeft } from '../../styles';
+import ROUTES from '../../routes';
 import Loading from '../../screens/LoadingScreen';
 import { timeFromDate } from '../../../shared/util';
+import ManPayPhoneSVG from '../../../assets/man-paying-phone.svg';
 
 class ModalEndRentalConfirm extends React.Component {
   state = {
@@ -14,7 +17,8 @@ class ModalEndRentalConfirm extends React.Component {
   static propTypes = {
     close: PropTypes.func.isRequired,
     rentalInfo: PropTypes.shape({
-      rentalStartTime: PropTypes.string,
+      startTime: PropTypes.string,
+      costSoFar: PropTypes.number,
     }).isRequired,
     endRental: PropTypes.func.isRequired,
     getRentalInfo: PropTypes.func.isRequired,
@@ -35,19 +39,26 @@ class ModalEndRentalConfirm extends React.Component {
         <StyledModal>
           {loadingFetchRentalInfo && <Loading />}
           {!loadingFetchRentalInfo && (
-            <View>
-              <H2>Confirmation Page</H2>
+            <View style={{ justifyContent: 'space-between', paddingHorizontal: 32, flex: 1 }}>
+              <H2>Confirm Rental</H2>
 
-              <H3>
+              <SSVG>
+                <ManPayPhoneSVG width={160} height={160} />
+              </SSVG>
+
+              <SHeadingLeft>Time of Ride</SHeadingLeft>
+              <H1 style={{ alignSelf: 'flex-start' }}>
                 {timeFromDate(new Date(rentalInfo.startTime))} - {timeFromDate(new Date())}
-              </H3>
+              </H1>
 
-              <View style={{ height: 160, width: '80%', backgroundColor: 'grey', alignSelf: 'center' }}>
-                <Text>IMAGE</Text>
-              </View>
+              <SHeadingLeft>Cost</SHeadingLeft>
+              <H1 style={{ alignSelf: 'flex-start' }}>£{rentalInfo.costSoFar / 100}</H1>
 
-              <Button halfWid large onPress={endRental}>
-                <Text>RETURN</Text>
+              <Button halfWid onPress={endRental}>
+                <Text>Confirm</Text>
+              </Button>
+              <Button halfWid danger onPress={() => Actions[ROUTES.IssueReport]}>
+                <Text>Issue</Text>
               </Button>
             </View>
           )}

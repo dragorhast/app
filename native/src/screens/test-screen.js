@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { Screen } from '../styles';
-import PaymentDetailsForm from '../components/PaymentDetailsForm';
+import { ModalEndRentalConfirm, ModalEndRentalBackRack } from '../components/Modals';
 
 export default class TestScreen extends Component {
   render() {
     return (
       <Screen>
-        <PaymentDetailsForm paymentDetails={{ cardNumber: '', month: '', year: '', cvc: '' }} onChangeText={() => {}} />
+        <ModalEndRentalConfirm
+          isVisible
+          rentalInfo={{ startTime: new Date(2019, 2, 17).toISOString(), costSoFar: 450 }}
+          getRentalInfo={() => {}}
+        />
+        {/* <ModalEndRentalBackRack isVisible /> */}
       </Screen>
     );
   }

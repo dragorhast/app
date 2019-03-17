@@ -1,12 +1,13 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
-import { Button, H1, Text, View } from 'native-base';
+import { Button, H1, Text, View, Icon } from 'native-base';
 import styled from 'styled-components/native';
-import { Screen, BreakLine } from '../styles';
+import { Screen, BreakLine, CardMediumShadow } from '../styles';
 import { ModalEndRentalBackRack, ModalEndRentalConfirm } from '../components/Modals';
 import { hoursAndMinutesSinceNow, minutesSinceTime } from '../../shared/util';
 import ROUTES from '../routes';
 import withHomeAndRental, { RentalProps } from '../../shared/redux/containers/HomeAndRentalContainer';
+import THEME from '../styles/styledComponentTheme';
 
 const StyledButtonsView = styled.View`
   flex-direction: column;
@@ -148,35 +149,48 @@ class RentalInfo extends React.Component {
     return (
       <Screen>
         {/* Cost so far */}
-        <View padder>
-          <H1>{`£${rentalInfo.costSoFar / 100}`}</H1>
-          <Text>Cost so Far</Text>
-        </View>
+        <CardMediumShadow style={{ width: '90%' }}>
+          <View padder>
+            <H1>{`£${rentalInfo.costSoFar / 100}`}</H1>
+            <Text>Cost so Far</Text>
+          </View>
 
-        {/* Time used so far */}
-        <View padder>
-          <Text>{hoursAndMinutesSinceNow(rentalInfo.startTime)}</Text>
-          <Text>Time used so far</Text>
-        </View>
-
-        <BreakLine width="75%" />
+          {/* Time used so far */}
+          <View padder>
+            <Text>{hoursAndMinutesSinceNow(rentalInfo.startTime)}</Text>
+            <Text>Time used so far</Text>
+          </View>
+        </CardMediumShadow>
 
         {/* Buttons */}
         <StyledButtonsView>
           {this.renderReturnButton()}
-          <Button danger large onPress={Actions[ROUTES.IssueReport]}>
-            <Text>Report Issue</Text>
-          </Button>
 
-          {rentalInfo.bikeLocked ? (
-            <Button secondary large onPress={() => lockBike(false)}>
-              <Text>Unlock Bike</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Button danger onPress={Actions[ROUTES.IssueReport]} style={{ width: 64, height: 64, borderRadius: 64 }}>
+              <Icon name="ios-alert" />
             </Button>
-          ) : (
-            <Button primary large onPress={() => lockBike(true)}>
-              <Text>Lock Bike</Text>
-            </Button>
-          )}
+
+            {rentalInfo.bikeLocked ? (
+              <Button
+                large
+                halfWid
+                onPress={() => lockBike(false)}
+                style={{ width: 64, height: 64, borderRadius: 64, backgroundColor: THEME.warning }}
+              >
+                <Icon name="ios-lock" />
+              </Button>
+            ) : (
+              <Button
+                large
+                halfWid
+                onPress={() => lockBike(true)}
+                style={{ width: 64, height: 64, borderRadius: 64, backgroundColor: THEME.success }}
+              >
+                <Icon name="ios-unlock" />
+              </Button>
+            )}
+          </View>
         </StyledButtonsView>
       </Screen>
     );

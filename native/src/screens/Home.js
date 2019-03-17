@@ -9,8 +9,8 @@ import withHomeAndRental, { RentalProps } from '../../shared/redux/containers/Ho
 import withStatus, { StatusProps } from '../../shared/redux/containers/StatusContainer';
 import LoadingScreen from './LoadingScreen';
 import { delay } from '../../shared/util';
-import IntroSlideshow from './IntroSlideshow';
 import RentalStartQR from './RentalStartQR';
+import RentalInfo from './RentalInfo';
 
 class Home extends React.Component {
   state = {
@@ -84,8 +84,26 @@ class Home extends React.Component {
   render() {
     const { rentalInfo, reduxLoading, ...props } = this.props;
     if (reduxLoading) return <LoadingScreen />;
+
+    if (rentalInfo.bikeId) return <RentalInfo fetchInfoOnLoad />;
+
     return <RentalStartQR closestBike={this.closestBike} {...props} />;
-    return (
+  }
+}
+
+Home.propTypes = {
+  ...RentalProps,
+  ...StatusProps,
+};
+
+export default compose(
+  withHomeAndRental,
+  withStatus
+)(Home);
+
+/*
+// ****** OLD HOME PAGE ****** //
+return (
       <Screen>
         {rentalInfo.bikeId ? (
           <Button light onPress={() => Actions[ROUTES.RentalInfo]()} large halfWid>
@@ -112,15 +130,4 @@ class Home extends React.Component {
         </Button>
       </Screen>
     );
-  }
-}
-
-Home.propTypes = {
-  ...RentalProps,
-  ...StatusProps,
-};
-
-export default compose(
-  withHomeAndRental,
-  withStatus
-)(Home);
+ */

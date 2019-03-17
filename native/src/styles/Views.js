@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { Platform, Dimensions } from 'react-native';
-import { Textarea } from 'native-base';
+import { Text, Textarea } from 'native-base';
 
 const deviceHeight = Dimensions.get('window').height;
 /**
@@ -44,6 +44,7 @@ export const StyledModal = styled.View`
   border-radius: 8px;
   padding: 16px 8px;
   box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.5);
+  justify-content: center;
 `;
 
 export const Card = styled.View`
@@ -73,4 +74,17 @@ export const StyledInline = styled.View`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+`;
+
+export const SSVG = styled.View`
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const SHeadingLeft = styled(Text)`
+  text-align: left;
+  align-self: flex-start;
+  font-size: 20;
+  margin: 8px 0;
 `;

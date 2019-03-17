@@ -26,7 +26,7 @@ import TestScreen from './screens/test-screen';
 import IntroSlideShow from './screens/IntroSlideshow';
 import MapBikeAndPickups from './screens/MapBikeAndPickups';
 
-const VisualInspection = ClosestBike;
+const VisualInspection = TestScreen;
 
 class MyRouter extends React.PureComponent {
   render() {
@@ -55,7 +55,7 @@ class MyRouter extends React.PureComponent {
             {...this.props}
           >
             <Scene key={ROUTES.Home} component={Home} title="Unlock Bike" />
-            <Scene key={ROUTES.RentalInfo} component={RentalInfo} fetchInfoOnLoad back />
+            <Scene key={ROUTES.RentalInfo} component={RentalInfo} fetchInfoOnLoad back title="Current Rental" />
             <Scene key={ROUTES.RentalInfoNew} component={RentalInfo} fetchInfoOnLoad={false} />
             <Scene key={ROUTES.IssueReport} component={IssueReport} back />
             <Scene key={ROUTES.ReservationDisplayWithBurger} component={ReservationDisplay} title="Reservation" />
