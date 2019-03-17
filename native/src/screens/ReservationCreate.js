@@ -105,6 +105,7 @@ Then you can just pick up any bike once you get there!`}
           mode="datetime"
           date={reserveCreate.datetime}
           minimumDate={new Date()}
+          minuteInterval={15}
         />
       </Screen>
     );

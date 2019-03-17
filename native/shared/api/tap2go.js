@@ -234,7 +234,6 @@ export const apiIssueFetchSingle = async (authToken, issueId) => {
  *
  */
 export const apiIssueUpdate = async (authToken, issueId, status, message) => {
-  console.log(authToken, issueId, status, message);
   const data = message ? { status, message } : { status };
   const result = await axiosBaseUrl.patch(`/issues/${issueId}`, data, getConfig(authToken));
   return result.data.data.issue;
@@ -245,14 +244,19 @@ export const apiIssueUpdate = async (authToken, issueId, status, message) => {
  * be in order of closes to current location and
  * within the range
  *
- * @param latitude
- * @param longitude
+ *
+ * @param authToken
+ * @param coords
  * @param range
  * @returns {Promise<pickupsReducer|Array>}
  */
-export const apiPickupPointsFetch = async (latitude = 55.949159, longitude = -3.199293, range = 4) => {
+export const apiPickupPointsFetch = async (authToken, coords = [-3.199293, 55.949159], range = 4) => {
   try {
-    const result = await axiosBaseUrl.get(`/pickups?latitude=${latitude}&longitude=${longitude}&range=${range}miles`);
+    console.log(authToken);
+    const result = await axiosBaseUrl.get(
+      `/pickups?latitude=${coords[1]}&longitude=${coords[0]}&range=${range}miles`,
+      getConfig(authToken)
+    );
     return result.data.data.pickups;
   } catch (e) {
     throw e;
@@ -366,6 +370,11 @@ export const apiReservationSingleFetch = async (authToken, reservationId) => {
 export const apiBikesFetch = async authToken => {
   // console.log(authToken);
   const result = await axiosBaseUrl.get('/bikes', getConfig(authToken));
+  return result.data.data.bikes;
+};
+
+export const apiBikesFetchAvailable = async authToken => {
+  const result = await axiosBaseUrl.get('/bikes?available=true', getConfig(authToken));
   return result.data.data.bikes;
 };
 

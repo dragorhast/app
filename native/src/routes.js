@@ -18,4 +18,5 @@ export default {
   PaymentRequired: 'PaymentRequired',
   ClosestBike: 'ClosestBike',
   IntroSlideShow: 'IntroSlideshow',
+  MapWithBikes: 'MapWithBikes',
 };

@@ -44,6 +44,7 @@ class MyRoute extends React.PureComponent {
   async componentDidMount() {
     await Font.loadAsync({
       'source-sans': require('../assets/fonts/SourceSansPro-Light.ttf'),
+      'source-sans-bold': require('../assets/fonts/SourceSansPro-Bold.ttf'),
     });
     this.authSubscription = Firebase.auth().onAuthStateChanged(user => {
       this.setState({

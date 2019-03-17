@@ -3,6 +3,7 @@ import { PickupPropTypes as PickupPropTypesCopy } from './pickupSingle';
 import { setStatus } from './status';
 import { apiPickupPointsFetch } from '../../api/tap2go';
 import { pickupStateFromBikeCount } from '../../util';
+import { Firebase } from '../../constants/firebase';
 // Actions
 const PICKUPS_LOADING = 'PICKUPS_LOADING';
 const PICKUPS_SET = 'PICKUPS_SET';
@@ -85,8 +86,8 @@ const setPickups = pickups => {
 export const pickupPointsFetch = currentLocation => async dispatch => {
   try {
     dispatch(setPickupsLoading(true));
-
-    const pickupsRaw = await apiPickupPointsFetch(currentLocation);
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+    const pickupsRaw = await apiPickupPointsFetch(authToken, currentLocation);
 
     // Gets our required from GeoJson structure - distance might be undefined
     // let allDistances = true;
