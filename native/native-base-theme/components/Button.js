@@ -7,13 +7,13 @@ export default (variables /* : * */ = variable) => {
   const { platform } = variables;
   const darkCommon = {
     'NativeBase.Text': {
-      color: variables.brandDark,
+      color: variables.textColor,
     },
     'NativeBase.Icon': {
-      color: variables.brandDark,
+      color: variables.textColor,
     },
     'NativeBase.IconNB': {
-      color: variables.brandDark,
+      color: variables.textColor,
     },
   };
   const lightCommon = {
@@ -377,6 +377,13 @@ export default (variables /* : * */ = variable) => {
     '.halfWid': {
       width: '50%',
       alignSelf: 'center',
+    },
+
+    '.home': {
+      height: 90,
+      'NativeBase.Text': {
+        fontSize: 22,
+      },
     },
 
     paddingVertical: variables.buttonPadding,

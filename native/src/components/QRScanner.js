@@ -13,13 +13,6 @@ import { delay } from '../../shared/util';
 export default class QRScanner extends React.Component {
   static propTypes = {
     onSuccessfulScan: PropTypes.func.isRequired,
-    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  };
-
-  static defaultProps = {
-    height: 300,
-    width: '100%',
   };
 
   state = {
@@ -59,13 +52,12 @@ export default class QRScanner extends React.Component {
 
   render() {
     const { hasCameraPermission } = this.state;
-    const { height, width } = this.props;
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'black' }}>
         {hasCameraPermission === null && <Text>Requesting for camera permission</Text>}
         {hasCameraPermission === false && <Text>No access to camera</Text>}
-        {hasCameraPermission && <BarCodeScanner onBarCodeRead={this.onBarCodeRead} style={{ height, width }} />}
+        {hasCameraPermission && <BarCodeScanner onBarCodeRead={this.onBarCodeRead} style={{ flex: 1 }} />}
       </View>
     );
   }

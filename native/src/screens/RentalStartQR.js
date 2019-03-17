@@ -1,6 +1,6 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
-import { H2, Item, Input, View } from 'native-base';
+import { H2, Item, Input, View, Button, Text, Fab, Icon } from 'native-base';
 import styled from 'styled-components/native';
 import { Screen } from '../styles';
 import QRScanner from '../components/QRScanner';
@@ -8,6 +8,7 @@ import ROUTES from '../routes';
 import withStartRental, { RentalStartProps } from '../../shared/redux/containers/RentalStartContainer';
 import { Firebase } from '../../shared/constants/firebase';
 import { apiUserAbleToMakePayment } from '../../shared/api/tap2go';
+import THEME from '../styles/styledComponentTheme';
 
 const SQrScanner = styled.View`
   flex-direction: row;
@@ -47,24 +48,43 @@ class RentalStartQR extends React.Component {
 
   render() {
     const { bikeIdInput } = this.state;
+    const { closestBike } = this.props;
 
     return (
-      <Screen>
-        <H2>Scan QR or type in 6 Digit code</H2>
-        <View style={{ height: '80%', width: '90%' }}>
-          <Item>
-            <Input
-              placeholder="6 Digit Bike ID"
-              value={bikeIdInput}
-              onChangeText={input => this.setState({ bikeIdInput: input })}
-              returnKeyType="go"
-              onSubmitEditing={() => this.sendBikeIdToServer(bikeIdInput)}
-            />
-          </Item>
-
+      <Screen style={{ justifyContent: 'flex-end' }}>
+        <Fab
+          active={false}
+          style={{ backgroundColor: THEME.primary, zIndex: 99 }}
+          position="topRight"
+          onPress={() => Actions[ROUTES.MapWithBikes]()}
+        >
+          <Icon name="ios-map" />
+        </Fab>
+        <View style={{ height: '60%', width: '90%' }}>
           <SQrScanner>
             <QRScanner onSuccessfulScan={this.sendBikeIdToServer} />
           </SQrScanner>
+          <View style={{ width: 144, alignSelf: 'center' }}>
+            <Item>
+              <Input
+                placeholder="Bike ID"
+                value={bikeIdInput}
+                onChangeText={input => this.setState({ bikeIdInput: input })}
+                returnKeyType="go"
+                onSubmitEditing={() => this.sendBikeIdToServer(bikeIdInput)}
+                maxLength={6}
+              />
+            </Item>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', marginVertical: 32 }}>
+          <Button large primary block onPress={closestBike}>
+            <Text>Closest</Text>
+          </Button>
+
+          <Button large light block onPress={() => Actions[ROUTES.PickupPoints]()}>
+            <Text>Reserve</Text>
+          </Button>
         </View>
       </Screen>
     );

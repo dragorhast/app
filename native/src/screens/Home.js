@@ -10,6 +10,7 @@ import withStatus, { StatusProps } from '../../shared/redux/containers/StatusCon
 import LoadingScreen from './LoadingScreen';
 import { delay } from '../../shared/util';
 import IntroSlideshow from './IntroSlideshow';
+import RentalStartQR from './RentalStartQR';
 
 class Home extends React.Component {
   state = {
@@ -81,8 +82,9 @@ class Home extends React.Component {
   }
 
   render() {
-    const { rentalInfo, reduxLoading } = this.props;
+    const { rentalInfo, reduxLoading, ...props } = this.props;
     if (reduxLoading) return <LoadingScreen />;
+    return <RentalStartQR closestBike={this.closestBike} {...props} />;
     return (
       <Screen>
         {rentalInfo.bikeId ? (

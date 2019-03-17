@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { StyleSheet, Image } from 'react-native';
 import { LinearGradient } from 'expo';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { Text } from '../styles';
+import { Text } from 'native-base';
 import { setUserNotFirstTimeLoadingApp } from '../../shared/redux/ducks/user';
 import THEME from '../styles/styledComponentTheme';
 

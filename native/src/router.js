@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Router, Scene, Drawer } from 'react-native-router-flux';
 import { Icon } from 'native-base';
 import ROUTES from './routes';
+import THEME from './styles/styledComponentTheme';
 
 // Screens
 import Login from './screens/Login';
@@ -23,6 +24,7 @@ import ClosestBike from './screens/ClosestBike';
 // FOR TESTING VISUAL
 import TestScreen from './screens/test-screen';
 import IntroSlideShow from './screens/IntroSlideshow';
+import MapBikeAndPickups from './screens/MapBikeAndPickups';
 
 const VisualInspection = ClosestBike;
 
@@ -31,7 +33,7 @@ class MyRouter extends React.PureComponent {
     const { firebaseId, firstTimeOnApp } = this.props;
     return (
       <Router>
-        <Scene key="root">
+        <Scene key="root" navBarButtonColor={THEME.primary}>
           {firstTimeOnApp ? (
             <Scene key={ROUTES.IntroSlideShow} component={IntroSlideShow} hideNavBar initial />
           ) : (
@@ -52,7 +54,7 @@ class MyRouter extends React.PureComponent {
             hideNavBar
             {...this.props}
           >
-            <Scene key={ROUTES.Home} component={Home} title="Tap 2 Go" />
+            <Scene key={ROUTES.Home} component={Home} title="Unlock Bike" />
             <Scene key={ROUTES.RentalInfo} component={RentalInfo} fetchInfoOnLoad back />
             <Scene key={ROUTES.RentalInfoNew} component={RentalInfo} fetchInfoOnLoad={false} />
             <Scene key={ROUTES.IssueReport} component={IssueReport} back />
@@ -68,10 +70,11 @@ class MyRouter extends React.PureComponent {
             {/* <Scene key="test" title="test" component={VisualInspection} /> */}
           </Drawer>
           <Scene key={ROUTES.RentalStart} component={RentalStartQR} back />
-          <Scene key={ROUTES.PickupPoints} component={PickupPoints} back />
+          <Scene key={ROUTES.PickupPoints} component={PickupPoints} title="Pickup Points" back />
           <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} back />
-          <Scene key={ROUTES.ClosestBike} component={ClosestBike} back />
+          <Scene key={ROUTES.ClosestBike} component={ClosestBike} title="Closest Bike" back />
           <Scene key={ROUTES.PaymentRequired} component={PaymentRequired} title="Payment Required" back />
+          <Scene key={ROUTES.MapWithBikes} component={MapBikeAndPickups} title="Bikes + Pickups" back />
         </Scene>
       </Router>
     );

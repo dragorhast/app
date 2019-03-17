@@ -10,20 +10,12 @@ import PickupSVG from '../../assets/pickup.svg';
 import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 import ROUTES from '../routes';
 
-const STest = styled.View`
-  width: 100%;
-  height: 48px;
-  background-color: red;
-`;
-
 class PickupPoints extends React.Component {
   static propTypes = {
     ...PickupProps,
   };
 
   state = {
-    locationPermission: false,
-    coords: null /* Current Location */,
     mapBottomPointVisible: false,
     mapBottomPoint: {},
   };
@@ -31,12 +23,8 @@ class PickupPoints extends React.Component {
   async componentDidMount() {
     const { getPickupPoints } = this.props;
 
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    await Permissions.askAsync(Permissions.LOCATION);
     const { coords } = await Location.getCurrentPositionAsync({});
-    this.setState({
-      locationPermission: status === 'granted',
-      coords,
-    });
 
     getPickupPoints(coords);
     this.makePointVisible = this.makePointVisible.bind(this);

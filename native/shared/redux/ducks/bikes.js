@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { apiBikesFetch } from '../../api/tap2go';
+import { apiBikesFetch, apiBikesFetchAvailable } from '../../api/tap2go';
 import { BikePropTypes as BikePropTypesCopy } from './bikeSingle';
 import { Firebase } from '../../constants/firebase';
 import { pickupPointOrPrettyPrintCoords, bikeStatusFromString } from '../../util';
@@ -100,6 +100,20 @@ export const bikesFetch = () => async dispatch => {
     dispatch(loadingBikes(false));
     throw e;
   }
+};
+
+/**
+ * Fetch only the bikes that are available
+ *
+ * @returns {function(*): *}
+ */
+export const bikesFetchAvailable = () => async dispatch => {
+  const authToken = await Firebase.auth().currentUser.getIdToken();
+  const bikesRaw = await apiBikesFetchAvailable(authToken);
+
+  // Gets api response ready for reducer
+  const bikes = getRawBikeDataReady(bikesRaw);
+  return dispatch(setBikes(bikes));
 };
 
 // Selectors
