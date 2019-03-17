@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Firebase } from '../../constants/firebase';
 import { firebaseLoginEmail, firebaseSignUpEmail, firebaseUpdateProfile } from '../../api/firebase';
-import { apiSignUp } from '../../api/tap2go';
+import { apiSignUp, apiUserDelete } from '../../api/tap2go';
 import { setStatus } from './status';
 import ErrorMessages from '../../constants/errors';
 
@@ -22,7 +22,7 @@ const INITIAL_STATE = {
 };
 
 // Prop Types
-export const userPropTypes = {
+export const UserPropTypes = {
   firebaseId: PropTypes.string,
   dbId: PropTypes.string, // will be number but string in firebase as displayName
   email: PropTypes.string,
@@ -187,5 +187,30 @@ export const userSignOut = () => async dispatch => {
     dispatch(resetUser());
     // Same result even if error so don't throw error
     return dispatch(setStatus('error', error.message));
+  }
+};
+
+/**
+ * Fetches the current user from firebase then deletes on firebase
+ * and deletes on the server
+ */
+export const deleteUser = () => async dispatch => {
+  await dispatch(setStatus('loading'));
+
+  const authToken = await Firebase.auth().currentUser.getIdToken();
+  try {
+    await apiUserDelete(authToken);
+  } catch (e) {
+    console.log("Couldn't delete user from Tap2Go");
+    await dispatch(setStatus('error', e.message));
+    return Promise.resolve();
+  }
+
+  try {
+    await Firebase.auth().currentUser.delete();
+  } catch (e) {
+    console.log("Couldn't delete user from Firebase");
+    await dispatch(setStatus('error', e.message));
+    return Promise.resolve();
   }
 };
