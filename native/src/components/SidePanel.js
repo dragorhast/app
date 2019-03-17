@@ -16,7 +16,7 @@ const SidePanel = ({ logout, navigation }) => (
   <Screen>
     <View style={{ height: '80%', width: '100%', alignItems: 'center' }}>
       <View>
-        <Thumbnail source={require('./graphic.png')} large square />
+        <Thumbnail source={require('../../assets/graphic.png')} large square />
       </View>
 
       <Spacer size={48} />

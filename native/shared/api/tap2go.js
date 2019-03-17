@@ -427,3 +427,9 @@ export const apiBikeLock = async (authToken, bikeId, locked) => {
 
   return result.data.data.bike;
 };
+
+export const apiBikeClosestFetch = async (authToken, usersLocation) => {
+  const result = await axiosBaseUrl.get(`/bikes/closest?lng=${usersLocation.latitude}&lat=${usersLocation.longitude}`);
+
+  return result.data.data.bike;
+};

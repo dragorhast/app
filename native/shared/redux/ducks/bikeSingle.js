@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import { setStatus } from './status';
-import { apiBikeSingleFetch, apiBikeSingleFetchIssues, apiBikeUpdateStatus } from '../../api/tap2go';
+import {
+  apiBikeSingleFetch,
+  apiBikeSingleFetchIssues,
+  apiBikeUpdateStatus,
+  apiBikeClosestFetch,
+} from '../../api/tap2go';
 import { Firebase } from '../../constants/firebase';
 import { pickupPointOrPrettyPrintCoords, bikeStatusFromString } from '../../util';
 import { IssueSinglePropTypes, getRawIssuesDataReady } from './issues';
@@ -69,7 +74,6 @@ export const setBikeIssues = issues => ({
 });
 
 // Thunks
-
 export const bikeSingleFetch = bikeId => async dispatch => {
   try {
     dispatch(setStatus('loading', true));
@@ -127,9 +131,31 @@ export const bikeTakeInOutCirc = (bikeId, putInCirc) => async dispatch => {
   }
 };
 
+/**
+ * Fetches and sets the bike that is closest to the current user
+ *
+ * @param usersLocation
+ * @returns {Function}
+ */
+export const bikeFetchClosest = usersLocation => async dispatch => {
+  try {
+    dispatch(setStatus('loading', true));
+
+    const authToken = await Firebase.auth().currentUser.getIdToken();
+    const bike = await apiBikeClosestFetch(authToken, usersLocation);
+
+    await dispatch(setBike(getBikeSingleRawReady(bike)));
+    return dispatch(setStatus('loading', false));
+  } catch (e) {
+    await dispatch(setStatus('error', e.message));
+    throw e;
+  }
+};
+
 // ***** HELPER FUNCTIONS ****** //
 
 const getBikeSingleRawReady = bikeRaw => {
+  console.log('bikeRaw: ', bikeRaw);
   const bikeRented = !bikeRaw.current_location;
   return {
     id: bikeRaw.identifier,

@@ -13,6 +13,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { rentalEnd, rentalFetchInfo, bikeLock, RentalPropTypes } from '../ducks/rental';
+import { bikeFetchClosest } from '../ducks/bikeSingle';
 
 export const RentalProps = {
   locale: PropTypes.string,
@@ -22,13 +23,14 @@ export const RentalProps = {
   getRentalInfo: PropTypes.func.isRequired,
   returnRental: PropTypes.func.isRequired,
   lockBike: PropTypes.func.isRequired,
+  fetchClosestBike: PropTypes.func.isRequired,
 };
 
-export default function withCurrentRental(WrappedComponent) {
+export default function withHomeAndRental(WrappedComponent) {
   // Pure function always auto re-loads children on prop change!
   class RentalInfoContainer extends React.PureComponent {
     render() {
-      const { locale, rentalInfo, getRentalInfo, returnRental, lockBike, ...restProps } = this.props;
+      const { locale, rentalInfo, getRentalInfo, returnRental, lockBike, fetchClosestBike, ...restProps } = this.props;
       return (
         <WrappedComponent
           locale={locale}
@@ -36,6 +38,7 @@ export default function withCurrentRental(WrappedComponent) {
           getRentalInfo={getRentalInfo}
           returnRental={returnRental}
           lockBike={lockBike}
+          fetchClosestBike={fetchClosestBike}
           {...restProps} // passes any other through
         />
       );
@@ -55,6 +58,7 @@ export default function withCurrentRental(WrappedComponent) {
     getRentalInfo: rentalFetchInfo,
     returnRental: rentalEnd,
     lockBike: bikeLock,
+    fetchClosestBike: bikeFetchClosest,
   };
 
   return connect(

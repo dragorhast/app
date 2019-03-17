@@ -88,7 +88,7 @@ class PickupPoints extends React.Component {
                       key={point.name}
                       onPress={() => this.makePointVisible(point)}
                     >
-                      <PickupSVG width={32} height={32} color="blue" />
+                      <PickupSVG width={32} height={32} style={{ color: 'blue' }} />
                     </MapView.Marker>
                   ))}
               </MapView>

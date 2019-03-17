@@ -4,11 +4,11 @@ import getDirections from 'react-native-google-maps-directions';
  * Opens up google maps and gives the user directions
  * to walk to the coordinates given
  *
- * @param latAndLng
+ * @param coordinates
  */
-export const goToLocation = latAndLng => {
+export const goToLocation = coordinates => {
   getDirections({
-    destination: latAndLng,
+    destination: { longitude: coordinates[0], latitude: coordinates[1] },
     params: [
       {
         key: 'travelmode',

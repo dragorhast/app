@@ -16,4 +16,5 @@ export default {
   ReservationDisplayWithBurger: 'ReservationDisplayWithBurger',
   ReservationsUpcoming: 'ReservationsUpcoming',
   PaymentRequired: 'PaymentRequired',
+  ClosestBike: 'ClosestBike',
 };
