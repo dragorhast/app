@@ -211,7 +211,7 @@ export const apiIssueCreate = async (authToken, data) => {
 };
 
 /**
- * Fetches all OPEN issues
+ * Fetches all active issues
  *
  * Must be admin to access
  *
@@ -232,9 +232,9 @@ export const apiIssueFetchSingle = async (authToken, issueId) => {
  * Updates the status of an issue with an optional message
  *
  */
-export const apiIssueUpdate = async (authToken, issueId, status, message) => {
-  console.log(authToken, issueId, status, message);
-  const data = message ? { status, message } : { status };
+export const apiIssueUpdate = async (authToken, issueId, status, resolution) => {
+  console.log(authToken, issueId, status, resolution);
+  const data = resolution ? { status, resolution } : { status };
   const result = await axiosBaseUrl.patch(`/issues/${issueId}`, data, getConfig(authToken));
   return result.data.data.issue;
 };

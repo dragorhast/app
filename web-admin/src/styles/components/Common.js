@@ -87,3 +87,12 @@ export const SList = styled.div`
   height: 100%;
   ${props => `color: ${props.theme.font};`}
 `;
+
+export const SIdentifier = styled.div`
+  margin-left: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: bold;
+  > a {
+    color: inherit;
+  }
+`;

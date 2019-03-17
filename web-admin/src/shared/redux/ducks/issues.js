@@ -242,7 +242,7 @@ export const getSingleRawIssueDataReady = issue => ({
   bikeId: issue.bike_identifier || '',
   userId: issue.user_id,
   status: getPrettyStringIssue(issue.status),
-  datetime: issue.time,
+  datetime: issue.opened_at,
   description: issue.description,
   bikeLocation: null, // this is always set elsewhere
 });

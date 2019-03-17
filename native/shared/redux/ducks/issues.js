@@ -175,7 +175,7 @@ export const getSingleRawIssueDataReady = issue => ({
   type: issue.bike_identifier ? 'Bike' : 'App',
   bikeId: issue.bike_identifier || '',
   userId: issue.user_id,
-  status: 'Open', // TODO change api as only ever open
-  datetime: issue.time,
+  status: issue.status,
+  datetime: issue.opened_at,
   description: issue.description,
 });

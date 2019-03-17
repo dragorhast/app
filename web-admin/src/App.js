@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
@@ -23,13 +23,11 @@ import ReservationsSide from './screens/SideScreens/Reservations';
 import ReservationSingle from './screens/ReservationSingle';
 import ReservationsHome from './screens/ReservationsHome';
 
-import IssuesSide from './screens/SideScreens/Issues';
-import IssueSingle from './screens/IssueSingle';
-
 import SmallScreenRoute from './templates/SmallScreenRoute';
 import SideBarDashboard from './templates/SideBarDashboard';
 import Login from './screens/Login';
 import ReportsView from './screens/ReportsView';
+import IssuesView from './screens/IssuesView';
 import { DashboardView } from './screens/DashboardView';
 
 class App extends Component {
@@ -117,18 +115,7 @@ class App extends Component {
                     SidePanel={ReservationsSide}
                     loggedIn={!!firebaseId}
                   />
-                  <SmallScreenRoute
-                    Component={IssuesSide}
-                    loggedIn={!!firebaseId}
-                    path="/issues"
-                    reroutePath="/issues/single/1"
-                  />
-                  <SideBarDashboard
-                    path="/issues/single/:id"
-                    Screen={IssueSingle}
-                    SidePanel={IssuesSide}
-                    loggedIn={!!firebaseId}
-                  />
+                  <Route path="/issues" component={IssuesView} />
                   <Route path="/reports" component={ReportsView} />
                 </div>
               </Router>

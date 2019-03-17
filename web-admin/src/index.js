@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import en from 'javascript-time-ago/locale/en';
+import JavascriptTimeAgo from 'javascript-time-ago';
 import './styles/index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -10,3 +12,5 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+JavascriptTimeAgo.locale(en);

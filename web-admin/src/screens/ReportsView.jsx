@@ -10,7 +10,7 @@ import { ChartsStyle } from '../assets/charts-style';
 const ReportsLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 350px 350px 350px 350px 1fr;
-  grid-template-rows: auto 1fr 1fr;
+  grid-template-rows: auto;
   background: rgb(240, 242, 245);
   flex: 1;
   overflow-x: hidden;
@@ -62,7 +62,7 @@ const FigureCard = styled.figure`
     font-size: 2em;
     text-align: center;
     font-weight: bold;
-    background-color: #fdcd11;
+    background-color: ${props => props.theme.primary};
     border-top: 5px solid rgba(0, 0, 0, 0.3);
     margin: -1.5em -1.5em 0 -1.5em;
     padding: 0.5em;
@@ -156,7 +156,7 @@ class ReportsView extends React.PureComponent {
 
     return (
       <ReportsLayout>
-        <ReportSection style={{ gridArea: '1 / 2 / 2 / 6' }} color="#fdcd11">
+        <ReportSection style={{ gridArea: '1 / 2 / 2 / 6' }}>
           <header>Right now</header>
           <div>
             <StatCard>
@@ -197,30 +197,40 @@ class ReportsView extends React.PureComponent {
             </StatCard>
           </div>
         </ReportSection>
-        <GraphCard style={{ gridArea: '2 / 2 / 3 / 4' }}>
-          <header>Rentals Started</header>
-          <VictoryChart theme={ChartsStyle}>
-            <VictoryLine interpolation="natural" data={rentalsStarted} />
-          </VictoryChart>
-        </GraphCard>
-        <GraphCard style={{ gridArea: '2 / 4 / 3 / 6' }}>
-          <header>Rentals Ended</header>
-          <VictoryChart theme={ChartsStyle}>
-            <VictoryLine interpolation="natural" data={rentalsEnded} />
-          </VictoryChart>
-        </GraphCard>
-        <GraphCard style={{ gridArea: '3 / 2 / 4 / 4' }}>
-          <header>Distance Travelled</header>
-          <VictoryChart theme={ChartsStyle}>
-            <VictoryLine interpolation="natural" data={distanceTravelled} />
-          </VictoryChart>
-        </GraphCard>
-        <GraphCard style={{ gridArea: '3 / 4 / 4 / 6' }}>
-          <header>Revenue</header>
-          <VictoryChart theme={ChartsStyle}>
-            <VictoryLine interpolation="natural" data={revenue} />
-          </VictoryChart>
-        </GraphCard>
+        <ReportSection style={{ gridArea: '2 / 2 / 3 / 6' }}>
+          <header>Business Metrics</header>
+          <div>
+            <GraphCard>
+              <header>Rentals Started</header>
+              <VictoryChart theme={ChartsStyle}>
+                <VictoryLine interpolation="natural" data={rentalsStarted} />
+              </VictoryChart>
+            </GraphCard>
+            <GraphCard>
+              <header>Rentals Ended</header>
+              <VictoryChart theme={ChartsStyle}>
+                <VictoryLine interpolation="natural" data={rentalsEnded} />
+              </VictoryChart>
+            </GraphCard>
+          </div>
+        </ReportSection>
+        <ReportSection style={{ gridArea: '3 / 2 / 3 /6' }}>
+          <header>Operational Metrics</header>
+          <div>
+            <GraphCard>
+              <header>Distance Travelled</header>
+              <VictoryChart theme={ChartsStyle}>
+                <VictoryLine interpolation="natural" data={distanceTravelled} />
+              </VictoryChart>
+            </GraphCard>
+            <GraphCard>
+              <header>Revenue</header>
+              <VictoryChart theme={ChartsStyle}>
+                <VictoryLine interpolation="natural" data={revenue} />
+              </VictoryChart>
+            </GraphCard>
+          </div>
+        </ReportSection>
         <GraphCard style={{ gridArea: '4 / 4 / 5 / 6' }}>
           <header>Distance Travelled By Day</header>
           <VictoryChart polar theme={ChartsStyle}>
