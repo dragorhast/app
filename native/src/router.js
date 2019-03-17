@@ -22,17 +22,24 @@ import ClosestBike from './screens/ClosestBike';
 
 // FOR TESTING VISUAL
 import TestScreen from './screens/test-screen';
+import IntroSlideShow from './screens/IntroSlideshow';
 
 const VisualInspection = ClosestBike;
 
 class MyRouter extends React.PureComponent {
   render() {
-    const { firebaseId } = this.props;
+    const { firebaseId, firstTimeOnApp } = this.props;
     return (
       <Router>
         <Scene key="root">
-          <Scene key={ROUTES.SignUp} component={SignUp} title="SignUp" hideNavBar initial={!firebaseId} />
-          <Scene key={ROUTES.Login} component={Login} title="Login" hideNavBar />
+          {firstTimeOnApp ? (
+            <Scene key={ROUTES.IntroSlideShow} component={IntroSlideShow} hideNavBar initial />
+          ) : (
+            <Scene key={ROUTES.SignUp} component={SignUp} title="SignUp" hideNavBar initial={!firebaseId} />
+          )}
+
+          <Scene key={ROUTES.Login} component={Login} title="Login" hideNavBar initial={!firstTimeOnApp} />
+
           {/* Any child components that don't have back will show hamburger */}
           <Drawer
             key={ROUTES.Home}
@@ -93,6 +100,7 @@ class MyRouter extends React.PureComponent {
 
 MyRouter.propTypes = {
   firebaseId: PropTypes.string, // Firebase.auth().currentUser object
+  firstTimeOnApp: PropTypes.bool.isRequired,
 };
 
 MyRouter.defaultProps = {

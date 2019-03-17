@@ -9,17 +9,26 @@
  * - pass in Firebase user
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Font } from 'expo';
 import { Firebase } from '../shared/constants/firebase';
 import Router from './router';
 import Loading from './screens/LoadingScreen';
 
 class MyRoute extends React.PureComponent {
-  // static propTypes = {
-  //   error: PropTypes.string,
-  //   success: PropTypes.string,
-  //   reduxLoading: PropTypes.bool,
-  // };
+  static propTypes = {
+    user: PropTypes.shape({ firstTimeOnApp: PropTypes.bool }),
+    // error: PropTypes.string,
+    // success: PropTypes.string,
+    // reduxLoading: PropTypes.bool
+  };
+
+  static defaultProps = {
+    user: {
+      firstTimeOnApp: true,
+    },
+  };
 
   state = { stateLoading: true, firebaseId: undefined };
 
@@ -32,7 +41,10 @@ class MyRoute extends React.PureComponent {
    * Once subscribed, the 'user' parameter will either be null
    * (logged out) or an Object (logged in)
    */
-  componentDidMount() {
+  async componentDidMount() {
+    await Font.loadAsync({
+      'source-sans': require('../assets/fonts/SourceSansPro-Light.ttf'),
+    });
     this.authSubscription = Firebase.auth().onAuthStateChanged(user => {
       this.setState({
         stateLoading: false,
@@ -75,17 +87,18 @@ class MyRoute extends React.PureComponent {
 
   render() {
     const { stateLoading, firebaseId } = this.state;
+    const { user } = this.props;
 
     if (stateLoading) return <Loading />;
 
-    return <Router firebaseId={firebaseId} />;
+    return <Router firebaseId={firebaseId} firstTimeOnApp={user.firstTimeOnApp} />;
   }
 }
 
-// const mapStateToProps = ({ status }) => ({
-//   // reduxLoading: status.loading, // this causes too many full re-renders!
-//   error: status.error, // TODO remove this from here
-//   success: status.success, // TODO remove this from here
-// });
+const mapStateToProps = state => ({
+  user: state.user,
+  // error: status.error, // TODO remove this from here
+  // success: status.success, // TODO remove this from here
+});
 
-export default connect(null)(MyRoute);
+export default connect(mapStateToProps)(MyRoute);

@@ -1,16 +1,7 @@
-// import styled from 'styled-components/native';
-import StyleVariables from '../../native-base-theme/variables/platform';
-
-export const NBVariables = StyleVariables;
-export const MyStyleVariable = {
-  // don't include ;
-  boxShadow: '0 4px 6px hsla(0, 0%, 0%, 0.5)',
-};
+import styled from 'styled-components/native';
 
 export * from './Views';
 
-
-
-
-
-
+export const Text = styled.Text`
+  font-family: 'source-sans';
+`;

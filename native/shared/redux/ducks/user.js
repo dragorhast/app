@@ -7,8 +7,9 @@ import ErrorMessages from '../../constants/errors';
 
 // Actions
 const USER_SET = 'USER_SET';
-const USER_RESET = 'USER_RESET';
+const USER_SIGNOUT = 'USER_SIGNOUT';
 const USER_SET_FIELD = 'USER_SET_FIELD';
+const USER_RESET = 'USER_RESET';
 
 // Initial State
 const INITIAL_STATE = {
@@ -17,6 +18,7 @@ const INITIAL_STATE = {
   email: null,
   userType: null,
   error: null,
+  firstTimeOnApp: true,
 };
 
 // Prop Types
@@ -26,6 +28,7 @@ export const userPropTypes = {
   email: PropTypes.string,
   userType: PropTypes.string,
   error: PropTypes.string,
+  firstTimeOnApp: PropTypes.bool,
 };
 
 // Reducer
@@ -38,6 +41,12 @@ export default function userReducer(state = INITIAL_STATE, { type, payload }) {
         email: payload.email,
         userType: payload.userType,
         error: null,
+        firstTimeOnApp: false,
+      };
+    case USER_SIGNOUT:
+      return {
+        ...INITIAL_STATE,
+        firstTimeOnApp: state.firstTimeOnApp,
       };
     case USER_RESET:
       return INITIAL_STATE;
@@ -62,9 +71,16 @@ export const setUser = (firebaseId, dbId, email, userType) => ({
   },
 });
 
-export const resetUser = () => ({ type: USER_RESET });
+export const resetUser = () => ({ type: USER_SIGNOUT });
 
 const setUserField = keyValue => ({ type: USER_SET_FIELD, payload: keyValue });
+
+export const setUserNotFirstTimeLoadingApp = () => ({
+  type: USER_SET_FIELD,
+  payload: {
+    firstTimeOnApp: false,
+  },
+});
 
 // Async Action calls
 
@@ -79,7 +95,7 @@ const setUserField = keyValue => ({ type: USER_SET_FIELD, payload: keyValue });
  * - if anything goes wrong in stages 2/3 delete the user
  */
 export const userSignUp = formData => async dispatch => {
-  const { email, password, password2, firstName, lastName } = formData;
+  const { email, password, firstName, lastName } = formData;
   try {
     // Loading
     dispatch(setStatus('loading', true));
@@ -89,14 +105,11 @@ export const userSignUp = formData => async dispatch => {
     if (!lastName) throw ErrorMessages.missingLastName;
     if (!email) throw ErrorMessages.missingEmail;
     if (!password) throw ErrorMessages.missingPassword;
-    if (!password2) throw ErrorMessages.missingPassword;
-    if (password !== password2) throw ErrorMessages.passwordsDontMatch;
 
     const name = `${firstName} ${lastName}`;
 
     const userFirebase = await firebaseSignUpEmail(email, password);
     const userDb = await apiSignUp(userFirebase.authToken, name, email);
-    console.log('userDb: ', userDb);
     await firebaseUpdateProfile({ id: userDb.dbId, name });
     dispatch(setUser(userFirebase.uid, userDb.dbId, email));
     // Stop loading
