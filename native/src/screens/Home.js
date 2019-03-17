@@ -9,6 +9,7 @@ import withHomeAndRental, { RentalProps } from '../../shared/redux/containers/Ho
 import withStatus, { StatusProps } from '../../shared/redux/containers/StatusContainer';
 import LoadingScreen from './LoadingScreen';
 import { delay } from '../../shared/util';
+import IntroSlideshow from './IntroSlideshow';
 
 class Home extends React.Component {
   state = {

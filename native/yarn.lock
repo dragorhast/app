@@ -3630,7 +3630,7 @@ fbjs-scripts@^0.8.1:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@0.8.17, fbjs@^0.8.0, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.9:
+fbjs@0.8.17, fbjs@^0.8.0, fbjs@^0.8.17, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -6739,6 +6739,11 @@ react-native-animatable@^1.2.4:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-app-intro-slider@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-1.0.1.tgz#712bf3dc1d66b3432bf4092971db4dfc01b916bd"
+  integrity sha512-5Gzg5FG2uP/RHkSDFB5+2df4vQ2FpyUJ5PGYd23lLEISsEOJe0Zredh1hHMJj+fB5D9B7ZoL0IlR+SNn8iFxHg==
+
 react-native-branch@2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
@@ -6838,6 +6843,11 @@ react-native-reanimated@1.0.0-alpha.11:
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.0.0-alpha.11.tgz#b78c839bae878d149561b56a3c750414957ea86d"
   integrity sha512-lDakjY8CXmZiSN71hyc276b3d7M9mKV9ZyYw4W/rTnnJbgBFaqdIxSHq4S4LxSbVqpAoQMfUJqPTE0BKbAz7Aw==
 
+react-native-remote-svg@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-remote-svg/-/react-native-remote-svg-2.0.0.tgz#8a940274696e6ab2d92f585c34e5e6d4619c8d23"
+  integrity sha512-Z8Y82/a1IGv+NpGj3RLsYElx1+XUDGbqDopihZ1akHOM4Nlm3TNB5Hl43KkBii4Y0LaIx5VfxI1+XdlXbxA6rA==
+
 react-native-router-flux@^4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/react-native-router-flux/-/react-native-router-flux-4.0.6.tgz#e4723f5ce89cb5822e0c9bb6d0a8d4de6179eb58"
@@ -6926,6 +6936,14 @@ react-native-view-shot@2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-2.5.0.tgz#428a997f470d3148d0067c5b46abd988ef1aa4c0"
   integrity sha512-xFJA+N7wh8Ik/17I4QB24e0a0L3atg1ScVehvtYR5UBTgHdzTFA0ZylvXp9gkZt7V+AT5Pni0H3NQItpqSKFoQ==
+
+react-native-webview@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.3.1.tgz#e9338f4e805c937d77227eb4f01e4713a59c4fe0"
+  integrity sha512-idz20vnEgbHqdYC0F3bZOdigw1oTjYl/OWQC1dtWqcIZo2z68NfGfvggOG/ZusFV1AfU806jEU/FIs1rmHgJCw==
+  dependencies:
+    escape-string-regexp "^1.0.5"
+    fbjs "^0.8.17"
 
 "react-native@https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz":
   version "0.57.1"

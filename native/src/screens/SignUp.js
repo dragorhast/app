@@ -26,7 +26,6 @@ class SignUp extends React.Component {
       lastName: '',
       email: '',
       password: '',
-      password2: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -80,11 +79,6 @@ class SignUp extends React.Component {
             <Item stackedLabel>
               <Label>{translate('Password', locale)}</Label>
               <Input secureTextEntry onChangeText={v => this.handleChange('password', v)} />
-            </Item>
-
-            <Item stackedLabel>
-              <Label>{translate('Confirm Password', locale)}</Label>
-              <Input secureTextEntry onChangeText={v => this.handleChange('password2', v)} />
             </Item>
           </Form>
 

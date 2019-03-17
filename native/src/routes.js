@@ -17,4 +17,5 @@ export default {
   ReservationsUpcoming: 'ReservationsUpcoming',
   PaymentRequired: 'PaymentRequired',
   ClosestBike: 'ClosestBike',
+  IntroSlideShow: 'IntroSlideshow',
 };
