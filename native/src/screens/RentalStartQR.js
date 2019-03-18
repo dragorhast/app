@@ -77,6 +77,27 @@ class RentalStartQR extends React.Component {
           <SQrScanner>
             <QRScanner onSuccessfulScan={this.sendBikeIdToServer} />
           </SQrScanner>
+          <View style={{ width: 144, alignSelf: 'center' }}>
+            <Item>
+              <Input
+                placeholder="Bike ID"
+                value={bikeIdInput}
+                onChangeText={input => this.setState({ bikeIdInput: input })}
+                returnKeyType="go"
+                onSubmitEditing={() => this.sendBikeIdToServer(bikeIdInput)}
+                maxLength={6}
+              />
+            </Item>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', marginVertical: 32 }}>
+          <Button large primary block onPress={closestBike}>
+            <Text>Closest</Text>
+          </Button>
+
+          <Button large light block onPress={() => Actions[ROUTES.PickupPoints]()}>
+            <Text>Reserve</Text>
+          </Button>
         </View>
         <View style={{ flexDirection: 'row', marginVertical: 32 }}>
           <Button large primary block onPress={closestBike}>

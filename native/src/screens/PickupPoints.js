@@ -7,6 +7,7 @@ import PickupPoint from '../components/PickupPoint';
 import PickupSVG from '../../assets/pickup.svg';
 import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 import ROUTES from '../routes';
+
 import THEME from '../styles/styledComponentTheme';
 
 class PickupPoints extends React.Component {
