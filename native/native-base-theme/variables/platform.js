@@ -234,8 +234,8 @@ export default {
   iconHeaderSize: platform === 'ios' ? 33 : 24,
 
   // InputGroup
-  inputFontSize: 32,
-  inputHeightBase: 64,
+  inputFontSize: 22,
+  inputHeightBase: 48,
   get inputColor() {
     return this.brandPrimary;
   },

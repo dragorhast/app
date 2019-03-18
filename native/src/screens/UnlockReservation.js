@@ -17,7 +17,7 @@ const SQrScanner = styled.View`
   align-items: center;
 `;
 
-class RentalStartQR extends React.Component {
+class UnlockReservation extends React.Component {
   state = {
     bikeIdInput: '',
   };
@@ -35,7 +35,7 @@ class RentalStartQR extends React.Component {
       const ableToPay = await apiUserAbleToMakePayment(authToken);
       if (ableToPay) {
         await startRental(bikeId);
-        // Actions[ROUTES.RentalInfoNew]();
+        Actions[ROUTES.RentalInfoNew]();
       } else {
         Actions.replace(ROUTES.PaymentRequired, {
           callbackOnSuccessfulPaymentUpload: () => Actions.replace(ROUTES.UnlockReservation),
@@ -51,16 +51,8 @@ class RentalStartQR extends React.Component {
     const { closestBike } = this.props;
 
     return (
-      <Screen style={{ justifyContent: 'flex-end' }}>
-        <Fab
-          active={false}
-          style={{ backgroundColor: THEME.primary, zIndex: 99 }}
-          position="topRight"
-          onPress={() => Actions[ROUTES.MapWithBikes]()}
-        >
-          <Icon name="ios-map" />
-        </Fab>
-        <View style={{ width: 144, alignSelf: 'center', marginVertical: 32 }}>
+      <Screen style={{ justifyContent: 'center' }}>
+        <View style={{ height: '60%', width: '90%' }}>
           <Item>
             <Input
               big
@@ -72,28 +64,18 @@ class RentalStartQR extends React.Component {
               maxLength={6}
             />
           </Item>
-        </View>
-        <View style={{ height: '50%', width: '90%' }}>
           <SQrScanner>
             <QRScanner onSuccessfulScan={this.sendBikeIdToServer} />
           </SQrScanner>
-        </View>
-        <View style={{ flexDirection: 'row', marginVertical: 32 }}>
-          <Button large primary block onPress={closestBike}>
-            <Text>Closest</Text>
-          </Button>
-
-          <Button large light block onPress={() => Actions[ROUTES.PickupPoints]()}>
-            <Text>Reserve</Text>
-          </Button>
+          <View style={{ width: 144, alignSelf: 'center' }} />
         </View>
       </Screen>
     );
   }
 }
 
-RentalStartQR.propTypes = {
+UnlockReservation.propTypes = {
   ...RentalStartProps,
 };
 
-export default withStartRental(RentalStartQR);
+export default withStartRental(UnlockReservation);

@@ -17,12 +17,13 @@ import { userSignUp } from '../ducks/user';
 export const SignUpProps = {
   locale: PropTypes.string.isRequired,
   signUp: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 
 export default function withSignUp(WrappedComponent) {
   // Creates the wrapped component with no life cycle methods
-  const SignUpContainer = ({ locale, signUp, ...restProps }) => (
-    <WrappedComponent locale={locale} signUp={signUp} {...restProps} />
+  const SignUpContainer = ({ locale, signUp, error, ...restProps }) => (
+    <WrappedComponent locale={locale} signUp={signUp} error={error} {...restProps} />
   );
 
   SignUpContainer.propTypes = {
@@ -31,6 +32,7 @@ export default function withSignUp(WrappedComponent) {
 
   const mapStateToProps = state => ({
     locale: state.locale.country,
+    error: state.status.error,
   });
 
   const mapDispatchToProp = {

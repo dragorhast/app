@@ -7,8 +7,8 @@ import { Screen, BreakLine } from '../styles';
 import ROUTES from '../routes';
 import withLogoutFunctions, { LoginAndOutProps } from '../../shared/redux/containers/LoginAndOutContainer';
 
-const onRouteSelected = (routeName, navigation) => {
-  navigation.closeDrawer();
+const onRouteSelected = async (routeName, navigation) => {
+  await navigation.closeDrawer();
   Actions[routeName]();
 };
 
@@ -27,11 +27,12 @@ const SidePanel = ({ logout, navigation }) => (
 
       <View style={{ height: 160, justifyContent: 'space-evenly' }}>
         <H3 onPress={() => onRouteSelected(ROUTES.Home, navigation)}>Home</H3>
-        <H3 onPress={() => onRouteSelected(ROUTES.ReservationsUpcoming, navigation)}>Reservations</H3>
-        <H3 onPress={() => onRouteSelected(ROUTES.Profile, navigation)}>Profile</H3>
+        <H3 onPress={() => onRouteSelected(ROUTES.ReservationsUpcoming, navigation)}>Bookings</H3>
+        <H3 onPress={() => onRouteSelected(ROUTES.MapWithBikes, navigation)}>Stations</H3>
         <H3 onPress={() => onRouteSelected(ROUTES.IssueReport, navigation)}>Issue</H3>
-        <H3>About</H3>
+        {/* <H3>About</H3> */}
         <BreakLine width="100%" />
+        <H3 onPress={() => onRouteSelected(ROUTES.Profile, navigation)}>Profile</H3>
         <H3 onPress={() => logout()}>Logout</H3>
       </View>
     </View>

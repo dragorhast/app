@@ -24,13 +24,23 @@ export const RentalProps = {
   returnRental: PropTypes.func.isRequired,
   lockBike: PropTypes.func.isRequired,
   fetchClosestBike: PropTypes.func.isRequired,
+  success: PropTypes.string,
 };
 
 export default function withHomeAndRental(WrappedComponent) {
   // Pure function always auto re-loads children on prop change!
   class RentalInfoContainer extends React.PureComponent {
     render() {
-      const { locale, rentalInfo, getRentalInfo, returnRental, lockBike, fetchClosestBike, ...restProps } = this.props;
+      const {
+        locale,
+        rentalInfo,
+        getRentalInfo,
+        returnRental,
+        lockBike,
+        fetchClosestBike,
+        success,
+        ...restProps
+      } = this.props;
       return (
         <WrappedComponent
           locale={locale}
@@ -39,6 +49,7 @@ export default function withHomeAndRental(WrappedComponent) {
           returnRental={returnRental}
           lockBike={lockBike}
           fetchClosestBike={fetchClosestBike}
+          success={success}
           {...restProps} // passes any other through
         />
       );
@@ -52,6 +63,7 @@ export default function withHomeAndRental(WrappedComponent) {
   const mapStateToProps = state => ({
     locale: state.locale.country,
     rentalInfo: state.rental,
+    success: state.status.success,
   });
 
   const mapDispatchToProp = {

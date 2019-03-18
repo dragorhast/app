@@ -25,6 +25,7 @@ import ClosestBike from './screens/ClosestBike';
 import TestScreen from './screens/test-screen';
 import IntroSlideShow from './screens/IntroSlideshow';
 import MapBikeAndPickups from './screens/MapBikeAndPickups';
+import UnlockReservation from './screens/UnlockReservation';
 
 const VisualInspection = TestScreen;
 
@@ -54,7 +55,7 @@ class MyRouter extends React.PureComponent {
             hideNavBar
             {...this.props}
           >
-            <Scene key={ROUTES.Home} component={Home} title="Unlock Bike" />
+            <Scene key={ROUTES.Home} component={Home} title="Home" />
             <Scene key={ROUTES.RentalInfo} component={RentalInfo} fetchInfoOnLoad back title="Current Rental" />
             <Scene key={ROUTES.RentalInfoNew} component={RentalInfo} fetchInfoOnLoad={false} />
             <Scene key={ROUTES.IssueReport} component={IssueReport} back />
@@ -69,7 +70,7 @@ class MyRouter extends React.PureComponent {
             <Scene key={ROUTES.Profile} component={ProfileScreen} title="Profile" back />
             {/* <Scene key="test" title="test" component={VisualInspection} /> */}
           </Drawer>
-          <Scene key={ROUTES.RentalStart} component={RentalStartQR} back />
+          <Scene key={ROUTES.UnlockReservation} component={UnlockReservation} back />
           <Scene key={ROUTES.PickupPoints} component={PickupPoints} title="Pickup Points" back />
           <Scene key={ROUTES.ReservationCreation} component={ReservationCreate} title="Confirm Rental" back />
           <Scene key={ROUTES.ClosestBike} component={ClosestBike} title="Closest Bike" back />

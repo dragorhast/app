@@ -1,6 +1,6 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
-import { Form, Item, Label, Input, Text, Button, View, H2 } from 'native-base';
+import { Form, Item, Label, Input, Text, Button, View, H2, Toast } from 'native-base';
 import styled from 'styled-components/native';
 import { translate } from '../../shared/i18n';
 import { Screen } from '../styles';
@@ -30,6 +30,19 @@ class SignUp extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillUpdate(newProps) {
+    const { error } = this.props;
+    if (newProps.error !== error) {
+      Toast.show({
+        text: newProps.error,
+        type: 'danger',
+        position: 'top',
+        duration: 5000,
+        buttonText: 'okay',
+      });
+    }
   }
 
   handleChange = (name, val) => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
-import { Button, H1, Text, View, Icon } from 'native-base';
+import { Button, H1, Text, View, Icon, Fab } from 'native-base';
 import styled from 'styled-components/native';
-import { Screen, BreakLine, CardMediumShadow } from '../styles';
+import { Screen, CardMediumShadow } from '../styles';
 import { ModalEndRentalBackRack, ModalEndRentalConfirm } from '../components/Modals';
 import { hoursAndMinutesSinceNow, minutesSinceTime } from '../../shared/util';
 import ROUTES from '../routes';
@@ -89,6 +89,7 @@ class RentalInfo extends React.Component {
     const { returnRental } = this.props;
     try {
       await returnRental();
+
       return Actions[ROUTES.Home]();
     } catch (e) {
       // Handled by redux
@@ -105,7 +106,7 @@ class RentalInfo extends React.Component {
     const rentalStartWithin5Minutes = minutesSinceTime(rentalInfo.startTime) < 5;
 
     // Cancel Button
-    if (rentalInfo.ableToBeReturned && rentalStartWithin5Minutes) {
+    if (!rentalInfo.ableToBeReturned && rentalStartWithin5Minutes) {
       return (
         <Button large danger onPress={this.cancelRental}>
           <Text>Cancel Rental</Text>
@@ -148,17 +149,25 @@ class RentalInfo extends React.Component {
 
     return (
       <Screen>
+        <Fab
+          active={false}
+          style={{ backgroundColor: THEME.primary, zIndex: 99 }}
+          position="topRight"
+          onPress={() => Actions[ROUTES.MapWithBikes]()}
+        >
+          <Icon name="ios-map" />
+        </Fab>
         {/* Cost so far */}
         <CardMediumShadow>
           <View padder>
-            <H1>{`£${rentalInfo.costSoFar / 100}`}</H1>
             <Text>Cost so Far</Text>
+            <H1>{`£${rentalInfo.costSoFar / 100}`}</H1>
           </View>
 
           {/* Time used so far */}
           <View padder>
-            <Text>{hoursAndMinutesSinceNow(rentalInfo.startTime)}</Text>
             <Text>Time used so far</Text>
+            <H1>{hoursAndMinutesSinceNow(rentalInfo.startTime)}</H1>
           </View>
         </CardMediumShadow>
 

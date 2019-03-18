@@ -20,11 +20,12 @@ export const LoginAndOutProps = {
   user: PropTypes.shape({
     error: PropTypes.string,
   }),
+  error: PropTypes.string,
 };
 
 export default function withLogin(WrappedComponent) {
-  const LoginAndOutContainer = ({ locale, login, logout, user, ...restProps }) => (
-    <WrappedComponent locale={locale} login={login} logout={logout} user={user} {...restProps} />
+  const LoginAndOutContainer = ({ locale, login, logout, user, error, ...restProps }) => (
+    <WrappedComponent locale={locale} login={login} logout={logout} user={user} error={error} {...restProps} />
   );
 
   LoginAndOutContainer.propTypes = {
@@ -34,6 +35,7 @@ export default function withLogin(WrappedComponent) {
   const mapStateToProps = state => ({
     locale: state.locale.country,
     user: state.user,
+    error: state.status.error,
   });
 
   const mapDispatchToProp = {

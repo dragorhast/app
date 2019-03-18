@@ -14,7 +14,7 @@ import { Spacer, StyledInline } from '../styles';
 
 const PaymentDetailsForm = ({ paymentDetails, onChangeText }) => {
   return (
-    <View style={{ width: '80%' }}>
+    <View style={{ width: '90%' }}>
       <Item floatingLabel>
         <Label>Card Number</Label>
         <Input

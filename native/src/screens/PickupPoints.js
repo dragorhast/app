@@ -1,14 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Location, Permissions, MapView } from 'expo';
 import { Content, Tabs, Tab, View } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Screen } from '../styles';
 import PickupPoint from '../components/PickupPoint';
-// import PickupSVGIcon from '../components/PickupSVGIcon';
 import PickupSVG from '../../assets/pickup.svg';
 import withPickups, { PickupProps } from '../../shared/redux/containers/PickupPointsContainer';
 import ROUTES from '../routes';
+import THEME from '../styles/styledComponentTheme';
 
 class PickupPoints extends React.Component {
   static propTypes = {
@@ -26,7 +25,7 @@ class PickupPoints extends React.Component {
     await Permissions.askAsync(Permissions.LOCATION);
     const { coords } = await Location.getCurrentPositionAsync({});
 
-    getPickupPoints(coords);
+    // getPickupPoints(coords);
     this.makePointVisible = this.makePointVisible.bind(this);
   }
 
@@ -57,7 +56,6 @@ class PickupPoints extends React.Component {
             </Content>
           </Tab>
           <Tab heading="Map">
-            {/* TODO test putting map in own component and not rendering until header is clicked to improve performance */}
             <View style={{ flex: 1 }}>
               <MapView
                 style={{ flex: 1 }}
@@ -76,12 +74,10 @@ class PickupPoints extends React.Component {
                       key={point.name}
                       onPress={() => this.makePointVisible(point)}
                     >
-                      <PickupSVG width={32} height={32} style={{ color: 'blue' }} />
+                      <PickupSVG width={32} height={32} style={{ color: THEME.stop1 }} />
                     </MapView.Marker>
                   ))}
               </MapView>
-              {/* TODO make the transition where this enters nicer */}
-              {/* TODO add a button to close the pop up */}
               {mapBottomPointVisible && (
                 <PickupPoint point={mapBottomPoint} openReservation={this._moveToReservationCreate} />
               )}

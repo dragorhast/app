@@ -121,7 +121,7 @@ export const userSignUp = formData => async dispatch => {
     }
     console.log(e);
     // auto sets loading to false
-    dispatch(setStatus('error', e.message));
+    dispatch(setStatus('error', e));
     throw e;
   }
 };
@@ -154,10 +154,10 @@ export const userLogin = ({ email, password, adminCheck } = false) => async disp
 
     await dispatch(setUser(user.uid, dbId, email, userType));
     return dispatch(setStatus('success', 'Logged in baby!'));
-  } catch (error) {
-    dispatch(setStatus('error', error.message));
-    dispatch(setUserField({ error: error.message }));
-    throw error;
+  } catch (e) {
+    dispatch(setStatus('error', e.message));
+    dispatch(setUserField({ error: e.message }));
+    throw e;
   }
 };
 

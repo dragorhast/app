@@ -6,7 +6,7 @@ export default {
   Login: 'Login',
   SignUp: 'SignUp',
   Profile: 'Profile',
-  RentalStart: 'RentalStart',
+  UnlockReservation: 'RentalStart',
   RentalInfo: 'RentalInfo',
   RentalInfoNew: 'RentalInfoNew',
   IssueReport: 'IssueReport',

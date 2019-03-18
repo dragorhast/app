@@ -35,7 +35,7 @@ class ReservationDisplay extends React.PureComponent {
   };
 
   loadUnlockBikeScreen = () => {
-    Actions[ROUTES.RentalStart]();
+    Actions[ROUTES.UnlockReservation]();
   };
 
   render() {
@@ -50,7 +50,7 @@ class ReservationDisplay extends React.PureComponent {
             <Text>Pickup Point</Text>
             {/* TODO add clickable link to directions */}
             <StyledInline onPress={() => console.log('Would change page')}>
-              <H2 link>{reserveDisplay.pickupName}</H2>
+              <H2>{reserveDisplay.pickupName}</H2>
               <Icon
                 name="ios-walk"
                 ios="ios-walk"
@@ -61,7 +61,7 @@ class ReservationDisplay extends React.PureComponent {
             </StyledInline>
             <Text>Date + Time</Text>
             <H2>
-              {date.getDate()}/{date.getMonth()}/{date.getFullYear()} - {date.getHours()}:{date.getMinutes()}
+              {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()} - {date.getHours()}:{date.getMinutes()}
             </H2>
           </View>
 

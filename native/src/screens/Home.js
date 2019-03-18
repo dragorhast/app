@@ -35,6 +35,20 @@ class Home extends React.Component {
     });
   }
 
+  async componentDidUpdate(prevProps) {
+    const { success } = this.props;
+    if (prevProps.success !== success && success) {
+      await delay(2);
+      Toast.show({
+        position: 'top',
+        duration: 5000,
+        buttonText: 'okay',
+        type: 'success',
+        text: success,
+      });
+    }
+  }
+
   checkForCurrentRental() {
     const { getRentalInfo, reduxLoading } = this.props;
     if (!reduxLoading) {

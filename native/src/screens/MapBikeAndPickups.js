@@ -57,7 +57,7 @@ class MapBikeAndPickups extends React.Component {
                   key={point.name}
                   onPress={() => this.makePointVisible(point)}
                 >
-                  <PickupSVG width={32} height={32} color={THEME.stop2} />
+                  <PickupSVG width={32} height={32} color={THEME.stop1} />
                 </MapView.Marker>
               ))}
 
@@ -69,7 +69,7 @@ class MapBikeAndPickups extends React.Component {
                   key={bike.id}
                 >
                   {console.log(bike)}
-                  <BikeSVG width={32} height={32} color={THEME.stop1} />
+                  <BikeSVG width={32} height={32} color={THEME.font} />
                 </MapView.Marker>
               ))}
           </MapView>

@@ -153,7 +153,7 @@ export const rentalEnd = (cancel = false) => async dispatch => {
     dispatch(clearRental());
     const message = cancel
       ? 'Your rental has been cancelled without charge'
-      : `Nice trip. £${rental.price} Has been charged`;
+      : `Nice trip. £${rental.price / 100} Has been charged`;
     return dispatch(setStatus('success', message));
   } catch (e) {
     dispatch(setStatus('error', e.message));

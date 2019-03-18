@@ -71,7 +71,7 @@ class IssueReport extends React.Component {
 
     if (this.areThereInputError()) return;
     try {
-      await reportIssue({ bikeId, description });
+      reportIssue({ bikeId, description });
       Actions[ROUTES.Home]();
     } catch (e) {
       // Error handles by redux toast

@@ -13,7 +13,13 @@ export default (variables /* : * */ = variable) => {
     paddingRight: 5,
     flex: 1,
     fontSize: variables.inputFontSize,
-    textAlign: 'center',
+    textAlign: 'left',
+
+    '.big': {
+      textAlign: 'center',
+      fontSize: 32,
+      height: 50,
+    },
   };
 
   return inputTheme;
